@@ -38,8 +38,8 @@ Current Formwork blocks/rules and native Kan permissions apply on each request.
 
 See [GitHub issue sync](github-sync/README.md) for scheduling, state recovery and
 conflict handling. The GitHub PAT is decrypted only in Kan; replacement or
-removal takes effect on the next request. This does not replace Formwork's own
-machine authentication or extend its expiry.
+removal takes effect on the next request. The issue worker has a separate, revocable background delegation; browser and
+MCP grants still expire after eight hours. See the sync guide for its restrictions.
 
 The real-image verifier requires the sibling Formwork checkout and its gateway
 configuration. Deployment-specific notes, backups and environment files belong

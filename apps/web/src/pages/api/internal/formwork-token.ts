@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { initFormworkApiAuth, readFormworkApiGrant } from "@kan/auth/server";
+import {
+  initFormworkApiAuth,
+  readFormworkApiGrant,
+  readFormworkSyncGrant,
+} from "@kan/auth/server";
 import { createDrizzleClient } from "@kan/db/client";
 import { createLogger } from "@kan/logger";
 
@@ -33,11 +37,29 @@ export default async function handler(
     }
     let grant;
     try {
-      grant = readFormworkApiGrant(
-        result.key,
-        env.FORMWORK_TENANT_ID,
-        new URL(env.NEXT_PUBLIC_BASE_URL).host,
-      );
+      const background =
+        typeof result.key.metadata === "object" &&
+        result.key.metadata !== null &&
+        "purpose" in result.key.metadata &&
+        result.key.metadata.purpose === "formwork-kan-github-sync";
+      if (background) {
+        const delegation = readFormworkSyncGrant(
+          result.key,
+          env.FORMWORK_TENANT_ID,
+          new URL(env.NEXT_PUBLIC_BASE_URL).host,
+        );
+        res.setHeader(
+          "X-Formwork-Sync-Workspace",
+          delegation.workspacePublicId,
+        );
+        // Fresh machine assertion; this does not refresh a user's sign-in snapshot.
+        grant = { ...delegation, issuedAt: Math.floor(Date.now() / 1000) };
+      } else
+        grant = readFormworkApiGrant(
+          result.key,
+          env.FORMWORK_TENANT_ID,
+          new URL(env.NEXT_PUBLIC_BASE_URL).host,
+        );
     } catch {
       return res.status(403).end();
     }

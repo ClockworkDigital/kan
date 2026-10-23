@@ -4,3 +4,8 @@ export {
   initFormworkApiAuth,
   readFormworkApiGrant,
 } from "./formwork-api";
+export {
+  initFormworkSyncAuth,
+  readFormworkSyncGrant,
+  formworkSyncGrant,
+} from "./formwork-sync";

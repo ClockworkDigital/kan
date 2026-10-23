@@ -2,7 +2,7 @@
 import json, os, subprocess, urllib.request, datetime, pathlib, fcntl, html
 ROOT = pathlib.Path(__file__).resolve().parents[3]
 STATE = pathlib.Path.home()/'.local/share/formwork/kan-github-sync'
-PROFILE = pathlib.Path.home()/'.config/formwork/kan/codex-mcp.json'
+PROFILE = pathlib.Path.home()/'.config/formwork/kan/github-sync-credential.json'
 CONFIG = pathlib.Path.home()/'.config/formwork/kan/github-sync.json'
 WORKSPACE = 'workspace-set-at-start'
 
@@ -25,7 +25,8 @@ def main():
     lock = open(STATE/'lock', 'w'); fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     profile = json.loads(PROFILE.read_text())
     assert PROFILE.stat().st_mode & 0o077 == 0
-    assert datetime.datetime.fromisoformat(profile['expiresAt'].replace('Z','+00:00')) > datetime.datetime.now(datetime.timezone.utc), 'Kan credential expired; renew through Formwork'
+    if profile.get('expiresAt'):
+        assert datetime.datetime.fromisoformat(profile['expiresAt'].replace('Z','+00:00')) > datetime.datetime.now(datetime.timezone.utc), 'Sync delegation expired'
     assert profile['baseUrl'] == config['baseUrl'] and profile['baseUrl'].startswith('https://')
     def kan(path, body=None):
         method = 'GET' if body is None else ('POST' if path.endswith('/boards') or path == '/cards' or path == '/integrations/github/sync' else 'PUT')
@@ -49,6 +50,11 @@ def main():
         me=kan('/users/me'); assert me['id']==config['userId']
         permissions=kan(f'/workspaces/{WORKSPACE}/permissions/me')['permissions']
         assert all(p in permissions for p in ['board:create','card:create','card:edit'])
+    settings_path='/integrations/github/sync/settings?workspacePublicId='+WORKSPACE
+    settings=kan(settings_path)
+    if not settings['enabled']:
+        print('GitHub sync paused');lock.close();return
+    selected=set(settings['repositories'])
     authorize()
     file=STATE/'state.json'
     state=json.loads(file.read_text()) if file.exists() else {'boards':{},'issues':{}}
@@ -57,11 +63,10 @@ def main():
     boards=kan(f'/workspaces/{WORKSPACE}/boards')
     report={'created':0,'updatedGitHub':0,'updatedKan':0,'conflicts':[], 'errors':[]}
     repos=gh('orgs/ClockworkDigital/repos?per_page=100',pages=True)
-    available={str(repo['id']) for repo in repos}
-    if not set(state['boards']).issubset(available):
+    if not selected.issubset({repo['full_name'] for repo in repos}):
         raise RuntimeError('Saved GitHub PAT cannot access every previously synced repository')
     for repo in repos:
-        if repo['archived'] or not repo['has_issues']: continue
+        if repo['full_name'] not in selected or repo['archived'] or not repo['has_issues']: continue
         name=repo['full_name'];assert name.startswith('ClockworkDigital/')
         rid=str(repo['id'])
         issues=gh(f'repos/{name}/issues?state=open&per_page=100',pages=True)
@@ -137,6 +142,7 @@ def main():
                 report['errors'].append({'issue':url,'error':type(e).__name__})
     report['checkedAt']=datetime.datetime.now(datetime.timezone.utc).isoformat()
     (STATE/'status.json').write_text(json.dumps(report,indent=2))
+    kan('/integrations/github/sync/status',{'workspacePublicId':WORKSPACE,'status':{**{key:report[key] for key in ['checkedAt','created','updatedGitHub','updatedKan']},'conflicts':len(report['conflicts']),'errors':len(report['errors'])}})
     print(json.dumps(report))
     lock.close()
     if report['errors'] or report['conflicts']:raise SystemExit(1)

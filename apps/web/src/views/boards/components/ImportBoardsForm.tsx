@@ -308,6 +308,10 @@ const ImportGithub: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmitProjects(onSubmitProjects)}>
+      <Link
+        className="mb-4 block px-5 text-sm underline"
+        href="/settings/integrations"
+      >{t`Sync GitHub issues from repositories`}</Link>
       <div className="h-[105px] overflow-auto px-5">{renderContent()}</div>
 
       <div className="mt-12 flex items-center justify-end space-x-4 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">

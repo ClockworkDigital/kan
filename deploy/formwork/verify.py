@@ -165,15 +165,35 @@ http://:8080 {
         membership = json.loads(body)[0]
         assert membership['role'] == 'admin'
         workspace = membership['workspace']
+        sql(f"INSERT INTO github_sync_settings(\"workspaceId\",\"userId\",repositories,enabled) SELECT id,'{uid(2)}','[\"ClockworkDigital/test\"]'::jsonb,true FROM workspace WHERE \"publicId\"='{workspace['publicId']}'; INSERT INTO integration(provider,\"userId\",\"accessToken\",\"expiresAt\",\"createdAt\") VALUES('github','{uid(2)}','test-only',now()+interval '1 day',now());", 'kan')
+        sync_grant = scratch / 'sync-grant.json'
+        sync_profile = scratch / 'sync-profile.json'
+        sync_grant.write_text(json.dumps({'purpose':'formwork-kan-github-sync','tenantId':uid(1),'userId':uid(2),'groups':[uid(4),uid(5)],'accountType':'0','targetHost':'kan.localhost','workspacePublicId':workspace['publicId']}))
+        run(['node','node_modules/vite-node/vite-node.mjs','deploy/formwork/issue-sync.ts',sync_grant,sync_profile],env=operator_env)
+        delegated = json.loads(sync_profile.read_text())
+        assert delegated['expiresAt'] is None
+        sync_bearer = {'Authorization':'Bearer '+delegated['apiToken']}
+        settings_path = '/api/v1/integrations/github/sync/settings?workspacePublicId='+workspace['publicId']
+        assert request(settings_path,'none',extra=sync_bearer)[0] == 200
+        assert request('/api/v1/workspaces','none',extra=sync_bearer)[0] == 403
+        assert request('/api/v1/integrations/github/sync/settings?workspacePublicId=foreign12345','none',extra=sync_bearer)[0] == 403
+        sql('UPDATE github_sync_settings SET enabled=false;', 'kan')
+        assert request('/api/v1/users/me','none',extra=sync_bearer)[0] == 403
+        assert request(settings_path,'none',extra=sync_bearer)[0] == 200
+        sql('UPDATE github_sync_settings SET enabled=true;', 'kan')
+        assert request('/api/v1/users/me','none',extra=sync_bearer)[0] == 200
+        sql(f'UPDATE "apiKey" SET enabled=false WHERE id={int(delegated["keyId"])};', 'kan')
+        assert request(settings_path,'none',extra=sync_bearer)[0] == 401
+        sql(f'UPDATE "apiKey" SET enabled=true WHERE id={int(delegated["keyId"])};', 'kan')
         status, body, _ = request('/api/v1/workspaces', 'user')
         assert status == 200 and json.loads(body)[0]['role'] == 'admin'
-        status, body, _ = request(f"/api/v1/workspaces/{workspace['publicId']}/boards", 'none', body={'name': 'Verification board', 'lists': ['To do', 'Done'], 'labels': []}, extra=bearer)
+        status, body, _ = request(f"/api/v1/workspaces/{workspace['publicId']}/boards", 'none', body={'name': 'GitHub: ClockworkDigital/test', 'lists': ['To do', 'Done'], 'labels': []}, extra=sync_bearer)
         assert status == 200, (status, body)
         board = json.loads(body)
         status, body, _ = request(f"/api/v1/boards/{board['publicId']}")
         assert status == 200, (status, body)
         details = json.loads(body)
-        status, body, _ = request('/api/v1/cards', 'none', body={'title': 'Persisted verification card', 'description': '', 'listPublicId': details['lists'][0]['publicId'], 'labelPublicIds': [], 'memberPublicIds': [], 'position': 'end'}, extra=bearer)
+        status, body, _ = request('/api/v1/cards', 'none', body={'title': 'Persisted verification card', 'description': '', 'listPublicId': details['lists'][0]['publicId'], 'labelPublicIds': [], 'memberPublicIds': [], 'position': 'end'}, extra=sync_bearer)
         assert status == 200, (status, body)
         card = json.loads(body)
         dc('restart', 'kan')
@@ -181,21 +201,25 @@ http://:8080 {
         status, body, _ = request(f"/api/v1/boards/{board['publicId']}", 'user')
         assert status == 200 and card['publicId'] in body and 'Persisted verification card' in body
         sql(f"INSERT INTO user_blocks(tenant_id,user_id,reason) VALUES('{uid(1)}','{uid(2)}','Verification');")
+        assert request(settings_path,'none',extra=sync_bearer)[0] == 403
         assert request('/api/auth/get-session')[0] == 403
         assert request('/api/v1/workspaces', 'none', extra=bearer)[0] == 403
         assert request('/api/auth/get-session', 'user')[0] == 200
         sql(f"DELETE FROM user_blocks WHERE user_id='{uid(2)}'; UPDATE tool_groups SET group_id='{uid(6)}' WHERE tool_id='{uid(7)}';")
         assert request('/api/v1/workspaces', 'none', extra=bearer)[0] == 403
+        assert request(settings_path,'none',extra=sync_bearer)[0] == 403
         sql(f"UPDATE tool_groups SET group_id='{uid(5)}' WHERE tool_id='{uid(7)}';")
         sql(f'''UPDATE workspace_members SET status='removed' WHERE "userId"='{uid(2)}';''', 'kan')
         assert request(f"/api/v1/boards/{board['publicId']}", 'none', extra=bearer)[0] in [403, 404]
+        assert request(settings_path,'none',extra=sync_bearer)[0] == 403
         kan = json.loads(run(['docker', 'inspect', dc('ps', '-q', 'kan')]))[0]
         assert not kan['HostConfig']['PortBindings']
         assert set(kan['NetworkSettings']['Networks']) == {project + '_kan', project + '_kan_db'}
         dc('exec', '-T', 'formwork', 'node', '-e', "fetch('http://kan:3000/login',{signal:AbortSignal.timeout(2000)}).then(()=>process.exit(1)).catch(()=>process.exit(0))")
         dc('stop', 'formwork')
         assert request('/api/v1/workspaces', 'none', extra=bearer)[0] >= 500
-        print('PASS browser and MCP identity, spoofing, key expiry/revocation, group/tool/membership denial, native board/card writes, restart persistence, current emergency blocks, policy outage and backend isolation.')
+        assert request(settings_path,'none',extra=sync_bearer)[0] >= 500
+        print('PASS background sync scope, pause, revocation and current policy; browser and MCP identity, spoofing, key expiry/revocation, group/tool/membership denial, native board/card writes, restart persistence, current emergency blocks, policy outage and backend isolation.')
     except Exception:
         print(dc('logs', '--tail', '25', 'caddy', 'kan', 'formwork'))
         raise

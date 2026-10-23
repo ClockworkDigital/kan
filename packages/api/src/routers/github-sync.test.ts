@@ -1,11 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import * as settings from "@kan/db/repository/github-sync.repo";
 import { getProviderForUser } from "@kan/db/repository/integration.repo";
 import { getByPublicId } from "@kan/db/repository/workspace.repo";
 
 import { assertPermission } from "../utils/permissions";
 import { githubSyncInput, githubSyncRouter } from "./github-sync";
 
+vi.mock("@kan/db/repository/github-sync.repo", () => ({
+  get: vi.fn(),
+  save: vi.fn(),
+  report: vi.fn(),
+}));
 vi.mock("@kan/db/repository/integration.repo", () => ({
   getProviderForUser: vi.fn(),
 }));
@@ -30,6 +36,8 @@ const caller = githubSyncRouter.createCaller({
 describe("saved GitHub token for sync", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(settings.get).mockResolvedValue(undefined);
+    vi.mocked(settings.save).mockResolvedValue(true);
     vi.mocked(getByPublicId).mockResolvedValue({ id: 1 } as never);
     vi.mocked(getProviderForUser).mockResolvedValue({
       accessToken: "encrypted",
@@ -37,12 +45,10 @@ describe("saved GitHub token for sync", () => {
     vi.mocked(assertPermission).mockResolvedValue(undefined);
     vi.stubGlobal(
       "fetch",
-      vi
-        .fn()
-        .mockResolvedValue({
-          ok: true,
-          json: () => Promise.resolve({ id: 1 }),
-        }),
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ id: 1 }),
+      }),
     );
   });
   it("uses only the authenticated user's integration", async () => {
@@ -82,5 +88,58 @@ describe("saved GitHub token for sync", () => {
         changes: { title: "x" },
       }),
     ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+});
+
+describe("repository selection", () => {
+  it("rejects managing another owner's sync", async () => {
+    vi.mocked(settings.get).mockResolvedValue({ userId: "other" } as never);
+    await expect(
+      caller.save({
+        workspacePublicId: input.workspacePublicId,
+        repositories: [],
+        enabled: false,
+      }),
+    ).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(settings.save).not.toHaveBeenCalled();
+    vi.mocked(settings.get).mockResolvedValue(undefined);
+  });
+  it("requires write access when enabling, but allows pausing without GitHub", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValue({
+          ok: true,
+          json: () =>
+            Promise.resolve([
+              {
+                full_name: "ClockworkDigital/test",
+                archived: false,
+                has_issues: true,
+                permissions: { push: false },
+              },
+            ]),
+        }),
+    );
+    await expect(
+      caller.save({
+        workspacePublicId: input.workspacePublicId,
+        repositories: ["ClockworkDigital/test"],
+        enabled: true,
+      }),
+    ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    await caller.save({
+      workspacePublicId: input.workspacePublicId,
+      repositories: ["ClockworkDigital/test"],
+      enabled: false,
+    });
+    expect(settings.save).toHaveBeenLastCalledWith(
+      db,
+      1,
+      "owner",
+      ["ClockworkDigital/test"],
+      false,
+    );
   });
 });

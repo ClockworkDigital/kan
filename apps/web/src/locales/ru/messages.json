@@ -7791,5 +7791,285 @@
     "comments": [],
     "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 147]],
     "translation": "YouTube URL"
+  },
+  "I3MOt6": {
+    "translation": "",
+    "message": " · Settings saved",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        118
+      ]
+    ]
+  },
+  "Gr9Tuz": {
+    "translation": "",
+    "message": "(write access unavailable)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        86
+      ]
+    ]
+  },
+  "r1lTDz": {
+    "translation": "",
+    "message": "Cards created",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        127
+      ]
+    ]
+  },
+  "aEV+fe": {
+    "translation": "",
+    "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        34
+      ]
+    ]
+  },
+  "KGJb9/": {
+    "translation": "",
+    "message": "Conflicts",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        131
+      ]
+    ]
+  },
+  "O7r0Hr": {
+    "translation": "",
+    "message": "Connect GitHub to import projects and sync repository issues.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        192
+      ]
+    ]
+  },
+  "NlHDHN": {
+    "translation": "",
+    "message": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        91
+      ]
+    ]
+  },
+  "UirGxE": {
+    "translation": "",
+    "message": "Errors",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        131
+      ]
+    ]
+  },
+  "0woCX7": {
+    "translation": "",
+    "message": "GitHub issue sync",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        30
+      ],
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        32
+      ]
+    ]
+  },
+  "J5/Qm/": {
+    "translation": "",
+    "message": "GitHub updates",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        127
+      ]
+    ]
+  },
+  "QTc6JG": {
+    "translation": "",
+    "message": "Kan updates",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        128
+      ]
+    ]
+  },
+  "TiFl9U": {
+    "translation": "",
+    "message": "Last check",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        124
+      ]
+    ]
+  },
+  "XZCS8f": {
+    "translation": "",
+    "message": "Loading repositories…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        36
+      ]
+    ]
+  },
+  "KeR6Jx": {
+    "translation": "",
+    "message": "No accessible repositories with issues enabled. Check your GitHub token's repository access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        53
+      ]
+    ]
+  },
+  "MGBNwj": {
+    "translation": "",
+    "message": "Pause sync",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        113
+      ]
+    ]
+  },
+  "6gRgw8": {
+    "translation": "",
+    "message": "Retry",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        50
+      ]
+    ]
+  },
+  "GbVGZA": {
+    "translation": "",
+    "message": "Save and enable sync",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        102
+      ]
+    ]
+  },
+  "fgSwc+": {
+    "translation": "",
+    "message": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        134
+      ]
+    ]
+  },
+  "OqyYBW": {
+    "translation": "",
+    "message": "Sync enabled",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        117
+      ]
+    ]
+  },
+  "dLBY90": {
+    "translation": "",
+    "message": "Sync GitHub issues from repositories",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/ImportBoardsForm.tsx",
+        314
+      ]
+    ]
+  },
+  "T/WrwN": {
+    "translation": "",
+    "message": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        137
+      ]
+    ]
+  },
+  "U6wmNc": {
+    "translation": "",
+    "message": "Sync paused",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        117
+      ]
+    ]
+  },
+  "TtUKSD": {
+    "translation": "",
+    "message": "Waiting for the first sync check.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        141
+      ]
+    ]
   }
 }

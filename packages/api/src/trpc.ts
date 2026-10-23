@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import { createLogger } from "@kan/logger";
 
 import type { createTRPCContext } from "./trpc-context";
+import { assertSyncScope } from "./utils/sync-scope";
 
 const log = createLogger("api");
 
@@ -54,6 +55,15 @@ export const createCallerFactory = t.createCallerFactory;
 
 const loggingMiddleware = t.middleware(
   async ({ path, type, next, ctx, getRawInput }) => {
+    const syncWorkspace = ctx.headers.get("x-formwork-sync-workspace");
+    if (syncWorkspace)
+      await assertSyncScope(
+        ctx.db,
+        ctx.user?.id,
+        syncWorkspace,
+        path,
+        await getRawInput(),
+      );
     const start = Date.now();
     const [result, input] = await Promise.all([
       next(),
@@ -106,7 +116,7 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   }
 
   return next({
-    ctx,
+    ctx: { ...ctx, user: ctx.user },
   });
 });
 

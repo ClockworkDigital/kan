@@ -14,6 +14,7 @@ import { PageHead } from "~/components/PageHead";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { api } from "~/utils/api";
+import GithubIssueSync from "./GithubIssueSync";
 
 const githubTokenSchema = z.object({
   token: z.string().min(1, { message: t`Token is required` }),
@@ -188,7 +189,7 @@ export default function IntegrationsSettings() {
         {!githubStatus?.connected ? (
           <>
             <p className="mb-4 text-sm text-neutral-500 dark:text-dark-900">
-              {t`Connect your GitHub account to import projects.`}
+              {t`Connect GitHub to import projects and sync repository issues.`}
             </p>
             <form
               onSubmit={handleSubmit(onSubmitGithubToken)}
@@ -225,6 +226,12 @@ export default function IntegrationsSettings() {
           </>
         )}
       </div>
+
+      {githubStatus?.connected && (
+        <GithubIssueSync
+          key={githubStatus.connected ? "connected" : "disconnected"}
+        />
+      )}
 
       {/* Global modals */}
       <Modal

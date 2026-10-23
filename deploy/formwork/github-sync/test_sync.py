@@ -19,7 +19,7 @@ class WorkerTests(unittest.TestCase):
   from types import SimpleNamespace
   issue={'id':1,'number':1,'title':'Original','body':'Body\n\n- Item','state':'open','updated_at':'one','html_url':'https://github.com/ClockworkDigital/test/issues/1'}
   repo={'id':2,'full_name':'ClockworkDigital/test','archived':False,'has_issues':True,'permissions':{'push':True}}
-  cards={};writes=[]
+  cards={};writes=[];selected=['ClockworkDigital/test'];enabled=True
   def github(args,**kw):
    path=args[2]
    if path.startswith('orgs/'):result=[[repo]]
@@ -30,6 +30,9 @@ class WorkerTests(unittest.TestCase):
    return SimpleNamespace(returncode=0,stdout=json.dumps(result))
   def api(req,**kw):
    path=req.full_url.split('/api/v1')[1];body=json.loads(req.data) if req.data else None
+   if path.startswith('/integrations/github/sync/settings'):
+    return io.BytesIO(json.dumps({'enabled':enabled,'repositories':selected}).encode())
+   if path=='/integrations/github/sync/status':return io.BytesIO(b'{"success":true}')
    if path=='/integrations/github/sync':
     response=json.loads(github(['gh','api',body['path']],input=json.dumps(body['changes']) if 'changes' in body else None).stdout)
     if isinstance(response,list) and response and isinstance(response[0],list):response=response[0]
@@ -54,6 +57,9 @@ class WorkerTests(unittest.TestCase):
    config=pathlib.Path(folder)/'config';config.write_text(json.dumps({'workspacePublicId':'workspace123','userId':'056107f2-7c89-4cba-9146-fc2d8a15f79d','baseUrl':'https://formwork-poc.tail7c6e1a.ts.net:14443'}))
    with patch.object(sync,'CONFIG',config),patch.object(sync,'STATE',pathlib.Path(folder)/'state'),patch.object(sync,'PROFILE',profile),patch.object(sync.subprocess,'run',side_effect=github),patch.object(sync.urllib.request,'build_opener',return_value=SimpleNamespace(open=api)),patch('sys.stdout',new=io.StringIO()):
     sync.main();sync.main();self.assertEqual(writes,['create'])
+    enabled=False;sync.main();self.assertEqual(writes,['create'])
+    enabled=True;selected.clear();sync.main();self.assertEqual(writes,['create'])
+    selected.append('ClockworkDigital/test')
     issue['title']='GitHub edit';sync.main();self.assertEqual(cards['card00000001']['title'],'GitHub edit')
     cards['card00000001']['title']='Kan edit';sync.main();self.assertEqual(issue['title'],'Kan edit')
     cards['card00000001']['list']['publicId']='closed000001';sync.main();self.assertEqual(issue['state'],'closed')
