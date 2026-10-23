@@ -1,0 +1,62 @@
+{
+  "name": "Feature request",
+  "description": "Submit a Production feature request",
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "Feature implementation requires a linked issue approved by a maintainer. Wait for approval before starting a feature PR. You may include alternatives and implementation ideas in the desired outcome."
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field0",
+      "attributes": {
+        "label": "Summary"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field1",
+      "attributes": {
+        "label": "Desired outcome"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field2",
+      "attributes": {
+        "label": "Acceptance criteria"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field3",
+      "attributes": {
+        "label": "Test plan"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field4",
+      "attributes": {
+        "label": "Impact and risks"
+      },
+      "validations": {
+        "required": true
+      }
+    }
+  ]
+}

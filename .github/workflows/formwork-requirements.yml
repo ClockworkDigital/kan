@@ -1,0 +1,34 @@
+name: Formwork requirements
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize, ready_for_review]
+permissions:
+  contents: read
+jobs:
+  requirements:
+    name: Production submission requirements
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate required information
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          const headers = { Authorization: 'Bearer ' + process.env.GH_TOKEN, Accept: 'application/vnd.github+json' };
+          const response = await fetch('https://api.github.com/repos/' + process.env.GITHUB_REPOSITORY, { headers });
+          if (!response.ok) throw new Error('Cannot verify repository classification');
+          const repo = await response.json();
+          if ((repo.topics || []).includes('production')) {
+            const body = event.pull_request.body || '';
+            const required = ["Summary","Acceptance criteria","Test plan","Impact and risks","Related issue"];
+            for (const field of required) {
+              const sections = body.split(/^### /m).slice(1);
+              const section = sections.find(section => section.split('\n')[0].trim() === field);
+              const answer = section ? section.slice(section.indexOf('\n') + 1).replace(/<!--[\s\S]*?-->/g, '').trim() : '';
+              if (!answer) throw new Error('Complete: ' + field);
+              if (field === 'Related issue' && !/(?:#\d+|https:\/\/github\.com\/[^\s]+\/issues\/\d+)/.test(answer)) throw new Error('Reference a GitHub issue');
+            }
+          }
+          NODE

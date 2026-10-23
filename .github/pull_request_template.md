@@ -1,3 +1,20 @@
+### Summary
+
+
+### Acceptance criteria
+
+
+### Test plan
+
+
+### Impact and risks
+
+
+### Related issue
+
+
+---
+
 ## Description
 
 <!-- What does this PR do? Why? -->
@@ -21,4 +38,4 @@
 Closes #<!-- issue number -->
 
 > **Feature PRs without a linked, approved issue will be closed without review.**
-> Open or comment on a [feature request](https://github.com/kanbn/kan/issues/new?template=feature_request.md) first and wait for maintainer approval before building.
+> Open or comment on a [feature request](https://github.com/ClockworkDigital/kan/issues/new?template=formwork-feature.yml) first and wait for maintainer approval before building.

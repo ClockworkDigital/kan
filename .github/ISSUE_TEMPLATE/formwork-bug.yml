@@ -1,0 +1,92 @@
+{
+  "name": "Bug report",
+  "description": "Submit a Production bug report",
+  "body": [
+    {
+      "type": "markdown",
+      "attributes": {
+        "value": "Include screenshots where useful. Environment details should include OS, browser, Node version and app version or commit."
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field0",
+      "attributes": {
+        "label": "Summary"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field1",
+      "attributes": {
+        "label": "Steps to reproduce"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field2",
+      "attributes": {
+        "label": "Expected result"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field3",
+      "attributes": {
+        "label": "Actual result"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field4",
+      "attributes": {
+        "label": "Environment"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field5",
+      "attributes": {
+        "label": "Acceptance criteria"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field6",
+      "attributes": {
+        "label": "Test plan"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field7",
+      "attributes": {
+        "label": "Impact and risks"
+      },
+      "validations": {
+        "required": true
+      }
+    }
+  ]
+}
