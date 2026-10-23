@@ -64,6 +64,7 @@ describe("background sync scope", () => {
   });
   it.each([
     "githubSync.save",
+    "githubSync.setTopics",
     "integration.providers",
     "integration.saveGitHubToken",
     "user.update",

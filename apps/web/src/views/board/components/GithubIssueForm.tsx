@@ -1,7 +1,7 @@
 import { t } from "@lingui/core/macro";
 import { useState } from "react";
 
-import { issueForms } from "@kan/shared";
+import { issueForms, productionFields } from "@kan/shared";
 
 import Button from "~/components/Button";
 import Input from "~/components/Input";
@@ -12,17 +12,23 @@ export default function GithubIssueForm({
 }: {
   boardPublicId: string;
 }) {
+  const policy = api.githubSync.issuePolicy.useQuery({ boardPublicId });
   const [kind, setKind] = useState<"bug" | "feature">("bug");
   const [title, setTitle] = useState("");
   const [answers, setAnswers] = useState<string[]>([]);
   const submit = api.githubSync.submitIssue.useMutation({ retry: false });
   const labels = {
+    "Acceptance criteria": t`Acceptance criteria`,
+    "Test plan": t`Test plan`,
+    "Impact and risks": t`Impact and risks`,
     "Steps to reproduce": t`Steps to reproduce`,
     "Expected result": t`Expected result`,
     "Actual result": t`Actual result`,
     Environment: t`Environment`,
     "Desired outcome": t`Desired outcome`,
   };
+  if (policy.isLoading) return <p role="status">{t`Loading requirements…`}</p>;
+  if (policy.error) return <p role="alert">{policy.error.message}</p>;
   if (submit.data)
     return (
       <div className="space-y-4 p-5">
@@ -40,7 +46,13 @@ export default function GithubIssueForm({
       className="space-y-4 p-5"
       onSubmit={(event) => {
         event.preventDefault();
-        submit.mutate({ boardPublicId, kind, title, answers });
+        submit.mutate({
+          boardPublicId,
+          kind,
+          title,
+          answers: answers.slice(0, issueForms[kind].fields.length),
+          productionAnswers: answers.slice(issueForms[kind].fields.length),
+        });
       }}
     >
       <h2>{t`Submit GitHub issue`}</h2>
@@ -69,7 +81,10 @@ export default function GithubIssueForm({
           onChange={(event) => setTitle(event.target.value)}
         />
       </label>
-      {issueForms[kind].fields.map((field, index) => (
+      {[
+        ...issueForms[kind].fields,
+        ...(policy.data?.production ? productionFields : []),
+      ].map((field, index) => (
         <label className="block" key={field}>
           {labels[field]}
           <textarea

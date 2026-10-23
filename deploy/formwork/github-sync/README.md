@@ -93,3 +93,43 @@ to regenerate GitHub forms in `deploy/formwork/issue-templates`. Publish those t
 ClockworkDigital/.github under `.github/ISSUE_TEMPLATE/` when changing requirements.
 GitHub inherits these organisation defaults unless a repository defines its own
 forms. Custom repository forms are not dynamically interpreted by this version.
+
+The repository picker displays GitHub topics and filters by topic or repository
+name. Topic edits replace the complete set on GitHub, using the signed-in owner's
+saved PAT; Administration write permission and repository admin access are
+required. Existing topics are prefilled. Stale selections are rejected before
+writing, although GitHub offers no shared transaction with Kan and a concurrent
+edit in the final write window is still possible. The worker cannot edit topics.
+Topic names are public even when the repository is private. Use lowercase
+letters, digits and hyphens, at most 50 characters each and 20 topics per repo.
+
+## Production and Experiment policy
+
+Classify through Kan's topic editor with exactly one of `production` or
+`experiment`. Production adds acceptance criteria, a test plan and impact/risk
+fields to bugs and features. PRs also need Summary and a Related issue reference.
+Experiment retains the base bug/feature forms and a summary-only PR template.
+Kan reads GitHub topics again at submission time and validates Production answers
+server-side. The UI policy lookup also uses the user's own GitHub token.
+
+A classification change installs namespaced issue forms, the PR template and a
+metadata-only `pull_request_target` workflow in one non-force Git commit. It
+never checks out or runs PR code. Production adds an independent active ruleset
+requiring `Production submission requirements` on the default branch, without
+replacing other rulesets. GitHub repository Administration, Contents and Workflows
+write permissions and a plan supporting rulesets are needed. Classification is
+saved only after setup succeeds. A later API failure may leave stricter policy
+files installed; inspect the GitHub commit before retrying. Protected branches
+may require an operator to apply the policy through a PR instead of a direct
+commit. Existing custom templates cause setup to stop for an explicit migration.
+
+Changing classification directly on GitHub does not install these files. Apply
+classification through Kan. It does not remove pre-existing branch protection;
+changing Production to Experiment may require a reviewed policy update on a
+protected branch. The automatic check validates required information, not its
+correctness or engineering quality. GitHub admins retain their normal ability
+to change policies. Issue-form requirements apply to GitHub's web forms; GitHub's
+API itself cannot be forced to reject incomplete issues by these templates.
+No repositories are classified automatically.
+Existing PRs may need a description edit or another eligible PR event after policy
+installation to produce the newly required check. No existing PR is auto-approved.

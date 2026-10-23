@@ -181,6 +181,7 @@ describe("issue submission requirements", () => {
         json: () =>
           Promise.resolve({
             html_url: "https://github.com/ClockworkDigital/test/issues/1",
+            topics: [],
           }),
       }),
     );
@@ -203,11 +204,29 @@ describe("issue submission requirements", () => {
     });
     expect(getProviderForUser).toHaveBeenCalledWith(issueDb, "owner", "github");
     expect(
-      JSON.parse(vi.mocked(fetch).mock.calls[0]?.[1]?.body as string),
+      JSON.parse(vi.mocked(fetch).mock.calls[1]?.[1]?.body as string),
     ).toEqual({
       title: "[Feature request] Feature",
       body: "### Desired outcome\n\nDesired outcome",
     });
+  });
+  it("requires Production details using GitHub classification, not the client", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ topics: ["production"] }),
+      }),
+    );
+    await expect(
+      submitter.submitIssue({
+        boardPublicId: "board1234567",
+        kind: "feature",
+        title: "Feature",
+        answers: ["outcome"],
+      }),
+    ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it("rejects whitespace, missing permission and unselected boards before GitHub", async () => {
     await expect(
@@ -241,4 +260,79 @@ describe("issue submission requirements", () => {
     ).rejects.toThrow();
     expect(fetch).not.toHaveBeenCalled();
   });
+});
+
+describe("repository topics", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(getByPublicId).mockResolvedValue({ id: 1 } as never);
+    vi.mocked(settings.get).mockResolvedValue(undefined);
+    vi.mocked(assertPermission).mockResolvedValue(undefined);
+    vi.mocked(getProviderForUser).mockResolvedValue({
+      accessToken: "encrypted",
+    } as never);
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () =>
+            Promise.resolve([
+              {
+                full_name: "ClockworkDigital/test",
+                archived: false,
+                has_issues: true,
+                topics: ["existing"],
+              },
+            ]),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve({ names: ["existing", "internal-tool"] }),
+        }),
+    );
+  });
+  const topicsInput = {
+    workspacePublicId: "workspace123",
+    repository: "ClockworkDigital/test",
+    expectedNames: ["existing"],
+    names: ["existing", "internal-tool"],
+  };
+  it("writes the full topic selection using the owner's token", async () => {
+    expect(await caller.setTopics(topicsInput)).toEqual({
+      names: topicsInput.names,
+    });
+    expect(vi.mocked(fetch).mock.calls[1]?.[1]?.method).toBe("PUT");
+    expect(getProviderForUser).toHaveBeenLastCalledWith(db, "owner", "github");
+  });
+  it("rejects stale edits before writing", async () => {
+    await expect(
+      caller.setTopics({ ...topicsInput, expectedNames: [] }),
+    ).rejects.toMatchObject({ code: "CONFLICT" });
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+  it("rejects invalid names and checks current workspace permission", async () => {
+    await expect(
+      caller.setTopics({ ...topicsInput, names: ["Invalid Topic"] }),
+    ).rejects.toThrow();
+    vi.mocked(assertPermission).mockRejectedValue(new Error("Denied"));
+    await expect(caller.setTopics(topicsInput)).rejects.toThrow();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+});
+
+it("accepts the organisation defaults repository without permitting path traversal", () => {
+  expect(
+    githubSyncInput.safeParse({
+      workspacePublicId: "workspace123",
+      path: "repos/ClockworkDigital/.github/issues?state=open&per_page=100",
+    }).success,
+  ).toBe(true);
+  expect(
+    githubSyncInput.safeParse({
+      workspacePublicId: "workspace123",
+      path: "repos/ClockworkDigital/../issues/1",
+    }).success,
+  ).toBe(false);
 });

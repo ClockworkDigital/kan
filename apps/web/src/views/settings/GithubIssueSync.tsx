@@ -2,8 +2,80 @@ import { t } from "@lingui/core/macro";
 import { useState } from "react";
 
 import Button from "~/components/Button";
+import Input from "~/components/Input";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
+
+function RepositoryTopics({
+  repository,
+  names,
+  workspacePublicId,
+  refresh,
+}: {
+  repository: string;
+  names: string[];
+  workspacePublicId: string;
+  refresh: () => Promise<unknown>;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const [expectedNames, setExpectedNames] = useState<string[]>([]);
+  const save = api.githubSync.setTopics.useMutation({
+    onSuccess: async () => {
+      await refresh();
+      setDraft(null);
+    },
+  });
+  return (
+    <div className="ml-6 space-y-2 text-sm">
+      <p>
+        {t`Topics`}: {names.join(", ") || t`None`}
+      </p>
+      {draft === null ? (
+        <Button
+          variant="secondary"
+          onClick={() => {
+            setExpectedNames([...names]);
+            setDraft(names.join(", "));
+          }}
+        >{t`Edit GitHub topics`}</Button>
+      ) : (
+        <>
+          <p>{t`Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters.`}</p>
+          <Input
+            aria-label={t`GitHub topics`}
+            value={draft}
+            disabled={save.isPending}
+            onChange={(event) => setDraft(event.target.value)}
+          />
+          <Button
+            variant="secondary"
+            disabled={save.isPending}
+            onClick={() =>
+              save.mutate({
+                workspacePublicId,
+                repository,
+                names: draft
+                  .split(",")
+                  .map((name) => name.trim())
+                  .filter(Boolean),
+                expectedNames,
+              })
+            }
+          >{t`Save topics on GitHub`}</Button>
+          <Button
+            variant="secondary"
+            disabled={save.isPending}
+            onClick={() => setDraft(null)}
+          >{t`Cancel`}</Button>
+        </>
+      )}
+      {save.error && <p role="alert">{save.error.message}</p>}
+      {save.isSuccess && draft === null && (
+        <p role="status">{t`Topics saved`}</p>
+      )}
+    </div>
+  );
+}
 
 function WorkspaceSync() {
   const { workspace } = useWorkspace();
@@ -15,6 +87,7 @@ function WorkspaceSync() {
   const repos = api.githubSync.repositories.useQuery(input, {
     enabled: !!workspace.publicId,
   });
+  const [filter, setFilter] = useState("");
   const [selection, setSelection] = useState<string[] | null>(null);
   const selected = selection ?? settings.data?.repositories ?? [];
   const save = api.githubSync.save.useMutation({
@@ -35,7 +108,7 @@ function WorkspaceSync() {
       {(settings.isLoading || repos.isLoading) && (
         <p role="status">{t`Loading repositories…`}</p>
       )}
-      {(settings.error || repos.error || save.error) && (
+      {(settings.error ?? repos.error ?? save.error) && (
         <p role="alert" className="text-sm text-red-600">
           {(settings.error ?? repos.error ?? save.error)?.message}
         </p>
@@ -52,6 +125,13 @@ function WorkspaceSync() {
       {repos.data?.length === 0 && (
         <p>{t`No accessible repositories with issues enabled. Check your GitHub token's repository access.`}</p>
       )}
+      <p className="text-sm">{t`Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.`}</p>
+      <Input
+        aria-label={t`Filter repositories by name or topic`}
+        placeholder={t`Filter repositories by name or topic`}
+        value={filter}
+        onChange={(event) => setFilter(event.target.value)}
+      />
       <div className="max-h-80 space-y-2 overflow-y-auto">
         {[
           ...new Set([
@@ -59,32 +139,50 @@ function WorkspaceSync() {
             ...selected,
           ]),
         ]
+          .filter((name) =>
+            [
+              name,
+              ...(repos.data?.find((repo) => repo.name === name)?.topics ?? []),
+            ].some((value) =>
+              value.toLowerCase().includes(filter.toLowerCase()),
+            ),
+          )
           .sort()
           .map((name) => {
             const writable = repos.data?.find(
               (repo) => repo.name === name,
             )?.writable;
             return (
-              <label key={name} className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={selected.includes(name)}
-                  disabled={
-                    save.isPending ||
-                    !!settings.error ||
-                    (!writable && !selected.includes(name))
+              <div key={name}>
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(name)}
+                    disabled={
+                      save.isPending ||
+                      !!settings.error ||
+                      (!writable && !selected.includes(name))
+                    }
+                    onChange={(event) =>
+                      setSelection(
+                        event.target.checked
+                          ? [...selected, name]
+                          : selected.filter((value) => value !== name),
+                      )
+                    }
+                  />
+                  {name}{" "}
+                  {!writable && <span>{t`(write access unavailable)`}</span>}
+                </label>
+                <RepositoryTopics
+                  repository={name}
+                  names={
+                    repos.data?.find((repo) => repo.name === name)?.topics ?? []
                   }
-                  onChange={(event) =>
-                    setSelection(
-                      event.target.checked
-                        ? [...selected, name]
-                        : selected.filter((value) => value !== name),
-                    )
-                  }
+                  workspacePublicId={workspace.publicId}
+                  refresh={repos.refetch}
                 />
-                {name}{" "}
-                {!writable && <span>{t`(write access unavailable)`}</span>}
-              </label>
+              </div>
             );
           })}
       </div>

@@ -13486,5 +13486,165 @@
         35
       ]
     ]
+  },
+  "aaJj/a": {
+    "translation": "",
+    "message": "Acceptance criteria",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        21
+      ]
+    ]
+  },
+  "+MzOSL": {
+    "message": "Edit GitHub topics",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        40
+      ]
+    ],
+    "translation": ""
+  },
+  "Euyy8s": {
+    "message": "Filter repositories by name or topic",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        130
+      ],
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        131
+      ]
+    ],
+    "translation": ""
+  },
+  "j+bQgm": {
+    "message": "GitHub topics",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        45
+      ]
+    ],
+    "translation": ""
+  },
+  "CdOPq+": {
+    "translation": "",
+    "message": "Impact and risks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        23
+      ]
+    ]
+  },
+  "sZbZAB": {
+    "translation": "",
+    "message": "Loading requirements…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        30
+      ]
+    ]
+  },
+  "EdQY6l": {
+    "message": "None",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        31
+      ]
+    ],
+    "translation": ""
+  },
+  "yIi6nT": {
+    "message": "Save topics on GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        64
+      ]
+    ],
+    "translation": ""
+  },
+  "VS6sz8": {
+    "translation": "",
+    "message": "Test plan",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        22
+      ]
+    ]
+  },
+  "6kQ+B3": {
+    "message": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        43
+      ]
+    ],
+    "translation": ""
+  },
+  "sFMBP5": {
+    "message": "Topics",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        31
+      ]
+    ],
+    "translation": ""
+  },
+  "yNJxCk": {
+    "message": "Topics saved",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        74
+      ]
+    ],
+    "translation": ""
+  },
+  "K/M1Pl": {
+    "translation": "",
+    "message": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        128
+      ]
+    ]
   }
 }

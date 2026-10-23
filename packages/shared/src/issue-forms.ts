@@ -10,3 +10,9 @@ export const issueForms = {
   },
   feature: { name: "Feature request", fields: ["Desired outcome"] },
 } as const;
+
+export const productionFields = [
+  "Acceptance criteria",
+  "Test plan",
+  "Impact and risks",
+] as const;

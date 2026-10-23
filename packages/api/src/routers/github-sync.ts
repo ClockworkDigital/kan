@@ -5,10 +5,11 @@ import type { dbClient } from "@kan/db/client";
 import * as syncSettings from "@kan/db/repository/github-sync.repo";
 import * as integrations from "@kan/db/repository/integration.repo";
 import * as workspaces from "@kan/db/repository/workspace.repo";
-import { issueForms } from "@kan/shared";
+import { issueForms, productionFields } from "@kan/shared";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { decryptToken } from "../utils/encryption";
+import { installRepositoryPolicy } from "../utils/github-policy";
 import { assertPermission } from "../utils/permissions";
 
 // Restrict the worker to repository discovery and issue operations, never arbitrary URLs.
@@ -17,7 +18,7 @@ export const githubSyncInput = z.object({
   path: z
     .string()
     .regex(
-      /^(?:orgs\/ClockworkDigital\/repos\?per_page=100|repos\/ClockworkDigital\/[A-Za-z0-9_][A-Za-z0-9_.-]*\/issues(?:\?state=open&per_page=100|\/[1-9][0-9]*))$/,
+      /^(?:orgs\/ClockworkDigital\/repos\?per_page=100|repos\/ClockworkDigital\/(?!\.{1,2}\/)[A-Za-z0-9_.-]+\/issues(?:\?state=open&per_page=100|\/[1-9][0-9]*))$/,
     ),
   page: z.number().int().min(1).max(1000).default(1),
   changes: z
@@ -100,7 +101,7 @@ async function githubRequest(
 const workspaceInput = z.object({ workspacePublicId: z.string().length(12) });
 const repositoryName = z
   .string()
-  .regex(/^ClockworkDigital\/[A-Za-z0-9_][A-Za-z0-9_.-]*$/);
+  .regex(/^ClockworkDigital\/(?!\.{1,2}$)[A-Za-z0-9_.-]+$/);
 const reportSchema = z.object({
   checkedAt: z.string().datetime({ offset: true }),
   created: z.number().int().nonnegative(),
@@ -131,10 +132,11 @@ async function repositories(
   userId: string,
   workspacePublicId: string,
 ) {
-  const result: { name: string; writable: boolean }[] = [];
+  const result: { name: string; writable: boolean; topics: string[] }[] = [];
   const schema = z.array(
     z.object({
       full_name: repositoryName,
+      topics: z.array(z.string()).default([]),
       archived: z.boolean(),
       has_issues: z.boolean(),
       permissions: z.object({ push: z.boolean() }).optional(),
@@ -153,6 +155,7 @@ async function repositories(
         .filter((repo) => !repo.archived && repo.has_issues)
         .map((repo) => ({
           name: repo.full_name,
+          topics: repo.topics,
           writable: repo.permissions?.push === true,
         })),
     );
@@ -170,6 +173,10 @@ export const issueSubmission = z
     kind: z.enum(["bug", "feature"]),
     title: z.string().trim().min(1).max(256),
     answers: z.array(z.string().trim().min(1).max(2000)).max(4),
+    productionAnswers: z
+      .array(z.string().trim().min(1).max(2000))
+      .max(3)
+      .default([]),
   })
   .superRefine((input, ctx) => {
     if (input.answers.length !== issueForms[input.kind].fields.length)
@@ -179,7 +186,146 @@ export const issueSubmission = z
       });
   });
 
+export const topicNames = z
+  .array(z.string().regex(/^[a-z0-9][a-z0-9-]{0,49}$/))
+  .max(20)
+  .refine(
+    (names) => new Set(names).size === names.length,
+    "Remove duplicate topics.",
+  )
+  .refine(
+    (names) => !(names.includes("production") && names.includes("experiment")),
+    "Choose Production or Experiment, not both.",
+  );
+
 export const githubSyncRouter = createTRPCRouter({
+  setTopics: protectedProcedure
+    .meta({
+      openapi: {
+        method: "PUT",
+        path: "/integrations/github/topics",
+        protect: true,
+        tags: ["Integration"],
+      },
+    })
+    .input(
+      workspaceInput.extend({
+        repository: repositoryName,
+        names: topicNames,
+        expectedNames: topicNames,
+      }),
+    )
+    .output(z.object({ names: z.array(z.string()) }))
+    .mutation(async ({ ctx, input }) => {
+      await access(ctx.db, ctx.user.id, input.workspacePublicId);
+      const available = await repositories(
+        ctx.db,
+        ctx.user.id,
+        input.workspacePublicId,
+      );
+      const repo = available.find((item) => item.name === input.repository);
+      if (!repo) throw new TRPCError({ code: "FORBIDDEN" });
+      if (
+        JSON.stringify([...repo.topics].sort()) !==
+        JSON.stringify([...input.expectedNames].sort())
+      )
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Topics changed on GitHub. Refresh before saving.",
+        });
+      const integration = await integrations.getProviderForUser(
+        ctx.db,
+        ctx.user.id,
+        "github",
+      );
+      if (!integration)
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Connect GitHub first.",
+        });
+      const classification = input.names.includes("production")
+        ? "production"
+        : input.names.includes("experiment")
+          ? "experiment"
+          : null;
+      const previous = input.expectedNames.includes("production")
+        ? "production"
+        : input.expectedNames.includes("experiment")
+          ? "experiment"
+          : null;
+      if (previous === "production" && !classification)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "Choose Experiment explicitly to change a Production policy.",
+        });
+      if (classification && classification !== previous)
+        await installRepositoryPolicy(
+          input.repository,
+          classification === "production",
+          decryptToken(integration.accessToken),
+        );
+      const response = await fetch(
+        `https://api.github.com/repos/${input.repository}/topics`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${decryptToken(integration.accessToken)}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ names: input.names }),
+          redirect: "error",
+          signal: AbortSignal.timeout(20000),
+        },
+      );
+      if (!response.ok)
+        throw new TRPCError({
+          code: "BAD_GATEWAY",
+          message: `GitHub returned HTTP ${response.status}. Editing topics requires repository admin access and the token's Administration write permission.`,
+        });
+      return z
+        .object({ names: z.array(z.string()) })
+        .parse(await response.json());
+    }),
+  issuePolicy: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/integrations/github/issue-policy",
+        protect: true,
+        tags: ["Integration"],
+      },
+    })
+    .input(z.object({ boardPublicId: z.string().length(12) }))
+    .output(z.object({ production: z.boolean() }))
+    .query(async ({ ctx, input }) => {
+      const board = await ctx.db.query.boards.findFirst({
+        where: (b, { eq, and, isNull }) =>
+          and(eq(b.publicId, input.boardPublicId), isNull(b.deletedAt)),
+      });
+      if (!board) throw new TRPCError({ code: "NOT_FOUND" });
+      await assertPermission(
+        ctx.db,
+        ctx.user.id,
+        board.workspaceId,
+        "card:create",
+      );
+      const workspace = await ctx.db.query.workspaces.findFirst({
+        where: (w, { eq }) => eq(w.id, board.workspaceId),
+      });
+      if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
+      const available = await repositories(
+        ctx.db,
+        ctx.user.id,
+        workspace.publicId,
+      );
+      const repo = available.find(
+        (item) => board.name === `GitHub: ${item.name}`,
+      );
+      if (!repo) throw new TRPCError({ code: "NOT_FOUND" });
+      return { production: repo.topics.includes("production") };
+    }),
   submitIssue: protectedProcedure
     .meta({
       openapi: {
@@ -223,9 +369,41 @@ export const githubSyncRouter = createTRPCRouter({
           code: "PRECONDITION_FAILED",
           message: "Connect your GitHub token in Integrations first.",
         });
+      const metadataResponse = await fetch(
+        `https://api.github.com/repos/${repo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${decryptToken(integration.accessToken)}`,
+            Accept: "application/vnd.github+json",
+          },
+          redirect: "error",
+          signal: AbortSignal.timeout(20000),
+        },
+      );
+      if (!metadataResponse.ok)
+        throw new TRPCError({
+          code: "BAD_GATEWAY",
+          message: "Cannot verify repository requirements.",
+        });
+      const metadata = z
+        .object({ topics: z.array(z.string()) })
+        .parse(await metadataResponse.json());
+      const production = metadata.topics.includes("production");
+      if (
+        production &&
+        input.productionAnswers.length !== productionFields.length
+      )
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "Production requires acceptance criteria, a test plan, and impact/risk details.",
+        });
       const form = issueForms[input.kind];
-      const body = form.fields
-        .map((label, index) => `### ${label}\n\n${input.answers[index]}`)
+      const body = [...form.fields, ...(production ? productionFields : [])]
+        .map(
+          (label, index) =>
+            `### ${label}\n\n${[...input.answers, ...(production ? input.productionAnswers : [])][index]}`,
+        )
         .join("\n\n");
       const response = await fetch(
         `https://api.github.com/repos/${repo}/issues`,
@@ -293,7 +471,15 @@ export const githubSyncRouter = createTRPCRouter({
       },
     })
     .input(workspaceInput)
-    .output(z.array(z.object({ name: repositoryName, writable: z.boolean() })))
+    .output(
+      z.array(
+        z.object({
+          name: repositoryName,
+          writable: z.boolean(),
+          topics: z.array(z.string()),
+        }),
+      ),
+    )
     .query(async ({ ctx, input }) => {
       await access(ctx.db, ctx.user.id, input.workspacePublicId);
       return repositories(ctx.db, ctx.user.id, input.workspacePublicId);
