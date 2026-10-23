@@ -151,3 +151,94 @@ it("rejects GitHub issue state changes", () => {
     githubSyncInput.safeParse({ ...input, changes: { state: "open" } }).success,
   ).toBe(false);
 });
+
+describe("issue submission requirements", () => {
+  const issueDb = { query: { boards: { findFirst: vi.fn() } } };
+  const submitter = githubSyncRouter.createCaller({
+    db: issueDb,
+    user: { id: "owner" },
+    headers: new Headers(),
+  } as never);
+  beforeEach(() => {
+    vi.clearAllMocks();
+    issueDb.query.boards.findFirst.mockResolvedValue({
+      workspaceId: 1,
+      visibility: "private",
+      name: "GitHub: ClockworkDigital/test",
+    });
+    vi.mocked(settings.get).mockResolvedValue({
+      enabled: true,
+      repositories: ["ClockworkDigital/test"],
+    } as never);
+    vi.mocked(assertPermission).mockResolvedValue(undefined);
+    vi.mocked(getProviderForUser).mockResolvedValue({
+      accessToken: "encrypted",
+    } as never);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            html_url: "https://github.com/ClockworkDigital/test/issues/1",
+          }),
+      }),
+    );
+  });
+  it("requires all bug fields, but only one feature answer", async () => {
+    await expect(
+      submitter.submitIssue({
+        boardPublicId: "board1234567",
+        kind: "bug",
+        title: "Bug",
+        answers: ["steps"],
+      }),
+    ).rejects.toThrow();
+    expect(fetch).not.toHaveBeenCalled();
+    await submitter.submitIssue({
+      boardPublicId: "board1234567",
+      kind: "feature",
+      title: "Feature",
+      answers: ["Desired outcome"],
+    });
+    expect(getProviderForUser).toHaveBeenCalledWith(issueDb, "owner", "github");
+    expect(
+      JSON.parse(vi.mocked(fetch).mock.calls[0]?.[1]?.body as string),
+    ).toEqual({
+      title: "[Feature request] Feature",
+      body: "### Desired outcome\n\nDesired outcome",
+    });
+  });
+  it("rejects whitespace, missing permission and unselected boards before GitHub", async () => {
+    await expect(
+      submitter.submitIssue({
+        boardPublicId: "board1234567",
+        kind: "feature",
+        title: "Feature",
+        answers: [" "],
+      }),
+    ).rejects.toThrow();
+    vi.mocked(assertPermission).mockRejectedValueOnce(new Error("Denied"));
+    await expect(
+      submitter.submitIssue({
+        boardPublicId: "board1234567",
+        kind: "feature",
+        title: "Feature",
+        answers: ["outcome"],
+      }),
+    ).rejects.toThrow();
+    vi.mocked(settings.get).mockResolvedValue({
+      enabled: true,
+      repositories: [],
+    } as never);
+    await expect(
+      submitter.submitIssue({
+        boardPublicId: "board1234567",
+        kind: "feature",
+        title: "Feature",
+        answers: ["outcome"],
+      }),
+    ).rejects.toThrow();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+});

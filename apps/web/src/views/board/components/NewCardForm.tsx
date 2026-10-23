@@ -29,6 +29,7 @@ import { usePopup } from "~/providers/popup";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
 import { formatMemberDisplayName, getAvatarUrl } from "~/utils/helpers";
+import GithubIssueForm from "./GithubIssueForm";
 
 type NewCardFormInput = NewCardInput & {
   isCreateAnotherEnabled: boolean;
@@ -50,7 +51,7 @@ interface NewCardFormProps {
   initialDueDate?: Date | null;
 }
 
-export function NewCardForm({
+function LocalNewCardForm({
   isTemplate,
   boardPublicId,
   listPublicId,
@@ -671,4 +672,16 @@ export function NewCardForm({
       </div>
     </form>
   );
+}
+
+export function NewCardForm(props: NewCardFormProps) {
+  const board = api.board.byId.useQuery({ boardPublicId: props.boardPublicId });
+  if (board.isLoading) return <p role="status">{t`Loading…`}</p>;
+  if (board.error) return <p role="alert">{board.error.message}</p>;
+  if (
+    board.data?.name.startsWith("GitHub: ClockworkDigital/") &&
+    !props.isTemplate
+  )
+    return <GithubIssueForm boardPublicId={props.boardPublicId} />;
+  return <LocalNewCardForm {...props} />;
 }

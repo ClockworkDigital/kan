@@ -5,6 +5,7 @@ import type { dbClient } from "@kan/db/client";
 import * as syncSettings from "@kan/db/repository/github-sync.repo";
 import * as integrations from "@kan/db/repository/integration.repo";
 import * as workspaces from "@kan/db/repository/workspace.repo";
+import { issueForms } from "@kan/shared";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { decryptToken } from "../utils/encryption";
@@ -163,7 +164,96 @@ async function repositories(
   });
 }
 
+export const issueSubmission = z
+  .object({
+    boardPublicId: z.string().length(12),
+    kind: z.enum(["bug", "feature"]),
+    title: z.string().trim().min(1).max(256),
+    answers: z.array(z.string().trim().min(1).max(2000)).max(4),
+  })
+  .superRefine((input, ctx) => {
+    if (input.answers.length !== issueForms[input.kind].fields.length)
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Complete every required field.",
+      });
+  });
+
 export const githubSyncRouter = createTRPCRouter({
+  submitIssue: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/integrations/github/issues",
+        protect: true,
+        tags: ["Integration"],
+      },
+    })
+    .input(issueSubmission)
+    .output(z.object({ url: z.string().url() }))
+    .mutation(async ({ ctx, input }) => {
+      const board = await ctx.db.query.boards.findFirst({
+        where: (b, { eq, and, isNull }) =>
+          and(eq(b.publicId, input.boardPublicId), isNull(b.deletedAt)),
+      });
+      if (!board || board.visibility !== "private")
+        throw new TRPCError({ code: "NOT_FOUND" });
+      await assertPermission(
+        ctx.db,
+        ctx.user.id,
+        board.workspaceId,
+        "card:create",
+      );
+      const settings = await syncSettings.get(ctx.db, board.workspaceId);
+      const repo = settings?.repositories.find(
+        (name) => board.name === `GitHub: ${name}`,
+      );
+      if (!settings?.enabled || !repo)
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Enable sync for this repository first.",
+        });
+      const integration = await integrations.getProviderForUser(
+        ctx.db,
+        ctx.user.id,
+        "github",
+      );
+      if (!integration)
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Connect your GitHub token in Integrations first.",
+        });
+      const form = issueForms[input.kind];
+      const body = form.fields
+        .map((label, index) => `### ${label}\n\n${input.answers[index]}`)
+        .join("\n\n");
+      const response = await fetch(
+        `https://api.github.com/repos/${repo}/issues`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${decryptToken(integration.accessToken)}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: `[${form.name}] ${input.title}`,
+            body,
+          }),
+          redirect: "error",
+          signal: AbortSignal.timeout(20000),
+        },
+      );
+      if (!response.ok)
+        throw new TRPCError({
+          code: "BAD_GATEWAY",
+          message: `GitHub returned HTTP ${response.status}. Check your issue write permission before retrying.`,
+        });
+      const result = z
+        .object({ html_url: z.string().url() })
+        .parse(await response.json());
+      return { url: result.html_url };
+    }),
   settings: protectedProcedure
     .meta({
       openapi: {

@@ -78,3 +78,18 @@ verified; tests do not edit real GitHub issues.
 The protected `~/.config/formwork/kan/github-sync.json` selects `baseUrl`,
 `workspacePublicId`, and the expected stable `userId`. These values must match the
 selected Formwork deployment and the owner of the Kan API credential.
+
+Synced repository boards use the GitHub submission form in New card. Bugs require
+summary, reproduction steps, expected result, actual result and environment.
+Features require summary and desired outcome. The server validates these fields,
+checks native card-create permission and submits using the caller's own saved
+GitHub token. The regular worker imports the resulting card within five minutes.
+The background worker cannot call the submission endpoint. Submission does not
+retry automatically; check GitHub after a timeout before submitting again.
+
+`packages/shared/src/issue-forms.ts` defines the shared fields. Run
+`node node_modules/vite-node/vite-node.mjs deploy/formwork/generate-issue-templates.ts`
+to regenerate GitHub forms in `deploy/formwork/issue-templates`. Publish those to
+ClockworkDigital/.github under `.github/ISSUE_TEMPLATE/` when changing requirements.
+GitHub inherits these organisation defaults unless a repository defines its own
+forms. Custom repository forms are not dynamically interpreted by this version.

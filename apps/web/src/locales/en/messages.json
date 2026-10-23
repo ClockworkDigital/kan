@@ -13466,5 +13466,185 @@
         34
       ]
     ]
+  },
+  "1Usr2Q": {
+    "translation": "Actual result",
+    "message": "Actual result",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        22
+      ]
+    ]
+  },
+  "Q//+1+": {
+    "translation": "Bug report",
+    "message": "Bug report",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        58
+      ]
+    ]
+  },
+  "Npq97V": {
+    "translation": "Desired outcome",
+    "message": "Desired outcome",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        24
+      ]
+    ]
+  },
+  "AVlZoM": {
+    "translation": "Environment",
+    "message": "Environment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        23
+      ]
+    ]
+  },
+  "o4lVGz": {
+    "translation": "Expected result",
+    "message": "Expected result",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        21
+      ]
+    ]
+  },
+  "R1QFqA": {
+    "translation": "Feature request",
+    "message": "Feature request",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        59
+      ]
+    ]
+  },
+  "kfl2e1": {
+    "translation": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
+    "message": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        94
+      ]
+    ]
+  },
+  "KxXEyD": {
+    "translation": "Issue submitted. Its linked card will appear within five minutes.",
+    "message": "Issue submitted. Its linked card will appear within five minutes.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        29
+      ]
+    ]
+  },
+  "YOmYvx": {
+    "translation": "Issue type",
+    "message": "Issue type",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        48
+      ]
+    ]
+  },
+  "Pwqkdw": {
+    "translation": "Loading…",
+    "message": "Loading…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        679
+      ]
+    ]
+  },
+  "q289QZ": {
+    "translation": "Steps to reproduce",
+    "message": "Steps to reproduce",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        20
+      ]
+    ]
+  },
+  "Tdlhz2": {
+    "translation": "Submit GitHub issue",
+    "message": "Submit GitHub issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        46
+      ]
+    ]
+  },
+  "7dHmqW": {
+    "translation": "Submit issue",
+    "message": "Submit issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        102
+      ]
+    ]
+  },
+  "dXoieq": {
+    "translation": "Summary",
+    "message": "Summary",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        63
+      ]
+    ]
+  },
+  "WhbM7n": {
+    "translation": "View issue on GitHub",
+    "message": "View issue on GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        35
+      ]
+    ]
   }
 }

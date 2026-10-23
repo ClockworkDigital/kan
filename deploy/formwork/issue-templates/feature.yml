@@ -1,0 +1,27 @@
+{
+  "name": "Feature request",
+  "description": "Suggest an improvement",
+  "title": "[Feature request] ",
+  "body": [
+    {
+      "type": "input",
+      "id": "summary",
+      "attributes": {
+        "label": "Summary"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field0",
+      "attributes": {
+        "label": "Desired outcome"
+      },
+      "validations": {
+        "required": true
+      }
+    }
+  ]
+}

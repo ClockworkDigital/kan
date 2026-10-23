@@ -1,0 +1,57 @@
+{
+  "name": "Bug report",
+  "description": "Report a reproducible problem",
+  "title": "[Bug report] ",
+  "body": [
+    {
+      "type": "input",
+      "id": "summary",
+      "attributes": {
+        "label": "Summary"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field0",
+      "attributes": {
+        "label": "Steps to reproduce"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field1",
+      "attributes": {
+        "label": "Expected result"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field2",
+      "attributes": {
+        "label": "Actual result"
+      },
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "field3",
+      "attributes": {
+        "label": "Environment"
+      },
+      "validations": {
+        "required": true
+      }
+    }
+  ]
+}
