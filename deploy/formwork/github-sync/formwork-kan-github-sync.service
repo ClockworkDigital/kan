@@ -1,0 +1,9 @@
+[Unit]
+Description=ClockworkDigital GitHub issues and Kan sync
+[Service]
+Type=oneshot
+WorkingDirectory=%h/clockwork/Kan
+ExecStart=/usr/bin/python3 %h/clockwork/Kan/deploy/formwork/github-sync/sync.py
+UMask=0077
+NoNewPrivileges=yes
+TimeoutStartSec=240

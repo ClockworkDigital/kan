@@ -59,7 +59,8 @@ export function withApiLogging(
       duration,
       userId,
       ...(isCloud && email && { email }),
-      ...(Object.keys(input).length > 0 && { input }),
+      ...(!/integration|githubSync/i.test(route) &&
+        Object.keys(input).length > 0 && { input }),
       status: statusCode,
       ...(handlerError instanceof Error && {
         error: handlerError.message,

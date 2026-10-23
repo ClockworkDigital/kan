@@ -1,5 +1,16 @@
 # AGENTS.md
 
+## Formwork deployment
+
+This checkout is being onboarded into the sibling Formwork platform for the Tech
+and Innovation Department. Read `deploy/formwork/README.md` before deployment.
+Keep Kan's independent Compose project and database. Gateway identity mode must
+never be enabled on a directly published app port. Provision accounts by stable
+UUID within the selected tenant; email must not become an identity key.
+Codex MCP uses the same gateway policy with a short-lived, owner-bound native API
+credential. Keep its verification callback private, retain eight-hour identity
+snapshot expiry, and never automatically renew or bypass department/block checks.
+
 ## Project Overview
 
 Kan is an open-source project management tool (Trello alternative) built with:
@@ -331,3 +342,11 @@ Update all of the following:
 - Provide clear description of changes
 - Include screenshots for UI changes
 - Keep PRs focused on a single feature/fix
+
+## GitHub issue sync
+
+The user authorised two-way ClockworkDigital issue sync. The host worker under
+`deploy/formwork/github-sync/` uses public Kan APIs through Formwork and the
+current user's encrypted GitHub PAT through Kan's integration API. Preserve its protected stable-ID mapping and conflict
+baselines. Never automatically renew the Formwork credential or propagate deletes.
+Read its README before changing the sync or schedule.

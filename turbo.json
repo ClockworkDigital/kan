@@ -46,6 +46,8 @@
     }
   },
   "globalEnv": [
+    "FORMWORK_TENANT_ID",
+    "NEXT_PUBLIC_FORMWORK_URL",
     "KAN_ADMIN_API_KEY",
     "POSTGRES_URL",
     "TRELLO_APP_API_KEY",

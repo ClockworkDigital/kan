@@ -1,0 +1,79 @@
+name: kan-formwork
+
+x-logging: &logging
+  driver: local
+  options: {max-size: 10m, max-file: "3"}
+
+services:
+  web:
+    image: ${KAN_IMAGE:?Set the checked Kan image}
+    restart: unless-stopped
+    environment:
+      FORMWORK_TENANT_ID: ${FORMWORK_TENANT_ID:?Set the gateway tenant UUID}
+      NEXT_PUBLIC_BASE_URL: ${KAN_URL:?Set the Kan HTTPS origin}
+      NEXT_PUBLIC_FORMWORK_URL: ${FORMWORK_URL:?Set the catalogue HTTPS origin}
+      NEXT_PUBLIC_ALLOW_CREDENTIALS: "false"
+      NEXT_PUBLIC_DISABLE_SIGN_UP: "true"
+      NEXT_PUBLIC_DISABLE_EMAIL: "true"
+      POSTGRES_URL_FILE: /run/secrets/runtime_database
+      BETTER_AUTH_SECRET_FILE: /run/secrets/auth_secret
+      KAN_ADMIN_API_KEY_FILE: /run/secrets/admin_api_key
+    secrets: [runtime_database, auth_secret, admin_api_key]
+    networks:
+      gateway:
+        aliases: [kan]
+      database: {}
+      egress: {}
+    cpus: 1
+    mem_limit: 1g
+    memswap_limit: 1g
+    pids_limit: 150
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging: *logging
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3000/login',{signal:AbortSignal.timeout(4000)}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 20s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  postgres:
+    image: postgres:18.6-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kan_owner
+      POSTGRES_DB: kan
+      POSTGRES_PASSWORD_FILE: /run/secrets/database_admin
+    secrets: [database_admin]
+    volumes: [postgres_data:/var/lib/postgresql]
+    networks: [database]
+    cpus: 0.5
+    mem_limit: 512m
+    pids_limit: 128
+    security_opt: [no-new-privileges:true]
+    logging: *logging
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U kan_owner -d kan]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+networks:
+  gateway:
+    external: true
+    name: ${KAN_GATEWAY_NETWORK:-formwork-auth0-demo-kan}
+  egress:
+    ipam:
+      config: [{subnet: 172.30.48.0/24}]
+  database:
+    internal: true
+volumes:
+  postgres_data:
+secrets:
+  database_admin: {file: '${KAN_SECRET_DIR}/database-admin'}
+  runtime_database: {file: '${KAN_SECRET_DIR}/runtime-database'}
+  auth_secret: {file: '${KAN_SECRET_DIR}/auth-secret'}
+  admin_api_key: {file: '${KAN_SECRET_DIR}/admin-api-key'}

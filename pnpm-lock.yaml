@@ -46,6 +46,10 @@ catalogs:
     react-dom:
       specifier: 18.3.1
       version: 18.3.1
+  zod4:
+    zod:
+      specifier: 4.1.13
+      version: 4.1.13
 
 overrides:
   '@types/minimatch': npm:minimatch@*
@@ -381,6 +385,9 @@ importers:
       better-auth:
         specifier: ^1.4.6
         version: 1.4.6(next@16.0.8(@playwright/test@1.62.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zod:
+        specifier: catalog:zod4
+        version: 4.1.13
     devDependencies:
       '@kan/db':
         specifier: workspace:*

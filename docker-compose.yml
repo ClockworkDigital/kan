@@ -32,6 +32,8 @@ services:
       # Required environment variables
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - FORMWORK_TENANT_ID=${FORMWORK_TENANT_ID}
+      - NEXT_PUBLIC_FORMWORK_URL=${NEXT_PUBLIC_FORMWORK_URL}
       - POSTGRES_URL=${POSTGRES_URL}
 
       # Redis (optional - for rate limiting)

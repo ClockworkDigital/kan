@@ -75,7 +75,10 @@ const loggingMiddleware = t.middleware(
       duration,
       userId: user?.id,
       ...(isCloud && { email: user?.email }),
-      input,
+      input:
+        path.startsWith("integration.") || path.startsWith("githubSync.")
+          ? undefined
+          : input,
     };
 
     const label = transport === "rest" ? "REST" : "tRPC";

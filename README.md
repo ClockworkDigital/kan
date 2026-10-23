@@ -185,6 +185,8 @@ pnpm dev
 | `NEXT_PUBLIC_BASE_URL`                    | Base URL of your installation                             | Yes                                         | `http://localhost:3000`                                     |
 | `NEXT_API_BODY_SIZE_LIMIT`                | Maximum API request body size (defaults to 1mb)           | No                                          | `50mb`                                                      |
 | `BETTER_AUTH_ALLOWED_DOMAINS`             | Comma-separated list of allowed domains for OIDC logins   | For OIDC/Social login                       | `example.com,subsidiary.com`                                |
+| `FORMWORK_TENANT_ID` | Enable verified gateway identity for one tenant. Requires isolated gateway-only networking and explicitly provisioned user UUIDs. | For Formwork | Tenant UUID |
+| `NEXT_PUBLIC_FORMWORK_URL` | HTTPS Formwork catalogue URL for navigation and sign-out | For Formwork | `https://formwork.example.com` |
 | `BETTER_AUTH_SECRET`                      | Auth encryption secret                                    | Yes                                         | Random 32+ char string                                      |
 | `BETTER_AUTH_TRUSTED_ORIGINS`             | Allowed callback origins                                  | No                                          | `http://localhost:3000,http://localhost:3001`               |
 | `GOOGLE_CLIENT_ID`                        | Google OAuth client ID                                    | For Google login                            | `xxx.apps.googleusercontent.com`                            |

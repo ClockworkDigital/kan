@@ -60,3 +60,6 @@ pnpm-debug.log
 
 # Cloud compose (separate deployment)
 cloud/
+
+# Protected deployment state
+.runtime/

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
 import { t } from "@lingui/core/macro";
+import { env as runtimeEnv } from "next-runtime-env";
 import { useTheme } from "next-themes";
 import { Fragment } from "react";
 import { twMerge } from "tailwind-merge";
@@ -33,6 +34,7 @@ export default function UserMenu({
   onCloseSideNav,
 }: UserMenuProps) {
   const router = useRouter();
+  const formworkUrl = runtimeEnv("NEXT_PUBLIC_FORMWORK_URL");
   const { theme, setTheme } = useTheme();
   const { openModal } = useModal();
   const { openLegend } = useKeyboardShortcuts();
@@ -43,6 +45,10 @@ export default function UserMenu({
       onCloseSideNav();
     }
     await authClient.signOut();
+    if (formworkUrl) {
+      window.location.assign(`${formworkUrl}/oauth2/sign_out?rd=/`);
+      return;
+    }
     router.push("/login");
   };
 
@@ -77,7 +83,7 @@ export default function UserMenu({
         ) : (
           <Menu.Button
             className="flex w-full items-center rounded-md p-1.5 text-neutral-900 hover:bg-light-200 dark:text-dark-900 dark:hover:bg-dark-200 dark:hover:text-dark-1000"
-            title={isCollapsed ? (displayName || email) : undefined}
+            title={isCollapsed ? displayName || email : undefined}
           >
             {avatarUrl ? (
               <Image
@@ -174,6 +180,17 @@ export default function UserMenu({
               </Menu.Item>
             </div>
             <div className="light-border-600 border-t-[1px] p-1 dark:border-dark-600">
+              {formworkUrl && (
+                <Menu.Item>
+                  <Link
+                    href={formworkUrl}
+                    onClick={handleLinkClick}
+                    className="flex w-full items-center rounded-[5px] px-3 py-2 text-left text-xs hover:bg-light-200 dark:hover:bg-dark-400"
+                  >
+                    Formwork
+                  </Link>
+                </Menu.Item>
+              )}
               <Menu.Item>
                 <button
                   onClick={() => {

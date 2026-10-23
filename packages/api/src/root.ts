@@ -3,6 +3,7 @@ import { boardRouter } from "./routers/board";
 import { cardRouter } from "./routers/card";
 import { checklistRouter } from "./routers/checklist";
 import { feedbackRouter } from "./routers/feedback";
+import { githubSyncRouter } from "./routers/github-sync";
 import { healthRouter } from "./routers/health";
 import { importRouter } from "./routers/import";
 import { integrationRouter } from "./routers/integration";
@@ -31,6 +32,7 @@ export const appRouter = createTRPCRouter({
   webhook: webhookRouter,
   workspace: workspaceRouter,
   integration: integrationRouter,
+  githubSync: githubSyncRouter,
 });
 
 export type AppRouter = typeof appRouter;

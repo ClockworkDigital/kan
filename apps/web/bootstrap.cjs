@@ -12,8 +12,17 @@
  * 2. Start the Next.js standalone server.
  */
 
-const { writeFileSync, existsSync, mkdirSync } = require("fs");
+const { writeFileSync, readFileSync, existsSync, mkdirSync } = require("fs");
 const path = require("path");
+
+for (const name of ["POSTGRES_URL", "BETTER_AUTH_SECRET", "KAN_ADMIN_API_KEY"]) {
+  const filename = process.env[`${name}_FILE`];
+  if (filename) {
+    const value = readFileSync(filename, "utf8").trim();
+    if (!value) throw new Error(`Empty ${name}_FILE`);
+    process.env[name] = value;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // 1. Inject runtime NEXT_PUBLIC_* env vars into __ENV.js

@@ -6,6 +6,7 @@ import type { dbClient } from "@kan/db/client";
 import * as schema from "@kan/db/schema";
 import { sendEmail } from "@kan/email";
 
+import { formworkHook } from "./formwork";
 import { createDatabaseHooks, createMiddlewareHooks } from "./hooks";
 import { createPlugins } from "./plugins";
 import { configuredProviders } from "./providers";
@@ -14,6 +15,8 @@ export const initAuth = (db: dbClient) => {
   const baseURL = env("NEXT_PUBLIC_BASE_URL") || env("BETTER_AUTH_URL");
   const trustedOrigins =
     env("BETTER_AUTH_TRUSTED_ORIGINS")?.split(",").filter(Boolean) ?? [];
+
+  const formworkTenant = env("FORMWORK_TENANT_ID");
 
   return betterAuth({
     secret: env("BETTER_AUTH_SECRET"),
@@ -63,7 +66,10 @@ export const initAuth = (db: dbClient) => {
     },
     plugins: createPlugins(db),
     databaseHooks: createDatabaseHooks(db),
-    hooks: createMiddlewareHooks(db),
+    hooks: {
+      ...createMiddlewareHooks(db),
+      ...(formworkTenant ? { before: formworkHook(db, formworkTenant) } : {}),
+    },
     advanced: {
       cookiePrefix: "kan",
       database: {

@@ -14,6 +14,7 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
+    FORMWORK_TENANT_ID: z.string().uuid().optional().or(z.literal("")),
     KAN_ADMIN_API_KEY: z.string().optional(),
     BETTER_AUTH_SECRET: z.string(),
     BETTER_AUTH_TRUSTED_ORIGINS: z
@@ -86,6 +87,7 @@ export const env = createEnv({
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_FORMWORK_URL: z.string().url().optional().or(z.literal("")),
     NEXT_PUBLIC_KAN_ENV: z.string().optional(),
     NEXT_PUBLIC_UMAMI_ID: z.string().optional(),
     NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
@@ -130,6 +132,7 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   experimental__runtimeEnv: {
+    NEXT_PUBLIC_FORMWORK_URL: process.env.NEXT_PUBLIC_FORMWORK_URL,
     NEXT_PUBLIC_KAN_ENV: process.env.NEXT_PUBLIC_KAN_ENV,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_UMAMI_ID: process.env.NEXT_PUBLIC_UMAMI_ID,
