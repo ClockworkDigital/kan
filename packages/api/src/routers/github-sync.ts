@@ -23,7 +23,6 @@ export const githubSyncInput = z.object({
     .object({
       title: z.string().min(1).max(2000).optional(),
       body: z.string().max(65536).optional(),
-      state: z.enum(["open", "closed"]).optional(),
     })
     .strict()
     .optional(),

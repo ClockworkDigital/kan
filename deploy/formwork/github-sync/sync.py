@@ -11,6 +11,9 @@ def reconcile(base, github, kan):
     for field in ('title', 'body', 'state'):
         g, k, b = github[field], kan[field], base[field]
         if g == k: continue
+        if field == 'state':
+            inbound[field] = g
+            continue
         if g == b: outbound[field] = k
         elif k == b: inbound[field] = g
         else: conflicts.append(field)

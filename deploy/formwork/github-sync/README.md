@@ -2,9 +2,10 @@
 
 The user service `formwork-kan-github-sync` polls every five minutes. It imports
 open repository issues into private repository boards in Tech and Innovation,
-then synchronises linked titles, descriptions and open/closed status both ways.
-Moving a linked card to Closed closes its GitHub issue. Moving it to another list
-on the same board reopens it. In progress remains an open GitHub issue.
+then synchronises linked titles and descriptions both ways. Issue state flows
+only from GitHub into Kan. Closing or reopening an issue must happen in GitHub
+after its required checks. A contradictory Kan state is corrected on the next
+sync. In progress remains an open GitHub issue.
 
 Descriptions contain the source link and an editable Markdown code block. Keep
 the issue description in that block to preserve its Markdown during round trips.

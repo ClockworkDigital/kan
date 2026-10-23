@@ -31,7 +31,7 @@ function WorkspaceSync() {
       <h3 className="text-sm font-bold">
         {t`GitHub issue sync`} · {workspace.name}
       </h3>
-      <p className="text-sm text-neutral-500 dark:text-dark-900">{t`Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.`}</p>
+      <p className="text-sm text-neutral-500 dark:text-dark-900">{t`Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.`}</p>
       {(settings.isLoading || repos.isLoading) && (
         <p role="status">{t`Loading repositories…`}</p>
       )}

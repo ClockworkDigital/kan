@@ -13454,5 +13454,17 @@
         141
       ]
     ]
+  },
+  "A2+/8i": {
+    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
+    "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        34
+      ]
+    ]
   }
 }

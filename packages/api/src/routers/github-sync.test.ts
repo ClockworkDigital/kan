@@ -107,20 +107,18 @@ describe("repository selection", () => {
   it("requires write access when enabling, but allows pausing without GitHub", async () => {
     vi.stubGlobal(
       "fetch",
-      vi
-        .fn()
-        .mockResolvedValue({
-          ok: true,
-          json: () =>
-            Promise.resolve([
-              {
-                full_name: "ClockworkDigital/test",
-                archived: false,
-                has_issues: true,
-                permissions: { push: false },
-              },
-            ]),
-        }),
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: () =>
+          Promise.resolve([
+            {
+              full_name: "ClockworkDigital/test",
+              archived: false,
+              has_issues: true,
+              permissions: { push: false },
+            },
+          ]),
+      }),
     );
     await expect(
       caller.save({
@@ -142,4 +140,14 @@ describe("repository selection", () => {
       false,
     );
   });
+});
+
+it("rejects GitHub issue state changes", () => {
+  expect(
+    githubSyncInput.safeParse({ ...input, changes: { state: "closed" } })
+      .success,
+  ).toBe(false);
+  expect(
+    githubSyncInput.safeParse({ ...input, changes: { state: "open" } }).success,
+  ).toBe(false);
 });

@@ -9,7 +9,8 @@ class SyncTests(unittest.TestCase):
  def test_repeat_and_close(self):
   base={'title':'t','body':'b','state':'open'}
   self.assertEqual(reconcile(base,base,base),({},{},[]))
-  self.assertEqual(reconcile(base,base,{**base,'state':'closed'}),({'state':'closed'},{},[]))
+  self.assertEqual(reconcile(base,base,{**base,'state':'closed'}),({},{'state':'open'},[]))
+  self.assertEqual(reconcile(base,{**base,'state':'closed'},base),({},{'state':'closed'},[]))
 if __name__=='__main__':unittest.main()
 
 class WorkerTests(unittest.TestCase):
@@ -62,7 +63,7 @@ class WorkerTests(unittest.TestCase):
     selected.append('ClockworkDigital/test')
     issue['title']='GitHub edit';sync.main();self.assertEqual(cards['card00000001']['title'],'GitHub edit')
     cards['card00000001']['title']='Kan edit';sync.main();self.assertEqual(issue['title'],'Kan edit')
-    cards['card00000001']['list']['publicId']='closed000001';sync.main();self.assertEqual(issue['state'],'closed')
+    cards['card00000001']['list']['publicId']='closed000001';sync.main();self.assertEqual(issue['state'],'open');self.assertEqual(cards['card00000001']['list']['publicId'],'open00000001')
     issue['title']='Remote conflict';cards['card00000001']['title']='Local conflict'
     with self.assertRaises(SystemExit):sync.main()
     self.assertEqual(issue['title'],'Remote conflict');self.assertEqual(cards['card00000001']['title'],'Local conflict')
