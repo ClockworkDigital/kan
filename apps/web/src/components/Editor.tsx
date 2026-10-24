@@ -650,7 +650,7 @@ export default function Editor({
       {!readOnly && editor && <EditorBubbleMenu editor={editor} />}
       <EditorContent
         editor={editor}
-        className="prose dark:prose-invert prose-sm max-w-none overflow-y-auto [&_blockquote]:!text-xs [&_h1]:!text-lg [&_h2]:!text-base [&_h3]:!text-sm [&_ol]:!text-xs [&_p.is-empty::before]:text-light-900 [&_p.is-empty::before]:dark:text-dark-800 [&_p]:!text-sm [&_p]:text-light-950 [&_p]:dark:text-dark-950 [&_ul]:!text-xs"
+        className="card-body prose dark:prose-invert max-w-none overflow-y-auto [&_h1]:!text-lg [&_h2]:!text-base [&_h3]:!text-sm [&_p.is-empty::before]:text-light-900 [&_p.is-empty::before]:dark:text-dark-800 [&_p]:text-light-950 [&_p]:dark:text-dark-950"
       />
     </div>
   );

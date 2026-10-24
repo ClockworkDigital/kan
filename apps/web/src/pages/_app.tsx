@@ -4,7 +4,6 @@ import "~/utils/i18n";
 import type { NextPage, Viewport } from "next";
 import type { AppProps, AppType } from "next/app";
 import type { ReactElement, ReactNode } from "react";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { env } from "next-runtime-env";
 import { ThemeProvider } from "next-themes";
@@ -18,11 +17,6 @@ import { LinguiProviderWrapper } from "~/providers/lingui";
 import { ModalProvider } from "~/providers/modal";
 import { PopupProvider } from "~/providers/popup";
 import { api } from "~/utils/api";
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata = {
   title: "Kan",
@@ -65,14 +59,6 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <>
-      <style jsx global>{`
-        html {
-          font-family: ${jakarta.style.fontFamily};
-        }
-        body {
-          position: relative;
-        }
-      `}</style>
       {env("NEXT_PUBLIC_UMAMI_ID") && (
         <Script
           defer
@@ -85,7 +71,11 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
         <KeyboardShortcutProvider>
           <LinguiProviderWrapper>
             <FontSizeProvider>
-              <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
                 <ModalProvider>
                   <PopupProvider>
                     {posthogKey ? (

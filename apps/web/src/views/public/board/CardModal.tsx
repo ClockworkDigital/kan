@@ -110,7 +110,7 @@ export function CardModal({
                           {data.cardNumber}
                         </span>
                       )}
-                    <h1 className="font-bold leading-[2.3rem] tracking-tight text-neutral-900 dark:text-dark-1000 sm:text-[1.2rem]">
+                    <h1 className="card-body text-neutral-900 dark:text-dark-1000">
                       {data?.title}
                     </h1>
                   </>

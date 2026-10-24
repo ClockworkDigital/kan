@@ -96,7 +96,7 @@ function DraggableCalendarCard({
             <LabelIcon colourCode={card.labels[0].colourCode} />
           )}
         </span>
-        <span className="flex-auto truncate text-light-1000 dark:text-dark-1000">
+        <span className="card-body flex-auto truncate text-light-1000 dark:text-dark-1000">
           {card.title}
         </span>
         {ticketNumber && (
@@ -419,7 +419,7 @@ const CalendarView = ({
                         />
                       )}
                     </span>
-                    <span className="flex-auto truncate text-light-1000 dark:text-dark-1000">
+                    <span className="card-body flex-auto truncate text-light-1000 dark:text-dark-1000">
                       {activeCard.title}
                     </span>
                     {ticketNumber(activeCard) && (
@@ -522,7 +522,7 @@ const CalendarView = ({
                             <LabelIcon colourCode={card.labels[0].colourCode} />
                           )}
                         </span>
-                        <span className="flex-auto truncate text-sm text-light-1000 dark:text-dark-1000">
+                        <span className="card-body flex-auto truncate text-light-1000 dark:text-dark-1000">
                           {card.title}
                         </span>
                         {ticketNumber(card) && (
