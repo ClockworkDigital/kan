@@ -9,8 +9,9 @@ sync. In progress remains an open GitHub issue.
 
 Descriptions contain the source link and an editable Markdown code block. Keep
 the issue description in that block to preserve its Markdown during round trips.
-Labels, assignees, comments, attachments, pull requests and GitHub Projects are
-not synchronised. New standalone Kan cards do not create GitHub issues. Deleted
+Label names, colours and issue assignments flow only from GitHub into Kan.
+Assignees, comments, attachments, pull requests and GitHub Projects are not
+synchronised. New standalone Kan cards do not create GitHub issues. Deleted
 cards or inaccessible issues are reported; deletion is never propagated.
 Archived repositories are skipped. Choose repositories in Settings → Integrations
 → GitHub issue sync. New repositories are listed for selection, not automatically
@@ -102,6 +103,57 @@ writing, although GitHub offers no shared transaction with Kan and a concurrent
 edit in the final write window is still possible. The worker cannot edit topics.
 Topic names are public even when the repository is private. Use lowercase
 letters, digits and hyphens, at most 50 characters each and 20 topics per repo.
+
+## GitHub label ownership
+
+The worker reads every page of the selected repository's label definitions,
+including labels that are not assigned to an open issue. Labels are scoped to the
+mapped private board. `state.json` now has an additive `labels` mapping keyed by
+repository ID and GitHub label ID. Existing issue mappings and conflict baselines
+are retained. Renaming or recolouring a label updates its existing Kan public ID.
+Kan edits to imported names, colours or assignments are corrected on the next
+poll. These changes never generate GitHub label writes.
+
+Only mapped labels are managed. A Kan-only label with the same name or colour is
+not adopted, renamed, detached or deleted. It can coexist with an imported label
+of the same name. Removing an issue label removes that imported assignment from
+the linked card. Closed tracked issues are included. Deleting a label in GitHub
+retires its mapping and removes its assignments from linked cards, but retains
+the Kan board definition and any assignments on standalone Kan cards. The worker
+never deletes labels. Recreating a GitHub label produces a new source identity,
+so an old retired definition can coexist with its replacement. Manually deleting
+an active imported Kan label recreates it on the next poll.
+
+A pending label-create intent is saved before POST. If a request times out, or the
+process stops before saving the returned public ID, later polls stop label sync
+for that repository instead of creating a duplicate or guessing ownership by
+name. The protected report identifies this condition. An operator must inspect
+the board and pending entry, then record the confirmed new label public ID or
+clear that pending entry only after proving no label was created. Preserve the
+entry's `retiredPublicIds` when repairing a mapping. Never remove the state file.
+Definitively rejected HTTP 4xx requests other than request timeouts clear their
+pending intent and can retry normally. Repository errors skip that repository;
+other selected repositories continue.
+
+The membership API toggles labels, so the worker re-reads each card immediately
+before each toggle and checks the returned membership. The existing polling
+limitation still applies to concurrent edits during the final request window.
+Full GitHub names of up to 50 characters are accepted by the label API without
+truncation. No database migration is needed.
+
+### Delegation boundaries
+
+The background allowlists permit label-list reads only for selected repositories.
+Label create/update is limited to active private repository boards in the
+specified workspace and requires `board:edit`. Card-label assignment is limited
+to active labels on the card's own authorized board, including assignments when
+creating cards. Label deletion and all GitHub label writes remain forbidden.
+Current owner, pause, provider and native permission checks still apply on every
+request. This change does not alter credentials or deployed gateway policy.
+
+This implementation has not been deployed. A later approved deployment must
+update the app and worker together because older app versions reject label-list
+reads and Kan label operations from this delegation.
 
 ## Production and Experiment policy
 
