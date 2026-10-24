@@ -14,17 +14,26 @@ class SyncTests(unittest.TestCase):
 if __name__=='__main__':unittest.main()
 
 class WorkerTests(unittest.TestCase):
- def test_import_repeat_both_directions_and_conflict(self):
+ def test_initial_label_import(self):
+  self.test_import_repeat_both_directions_and_conflict(initial_labels=True)
+
+ def test_import_repeat_both_directions_and_conflict(self,initial_labels=False):
   import sync, tempfile, pathlib, json, io, copy
   from unittest.mock import patch
   from types import SimpleNamespace
-  issue={'id':1,'number':1,'title':'Original','body':'Body\n\n- Item','state':'open','updated_at':'one','html_url':'https://github.com/ClockworkDigital/test/issues/1'}
+  issue={'id':1,'number':1,'title':'Original','body':'Body\n\n- Item','state':'open','updated_at':'one','html_url':'https://github.com/ClockworkDigital/test/issues/1','labels':[]}
   repo={'id':2,'full_name':'ClockworkDigital/test','archived':False,'has_issues':True,'permissions':{'push':True}}
+  kan_labels={};repo_labels=([{'id':9,'name':'initial','color':'123456'}] if initial_labels else []);label_writes=[]
+  if initial_labels:
+   repo_labels.extend({'id':100+i,'name':f'label-{i}','color':'abcdef'} for i in range(100))
+  issue['labels']=repo_labels[:1]
   cards={};writes=[];selected=['ClockworkDigital/test'];enabled=True
   def github(args,**kw):
    path=args[2]
    if path.startswith('orgs/'):result=[[repo]]
+   elif '/labels?' in path:result=[repo_labels]
    elif kw.get('input'):
+    self.assertTrue(set(json.loads(kw['input'])) <= {'title','body'})
     issue.update(json.loads(kw['input']));writes.append('github');result=issue
    elif '?' in path:result=[[issue]]
    else:result=issue
@@ -37,14 +46,26 @@ class WorkerTests(unittest.TestCase):
    if path=='/integrations/github/sync':
     response=json.loads(github(['gh','api',body['path']],input=json.dumps(body['changes']) if 'changes' in body else None).stdout)
     if isinstance(response,list) and response and isinstance(response[0],list):response=response[0]
+    if '/labels?' in body['path']:response=response[(body['page']-1)*100:body['page']*100]
     return io.BytesIO(json.dumps(response).encode())
-   board={'publicId':'board0000001','name':'GitHub: ClockworkDigital/test','workspace':{'publicId':sync.WORKSPACE},'visibility':'private','lists':[{'name':'Open','publicId':'open00000001','cards':list(cards.values())},{'name':'Closed','publicId':'closed000001','cards':[]}]}
+   board={'publicId':'board0000001','name':'GitHub: ClockworkDigital/test','workspace':{'publicId':sync.WORKSPACE},'visibility':'private','labels':list(kan_labels.values()),'lists':[{'name':'Open','publicId':'open00000001','cards':list(cards.values())},{'name':'Closed','publicId':'closed000001','cards':[]}]}
    if path=='/users/me':result={'id':'056107f2-7c89-4cba-9146-fc2d8a15f79d'}
    elif path.endswith('/permissions/me'):result={'permissions':['board:create','card:create','card:edit']}
    elif path.endswith('/boards'):result=board if body else []
    elif path.startswith('/boards/'):result=board
+   elif path=='/labels':
+    self.assertEqual(req.method,'POST')
+    result={'publicId':f'label{len(kan_labels):07}', 'name':body['name'],'colourCode':body['colourCode']}
+    kan_labels[result['publicId']]=result;label_writes.append('create')
+   elif path.startswith('/labels/'):
+    self.assertEqual(req.method,'PUT');result=kan_labels[path.split('/')[-1]];result.update(body);label_writes.append('update')
+   elif '/labels/' in path:
+    card=cards['card00000001'];identity=path.split('/')[-1]
+    present=any(label['publicId']==identity for label in card['labels'])
+    card['labels']=[label for label in card['labels'] if label['publicId']!=identity] if present else card['labels']+[kan_labels[identity].copy()]
+    result={'newLabel':not present};label_writes.append('toggle')
    elif path=='/cards':
-    cards['card00000001']={'publicId':'card00000001','title':body['title'],'description':body['description'],'list':{'publicId':body['listPublicId'],'board':{'publicId':board['publicId']}}};result=cards['card00000001'];writes.append('create')
+    cards['card00000001']={'publicId':'card00000001','title':body['title'],'description':body['description'],'labels':[kan_labels[identity].copy() for identity in body['labelPublicIds']],'list':{'publicId':body['listPublicId'],'board':{'publicId':board['publicId']}}};result=cards['card00000001'];writes.append('create')
    else:
     result=cards['card00000001']
     if body:
@@ -67,3 +88,49 @@ class WorkerTests(unittest.TestCase):
     issue['title']='Remote conflict';cards['card00000001']['title']='Local conflict'
     with self.assertRaises(SystemExit):sync.main()
     self.assertEqual(issue['title'],'Remote conflict');self.assertEqual(cards['card00000001']['title'],'Local conflict')
+
+    if initial_labels:
+     self.assertEqual(len(kan_labels),101)
+     self.assertEqual(label_writes,['create']*101)
+     self.assertEqual(cards['card00000001']['labels'][0]['name'],'initial')
+     return
+
+    # Upgrade an existing state file. Preserve an unrelated label with the same name.
+    cards['card00000001']['title']=issue['title']
+    local={'publicId':'local0000001','name':'bug','colourCode':'#ff0000'}
+    kan_labels[local['publicId']]=local.copy()
+    cards['card00000001']['labels']=[local.copy()]
+    repo_labels.append({'id':10,'name':'bug','color':'FF0000'})
+    issue['labels']=[repo_labels[0].copy()]
+    sync.main();sync.main()
+    mapped=json.loads((pathlib.Path(folder)/'state/state.json').read_text())['labels']['2']['labels']['10']['publicId']
+    self.assertNotEqual(mapped,local['publicId'])
+    self.assertEqual(len(kan_labels),2)
+    self.assertEqual({x['publicId'] for x in cards['card00000001']['labels']},{mapped,local['publicId']})
+    self.assertEqual(label_writes,['create','toggle'])
+    standalone={'publicId':'standalone01','title':'Kan only','description':'Manual card', 'labels':[kan_labels[mapped].copy()], 'list':{'publicId':'open00000001','board':{'publicId':'board0000001'}}}
+    cards['standalone01']=copy.deepcopy(standalone)
+    # Rename and recolour by GitHub ID, retaining the Kan identity.
+    repo_labels[0].update(name='defect',color='00ff00');issue['labels']=[repo_labels[0].copy()]
+    sync.main();sync.main()
+    self.assertEqual(kan_labels[mapped]['name'],'defect')
+    self.assertEqual(kan_labels[mapped]['colourCode'],'#00ff00')
+    self.assertEqual(kan_labels[local['publicId']],local)
+    self.assertEqual(label_writes,['create','toggle','update'])
+    # GitHub wins over a manual imported-label edit or assignment.
+    kan_labels[mapped]['name']='manual';cards['card00000001']['labels']=[local.copy()]
+    sync.main()
+    self.assertEqual(kan_labels[mapped]['name'],'defect')
+    issue['labels']=[];sync.main();sync.main()
+    self.assertEqual(cards['card00000001']['labels'],[local])
+    # Retire a repository label without deleting its board definition or Kan-only labels.
+    issue['labels']=[repo_labels[0].copy()];sync.main()
+    repo_labels.clear();issue['labels']=[];sync.main();sync.main()
+    self.assertEqual(cards['card00000001']['labels'],[local])
+    self.assertIn(mapped,kan_labels)
+    self.assertEqual(cards['standalone01'],standalone)
+    # A delete and re-create with the same name is a new GitHub identity.
+    repo_labels.append({'id':11,'name':'defect','color':'00ff00'});issue['labels']=[repo_labels[0].copy()]
+    sync.main();sync.main()
+    self.assertEqual(len(kan_labels),3)
+    self.assertEqual(len(cards['card00000001']['labels']),2)
