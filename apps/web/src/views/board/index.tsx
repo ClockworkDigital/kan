@@ -146,21 +146,12 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   const { tooltipContent: createListShortcutTooltipContent } =
     useKeyboardShortcut(createListShortcut);
 
-  const updateBoard = api.board.update.useMutation();
-
   const { register, handleSubmit, setValue } = useForm<UpdateBoardInput>({
     values: {
       boardPublicId: boardId ?? "",
       name: "",
     },
   });
-
-  const onSubmit = (values: UpdateBoardInput) => {
-    updateBoard.mutate({
-      boardPublicId: values.boardPublicId,
-      name: values.name,
-    });
-  };
 
   const semanticFilters = formatToArray(router.query.dueDate) as (
     | "overdue"
@@ -215,6 +206,30 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
     placeholderData: keepPreviousData,
   });
   const github = parseGithubBoardName(boardData?.name ?? "");
+
+  const updateBoard = api.board.update.useMutation({
+    onSuccess: async (_data, variables) => {
+      await utils.board.byId.invalidate({
+        boardPublicId: variables.boardPublicId,
+      });
+    },
+    onError: () => {
+      setValue("name", boardData?.name ?? "");
+      showPopup({
+        header: t`Unable to update board`,
+        message: t`Please try again later, or contact customer support.`,
+        icon: "error",
+      });
+    },
+  });
+
+  const onSubmit = (values: UpdateBoardInput) => {
+    if (!canEditBoard) return;
+    updateBoard.mutate({
+      boardPublicId: values.boardPublicId,
+      name: values.name,
+    });
+  };
 
   // Redirect to 404 if board doesn't exist
   useEffect(() => {
