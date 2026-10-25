@@ -4,6 +4,7 @@ import * as settings from "@kan/db/repository/github-sync.repo";
 import { getProviderForUser } from "@kan/db/repository/integration.repo";
 import { getByPublicId } from "@kan/db/repository/workspace.repo";
 
+import { createTRPCRouter } from "../trpc";
 import { assertPermission } from "../utils/permissions";
 import { githubSyncInput, githubSyncRouter } from "./github-sync";
 
@@ -88,6 +89,74 @@ describe("saved GitHub token for sync", () => {
         changes: { title: "x" },
       }),
     ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+  });
+  it("paginates label reads with the saved token and never patches labels", async () => {
+    const labels = {
+      ...input,
+      path: "repos/ClockworkDigital/formwork/labels?per_page=100",
+      page: 2,
+    };
+    await caller.request(labels);
+    const [url, options] = vi.mocked(fetch).mock.calls[0] ?? [];
+    expect(url).toEqual(
+      new URL(
+        "https://api.github.com/repos/ClockworkDigital/formwork/labels?per_page=100&page=2",
+      ),
+    );
+    expect(options?.method).toBe("GET");
+    expect(options?.body).toBeUndefined();
+    expect(options?.redirect).toBe("error");
+    expect(getProviderForUser).toHaveBeenCalledWith(db, "owner", "github");
+    vi.mocked(fetch).mockClear();
+    await expect(
+      caller.request({ ...labels, page: 1, changes: { title: "write" } }),
+    ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(fetch).not.toHaveBeenCalled();
+    for (const path of [
+      "repos/ClockworkDigital/formwork/labels/bug",
+      "repos/ClockworkDigital/formwork/labels?per_page=100&extra=1",
+      "repos/Other/formwork/labels?per_page=100",
+      "repos/ClockworkDigital/../labels?per_page=100",
+    ])
+      expect(githubSyncInput.safeParse({ ...labels, path }).success).toBe(
+        false,
+      );
+    expect(
+      githubSyncInput.safeParse({ ...labels, changes: { labels: [] } }).success,
+    ).toBe(false);
+  });
+  it("enforces label scope through the delegated request middleware", async () => {
+    vi.mocked(settings.get).mockResolvedValue({
+      userId: "owner",
+      enabled: true,
+      repositories: ["ClockworkDigital/formwork"],
+    } as never);
+    const delegated = createTRPCRouter({
+      githubSync: githubSyncRouter,
+    }).createCaller({
+      db,
+      user: { id: "owner" },
+      headers: new Headers({
+        "x-formwork-sync-workspace": input.workspacePublicId,
+      }),
+    } as never);
+    const labels = {
+      ...input,
+      path: "repos/ClockworkDigital/formwork/labels?per_page=100",
+    };
+    await delegated.githubSync.request(labels);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    vi.mocked(fetch).mockClear();
+    await expect(
+      delegated.githubSync.request({
+        ...labels,
+        path: "repos/ClockworkDigital/other/labels?per_page=100",
+      }),
+    ).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(
+      delegated.githubSync.request({ ...labels, changes: { title: "write" } }),
+    ).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(fetch).not.toHaveBeenCalled();
   });
 });
 
