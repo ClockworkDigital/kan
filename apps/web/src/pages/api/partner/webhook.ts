@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { env } from "next-runtime-env";
 import { buffer } from "node:stream/consumers";
 
 import type { dbClient } from "@kan/db/client";
@@ -10,8 +11,6 @@ import * as subscriptionRepo from "@kan/db/repository/subscription.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { createLogger } from "@kan/logger";
 import { getActiveSubscriptions } from "@kan/shared/utils";
-
-import { env } from "~/env";
 
 import type { TierConfig } from "./_utils";
 import { tierConfig } from "./_utils";
@@ -115,7 +114,7 @@ function verifySignature(
   signature: string,
   timestamp: string,
 ): boolean {
-  const secret = env.PARTNER_API_KEY;
+  const secret = env("PARTNER_API_KEY");
   if (!secret) return false;
 
   const ts = Number(timestamp);
@@ -157,8 +156,8 @@ export default withApiLogging(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const signatureHeader = env.PARTNER_SIGNATURE_HEADER;
-    const timestampHeader = env.PARTNER_TIMESTAMP_HEADER;
+    const signatureHeader = env("PARTNER_SIGNATURE_HEADER");
+    const timestampHeader = env("PARTNER_TIMESTAMP_HEADER");
 
     if (!signatureHeader || !timestampHeader) {
       log.error("Webhook signature headers not configured");

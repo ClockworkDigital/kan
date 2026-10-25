@@ -1,14 +1,13 @@
 import { randomUUID } from "crypto";
 import { buffer } from "node:stream/consumers";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { env } from "next-runtime-env";
 
 import { createNextApiContext } from "@kan/api/trpc-context";
 import * as subscriptionRepo from "@kan/db/repository/subscription.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { createLogger } from "@kan/logger";
 import { createStripeClient } from "@kan/stripe";
-
-import { env } from "~/env";
 
 const log = createLogger("api");
 
@@ -34,7 +33,7 @@ export default async function handler(
   try {
     const buf = await buffer(req);
     const rawBody = buf.toString("utf8");
-    const stripeWebhookSecret = env.STRIPE_WEBHOOK_SECRET_LEGACY;
+    const stripeWebhookSecret = env("STRIPE_WEBHOOK_SECRET_LEGACY");
     if (stripeWebhookSecret === undefined) {
       throw new Error("STRIPE_WEBHOOK_SECRET_LEGACY is not set");
     }
@@ -107,12 +106,12 @@ export default async function handler(
         if (!priceId) break;
 
         const isTeamPrice = [
-          env.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID,
-          env.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID,
+          env("STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID"),
+          env("STRIPE_TEAM_PLAN_YEARLY_PRICE_ID"),
         ].includes(priceId);
         const isProPrice = [
-          env.STRIPE_PRO_PLAN_MONTHLY_PRICE_ID,
-          env.STRIPE_PRO_PLAN_YEARLY_PRICE_ID,
+          env("STRIPE_PRO_PLAN_MONTHLY_PRICE_ID"),
+          env("STRIPE_PRO_PLAN_YEARLY_PRICE_ID"),
         ].includes(priceId);
 
         if (!isTeamPrice && !isProPrice) break;

@@ -11,8 +11,6 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { generateUID } from "@kan/shared/utils";
 import { createStripeClient } from "@kan/stripe";
 
-import { env as validatedEnv } from "~/env";
-
 const workspaceSlugSchema = z
   .string()
   .min(3)
@@ -123,9 +121,9 @@ export default withRateLimit(
     }
 
     const annualPriceId =
-      validatedEnv.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID ??
-      validatedEnv.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID;
-    const monthlyPriceId = validatedEnv.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID;
+      env("STRIPE_TEAM_PLAN_YEARLY_PRICE_ID") ??
+      env("STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID");
+    const monthlyPriceId = env("STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID");
     const priceId = billing === "annual" ? annualPriceId : monthlyPriceId;
 
     const session = await stripe.checkout.sessions.create({

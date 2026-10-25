@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { env } from "next-runtime-env";
 
 import { createNextApiContext } from "@kan/api/trpc-context";
 import { withApiLogging } from "@kan/api/utils/apiLogging";
 import { withRateLimit } from "@kan/api/utils/rateLimit";
 import * as subscriptionRepo from "@kan/db/repository/subscription.repo";
 import { createLogger } from "@kan/logger";
-
-import { env } from "~/env";
 
 import { tierConfig } from "./_utils";
 
@@ -29,10 +28,10 @@ interface LicenseDetailResponse {
 }
 
 async function exchangeCodeForToken(code: string): Promise<TokenResponse> {
-  const tokenUrl = env.PARTNER_TOKEN_URL;
-  const clientId = env.PARTNER_CLIENT_ID;
-  const clientSecret = env.PARTNER_CLIENT_SECRET;
-  const redirectUrl = env.PARTNER_REDIRECT_URL;
+  const tokenUrl = env("PARTNER_TOKEN_URL");
+  const clientId = env("PARTNER_CLIENT_ID");
+  const clientSecret = env("PARTNER_CLIENT_SECRET");
+  const redirectUrl = env("PARTNER_REDIRECT_URL");
   if (!tokenUrl) throw new Error("PARTNER_TOKEN_URL not configured");
   if (!clientId) throw new Error("PARTNER_CLIENT_ID not configured");
   if (!clientSecret) throw new Error("PARTNER_CLIENT_SECRET not configured");
@@ -57,7 +56,7 @@ async function exchangeCodeForToken(code: string): Promise<TokenResponse> {
 async function fetchOAuthLicense(
   accessToken: string,
 ): Promise<OAuthLicenseResponse> {
-  const oauthLicenseUrl = env.PARTNER_OAUTH_LICENSE_URL;
+  const oauthLicenseUrl = env("PARTNER_OAUTH_LICENSE_URL");
   if (!oauthLicenseUrl)
     throw new Error("PARTNER_OAUTH_LICENSE_URL not configured");
 
@@ -69,12 +68,12 @@ async function fetchOAuthLicense(
 async function fetchLicenseDetail(
   licenseKey: string,
 ): Promise<LicenseDetailResponse> {
-  const licenseApiUrl = env.PARTNER_LICENSE_API_URL;
-  const apiKey = env.PARTNER_API_KEY;
+  const licenseApiUrl = env("PARTNER_LICENSE_API_URL");
+  const apiKey = env("PARTNER_API_KEY");
   if (!licenseApiUrl) throw new Error("PARTNER_LICENSE_API_URL not configured");
   if (!apiKey) throw new Error("PARTNER_API_KEY not configured");
 
-  const apiKeyHeader = env.PARTNER_API_KEY_HEADER;
+  const apiKeyHeader = env("PARTNER_API_KEY_HEADER");
   if (!apiKeyHeader) throw new Error("PARTNER_API_KEY_HEADER not configured");
 
   const res = await fetch(`${licenseApiUrl}/${licenseKey}`, {

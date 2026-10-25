@@ -25,12 +25,13 @@ const state = vi.hoisted(() => {
   };
 });
 
-vi.mock("~/env", () => ({
-  env: {
-    get STRIPE_WEBHOOK_SECRET_LEGACY() {
+vi.mock("next-runtime-env", () => ({
+  env: (key: string) => {
+    if (key === "STRIPE_WEBHOOK_SECRET_LEGACY") {
       state.reads++;
       return state.secret;
-    },
+    }
+    return undefined;
   },
 }));
 vi.mock("@kan/logger", () => ({
