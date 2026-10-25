@@ -98,10 +98,11 @@ export const webhookUrlSchema = z
         const hostname = new URL(url).hostname.toLowerCase();
         const ipv4Match = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/.exec(hostname);
         if (ipv4Match) {
-          const [, a, b] = ipv4Match.map(Number);
+          const a = Number(ipv4Match[1]);
+          const b = Number(ipv4Match[2]);
           if (
             a === 10 ||
-            (a === 172 && b! >= 16 && b! <= 31) ||
+            (a === 172 && b >= 16 && b <= 31) ||
             (a === 192 && b === 168)
           ) {
             return false;

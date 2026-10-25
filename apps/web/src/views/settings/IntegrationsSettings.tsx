@@ -229,7 +229,7 @@ export default function IntegrationsSettings() {
 
       {githubStatus?.connected && (
         <GithubIssueSync
-          key={githubStatus.connected ? "connected" : "disconnected"}
+          key="connected"
         />
       )}
 

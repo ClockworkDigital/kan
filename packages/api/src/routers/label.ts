@@ -29,7 +29,7 @@ export const labelRouter = createTRPCRouter({
     .input(z.object({ labelPublicId: z.string().min(12) }))
     .output(labelSchema)
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -83,7 +83,7 @@ export const labelRouter = createTRPCRouter({
     )
     .output(labelSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -142,7 +142,7 @@ export const labelRouter = createTRPCRouter({
     )
     .output(labelSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -190,7 +190,7 @@ export const labelRouter = createTRPCRouter({
     .input(z.object({ labelPublicId: z.string().min(12) }))
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({

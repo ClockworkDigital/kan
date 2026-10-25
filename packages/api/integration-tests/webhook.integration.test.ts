@@ -1,7 +1,9 @@
+import assert from "node:assert/strict";
 import { describe, it, expect, beforeEach } from "vitest";
 
 import * as webhookRepo from "@kan/db/repository/webhook.repo";
-import { createTestDb, seedTestData, type TestDbClient } from "./test-db";
+import type { TestDbClient } from "./test-db";
+import { createTestDb, seedTestData } from "./test-db";
 
 describe("webhook repository integration tests", () => {
   let db: TestDbClient;
@@ -27,11 +29,12 @@ describe("webhook repository integration tests", () => {
       });
 
       expect(webhook).not.toBeNull();
-      expect(webhook!.name).toBe("My Webhook");
-      expect(webhook!.url).toBe("https://example.com/webhook");
-      expect(webhook!.events).toEqual(["card.created", "card.updated"]);
-      expect(webhook!.active).toBe(true);
-      expect(webhook!.publicId).toMatch(/^[a-zA-Z0-9]{12}$/);
+      assert.ok(webhook);
+      expect(webhook.name).toBe("My Webhook");
+      expect(webhook.url).toBe("https://example.com/webhook");
+      expect(webhook.events).toEqual(["card.created", "card.updated"]);
+      expect(webhook.active).toBe(true);
+      expect(webhook.publicId).toMatch(/^[a-zA-Z0-9]{12}$/);
     });
 
     it("creates a webhook without secret", async () => {
@@ -44,7 +47,8 @@ describe("webhook repository integration tests", () => {
       });
 
       expect(webhook).not.toBeNull();
-      expect(webhook!.name).toBe("No Secret Webhook");
+      assert.ok(webhook);
+      expect(webhook.name).toBe("No Secret Webhook");
     });
   });
 
@@ -58,11 +62,13 @@ describe("webhook repository integration tests", () => {
         createdBy: testUser.id,
       });
 
-      const retrieved = await webhookRepo.getByPublicId(db, created!.publicId);
+      assert.ok(created);
+      const retrieved = await webhookRepo.getByPublicId(db, created.publicId);
 
       expect(retrieved).not.toBeNull();
-      expect(retrieved!.publicId).toBe(created!.publicId);
-      expect(retrieved!.name).toBe("Test Webhook");
+      assert.ok(retrieved);
+      expect(retrieved.publicId).toBe(created.publicId);
+      expect(retrieved.name).toBe("Test Webhook");
     });
 
     it("returns null for non-existent public ID", async () => {
@@ -123,14 +129,17 @@ describe("webhook repository integration tests", () => {
       });
 
       // Deactivate one webhook
-      await webhookRepo.update(db, inactive!.publicId, { active: false });
+      assert.ok(inactive);
+      await webhookRepo.update(db, inactive.publicId, { active: false });
 
       const activeWebhooks = await webhookRepo.getActiveByWorkspaceId(db, testWorkspace.id);
 
       expect(activeWebhooks).toHaveLength(1);
       // getActiveByWorkspaceId returns only publicId, url, secret, events
-      expect(activeWebhooks[0]!.url).toBe("https://example.com/active");
-      expect(activeWebhooks[0]!.publicId).toBe(active!.publicId);
+      assert.ok(activeWebhooks[0]);
+      expect(activeWebhooks[0].url).toBe("https://example.com/active");
+      assert.ok(active);
+      expect(activeWebhooks[0].publicId).toBe(active.publicId);
     });
   });
 
@@ -144,13 +153,15 @@ describe("webhook repository integration tests", () => {
         createdBy: testUser.id,
       });
 
-      const updated = await webhookRepo.update(db, created!.publicId, {
+      assert.ok(created);
+      const updated = await webhookRepo.update(db, created.publicId, {
         name: "Updated Name",
       });
 
       expect(updated).not.toBeNull();
-      expect(updated!.name).toBe("Updated Name");
-      expect(updated!.url).toBe("https://example.com/webhook"); // Unchanged
+      assert.ok(updated);
+      expect(updated.name).toBe("Updated Name");
+      expect(updated.url).toBe("https://example.com/webhook"); // Unchanged
     });
 
     it("updates webhook events", async () => {
@@ -162,11 +173,13 @@ describe("webhook repository integration tests", () => {
         createdBy: testUser.id,
       });
 
-      const updated = await webhookRepo.update(db, created!.publicId, {
+      assert.ok(created);
+      const updated = await webhookRepo.update(db, created.publicId, {
         events: ["card.created", "card.updated", "card.deleted"],
       });
 
-      expect(updated!.events).toEqual(["card.created", "card.updated", "card.deleted"]);
+      assert.ok(updated);
+      expect(updated.events).toEqual(["card.created", "card.updated", "card.deleted"]);
     });
 
     it("updates webhook active status", async () => {
@@ -178,13 +191,15 @@ describe("webhook repository integration tests", () => {
         createdBy: testUser.id,
       });
 
-      expect(created!.active).toBe(true);
+      assert.ok(created);
+      expect(created.active).toBe(true);
 
-      const updated = await webhookRepo.update(db, created!.publicId, {
+      const updated = await webhookRepo.update(db, created.publicId, {
         active: false,
       });
 
-      expect(updated!.active).toBe(false);
+      assert.ok(updated);
+      expect(updated.active).toBe(false);
     });
 
     it("sets updatedAt timestamp on update", async () => {
@@ -197,15 +212,18 @@ describe("webhook repository integration tests", () => {
       });
 
       // create() doesn't return updatedAt, verify via getByPublicId
-      const initial = await webhookRepo.getByPublicId(db, created!.publicId);
-      expect(initial!.updatedAt).toBeNull();
+      assert.ok(created);
+      const initial = await webhookRepo.getByPublicId(db, created.publicId);
+      assert.ok(initial);
+      expect(initial.updatedAt).toBeNull();
 
-      const updated = await webhookRepo.update(db, created!.publicId, {
+      const updated = await webhookRepo.update(db, created.publicId, {
         name: "Updated",
       });
 
-      expect(updated!.updatedAt).not.toBeNull();
-      expect(updated!.updatedAt).toBeInstanceOf(Date);
+      assert.ok(updated);
+      expect(updated.updatedAt).not.toBeNull();
+      expect(updated.updatedAt).toBeInstanceOf(Date);
     });
 
     it("returns null for non-existent webhook", async () => {
@@ -227,9 +245,10 @@ describe("webhook repository integration tests", () => {
         createdBy: testUser.id,
       });
 
-      await webhookRepo.hardDelete(db, created!.publicId);
+      assert.ok(created);
+      await webhookRepo.hardDelete(db, created.publicId);
 
-      const retrieved = await webhookRepo.getByPublicId(db, created!.publicId);
+      const retrieved = await webhookRepo.getByPublicId(db, created.publicId);
       expect(retrieved).toBeNull();
     });
 

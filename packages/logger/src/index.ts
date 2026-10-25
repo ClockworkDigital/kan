@@ -3,7 +3,11 @@ import pino from "pino";
 
 const isDev = process.env.NODE_ENV !== "production";
 const isCloud = process.env.NEXT_PUBLIC_KAN_ENV === "cloud";
-const level = process.env.LOG_LEVEL || (isDev ? "debug" : "info");
+const level = process.env.LOG_LEVEL?.length
+  ? process.env.LOG_LEVEL
+  : isDev
+    ? "debug"
+    : "info";
 
 const axiomToken = process.env.AXIOM_TOKEN;
 const axiomDataset = process.env.AXIOM_DATASET;

@@ -12,7 +12,10 @@ import { createPlugins } from "./plugins";
 import { configuredProviders } from "./providers";
 
 export const initAuth = (db: dbClient) => {
-  const baseURL = env("NEXT_PUBLIC_BASE_URL") || env("BETTER_AUTH_URL");
+  const publicBaseURL = env("NEXT_PUBLIC_BASE_URL");
+  const baseURL = publicBaseURL?.length
+    ? publicBaseURL
+    : env("BETTER_AUTH_URL");
   const trustedOrigins =
     env("BETTER_AUTH_TRUSTED_ORIGINS")?.split(",").filter(Boolean) ?? [];
 

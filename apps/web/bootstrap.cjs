@@ -34,6 +34,7 @@ if (!existsSync(publicDir)) {
   mkdirSync(publicDir, { recursive: true });
 }
 
+/** @type {Record<string, string | undefined>} */
 const envVars = {};
 for (const [key, value] of Object.entries(process.env)) {
   if (key.startsWith("NEXT_PUBLIC_")) {
@@ -50,4 +51,5 @@ writeFileSync(
 // 2. Start the Next.js standalone server
 // ---------------------------------------------------------------------------
 
-require("./apps/web/server.js");
+// Next generates this entry point when building the standalone image.
+require(path.join(__dirname, "apps", "web", "server.js"));

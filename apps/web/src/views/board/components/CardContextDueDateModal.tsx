@@ -8,7 +8,7 @@ export function CardContextDueDateModal() {
   const { entityId: cardPublicId, closeModal } = useModal();
 
   const { data: card, isLoading } = api.card.byId.useQuery(
-    { cardPublicId: cardPublicId ?? "" },
+    { cardPublicId: cardPublicId },
     { enabled: !!cardPublicId && cardPublicId.length >= 12 },
   );
 

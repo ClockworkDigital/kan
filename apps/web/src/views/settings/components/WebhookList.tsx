@@ -35,7 +35,6 @@ function formatDate(date?: Date | null, locale?: DateFnsLocale) {
 }
 
 function TableRow({
-  publicId,
   name,
   url,
   events,
@@ -175,7 +174,7 @@ export default function WebhookList({ workspacePublicId }: WebhookListProps) {
       } else {
         showPopup({
           header: t`Test failed`,
-          message: result.error || t`Webhook test failed`,
+          message: result.error?.length ? result.error : t`Webhook test failed`,
           icon: "error",
         });
       }

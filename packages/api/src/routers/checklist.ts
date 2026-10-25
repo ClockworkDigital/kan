@@ -40,7 +40,7 @@ export const checklistRouter = createTRPCRouter({
     )
     .output(checklistSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -100,7 +100,7 @@ export const checklistRouter = createTRPCRouter({
     )
     .output(z.object({ publicId: z.string().length(12), name: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
       if (!userId)
         throw new TRPCError({
           message: `User not authenticated`,
@@ -160,7 +160,7 @@ export const checklistRouter = createTRPCRouter({
     .input(z.object({ checklistPublicId: z.string().length(12) }))
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
       if (!userId)
         throw new TRPCError({
           message: `User not authenticated`,
@@ -229,7 +229,7 @@ export const checklistRouter = createTRPCRouter({
     )
     .output(checklistItemSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -296,7 +296,7 @@ export const checklistRouter = createTRPCRouter({
     )
     .output(checklistItemSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -396,7 +396,7 @@ export const checklistRouter = createTRPCRouter({
     .input(z.object({ checklistItemPublicId: z.string().length(12) }))
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
       if (!userId)
         throw new TRPCError({
           message: `User not authenticated`,

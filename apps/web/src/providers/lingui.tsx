@@ -32,7 +32,7 @@ function detectBrowserLocale(availableLocales: readonly string[]): Locale {
     return defaultLocale;
   }
 
-  const browserLanguages = navigator.languages || [navigator.language];
+  const browserLanguages = navigator.languages;
 
   for (const browserLang of browserLanguages) {
     const langCode = browserLang.split("-")[0];
@@ -55,9 +55,10 @@ export function LinguiProviderWrapper({
   initializeI18n();
 
   useEffect(() => {
-    const savedLocale = localStorage.getItem("locale") as Locale;
+    const storedLocale = localStorage.getItem("locale");
+    const savedLocale = locales.find((candidate) => candidate === storedLocale);
 
-    if (savedLocale && locales.includes(savedLocale)) {
+    if (savedLocale) {
       setLocale(savedLocale);
     } else {
       const detectedLocale = detectBrowserLocale(locales);
@@ -68,7 +69,7 @@ export function LinguiProviderWrapper({
 
   useEffect(() => {
     if (isHydrated && locale !== defaultLocale) {
-      activateLocale(locale).then(() => {
+      void activateLocale(locale).then(() => {
         localStorage.setItem("locale", locale);
       });
     } else if (isHydrated) {

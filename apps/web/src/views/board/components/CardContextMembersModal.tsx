@@ -10,12 +10,12 @@ export function CardContextMembersModal() {
   const { entityId: cardPublicId, closeModal } = useModal();
 
   const { data: card, isLoading } = api.card.byId.useQuery(
-    { cardPublicId: cardPublicId ?? "" },
+    { cardPublicId: cardPublicId },
     { enabled: !!cardPublicId && cardPublicId.length >= 12 },
   );
 
-  const board = card?.list?.board;
-  const workspaceMembers = board?.workspace?.members ?? [];
+  const board = card?.list.board;
+  const workspaceMembers = board?.workspace.members ?? [];
   const selectedMembers = card?.members ?? [];
 
   const formattedMembers = workspaceMembers.map((member) => {

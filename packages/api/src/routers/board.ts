@@ -46,7 +46,7 @@ export const boardRouter = createTRPCRouter({
     )
     .output(z.array(boardListItemSchema))
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -113,7 +113,7 @@ export const boardRouter = createTRPCRouter({
     )
     .output(boardDetailSchema)
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -162,27 +162,25 @@ export const boardRouter = createTRPCRouter({
       const resolveAvatarUrl = createAvatarUrlResolver();
 
       // Generate presigned URLs for workspace member avatars
-      const workspaceWithAvatarUrls = result.workspace
-        ? {
-          ...result.workspace,
-          members: await Promise.all(
-            result.workspace.members.map(async (member) => {
-              if (!member.user?.image) {
-                return member;
-              }
+      const workspaceWithAvatarUrls = {
+        ...result.workspace,
+        members: await Promise.all(
+          result.workspace.members.map(async (member) => {
+            if (!member.user?.image) {
+              return member;
+            }
 
-              const avatarUrl = await resolveAvatarUrl(member.user.image);
-              return {
-                ...member,
-                user: {
-                  ...member.user,
-                  image: avatarUrl,
-                },
-              };
-            }),
-          ),
-        }
-        : result.workspace;
+            const avatarUrl = await resolveAvatarUrl(member.user.image);
+            return {
+              ...member,
+              user: {
+                ...member.user,
+                image: avatarUrl,
+              },
+            };
+          }),
+        ),
+      };
 
       // Generate presigned URLs for card member avatars
       const listsWithAvatarUrls = await Promise.all(
@@ -308,7 +306,7 @@ export const boardRouter = createTRPCRouter({
     )
     .output(boardCreateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -478,7 +476,7 @@ export const boardRouter = createTRPCRouter({
     )
     .output(boardUpdateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -515,7 +513,7 @@ export const boardRouter = createTRPCRouter({
       }
 
       // Handle other updates (name, slug, visibility)
-      const hasOtherUpdates = input.name || input.slug || input.visibility !== undefined || input.isArchived !== undefined;
+      const hasOtherUpdates = !!input.name || !!input.slug || input.visibility !== undefined || input.isArchived !== undefined;
 
       if (!hasOtherUpdates) {
         // Only favorite was updated, return success
@@ -571,7 +569,7 @@ export const boardRouter = createTRPCRouter({
     )
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -668,7 +666,7 @@ export const boardRouter = createTRPCRouter({
     )
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -739,7 +737,7 @@ export const boardRouter = createTRPCRouter({
         "board:create",
       );
 
-      let slug = board.slug ?? generateSlug(board.name);
+      let slug = board.slug;
 
       const isSlugAvailable = await boardRepo.isBoardSlugAvailable(
         ctx.db,

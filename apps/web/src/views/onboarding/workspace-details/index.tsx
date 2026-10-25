@@ -72,10 +72,10 @@ export default function WorkspaceNameView() {
   );
 
   const isSlugAvailable =
-    slugAvailability.data?.isAvailable && !slugAvailability.data?.isReserved;
+    slugAvailability.data?.isAvailable && !slugAvailability.data.isReserved;
   const isSlugTaken =
     slugAvailability.data?.isAvailable === false &&
-    !slugAvailability.data?.isReserved;
+    !slugAvailability.data.isReserved;
   const isSlugReserved = slugAvailability.data?.isReserved === true;
 
   const slugError = isSlugTaken
@@ -85,7 +85,7 @@ export default function WorkspaceNameView() {
       : undefined;
 
   const { data: session } = authClient.useSession();
-  const { data: user } = api.user.getUser.useQuery(undefined, {
+  api.user.getUser.useQuery(undefined, {
     enabled: !!session?.user,
   });
   const { data: workspaces } = api.workspace.all.useQuery();
@@ -98,7 +98,7 @@ export default function WorkspaceNameView() {
     : "your-workspace";
 
   const createWorkspace = api.workspace.create.useMutation({
-    onSuccess: async (workspace) => {
+    onSuccess: (workspace) => {
       if (!workspace.publicId) return;
       localStorage.setItem("workspacePublicId", workspace.publicId);
       void utils.workspace.all.invalidate();
@@ -152,7 +152,7 @@ export default function WorkspaceNameView() {
           plan,
         }),
       });
-      const data = await response.json();
+      const data: unknown = await response.json();
       const url = (data as { url: string }).url;
       if (url) {
         window.location.href = url;
@@ -172,8 +172,6 @@ export default function WorkspaceNameView() {
   useEffect(() => {
     document.getElementById("workspace-name-input")?.focus();
   }, []);
-
-  const displayName = user?.name ?? session?.user.name ?? "";
 
   const BOARDS = [t`Roadmap`, t`Engineering`, t`Marketing`];
   const [visibleCount, setVisibleCount] = useState(1);
@@ -242,7 +240,7 @@ export default function WorkspaceNameView() {
                           >
                             <HiInformationCircle className="h-4 w-4 leading-[0] text-dark-700 dark:text-dark-700" />
                           </Tooltip>
-                        ) : isTeamPlan && slug.length >= 3 ? (
+                        ) : slug.length >= 3 ? (
                           isTyping || slugAvailability.isPending ? (
                             <LoadingSpinner />
                           ) : isSlugAvailable ? (

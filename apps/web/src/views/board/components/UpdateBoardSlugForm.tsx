@@ -131,10 +131,11 @@ export function UpdateBoardSlugForm({
           id="board-slug"
           {...register("slug")}
           errorMessage={
-            errors.slug?.message ||
-            (isBoardSlugAvailable?.isReserved
-              ? t`This board URL has already been taken`
-              : undefined)
+            errors.slug?.message?.length
+              ? errors.slug.message
+              : isBoardSlugAvailable?.isReserved
+                ? t`This board URL has already been taken`
+                : undefined
           }
           prefix={`${env("NEXT_PUBLIC_KAN_ENV") === "cloud" ? "kan.bn" : env("NEXT_PUBLIC_BASE_URL")}/${workspaceSlug}/`}
           onKeyDown={async (e) => {
@@ -168,7 +169,7 @@ export function UpdateBoardSlugForm({
               !isDirty ||
               updateBoardSlug.isPending ||
               errors.slug?.message !== undefined ||
-              isBoardSlugAvailable?.isReserved ||
+              isBoardSlugAvailable?.isReserved === true ||
               checkBoardSlugAvailability.isPending
             }
           >

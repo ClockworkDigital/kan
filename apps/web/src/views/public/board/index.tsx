@@ -153,9 +153,9 @@ export default function PublicBoardView() {
                   {t`View only`}
                 </div>
                 <Filters
-                  labels={data.labels ?? []}
+                  labels={data.labels}
                   members={[]}
-                  lists={data.allLists ?? []}
+                  lists={data.allLists}
                   isLoading={isLoading}
                 />
               </div>
@@ -173,7 +173,7 @@ export default function PublicBoardView() {
                 <div className="0 mr-5 h-[275px] w-[18rem] animate-pulse rounded-md bg-light-200 dark:bg-dark-100" />
                 <div className="0 mr-5 h-[375px] w-[18rem] animate-pulse rounded-md bg-light-200 dark:bg-dark-100" />
               </div>
-            ) : !data && !isLoading && router.isReady && !!boardSlug ? (
+            ) : !data ? (
               <div className="z-10 flex h-full w-full flex-col items-center justify-center space-y-8 pb-[150px]">
                 <div className="flex flex-col items-center">
                   <HiOutlineLockClosed className="h-10 w-10 text-light-800 dark:text-dark-800" />
@@ -189,7 +189,7 @@ export default function PublicBoardView() {
             ) : (
               <div className="flex">
                 <div className="min-w-[10px] md:min-w-[2rem]" />
-                {data?.lists.map((list) => (
+                {data.lists.map((list) => (
                   <div
                     key={list.publicId}
                     className="dark-text-dark-1000 mr-5 h-fit min-w-[18rem] max-w-[18rem] snap-start rounded-md border border-light-400 bg-light-300 py-2 pl-2 pr-1 text-neutral-900 dark:border-dark-300 dark:bg-dark-100 md:snap-align-none"
@@ -221,10 +221,10 @@ export default function PublicBoardView() {
                             <Card
                               title={card.title}
                               labels={card.labels}
-                              checklists={card.checklists ?? []}
+                              checklists={card.checklists}
                               members={[]}
                               description={card.description}
-                              comments={card.comments ?? []}
+                              comments={card.comments}
                               attachments={card.attachments}
                               dueDate={card.dueDate ?? null}
                             />

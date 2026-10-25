@@ -23,8 +23,8 @@ export default function PublicBoardsView() {
   // Redirect to 404 if workspace doesn't exist
   useEffect(() => {
     if (router.isReady && workspaceSlug && !isLoading) {
-      if (error?.data?.code === "NOT_FOUND" || (!data && !isLoading)) {
-        router.replace("/404");
+      if (error?.data?.code === "NOT_FOUND" || !data) {
+        void router.replace("/404");
       }
     }
   }, [router, workspaceSlug, isLoading, error, data]);

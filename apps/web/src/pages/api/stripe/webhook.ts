@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
+import { buffer } from "node:stream/consumers";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Readable } from "node:stream";
+import { env } from "next-runtime-env";
 
 import { createNextApiContext } from "@kan/api/trpc-context";
 import * as subscriptionRepo from "@kan/db/repository/subscription.repo";
@@ -9,14 +10,6 @@ import { createLogger } from "@kan/logger";
 import { createStripeClient } from "@kan/stripe";
 
 const log = createLogger("api");
-
-async function buffer(readable: Readable) {
-  const chunks = [];
-  for await (const chunk of readable) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -40,11 +33,15 @@ export default async function handler(
   try {
     const buf = await buffer(req);
     const rawBody = buf.toString("utf8");
+    const stripeWebhookSecret = env("STRIPE_WEBHOOK_SECRET_LEGACY");
+    if (stripeWebhookSecret === undefined) {
+      throw new Error("STRIPE_WEBHOOK_SECRET_LEGACY is not set");
+    }
 
     const event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET_LEGACY!,
+      stripeWebhookSecret,
     );
 
     const { db } = await createNextApiContext(req);
@@ -109,12 +106,12 @@ export default async function handler(
         if (!priceId) break;
 
         const isTeamPrice = [
-          process.env.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID,
-          process.env.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID,
+          env("STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID"),
+          env("STRIPE_TEAM_PLAN_YEARLY_PRICE_ID"),
         ].includes(priceId);
         const isProPrice = [
-          process.env.STRIPE_PRO_PLAN_MONTHLY_PRICE_ID,
-          process.env.STRIPE_PRO_PLAN_YEARLY_PRICE_ID,
+          env("STRIPE_PRO_PLAN_MONTHLY_PRICE_ID"),
+          env("STRIPE_PRO_PLAN_YEARLY_PRICE_ID"),
         ].includes(priceId);
 
         if (!isTeamPrice && !isProPrice) break;

@@ -38,7 +38,7 @@ export const attachmentRouter = createTRPCRouter({
     )
     .output(z.object({ url: z.string(), key: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -113,7 +113,7 @@ export const attachmentRouter = createTRPCRouter({
     )
     .output(attachmentConfirmResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -174,7 +174,7 @@ export const attachmentRouter = createTRPCRouter({
     .input(z.object({ attachmentPublicId: z.string().min(12) }))
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({

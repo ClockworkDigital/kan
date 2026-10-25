@@ -218,9 +218,9 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
     if (router.isReady && boardId && !isQueryLoading) {
       if (
         error?.data?.code === "NOT_FOUND" ||
-        (!boardData && !isQueryLoading)
+        !boardData
       ) {
-        router.replace("/404");
+        void router.replace("/404");
       }
     }
   }, [router, boardId, isQueryLoading, error, boardData]);
@@ -384,7 +384,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   });
 
   useEffect(() => {
-    if (isSuccess && boardData) {
+    if (isSuccess) {
       setValue("name", boardData.name || "");
     }
   }, [isSuccess, boardData, setValue]);
@@ -794,7 +794,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
           isVisible={isOpen && modalContentType === "CREATE_TEMPLATE"}
         >
           <NewTemplateForm
-            workspacePublicId={workspace.publicId ?? ""}
+            workspacePublicId={workspace.publicId}
             sourceBoardPublicId={boardId ?? ""}
             sourceBoardName={boardData?.name ?? ""}
           />
@@ -856,7 +856,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   return (
     <>
       <PageHead
-        title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name ?? t`Workspace`}`}
+        title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name}`}
       />
       <div className="relative flex h-full flex-col">
         <PatternedBackground />
