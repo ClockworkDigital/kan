@@ -1,0 +1,88 @@
+{
+  "base_branch": "codex/factory-heading-base-20261025",
+  "remote": "origin",
+  "queue_label": "factory",
+  "max_rounds": 3,
+  "agent_timeout_seconds": 1800,
+  "check_timeout_seconds": 900,
+  "setup": [
+    [
+      "env",
+      "CI=true",
+      "corepack",
+      "pnpm@9.14.2",
+      "install",
+      "--frozen-lockfile"
+    ]
+  ],
+  "checks": [
+    [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "factory/tests"
+    ],
+    [
+      "corepack",
+      "pnpm@9.14.2",
+      "lint"
+    ],
+    [
+      "corepack",
+      "pnpm@9.14.2",
+      "typecheck"
+    ],
+    [
+      "corepack",
+      "pnpm@9.14.2",
+      "--filter",
+      "@kan/web",
+      "test"
+    ]
+  ],
+  "protected_paths": [
+    "factory/*",
+    ".agents/*",
+    ".codex/*",
+    "AGENTS.md",
+    ".github/workflows/*",
+    "AGENT.md",
+    "replit.md"
+  ],
+  "high_risk_roles": {
+    "spec": {
+      "model": "gpt-6-astra",
+      "effort": "high"
+    }
+  },
+  "roles": {
+    "intake": {
+      "model": "gpt-6.1-sol",
+      "effort": "low"
+    },
+    "spec": {
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    },
+    "build": {
+      "model": "gpt-6.1-sol",
+      "effort": "high"
+    },
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "high"
+    },
+    "security": {
+      "model": "gpt-6-astra",
+      "effort": "high"
+    },
+    "ui": {
+      "model": "gpt-6.1-sol",
+      "effort": "medium"
+    }
+  },
+  "risk_guidance": "This is the approved Kan #2 repaired-base continuation. Implement only the selected issue. Use synthetic fixtures and temporary test data only. No live services, live data, deployment, migrations against real databases, cleanup of existing files or volumes, credentials, policy changes, authentication/access broadening, subscriptions, issue closure, merges, or external messages. Do not edit protected paths or factory state. Preserve all existing work. This temporary published bootstrap branch is the approved base; fix PRs target it. Issue #2 depends on unmerged codex/formwork-github-sync at fecf4e5e7c88d925067872e4218e2751f8570844, an explicit 24-path dependency reapplied over repaired main 06967b2d00d8aa1918a7961fd5dc50080b0af609. Preserve that dependency. Do not duplicate label-sync draft PR #5 / issue #6 at 7a7f6589. Test heading refresh, failed saves, repository-style and ordinary names, and unchanged read-only permissions with mocked/disposable fixtures. Do not rename any real synced board. Do not repair unrelated baseline failures or change lint/typecheck gates to hide them. Use standard/default service tier only, at most three total model workers including reviewers. Preserve original stopped run 20261025-060716-be3b07e8, round zero with no model attempts. This new request continues that issue after the separately reviewed baseline repair. No model subdelegation. Main integration later must isolate the cache fix and exclude this unmerged branding dependency and factory setup."
+}
