@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { stripVTControlCharacters } from "node:util";
 import type { BetterAuthPlugin } from "better-auth";
 import { stripe } from "@better-auth/stripe";
 import { betterAuth, createLogger, logger } from "better-auth";
@@ -87,7 +88,9 @@ describe("Stripe webhook secret snapshot", () => {
     createLogger().error("Stripe webhook secret not found");
     expect(output.mock.calls).toEqual(exportedOutput);
     expect(output).toHaveBeenCalledOnce();
-    expect(output.mock.calls[0]?.[0]).toContain(
+    const message: unknown = output.mock.calls[0]?.[0];
+    assert.ok(typeof message === "string");
+    expect(stripVTControlCharacters(message)).toContain(
       "[Better Auth]: Stripe webhook secret not found",
     );
   });
