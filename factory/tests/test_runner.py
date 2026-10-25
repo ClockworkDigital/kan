@@ -47,7 +47,8 @@ class FactoryTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'repo'
         self.root.mkdir()
-        self.git('init', '-b', 'main')
+        self.base_branch = json.loads((SOURCE / 'config.json').read_text())['base_branch']
+        self.git('init', '-b', self.base_branch)
         self.git('config', 'user.email', 'factory-test@example.invalid')
         self.git('config', 'user.name', 'Factory Test')
         (self.root / 'factory').mkdir()
@@ -62,7 +63,7 @@ class FactoryTests(unittest.TestCase):
         remote = Path(self.temp.name) / 'remote.git'
         subprocess.run(['git', 'init', '--bare', str(remote)], check=True, capture_output=True)
         self.git('remote', 'add', 'origin', str(remote))
-        self.git('push', '-u', 'origin', 'main')
+        self.git('push', '-u', 'origin', self.base_branch)
         self.factory = SimulatedFactory(self.root)
 
     def git(self, *args):
@@ -220,7 +221,7 @@ print(json.dumps(dict(type='turn.completed', usage=dict(input_tokens=10, output_
             if args[0] == 'gh':
                 calls.append(args)
                 return json.dumps([dict(url='https://github.com/example/repo/pull/1', state='OPEN',
-                                        headRefOid=self.factory.head(job), baseRefName='main')])
+                                        headRefOid=self.factory.head(job), baseRefName=self.base_branch)])
             return real_checked(args, **kwargs)
         with patch.object(self.factory, 'checked', side_effect=checked):
             self.factory.publish(job)
@@ -275,7 +276,7 @@ print(json.dumps(dict(type='turn.completed', usage=dict(input_tokens=10, output_
     def test_base_change_blocks_publication(self):
         job = self.factory.run(self.job())
         self.git('commit', '--allow-empty', '-m', 'base moved')
-        self.git('push', 'origin', 'main')
+        self.git('push', 'origin', self.base_branch)
         with self.assertRaisesRegex(runner.Refused, 'Base branch moved'):
             self.factory.publish(job)
 
