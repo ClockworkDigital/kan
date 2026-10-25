@@ -30,7 +30,7 @@ export const listRouter = createTRPCRouter({
     )
     .output(listCreateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -57,12 +57,6 @@ export const listRouter = createTRPCRouter({
         boardId: board.id,
       });
 
-      if (!result)
-        throw new TRPCError({
-          message: `Failed to create list`,
-          code: "INTERNAL_SERVER_ERROR",
-        });
-
       return result;
     }),
   delete: protectedProcedure
@@ -83,7 +77,7 @@ export const listRouter = createTRPCRouter({
     )
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -112,17 +106,11 @@ export const listRouter = createTRPCRouter({
 
       const deletedAt = new Date();
 
-      const deletedList = await listRepo.softDeleteById(ctx.db, {
+      await listRepo.softDeleteById(ctx.db, {
         listId: list.id,
         deletedAt,
         deletedBy: userId,
       });
-
-      if (!deletedList)
-        throw new TRPCError({
-          message: `Failed to delete list`,
-          code: "INTERNAL_SERVER_ERROR",
-        });
 
       const deletedCards = await cardRepo.softDeleteAllByListIds(ctx.db, {
         listIds: [list.id],
@@ -166,7 +154,7 @@ export const listRouter = createTRPCRouter({
     )
     .output(listUpdateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({

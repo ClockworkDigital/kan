@@ -60,7 +60,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(cardCreateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -207,9 +207,7 @@ export const cardRouter = createTRPCRouter({
             boardId: list.boardPublicId,
             boardName: list.boardName,
             listName: list.name,
-            user: ctx.user
-              ? { id: ctx.user.id, name: ctx.user.name }
-              : undefined,
+            user: { id: ctx.user.id, name: ctx.user.name },
           },
         ),
       ).catch((error) => {
@@ -237,7 +235,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(commentResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -314,7 +312,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(commentResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -401,7 +399,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(commentDeleteResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -479,7 +477,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(z.object({ newLabel: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -571,7 +569,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(z.object({ newMember: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -716,27 +714,25 @@ export const cardRouter = createTRPCRouter({
 
       // Generate presigned URLs for workspace member avatars
       const resolveAvatarUrl = createAvatarUrlResolver();
-      const workspaceWithAvatarUrls = result.list.board.workspace
-        ? {
-            ...result.list.board.workspace,
-            members: await Promise.all(
-              result.list.board.workspace.members.map(async (member) => {
-                if (!member.user?.image) {
-                  return member;
-                }
+      const workspaceWithAvatarUrls = {
+        ...result.list.board.workspace,
+        members: await Promise.all(
+          result.list.board.workspace.members.map(async (member) => {
+            if (!member.user?.image) {
+              return member;
+            }
 
-                const avatarUrl = await resolveAvatarUrl(member.user.image);
-                return {
-                  ...member,
-                  user: {
-                    ...member.user,
-                    image: avatarUrl,
-                  },
-                };
-              }),
-            ),
-          }
-        : result.list.board.workspace;
+            const avatarUrl = await resolveAvatarUrl(member.user.image);
+            return {
+              ...member,
+              user: {
+                ...member.user,
+                image: avatarUrl,
+              },
+            };
+          }),
+        ),
+      };
 
       return {
         ...result,
@@ -873,7 +869,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(cardUpdateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -1075,20 +1071,20 @@ export const cardRouter = createTRPCRouter({
       ) {
         webhookChanges.dueDate = { from: previousDueDate, to: input.dueDate };
       }
-      const movedToNewList = Boolean(
-        newListId && existingCard.listId !== newListId,
-      );
-      const currentWebhookListPublicId = movedToNewList
-        ? input.listPublicId!
-        : existingCard.list.publicId;
-      const currentWebhookListName = movedToNewList
+      const movedToListPublicId =
+        newListId && existingCard.listId !== newListId
+          ? input.listPublicId
+          : undefined;
+      const currentWebhookListPublicId =
+        movedToListPublicId ?? existingCard.list.publicId;
+      const currentWebhookListName = movedToListPublicId
         ? (newList?.name ?? card.listName)
         : existingCard.list.name;
 
-      if (movedToNewList) {
+      if (movedToListPublicId) {
         webhookChanges.listId = {
           from: existingCard.list.publicId,
-          to: input.listPublicId!,
+          to: movedToListPublicId,
         };
       }
 
@@ -1097,7 +1093,7 @@ export const cardRouter = createTRPCRouter({
         ctx.db,
         card.workspaceId,
         createCardWebhookPayload(
-          movedToNewList ? "card.moved" : "card.updated",
+          movedToListPublicId ? "card.moved" : "card.updated",
           {
             id: String(result.id),
             publicId: result.publicId,
@@ -1110,9 +1106,7 @@ export const cardRouter = createTRPCRouter({
             boardId: card.boardPublicId,
             boardName: card.boardName,
             listName: currentWebhookListName,
-            user: ctx.user
-              ? { id: ctx.user.id, name: ctx.user.name }
-              : undefined,
+            user: { id: ctx.user.id, name: ctx.user.name },
             changes:
               Object.keys(webhookChanges).length > 0
                 ? webhookChanges
@@ -1143,7 +1137,7 @@ export const cardRouter = createTRPCRouter({
     )
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -1206,9 +1200,7 @@ export const cardRouter = createTRPCRouter({
               boardId: card.boardPublicId,
               boardName: card.boardName,
               listName: fullCard.list.name,
-              user: ctx.user
-                ? { id: ctx.user.id, name: ctx.user.name }
-                : undefined,
+              user: { id: ctx.user.id, name: ctx.user.name },
             },
           ),
         ).catch((error) => {
@@ -1246,7 +1238,7 @@ export const cardRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -1318,7 +1310,7 @@ export const cardRouter = createTRPCRouter({
         });
       }
 
-      if (input.copyLabels && sourceCard.labels?.length) {
+      if (input.copyLabels && sourceCard.labels.length) {
         const labelPublicIds = sourceCard.labels.map((l) => l.publicId);
         const labels = await labelRepo.getAllByPublicIds(
           ctx.db,
@@ -1340,7 +1332,7 @@ export const cardRouter = createTRPCRouter({
         }
       }
 
-      if (input.copyMembers && sourceCard.members?.length) {
+      if (input.copyMembers && sourceCard.members.length) {
         const memberPublicIds = sourceCard.members.map((m) => m.publicId);
         const members = await workspaceRepo.getAllMembersByPublicIds(
           ctx.db,
@@ -1366,7 +1358,7 @@ export const cardRouter = createTRPCRouter({
         }
       }
 
-      if (input.copyChecklists && sourceCard.checklists?.length) {
+      if (input.copyChecklists && sourceCard.checklists.length) {
         for (const checklist of sourceCard.checklists) {
           const newChecklist = await checklistRepo.create(ctx.db, {
             cardId: newCard.id,
@@ -1374,7 +1366,7 @@ export const cardRouter = createTRPCRouter({
             createdBy: userId,
           });
           if (!newChecklist?.id) continue;
-          if (checklist.items?.length) {
+          if (checklist.items.length) {
             for (const item of checklist.items) {
               await checklistRepo.createItem(ctx.db, {
                 checklistId: newChecklist.id,

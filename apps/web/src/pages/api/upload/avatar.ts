@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { env as runtimeEnv } from "next-runtime-env";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { createNextApiContext } from "@kan/api/trpc-context";
@@ -9,8 +10,9 @@ import { createS3Client } from "@kan/shared/utils";
 
 import { env } from "~/env";
 
+const avatarUploadLimit = runtimeEnv("S3_AVATAR_UPLOAD_LIMIT");
 const MAX_SIZE_BYTES = parseInt(
-  process.env.S3_AVATAR_UPLOAD_LIMIT || "2097152",
+  avatarUploadLimit?.length ? avatarUploadLimit : "2097152",
   10,
 ); // Default 2MB
 const allowedContentTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -105,7 +107,7 @@ export default withRateLimit(
         size: contentLength,
         user: updatedUser,
       });
-    } catch (error) {
+    } catch {
       return res.status(500).json({ error: "Internal server error" });
     }
   }),

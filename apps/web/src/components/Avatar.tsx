@@ -25,7 +25,7 @@ const Avatar = ({
   icon?: React.ReactNode;
   isLoading?: boolean;
 }) => {
-  const initials = name?.trim()
+  const initials = name.trim()
     ? getInitialsFromName(name)
     : inferInitialsFromEmail(email);
 

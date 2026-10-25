@@ -371,7 +371,6 @@ const ACTIVITIES_PAGE_SIZE = 20;
 const ActivityList = ({
   cardPublicId,
   isLoading: cardIsLoading,
-  isAdmin,
   isViewOnly,
 }: {
   cardPublicId: string;

@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import { NextRequest } from "next/server";
 import { env } from "next-runtime-env";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -73,7 +74,8 @@ describe("middleware", () => {
 
       const rewriteTarget = response.headers.get("x-middleware-rewrite");
       expect(rewriteTarget).not.toBeNull();
-      expect(new URL(rewriteTarget!).pathname).toBe("/api/mcp");
+      assert.ok(rewriteTarget);
+      expect(new URL(rewriteTarget).pathname).toBe("/api/mcp");
     },
   );
 

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { t } from "@lingui/core/macro";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { HiXMark } from "react-icons/hi2";
 
@@ -26,7 +25,7 @@ export default function FeedbackModal() {
     });
 
   const createFeedback = api.feedback.create.useMutation({
-    onSuccess: async () => {
+    onSuccess: () => {
       reset();
       closeModal();
       showPopup({
@@ -35,7 +34,7 @@ export default function FeedbackModal() {
         icon: "success",
       });
     },
-    onError: async () => {
+    onError: () => {
       showPopup({
         header: t`Unable to send feedback`,
         message: t`Please try again later, or contact customer support.`,

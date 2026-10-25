@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { describe, expect, it, vi } from "vitest";
 
-const createNextApiContext = vi.fn().mockRejectedValue(new Error("no auth"));
+const createNextApiContext = vi
+  .fn<(req: NextApiRequest) => Promise<never>>()
+  .mockRejectedValue(new Error("no auth"));
 vi.mock("../trpc-context", () => ({
   createNextApiContext: (req: NextApiRequest) => createNextApiContext(req),
 }));
@@ -35,8 +37,9 @@ describe("withApiLogging", () => {
   it('defaults transport to "rest" when no options are given', async () => {
     info.mockClear();
     const { req, res } = makeReqRes();
-    const handler = withApiLogging(async (_req, res) => {
+    const handler = withApiLogging((_req, res) => {
       res.status(200).json({ ok: true });
+      return Promise.resolve();
     });
 
     await handler(req, res);
@@ -51,8 +54,9 @@ describe("withApiLogging", () => {
     info.mockClear();
     const { req, res } = makeReqRes();
     const handler = withApiLogging(
-      async (_req, res) => {
+      (_req, res) => {
         res.status(200).json({ ok: true });
+        return Promise.resolve();
       },
       { transport: "mcp" },
     );
@@ -68,8 +72,9 @@ describe("withApiLogging", () => {
   it("logs as an error when statusCode is set directly, without going through status()", async () => {
     error.mockClear();
     const { req, res } = makeReqRes();
-    const handler = withApiLogging(async (_req, res) => {
+    const handler = withApiLogging((_req, res) => {
       (res as unknown as { statusCode: number }).statusCode = 406;
+      return Promise.resolve();
     });
 
     await handler(req, res);
@@ -85,8 +90,8 @@ describe("withApiLogging", () => {
     const { req, res } = makeReqRes();
     (res as unknown as { headersSent: boolean }).headersSent = true;
     (res as unknown as { statusCode: number }).statusCode = 200;
-    const handler = withApiLogging(async () => {
-      throw new Error("boom");
+    const handler = withApiLogging(() => {
+      return Promise.reject(new Error("boom"));
     });
 
     await handler(req, res);
@@ -101,8 +106,9 @@ describe("withApiLogging", () => {
     createNextApiContext.mockClear();
     const { req, res } = makeReqRes();
     const handler = withApiLogging(
-      async (_req, res) => {
+      (_req, res) => {
         res.status(200).json({ ok: true });
+        return Promise.resolve();
       },
       { transport: "mcp" },
     );

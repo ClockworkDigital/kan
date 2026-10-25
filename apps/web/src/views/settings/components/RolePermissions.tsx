@@ -144,7 +144,7 @@ export function RolePermissions() {
               {category.permissions.map((permission) => (
                 <tr key={permission}>
                   <td className="w-1/2 px-4 py-2 text-sm text-light-900 dark:text-dark-900">
-                    {permissionLabels[permission] ?? permission}
+                    {permissionLabels[permission]}
                   </td>
                   {orderedRoleNames.map((roleName) => {
                     const role = systemRoles.find((r) => r.name === roleName);

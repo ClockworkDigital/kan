@@ -1,7 +1,5 @@
 import { t } from "@lingui/core/macro";
 
-import type { Subscription } from "@kan/shared/utils";
-
 import Button from "~/components/Button";
 import FeedbackModal from "~/components/FeedbackModal";
 import Modal from "~/components/modal";

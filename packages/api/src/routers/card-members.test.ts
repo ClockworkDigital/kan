@@ -8,6 +8,8 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 
 import { assertPermission } from "../utils/permissions";
 
+import { cardRouter } from "./card";
+
 vi.mock("@kan/db/repository/card.repo", () => ({
   create: vi.fn(),
   bulkCreateCardWorkspaceMemberRelationships: vi.fn(),
@@ -41,10 +43,13 @@ vi.mock("@kan/db/client", () => ({
 vi.mock("@kan/auth/server", () => ({
   initAuth: vi.fn(() => ({ api: {} })),
 }));
-vi.mock("@kan/shared/utils", () => ({
+vi.mock(import("@kan/shared/utils"), async (importOriginal) => ({
+  ...(await importOriginal()),
   generateAttachmentUrl: vi.fn(),
   generateAvatarUrl: vi.fn(),
-  normalizeDescription: vi.fn((description: string) => description),
+  normalizeDescription: vi.fn(
+    (description: string | null | undefined) => description ?? null,
+  ),
 }));
 vi.mock("../utils/notifications", () => ({
   sendMentionEmails: vi.fn(),
@@ -98,7 +103,7 @@ describe("card member workspace scoping", () => {
     name: "Test User",
     email: "test@example.com",
   };
-  const ctx = { user: mockUser, db: mockDb } as never;
+  const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -136,8 +141,6 @@ describe("card member workspace scoping", () => {
     });
 
     it("scopes member lookup to the list workspace", async () => {
-      const { cardRouter } = await import("./card");
-
       await cardRouter.createCaller(ctx).create(input);
 
       expect(mockGetMembers).toHaveBeenCalledWith(
@@ -148,7 +151,6 @@ describe("card member workspace scoping", () => {
     });
 
     it("rejects the whole request when any member is outside the workspace", async () => {
-      const { cardRouter } = await import("./card");
       mockGetMembers.mockResolvedValueOnce([{ id: 21 }]);
 
       await expect(
@@ -176,7 +178,6 @@ describe("card member workspace scoping", () => {
     });
 
     it("scopes member lookup to the card workspace", async () => {
-      const { cardRouter } = await import("./card");
       mockGetMember.mockResolvedValueOnce(undefined);
 
       await expect(
@@ -194,7 +195,6 @@ describe("card member workspace scoping", () => {
     });
 
     it("removes an existing member relationship in the scoped workspace", async () => {
-      const { cardRouter } = await import("./card");
       mockGetMember.mockResolvedValueOnce({ id: 21 });
       mockGetCardMember.mockResolvedValueOnce({ cardId: 17, memberId: 21 });
       mockDeleteCardMember.mockResolvedValueOnce({ success: true });
@@ -218,7 +218,6 @@ describe("card member workspace scoping", () => {
     };
 
     it("only copies members from the source card workspace", async () => {
-      const { cardRouter } = await import("./card");
       mockGetCard.mockResolvedValueOnce({ id: 17, workspaceId: 7 });
       mockGetList.mockResolvedValueOnce({
         id: 11,

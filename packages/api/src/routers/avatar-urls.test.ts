@@ -7,6 +7,9 @@ import { generateAvatarUrl } from "@kan/shared/utils";
 
 import { assertPermission } from "../utils/permissions";
 
+import { cardRouter } from "./card";
+import { workspaceRouter } from "./workspace";
+
 vi.mock("@kan/db/repository/card.repo", () => ({
   getWorkspaceAndCardIdByCardPublicId: vi.fn(),
   getWithListAndMembersByPublicId: vi.fn(),
@@ -29,7 +32,8 @@ vi.mock("@kan/db/client", () => ({
 vi.mock("@kan/auth/server", () => ({
   initAuth: vi.fn(() => ({ api: {} })),
 }));
-vi.mock("@kan/shared/utils", () => ({
+vi.mock(import("@kan/shared/utils"), async (importOriginal) => ({
+  ...(await importOriginal()),
   generateAttachmentUrl: vi.fn(),
   generateAvatarUrl: vi.fn(),
   generateUID: vi.fn(),
@@ -60,6 +64,7 @@ const avatarKey = "avatars/shared.png";
 const signedAvatarUrl = "https://example.com/avatars/shared.png";
 const now = new Date("2026-09-04T12:00:00.000Z");
 const ctx = {
+  headers: new Headers(),
   db: {} as never,
   user: {
     id: "user-1",
@@ -140,7 +145,6 @@ describe("avatar URL resolution in routers", () => {
       subscriptions: [],
     } as never);
 
-    const { workspaceRouter } = await import("./workspace");
     const result = await workspaceRouter.createCaller(ctx).byId({
       workspacePublicId: "workspace-12",
     });
@@ -191,7 +195,6 @@ describe("avatar URL resolution in routers", () => {
       activities: [],
     } as never);
 
-    const { cardRouter } = await import("./card");
     const result = await cardRouter.createCaller(ctx).byId({
       cardPublicId: "card-12345678",
     });
@@ -217,7 +220,6 @@ describe("avatar URL resolution in routers", () => {
       nextCursor: undefined,
     } as never);
 
-    const { cardRouter } = await import("./card");
     const result = await cardRouter.createCaller(ctx).getActivities({
       cardPublicId: "card-12345678",
       limit: 100,

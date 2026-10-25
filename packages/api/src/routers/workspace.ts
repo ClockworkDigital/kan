@@ -35,7 +35,7 @@ export const workspaceRouter = createTRPCRouter({
     .input(z.void())
     .output(z.array(workspaceListItemSchema))
     .query(async ({ ctx }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -135,7 +135,7 @@ export const workspaceRouter = createTRPCRouter({
     .input(z.object({ workspacePublicId: z.string().min(12) }))
     .output(workspaceDetailSchema)
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -297,8 +297,8 @@ export const workspaceRouter = createTRPCRouter({
     )
     .output(workspaceCreateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
-      const userEmail = ctx.user?.email;
+      const userId = ctx.user.id;
+      const userEmail = ctx.user.email;
 
       if (!userId || !userEmail)
         throw new TRPCError({
@@ -315,9 +315,8 @@ export const workspaceRouter = createTRPCRouter({
       }
 
       const workspacePublicId = generateUID();
-      // `||` (not `??`): an empty-string slug must also fall back to the
-      // generated public id.
-      const workspaceSlug = input.slug || workspacePublicId;
+      // An empty slug must fall back to the generated public id.
+      const workspaceSlug = input.slug?.length ? input.slug : workspacePublicId;
 
       if (input.slug) {
         const reservedOrPremiumWorkspaceSlug =
@@ -363,7 +362,7 @@ export const workspaceRouter = createTRPCRouter({
       if (env("NEXT_PUBLIC_KAN_ENV") === "cloud") {
         const memberships = await workspaceRepo.getAllByUserId(ctx.db, userId);
         const otherWorkspaceIds = memberships
-          .map((m) => m.workspace?.publicId)
+          .map((m) => m.workspace.publicId)
           .filter((id): id is string => !!id && id !== workspacePublicId);
 
         const partnerSub = otherWorkspaceIds.length
@@ -393,11 +392,11 @@ export const workspaceRouter = createTRPCRouter({
 
       return {
         publicId: result.publicId,
-        name: result.name!,
-        slug: result.slug!,
+        name: result.name,
+        slug: result.slug,
         description: result.description ?? null,
-        plan: (unlinkedSlot?.plan ?? result.plan!) as WorkspacePlan,
-        cardPrefix: result.cardPrefix!,
+        plan: (unlinkedSlot?.plan ?? result.plan) as WorkspacePlan,
+        cardPrefix: result.cardPrefix,
       };
     }),
   update: protectedProcedure
@@ -430,7 +429,7 @@ export const workspaceRouter = createTRPCRouter({
     )
     .output(workspaceUpdateResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -517,7 +516,7 @@ export const workspaceRouter = createTRPCRouter({
     .input(z.object({ workspacePublicId: z.string().min(12) }))
     .output(workspaceDeleteResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -602,7 +601,7 @@ export const workspaceRouter = createTRPCRouter({
       ),
     )
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -635,7 +634,7 @@ export const workspaceRouter = createTRPCRouter({
     .input(z.void())
     .output(z.boolean())
     .query(async ({ ctx }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -645,7 +644,7 @@ export const workspaceRouter = createTRPCRouter({
 
       const memberships = await workspaceRepo.getAllByUserId(ctx.db, userId);
       const workspaceIds = memberships
-        .map((m) => m.workspace?.publicId)
+        .map((m) => m.workspace.publicId)
         .filter((id): id is string => !!id);
 
       if (!workspaceIds.length) return false;

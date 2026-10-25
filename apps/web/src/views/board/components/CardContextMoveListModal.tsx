@@ -11,7 +11,7 @@ export function CardContextMoveListModal() {
   const utils = api.useUtils();
 
   const { data: card, isLoading } = api.card.byId.useQuery(
-    { cardPublicId: cardPublicId ?? "" },
+    { cardPublicId: cardPublicId },
     { enabled: !!cardPublicId && cardPublicId.length >= 12 },
   );
 
@@ -22,7 +22,7 @@ export function CardContextMoveListModal() {
       const previous = utils.card.byId.getData({ cardPublicId });
       utils.card.byId.setData({ cardPublicId }, (old) => {
         if (!old) return old;
-        const list = old.list.board?.lists?.find(
+        const list = old.list.board.lists.find(
           (l) => l.publicId === vars.listPublicId,
         );
         if (!list) return old;
@@ -51,8 +51,8 @@ export function CardContextMoveListModal() {
     },
   });
 
-  const lists = card?.list?.board?.lists ?? [];
-  const currentListPublicId = card?.list?.publicId;
+  const lists = card?.list.board.lists ?? [];
+  const currentListPublicId = card?.list.publicId;
 
   const handleSelectList = (listPublicId: string) => {
     if (listPublicId === currentListPublicId || !cardPublicId) return;

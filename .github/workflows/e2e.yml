@@ -73,6 +73,13 @@ jobs:
       - name: Install Stripe CLI
         run: npm install -g @stripe/cli
 
+      - name: Build pinned MinIO test fixture
+        run: |
+          # Build only the existing S3 test fixture from pinned official source.
+          # The tiny context contains no application files or credentials.
+          docker build --file .github/fixtures/minio.Dockerfile \
+            --tag kan-e2e-minio:${{ github.sha }} .github/fixtures
+
       - name: Start MinIO
         run: |
           # Pin the community image used only by this local E2E S3 fixture.
@@ -81,7 +88,7 @@ jobs:
             --publish "127.0.0.1:${MINIO_PORT}:9000" \
             --env MINIO_ROOT_USER \
             --env MINIO_ROOT_PASSWORD \
-            quay.io/minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e \
+            kan-e2e-minio:${{ github.sha }} \
             server /data
 
           for _ in {1..30}; do

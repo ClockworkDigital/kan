@@ -77,11 +77,11 @@ export function NewWebhookModal({
   useEffect(() => {
     if (isEdit && webhookPublicId && modalState) {
       reset({
-        name: modalState.name ?? "",
-        url: modalState.url ?? "",
+        name: modalState.name,
+        url: modalState.url,
         secret: "",
-        events: modalState.events ?? ["card.created"],
-        active: modalState.active ?? true,
+        events: modalState.events,
+        active: modalState.active,
       });
     } else if (!isEdit) {
       reset({
@@ -152,7 +152,7 @@ export function NewWebhookModal({
       } else {
         showPopup({
           header: t`Test failed`,
-          message: result.error || t`Webhook test failed`,
+          message: result.error?.length ? result.error : t`Webhook test failed`,
           icon: "error",
         });
       }
@@ -175,7 +175,7 @@ export function NewWebhookModal({
         webhookPublicId: webhookPublicId,
         name: data.name,
         url: data.url,
-        secret: data.secret || undefined,
+        secret: data.secret?.length ? data.secret : undefined,
         events: data.events,
         active: data.active,
       });
@@ -184,7 +184,7 @@ export function NewWebhookModal({
         workspacePublicId,
         name: data.name,
         url: data.url,
-        secret: data.secret || undefined,
+        secret: data.secret?.length ? data.secret : undefined,
         events: data.events,
       });
     }

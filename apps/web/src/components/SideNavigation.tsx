@@ -162,7 +162,7 @@ export default function SideNavigation({
         <div>
           <div className="hidden h-[45px] items-center justify-between pb-3 md:flex">
             {!isCollapsed && (
-              <Link href={formworkUrl ? formworkUrl : "/"} className="block">
+              <Link href={formworkUrl?.length ? formworkUrl : "/"} className="block">
                 <h1 className="pl-2 text-[16px] font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
                   {formworkUrl ? "Formwork" : "kan.bn"}
                 </h1>

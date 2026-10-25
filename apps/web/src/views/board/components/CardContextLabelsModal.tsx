@@ -9,11 +9,11 @@ export function CardContextLabelsModal() {
   const { entityId: cardPublicId, closeModal } = useModal();
 
   const { data: card, isLoading } = api.card.byId.useQuery(
-    { cardPublicId: cardPublicId ?? "" },
+    { cardPublicId: cardPublicId },
     { enabled: !!cardPublicId && cardPublicId.length >= 12 },
   );
 
-  const boardLabels = card?.list?.board?.labels ?? [];
+  const boardLabels = card?.list.board.labels ?? [];
   const selectedLabels = card?.labels ?? [];
 
   const formattedLabels = boardLabels.map((label) => ({

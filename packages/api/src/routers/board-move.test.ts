@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TRPCError } from "@trpc/server";
 
-// Mock all imports used by board.ts before importing the router
+import { boardRouter } from "./board";
+
 vi.mock("@kan/db/repository/board.repo", () => ({
   getBoardForMove: vi.fn(),
   isBoardSlugAvailable: vi.fn(),
@@ -53,14 +54,16 @@ vi.mock("../utils/permissions", () => ({
   assertPermission: vi.fn(),
 }));
 
-vi.mock("@kan/shared/utils", () => ({
+vi.mock(import("@kan/shared/utils"), async (importOriginal) => ({
+  ...(await importOriginal()),
   generateSlug: vi.fn((name: string) => name.toLowerCase().replace(/\s+/g, "-")),
   generateUID: vi.fn(() => "abc123"),
   generateAvatarUrl: vi.fn(),
   convertDueDateFiltersToRanges: vi.fn(),
 }));
 
-vi.mock("@kan/shared/constants", () => ({
+vi.mock(import("@kan/shared/constants"), async (importOriginal) => ({
+  ...(await importOriginal()),
   colours: [],
 }));
 
@@ -100,8 +103,7 @@ describe("board.move", () => {
   });
 
   it("throws UNAUTHORIZED when user is not authenticated", async () => {
-    const { boardRouter } = await import("./board");
-    const ctx = { user: null, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: null, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -109,10 +111,9 @@ describe("board.move", () => {
   });
 
   it("throws NOT_FOUND when board does not exist", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(null);
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -120,10 +121,9 @@ describe("board.move", () => {
   });
 
   it("throws BAD_REQUEST for template boards", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce({ ...mockBoard, type: "template" });
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -131,10 +131,9 @@ describe("board.move", () => {
   });
 
   it("throws BAD_REQUEST for archived boards", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce({ ...mockBoard, isArchived: true });
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -142,13 +141,12 @@ describe("board.move", () => {
   });
 
   it("checks board:edit permission on source workspace", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockAssertCanEdit.mockRejectedValueOnce(
       new TRPCError({ code: "FORBIDDEN", message: "No permission" }),
     );
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -164,11 +162,10 @@ describe("board.move", () => {
   });
 
   it("throws NOT_FOUND when target workspace does not exist", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockWorkspaceGetByPublicId.mockResolvedValueOnce(null);
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -176,14 +173,13 @@ describe("board.move", () => {
   });
 
   it("throws NOT_FOUND when target workspace is soft-deleted", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockWorkspaceGetByPublicId.mockResolvedValueOnce({
       ...mockTargetWorkspace,
       deletedAt: new Date(),
     });
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -191,14 +187,13 @@ describe("board.move", () => {
   });
 
   it("throws BAD_REQUEST when target is the same workspace", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockWorkspaceGetByPublicId.mockResolvedValueOnce({
       id: mockBoard.workspaceId,
       publicId: "ws-target-789",
     });
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -206,14 +201,13 @@ describe("board.move", () => {
   });
 
   it("checks board:create permission on target workspace", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockTargetWorkspace);
     mockAssertPermission.mockRejectedValueOnce(
       new TRPCError({ code: "FORBIDDEN", message: "No permission" }),
     );
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await expect(
       boardRouter.createCaller(ctx).move(mockInput),
@@ -228,13 +222,12 @@ describe("board.move", () => {
   });
 
   it("appends UID suffix when slug conflicts in target workspace", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockTargetWorkspace);
     mockIsBoardSlugAvailable.mockResolvedValueOnce(false);
     mockMoveToWorkspace.mockResolvedValueOnce(undefined);
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     await boardRouter.createCaller(ctx).move(mockInput);
 
@@ -247,13 +240,12 @@ describe("board.move", () => {
   });
 
   it("moves board successfully with available slug", async () => {
-    const { boardRouter } = await import("./board");
     mockGetBoardForMove.mockResolvedValueOnce(mockBoard);
     mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockTargetWorkspace);
     mockIsBoardSlugAvailable.mockResolvedValueOnce(true);
     mockMoveToWorkspace.mockResolvedValueOnce(undefined);
 
-    const ctx = { user: mockUser, db: mockDb } as never;
+    const ctx = { headers: new Headers(), user: mockUser, db: mockDb } as never;
 
     const result = await boardRouter.createCaller(ctx).move(mockInput);
 

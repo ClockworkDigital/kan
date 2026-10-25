@@ -35,7 +35,7 @@ class WorkerTests(unittest.TestCase):
    elif kw.get('input'):
     self.assertTrue(set(json.loads(kw['input'])) <= {'title','body'})
     issue.update(json.loads(kw['input']));writes.append('github');result=issue
-   elif '?' in path:result=[[issue]]
+   elif '?' in path:result=[[issue] if issue['state']=='open' else []]
    else:result=issue
    return SimpleNamespace(returncode=0,stdout=json.dumps(result))
   def api(req,**kw):
@@ -108,6 +108,7 @@ class WorkerTests(unittest.TestCase):
     self.assertEqual(len(kan_labels),2)
     self.assertEqual({x['publicId'] for x in cards['card00000001']['labels']},{mapped,local['publicId']})
     self.assertEqual(label_writes,['create','toggle'])
+    baseline=copy.deepcopy(json.loads((pathlib.Path(folder)/'state/state.json').read_text())['issues'])
     standalone={'publicId':'standalone01','title':'Kan only','description':'Manual card', 'labels':[kan_labels[mapped].copy()], 'list':{'publicId':'open00000001','board':{'publicId':'board0000001'}}}
     cards['standalone01']=copy.deepcopy(standalone)
     # Rename and recolour by GitHub ID, retaining the Kan identity.
@@ -134,3 +135,16 @@ class WorkerTests(unittest.TestCase):
     sync.main();sync.main()
     self.assertEqual(len(kan_labels),3)
     self.assertEqual(len(cards['card00000001']['labels']),2)
+    self.assertEqual(json.loads((pathlib.Path(folder)/'state/state.json').read_text())['issues'],baseline)
+    # Closed issues leave the open listing but remain tracked for label changes.
+    issue.update(state='closed',updated_at='closed',labels=[])
+    sync.main();sync.main()
+    self.assertEqual(cards['card00000001']['list']['publicId'],'closed000001')
+    self.assertEqual(cards['card00000001']['labels'],[local])
+    issue['labels']=[repo_labels[0].copy()]
+    sync.main()
+    closed_writes=label_writes.copy()
+    sync.main()
+    self.assertEqual(label_writes,closed_writes)
+    self.assertEqual(len(cards['card00000001']['labels']),2)
+    self.assertEqual(cards['standalone01'],standalone)

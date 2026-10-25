@@ -22,12 +22,6 @@ export const integrationRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const user = ctx.user;
 
-      if (!user)
-        throw new TRPCError({
-          message: "User not authenticated",
-          code: "UNAUTHORIZED",
-        });
-
       const encryptedToken = encryptToken(input.token);
 
       const expiresAt = new Date();
@@ -48,12 +42,6 @@ export const integrationRouter = createTRPCRouter({
     .mutation(async ({ ctx }) => {
       const user = ctx.user;
 
-      if (!user)
-        throw new TRPCError({
-          message: "User not authenticated",
-          code: "UNAUTHORIZED",
-        });
-
       await integrationsRepo.deleteProviderForUser(ctx.db, user.id, "github");
       return { success: true };
     }),
@@ -62,12 +50,6 @@ export const integrationRouter = createTRPCRouter({
     .output(z.object({ connected: z.boolean() }))
     .query(async ({ ctx }) => {
       const user = ctx.user;
-
-      if (!user)
-        throw new TRPCError({
-          message: "User not authenticated",
-          code: "UNAUTHORIZED",
-        });
 
       const connected = await integrationsRepo.isProviderAvailableForUser(
         ctx.db,
@@ -103,12 +85,6 @@ export const integrationRouter = createTRPCRouter({
     .query(async ({ ctx }) => {
       const user = ctx.user;
 
-      if (!user)
-        throw new TRPCError({
-          message: "User not authenticated",
-          code: "UNAUTHORIZED",
-        });
-
       const integrations = await integrationsRepo.getProvidersForUser(
         ctx.db,
         user.id,
@@ -131,12 +107,6 @@ export const integrationRouter = createTRPCRouter({
     .output(z.object({}))
     .mutation(async ({ ctx, input }) => {
       const user = ctx.user;
-
-      if (!user)
-        throw new TRPCError({
-          message: "User not authenticated",
-          code: "UNAUTHORIZED",
-        });
 
       const integration = await integrationsRepo.getProviderForUser(
         ctx.db,
@@ -182,12 +152,6 @@ export const integrationRouter = createTRPCRouter({
 
       const user = ctx.user;
 
-      if (!user)
-        throw new TRPCError({
-          message: "User not authenticated",
-          code: "UNAUTHORIZED",
-        });
-
       const integration = await integrationsRepo.getProviderForUser(
         ctx.db,
         user.id,
@@ -200,14 +164,7 @@ export const integrationRouter = createTRPCRouter({
           code: "BAD_REQUEST",
         });
 
-      if (input.provider === "trello") {
-        const url = `${urls[input.provider]}/authorize?key=${apiKey}&expiration=never&response_type=token&scope=read&return_url=${env("NEXT_PUBLIC_BASE_URL")}/settings/trello/authorize&callback_method=fragment`;
-        return { url };
-      }
-
-      throw new TRPCError({
-        message: "Invalid provider",
-        code: "BAD_REQUEST",
-      });
+      const url = `${urls[input.provider]}/authorize?key=${apiKey}&expiration=never&response_type=token&scope=read&return_url=${env("NEXT_PUBLIC_BASE_URL")}/settings/trello/authorize&callback_method=fragment`;
+      return { url };
     }),
 });
