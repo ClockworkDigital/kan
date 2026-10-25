@@ -14,6 +14,24 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
+    PARTNER_API_KEY: z.string().optional(),
+    PARTNER_API_KEY_HEADER: z.string().optional(),
+    PARTNER_CLIENT_ID: z.string().optional(),
+    PARTNER_CLIENT_SECRET: z.string().optional(),
+    PARTNER_LICENSE_API_URL: z.string().optional(),
+    PARTNER_OAUTH_LICENSE_URL: z.string().optional(),
+    PARTNER_REDIRECT_URL: z.string().optional(),
+    PARTNER_SIGNATURE_HEADER: z.string().optional(),
+    PARTNER_TIMESTAMP_HEADER: z.string().optional(),
+    PARTNER_TOKEN_URL: z.string().optional(),
+    PORT: z.string().optional(),
+    S3_AVATAR_UPLOAD_LIMIT: z.string().optional(),
+    STRIPE_PRO_PLAN_MONTHLY_PRICE_ID: z.string().optional(),
+    STRIPE_PRO_PLAN_YEARLY_PRICE_ID: z.string().optional(),
+    STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID: z.string().optional(),
+    STRIPE_TEAM_PLAN_YEARLY_PRICE_ID: z.string().optional(),
+    STRIPE_WEBHOOK_SECRET_LEGACY: z.string().optional(),
+
     FORMWORK_TENANT_ID: z.string().uuid().optional().or(z.literal("")),
     KAN_ADMIN_API_KEY: z.string().optional(),
     BETTER_AUTH_SECRET: z.string(),

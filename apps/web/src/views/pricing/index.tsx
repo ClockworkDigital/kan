@@ -2,7 +2,6 @@ import { t } from "@lingui/core/macro";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 
-import Button from "~/components/Button";
 import { PageHead } from "~/components/PageHead";
 import Cta from "../home/components/Cta";
 import Layout from "../home/components/Layout";
@@ -59,7 +58,6 @@ export default function PricingView() {
         </div>
 
         <div className="pb-22 flex flex-col items-center justify-center px-4">
-        
 
           <div className="mt-10 w-full">
             <FeatureComparisonTable

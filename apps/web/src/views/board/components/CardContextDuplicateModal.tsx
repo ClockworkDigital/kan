@@ -29,9 +29,7 @@ export function CardContextDuplicateModal({
   const { showPopup } = usePopup();
   const utils = api.useUtils();
 
-  const modalState = getModalState("CARD_CONTEXT_DUPLICATE") as
-    | { boardPublicId: string; isTemplate?: boolean }
-    | undefined;
+  const modalState = getModalState("CARD_CONTEXT_DUPLICATE");
   const boardPublicId =
     boardPublicIdProp ?? modalState?.boardPublicId ?? "";
   const isTemplate = isTemplateProp ?? modalState?.isTemplate ?? false;
@@ -44,7 +42,7 @@ export function CardContextDuplicateModal({
   const [title, setTitle] = useState("");
 
   const { data: card, isLoading: isCardLoading } = api.card.byId.useQuery(
-    { cardPublicId: cardPublicId ?? "" },
+    { cardPublicId: cardPublicId },
     { enabled: !!cardPublicId && cardPublicId.length >= 12 },
   );
 
@@ -55,10 +53,10 @@ export function CardContextDuplicateModal({
   );
   const lists = board?.lists ?? [];
   const listOptions = lists.map((l) => ({ publicId: l.publicId, name: l.name }));
-  const currentListPublicId = card?.list?.publicId;
-  const hasLabels = (card?.labels?.length ?? 0) > 0;
-  const hasMembers = (card?.members?.length ?? 0) > 0;
-  const hasChecklists = (card?.checklists?.length ?? 0) > 0;
+  const currentListPublicId = card?.list.publicId;
+  const hasLabels = (card?.labels.length ?? 0) > 0;
+  const hasMembers = (card?.members.length ?? 0) > 0;
+  const hasChecklists = (card?.checklists.length ?? 0) > 0;
   const hasAnyCopyOption = hasLabels || hasMembers || hasChecklists;
 
   const duplicateCard = api.card.duplicate.useMutation({

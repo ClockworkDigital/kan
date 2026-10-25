@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Readable } from "node:stream";
+import { buffer } from "node:stream/consumers";
 
 import type { dbClient } from "@kan/db/client";
 import { createNextApiContext } from "@kan/api/trpc-context";
@@ -10,6 +10,8 @@ import * as subscriptionRepo from "@kan/db/repository/subscription.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { createLogger } from "@kan/logger";
 import { getActiveSubscriptions } from "@kan/shared/utils";
+
+import { env } from "~/env";
 
 import type { TierConfig } from "./_utils";
 import { tierConfig } from "./_utils";
@@ -108,20 +110,12 @@ async function createAndLinkSlots(
   }
 }
 
-async function buffer(readable: Readable) {
-  const chunks: Buffer[] = [];
-  for await (const chunk of readable) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-}
-
 function verifySignature(
   rawBody: string,
   signature: string,
   timestamp: string,
 ): boolean {
-  const secret = process.env.PARTNER_API_KEY;
+  const secret = env.PARTNER_API_KEY;
   if (!secret) return false;
 
   const ts = Number(timestamp);
@@ -163,8 +157,8 @@ export default withApiLogging(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const signatureHeader = process.env.PARTNER_SIGNATURE_HEADER;
-    const timestampHeader = process.env.PARTNER_TIMESTAMP_HEADER;
+    const signatureHeader = env.PARTNER_SIGNATURE_HEADER;
+    const timestampHeader = env.PARTNER_TIMESTAMP_HEADER;
 
     if (!signatureHeader || !timestampHeader) {
       log.error("Webhook signature headers not configured");
@@ -178,7 +172,7 @@ export default withApiLogging(
       return res.status(400).json({ message: "Missing signature headers" });
     }
 
-    const buf = await buffer(req as unknown as Readable);
+    const buf = await buffer(req);
     const rawBody = buf.toString("utf8");
 
     if (!verifySignature(rawBody, signature, timestamp)) {

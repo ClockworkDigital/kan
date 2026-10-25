@@ -8,6 +8,8 @@ import superjson from "superjson";
 
 import type { AppRouter } from "@kan/api/root";
 
+import { env } from "~/env";
+
 /**
  * This is the client-side entrypoint for your tRPC API. It is used to create the `api` object which
  * contains the Next.js App-wrapper, as well as your type-safe React Query hooks.
@@ -39,20 +41,20 @@ const authLink: TRPCLink<AppRouter> = () => {
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
-  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`; // SSR should use vercel url
+  return `http://localhost:${env.PORT ?? 3000}`; // dev SSR should use localhost
 };
 
 const queryClient = new QueryClient();
 
-// @ts-expect-error
+// @ts-expect-error SSR is disabled; the transport link supplies the transformer.
 export const api = createTRPCNext<AppRouter>({
   config() {
     return {
       links: [
         loggerLink({
           enabled: (opts) =>
-            process.env.NODE_ENV === "development" ||
+            env.NODE_ENV === "development" ||
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         authLink,

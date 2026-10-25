@@ -39,7 +39,7 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
   const { workspace } = useWorkspace();
   const [showTemplates, setShowTemplates] = useState(false);
   const { data: templates } = api.board.all.useQuery(
-    { workspacePublicId: workspace.publicId ?? "", type: "template" },
+    { workspacePublicId: workspace.publicId, type: "template" },
     { enabled: !!workspace.publicId },
   );
 
@@ -72,17 +72,9 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
 
   const createBoard = api.board.create.useMutation({
     onSuccess: async (board) => {
-      if (!board) {
-        showPopup({
-          header: t`Error`,
-          message: t`Failed to create board`,
-          icon: "error",
-        });
-      } else {
-        router.push(
-          `${isTemplate ? "/templates" : "/boards"}/${board.publicId}`,
-        );
-      }
+      router.push(
+        `${isTemplate ? "/templates" : "/boards"}/${board.publicId}`,
+      );
       closeModal();
 
       await refetchBoards();
@@ -156,7 +148,7 @@ export function NewBoardForm({ isTemplate }: { isTemplate?: boolean }) {
             onChange={() => {
               setShowTemplates(!showTemplates);
               if (!showTemplates && !currentTemplate) {
-                setValue("template", (templates?.[0] as any) ?? null);
+                setValue("template", formattedTemplates?.[0] ?? null);
               }
             }}
           />

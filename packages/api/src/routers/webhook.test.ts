@@ -1,5 +1,8 @@
+import assert from "node:assert/strict";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TRPCError } from "@trpc/server";
+
+import { webhookRouter } from "./webhook";
 
 vi.mock("@kan/db/repository/webhook.repo", () => ({
   getAllByWorkspaceId: vi.fn(),
@@ -29,8 +32,6 @@ const mockHardDelete = webhookRepo.hardDelete as ReturnType<typeof vi.fn>;
 const mockWorkspaceGetByPublicId = workspaceRepo.getByPublicId as ReturnType<typeof vi.fn>;
 const mockAssertPermission = assertPermission as ReturnType<typeof vi.fn>;
 
-// We need to import the router after mocks are set up
-// Testing approach: call the internal handler logic through a test wrapper
 describe("webhook router", () => {
   const mockDb = {} as never;
   const mockUser = { id: "user-123", name: "Test User", email: "test@example.com" };
@@ -55,10 +56,8 @@ describe("webhook router", () => {
 
   describe("authorization", () => {
     it("throws UNAUTHORIZED when user is not authenticated", async () => {
-      // Import fresh to get mocked version
-      const { webhookRouter } = await import("./webhook");
-
       const ctx = {
+        headers: new Headers(),
         user: null,
         db: mockDb,
       } as never;
@@ -69,11 +68,10 @@ describe("webhook router", () => {
     });
 
     it("throws NOT_FOUND when workspace does not exist", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(null);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -84,12 +82,11 @@ describe("webhook router", () => {
     });
 
     it("checks workspace:manage permission via assertPermission", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetAllByWorkspaceId.mockResolvedValueOnce([]);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -107,12 +104,11 @@ describe("webhook router", () => {
 
   describe("list", () => {
     it("returns all webhooks for workspace", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetAllByWorkspaceId.mockResolvedValueOnce([mockWebhook]);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -122,17 +118,17 @@ describe("webhook router", () => {
       });
 
       expect(result).toHaveLength(1);
-      expect(result[0]!.name).toBe("My Webhook");
+      assert.ok(result[0]);
+      expect(result[0].name).toBe("My Webhook");
       expect(mockGetAllByWorkspaceId).toHaveBeenCalledWith(mockDb, mockWorkspace.id);
     });
 
     it("returns empty array when no webhooks exist", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetAllByWorkspaceId.mockResolvedValueOnce([]);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -147,8 +143,6 @@ describe("webhook router", () => {
 
   describe("create", () => {
     it("creates a webhook with valid input", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       const newWebhook = {
         publicId: "wh-new123456",
         name: "New Webhook",
@@ -162,6 +156,7 @@ describe("webhook router", () => {
       mockCreate.mockResolvedValueOnce(newWebhook);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -185,8 +180,6 @@ describe("webhook router", () => {
     });
 
     it("creates a webhook with secret", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       const newWebhook = {
         publicId: "wh-new123456",
         name: "Secure Webhook",
@@ -200,6 +193,7 @@ describe("webhook router", () => {
       mockCreate.mockResolvedValueOnce(newWebhook);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -218,12 +212,11 @@ describe("webhook router", () => {
     });
 
     it("throws INTERNAL_SERVER_ERROR when create fails", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockCreate.mockResolvedValueOnce(null);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -241,8 +234,6 @@ describe("webhook router", () => {
 
   describe("update", () => {
     it("updates webhook name", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       const updatedWebhook = { ...mockWebhook, name: "Updated Name" };
 
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
@@ -250,6 +241,7 @@ describe("webhook router", () => {
       mockUpdate.mockResolvedValueOnce(updatedWebhook);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -271,12 +263,11 @@ describe("webhook router", () => {
     });
 
     it("throws NOT_FOUND when webhook does not exist", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetByPublicId.mockResolvedValueOnce(null);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -291,14 +282,13 @@ describe("webhook router", () => {
     });
 
     it("throws NOT_FOUND when webhook belongs to different workspace", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       const webhookFromDifferentWorkspace = { ...mockWebhook, workspaceId: 999 };
 
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetByPublicId.mockResolvedValueOnce(webhookFromDifferentWorkspace);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -315,13 +305,12 @@ describe("webhook router", () => {
 
   describe("delete", () => {
     it("deletes webhook successfully", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetByPublicId.mockResolvedValueOnce(mockWebhook);
       mockHardDelete.mockResolvedValueOnce(undefined);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -336,12 +325,11 @@ describe("webhook router", () => {
     });
 
     it("throws NOT_FOUND when webhook does not exist", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetByPublicId.mockResolvedValueOnce(null);
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -361,8 +349,6 @@ describe("webhook router", () => {
     });
 
     it("sends test payload to webhook URL", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetByPublicId.mockResolvedValueOnce(mockWebhook);
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
@@ -371,6 +357,7 @@ describe("webhook router", () => {
       });
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;
@@ -382,21 +369,20 @@ describe("webhook router", () => {
 
       expect(result.success).toBe(true);
       expect(result.statusCode).toBe(200);
+      const expectedHeaders: unknown = expect.objectContaining({
+        "Content-Type": "application/json",
+        "X-Webhook-Event": "card.created",
+      });
       expect(global.fetch).toHaveBeenCalledWith(
         mockWebhook.url,
         expect.objectContaining({
           method: "POST",
-          headers: expect.objectContaining({
-            "Content-Type": "application/json",
-            "X-Webhook-Event": "card.created",
-          }),
+          headers: expectedHeaders,
         }),
       );
     });
 
     it("returns error when test fails", async () => {
-      const { webhookRouter } = await import("./webhook");
-
       mockWorkspaceGetByPublicId.mockResolvedValueOnce(mockWorkspace);
       mockGetByPublicId.mockResolvedValueOnce(mockWebhook);
       (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
@@ -406,6 +392,7 @@ describe("webhook router", () => {
       });
 
       const ctx = {
+        headers: new Headers(),
         user: mockUser,
         db: mockDb,
       } as never;

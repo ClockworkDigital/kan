@@ -11,6 +11,8 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { generateUID } from "@kan/shared/utils";
 import { createStripeClient } from "@kan/stripe";
 
+import { env as validatedEnv } from "~/env";
+
 const workspaceSlugSchema = z
   .string()
   .min(3)
@@ -20,7 +22,7 @@ const workspaceSlugSchema = z
 interface CheckoutSessionRequest {
   successUrl: string;
   cancelUrl: string;
-  plan: "team";
+  plan?: string;
   billing?: string;
   workspacePublicId?: string;
   slug?: string;
@@ -82,10 +84,11 @@ export default withRateLimit(
       }
     }
 
-    let resolvedWorkspacePublicId = workspacePublicId;
+    let resolvedWorkspacePublicId: string;
     let subscriptionId: number | undefined;
 
     if (workspacePublicId) {
+      resolvedWorkspacePublicId = workspacePublicId;
       // Existing workspace upgrade
       const workspace = await workspaceRepo.getByPublicId(
         db,
@@ -120,9 +123,9 @@ export default withRateLimit(
     }
 
     const annualPriceId =
-      process.env.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID ??
-      process.env.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID;
-    const monthlyPriceId = process.env.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID;
+      validatedEnv.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID ??
+      validatedEnv.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID;
+    const monthlyPriceId = validatedEnv.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID;
     const priceId = billing === "annual" ? annualPriceId : monthlyPriceId;
 
     const session = await stripe.checkout.sessions.create({
@@ -135,9 +138,9 @@ export default withRateLimit(
       client_reference_id: resolvedWorkspacePublicId,
       customer: user.stripeCustomerId ?? undefined,
       metadata: {
-        workspacePublicId: resolvedWorkspacePublicId!,
+        workspacePublicId: resolvedWorkspacePublicId,
         userId: user.id,
-        userEmail: user.email ?? "",
+        userEmail: user.email,
         ...(resolvedSlug && { workspaceSlug: resolvedSlug }),
         ...(workspaceName && { workspaceName }),
         ...(workspaceDescription && { workspaceDescription }),

@@ -61,6 +61,11 @@ export const getCount = async (db: dbClient) => {
   return result[0]?.count ?? 0;
 };
 
+type CreatedWorkspace = Pick<
+  typeof workspaces.$inferSelect,
+  "publicId" | "name" | "slug" | "description" | "plan" | "cardPrefix"
+>;
+
 export const create = async (
   db: dbClient,
   workspaceInput: {
@@ -72,7 +77,7 @@ export const create = async (
     description?: string;
     plan?: "free" | "team" | "pro" | "enterprise";
   },
-) => {
+): Promise<CreatedWorkspace | { publicId?: undefined }> => {
   const [workspace] = await db
     .insert(workspaces)
     .values({
@@ -126,8 +131,9 @@ export const create = async (
     });
   }
 
-  const newWorkspace = { ...workspace };
-  delete newWorkspace.id;
+  if (!workspace) return {};
+
+  const { id: _id, ...newWorkspace } = workspace;
 
   return newWorkspace;
 };
@@ -420,8 +426,10 @@ const parseTicketId = (
   query: string,
 ): { prefix: string; number: number } | null => {
   const match = /^([A-Za-z0-9]{1,10})-(\d+)$/.exec(query);
-  if (!match) return null;
-  return { prefix: match[1]!.toUpperCase(), number: parseInt(match[2]!, 10) };
+  const prefix = match?.[1];
+  const number = match?.[2];
+  if (!prefix || !number) return null;
+  return { prefix: prefix.toUpperCase(), number: parseInt(number, 10) };
 };
 
 export const searchBoardsAndCards = async (

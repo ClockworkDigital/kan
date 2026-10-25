@@ -47,7 +47,7 @@ export const memberRouter = createTRPCRouter({
     )
     .output(memberInviteResponseSchema)
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -230,7 +230,7 @@ export const memberRouter = createTRPCRouter({
     )
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -357,7 +357,7 @@ export const memberRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -425,7 +425,7 @@ export const memberRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -526,7 +526,7 @@ export const memberRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -804,7 +804,7 @@ export const memberRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId) {
         throw new TRPCError({

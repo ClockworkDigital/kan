@@ -50,7 +50,7 @@ export function DueDateSelector({
           ...oldCard,
           dueDate:
             update.dueDate !== undefined
-              ? (update.dueDate as Date | null)
+              ? update.dueDate
               : oldCard.dueDate,
         };
       });

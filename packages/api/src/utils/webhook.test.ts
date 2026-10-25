@@ -21,8 +21,8 @@ import {
   sendWebhooksForWorkspace,
   createCardWebhookPayload,
   webhookUrlSchema,
-  type WebhookPayload,
 } from "./webhook";
+import type { WebhookPayload } from "./webhook";
 
 const mockGetActiveByWorkspaceId = webhookRepo.getActiveByWorkspaceId as ReturnType<typeof vi.fn>;
 
@@ -286,15 +286,16 @@ describe("webhook utilities", () => {
 
       await sendWebhookToUrl("https://example.com/webhook", undefined, mockPayload);
 
+      const expectedHeaders: unknown = expect.objectContaining({
+        "Content-Type": "application/json",
+        "X-Webhook-Event": "card.created",
+        "X-Webhook-Timestamp": "2024-01-15T12:00:00.000Z",
+      });
       expect(global.fetch).toHaveBeenCalledWith(
         "https://example.com/webhook",
         expect.objectContaining({
           method: "POST",
-          headers: expect.objectContaining({
-            "Content-Type": "application/json",
-            "X-Webhook-Event": "card.created",
-            "X-Webhook-Timestamp": "2024-01-15T12:00:00.000Z",
-          }),
+          headers: expectedHeaders,
           body: JSON.stringify(mockPayload),
         }),
       );
@@ -308,12 +309,14 @@ describe("webhook utilities", () => {
 
       await sendWebhookToUrl("https://example.com/webhook", "my-secret", mockPayload);
 
+      const expectedSignature: unknown = expect.stringMatching(/^[a-f0-9]{64}$/);
+      const expectedSignedHeaders: unknown = expect.objectContaining({
+        "X-Webhook-Signature": expectedSignature,
+      });
       expect(global.fetch).toHaveBeenCalledWith(
         "https://example.com/webhook",
         expect.objectContaining({
-          headers: expect.objectContaining({
-            "X-Webhook-Signature": expect.stringMatching(/^[a-f0-9]{64}$/),
-          }),
+          headers: expectedSignedHeaders,
         }),
       );
     });
@@ -538,9 +541,10 @@ describe("webhook utilities", () => {
         sendWebhooksForWorkspace(mockDb, 1, mockPayload),
       ).resolves.toBeUndefined();
 
+      const expectedError: unknown = expect.any(Error);
       expect(mockLogger.error).toHaveBeenCalledWith(
         expect.objectContaining({
-          err: expect.any(Error),
+          err: expectedError,
           workspaceId: 1,
         }),
         "Failed to send webhooks for workspace",

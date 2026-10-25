@@ -5,7 +5,8 @@ import reactConfig from "@kan/eslint-config/react";
 /** @type {import('typescript-eslint').Config} */
 export default [
   {
-    ignores: [".next/**"],
+    // Lingui compiles these files from the maintained locale catalogs.
+    ignores: [".next/**", "src/locales/*/messages.ts"],
   },
   ...baseConfig,
   ...reactConfig,

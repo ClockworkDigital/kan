@@ -136,7 +136,7 @@ export function NewWorkspaceForm() {
   const isSlugAvailable =
     isValidSlug &&
     isWorkspaceSlugAvailable?.isAvailable &&
-    !isWorkspaceSlugAvailable?.isReserved;
+    !isWorkspaceSlugAvailable.isReserved;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -186,7 +186,7 @@ export function NewWorkspaceForm() {
             errorMessage={
               errors.slug?.message ??
               (isWorkspaceSlugAvailable?.isAvailable === false &&
-              isWorkspaceSlugAvailable?.isReserved === false
+              isWorkspaceSlugAvailable.isReserved === false
                 ? t`This workspace URL has already been taken`
                 : isWorkspaceSlugAvailable?.isReserved
                   ? t`This workspace URL is reserved`

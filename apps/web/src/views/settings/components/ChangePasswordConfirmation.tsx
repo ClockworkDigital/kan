@@ -83,11 +83,15 @@ export function ChangePasswordFormConfirmation({ hasPassword }: Props) {
         revokeOtherSessions: true,
       });
 
-      if (response?.error) {
-        throw new Error(response?.error.message || "Invalid Password");
+      if (response.error) {
+        throw new Error(
+          response.error.message?.length
+            ? response.error.message
+            : "Invalid Password",
+        );
       }
     },
-    onSuccess: async () => {
+    onSuccess: () => {
       closeModal();
       showPopup({
         header: hasPassword ? t`Password Changed` : t`Password Set`,
@@ -101,11 +105,11 @@ export function ChangePasswordFormConfirmation({ hasPassword }: Props) {
         sessionStorage.removeItem("set_password_prompted");
       }
 
-      utils.user.getUser.invalidate();
+      void utils.user.getUser.invalidate();
       reset();
       router.push("/");
     },
-    onError: async (error: any) => {
+    onError: (error) => {
       const errorMessage = error.message.toLowerCase();
 
       if (errorMessage.includes("invalid password")) {

@@ -22,7 +22,7 @@ export function DeleteChecklistConfirmation({
       await utils.card.byId.cancel({ cardPublicId });
       const previous = utils.card.byId.getData({ cardPublicId });
       utils.card.byId.setData({ cardPublicId }, (old) => {
-        if (!old) return old as any;
+        if (!old) return old;
         const updatedChecklists = old.checklists.filter(
           (cl) => cl.publicId !== checklistPublicId,
         );

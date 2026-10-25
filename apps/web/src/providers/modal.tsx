@@ -1,5 +1,28 @@
 import { createContext, useCallback, useContext, useState } from "react";
 
+import type { NewCardInput } from "@kan/api/types";
+
+import type { RouterOutputs } from "~/utils/api";
+
+export interface ModalStateValues {
+  NEW_CARD: NewCardInput & {
+    isCreateAnotherEnabled: boolean;
+    dueDate?: Date | null;
+  };
+  NEW_LABEL_CREATED: string;
+  ADD_CHECKLIST: { createdChecklistId: string };
+  CARD_CONTEXT_DUPLICATE: { boardPublicId: string; isTemplate?: boolean };
+  EDIT_YOUTUBE: {
+    url: string;
+    title: string;
+    onSave: (url: string, title: string) => void;
+  };
+  EDIT_WEBHOOK: Pick<
+    RouterOutputs["webhook"]["list"][number],
+    "publicId" | "name" | "url" | "events" | "active"
+  >;
+}
+
 interface ModalState {
   contentType: string;
   entityId?: string;
@@ -26,10 +49,15 @@ interface ModalContextType {
   entityId: string;
   entityLabel: string;
   closeOnClickOutside: boolean;
-  modalStates: Record<string, any>;
-  setModalState: (modalType: string, state: any) => void;
-  getModalState: (modalType: string) => any;
-  clearModalState: (modalType: string) => void;
+  modalStates: Partial<ModalStateValues>;
+  setModalState: <Type extends keyof ModalStateValues>(
+    modalType: Type,
+    state: ModalStateValues[Type],
+  ) => void;
+  getModalState: <Type extends keyof ModalStateValues>(
+    modalType: Type,
+  ) => ModalStateValues[Type] | undefined;
+  clearModalState: (modalType: keyof ModalStateValues) => void;
   clearAllModalStates: () => void;
 }
 
@@ -37,13 +65,13 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalProvider: React.FC<Props> = ({ children }) => {
   const [modalStack, setModalStack] = useState<ModalState[]>([]);
-  const [modalStates, setModalStates] = useState<Record<string, any>>({});
+  const [modalStates, setModalStates] = useState<Partial<ModalStateValues>>({});
 
   const isOpen = modalStack.length > 0;
   const currentModal = modalStack[modalStack.length - 1];
-  const modalContentType = currentModal?.contentType || "";
-  const entityId = currentModal?.entityId || "";
-  const entityLabel = currentModal?.entityLabel || "";
+  const modalContentType = currentModal?.contentType ?? "";
+  const entityId = currentModal?.entityId ?? "";
+  const entityLabel = currentModal?.entityLabel ?? "";
   const closeOnClickOutside = currentModal?.closeOnClickOutside ?? true;
 
   const openModal = useCallback(
@@ -95,21 +123,27 @@ export const ModalProvider: React.FC<Props> = ({ children }) => {
     setModalStack([]);
   }, []);
 
-  const setModalState = useCallback((modalType: string, state: any) => {
-    setModalStates((prev) => ({
-      ...prev,
-      [modalType]: state,
-    }));
-  }, []);
+  const setModalState = useCallback(
+    <Type extends keyof ModalStateValues>(
+      modalType: Type,
+      state: ModalStateValues[Type],
+    ) => {
+      setModalStates((prev) => ({
+        ...prev,
+        [modalType]: state,
+      }));
+    },
+    [],
+  );
 
   const getModalState = useCallback(
-    (modalType: string) => {
+    <Type extends keyof ModalStateValues>(modalType: Type) => {
       return modalStates[modalType];
     },
     [modalStates],
   );
 
-  const clearModalState = useCallback((modalType: string) => {
+  const clearModalState = useCallback((modalType: keyof ModalStateValues) => {
     setModalStates((prev) => {
       const newStates = { ...prev };
       delete newStates[modalType];

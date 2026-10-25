@@ -21,7 +21,7 @@ export function DeleteAccountConfirmation() {
 
   const deleteAccountMutation = useMutation({
     mutationFn: () => authClient.deleteUser(),
-    onSuccess: async () => {
+    onSuccess: () => {
       closeModal();
       showPopup({
         header: t`Account deleted`,
@@ -29,7 +29,7 @@ export function DeleteAccountConfirmation() {
         icon: "success",
       });
 
-      utils.invalidate();
+      void utils.invalidate();
 
       router.push("/");
     },

@@ -51,13 +51,13 @@ export default withRateLimit(
     }
 
     const linkedIds = new Set(
-      activeSlots.filter((s) => s.referenceId).map((s) => s.referenceId!),
+      activeSlots.map((s) => s.referenceId).filter((id) => !!id),
     );
 
     const memberships = await workspaceRepo.getAllByUserId(db, user.id);
     const availableWorkspace = memberships
       .map((m) => m.workspace)
-      .find((w) => w && !w.deletedAt && !linkedIds.has(w.publicId));
+      .find((w) => !w.deletedAt && !linkedIds.has(w.publicId));
 
     if (!availableWorkspace) {
       return res.redirect(
@@ -84,7 +84,7 @@ export default withRateLimit(
       ]);
       const hasMoreAvailableWorkspace = memberships
         .map((m) => m.workspace)
-        .some((w) => w && !w.deletedAt && !updatedLinkedIds.has(w.publicId));
+        .some((w) => !w.deletedAt && !updatedLinkedIds.has(w.publicId));
 
       if (hasMoreAvailableWorkspace) {
         return res.redirect(

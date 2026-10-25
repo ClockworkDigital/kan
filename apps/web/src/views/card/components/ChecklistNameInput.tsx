@@ -31,7 +31,7 @@ export default function ChecklistNameInput({
       await utils.card.byId.cancel({ cardPublicId });
       const previous = utils.card.byId.getData({ cardPublicId });
       utils.card.byId.setData({ cardPublicId }, (old) => {
-        if (!old) return old as any;
+        if (!old) return old;
         const updated = old.checklists.map((cl) =>
           cl.publicId === checklistPublicId ? { ...cl, name: vars.name } : cl,
         );
