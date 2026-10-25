@@ -4,11 +4,12 @@ import { QueryClient } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { observable } from "@trpc/server/observable";
+import { env as runtimeEnv } from "next-runtime-env";
 import superjson from "superjson";
 
 import type { AppRouter } from "@kan/api/root";
 
-import { env } from "~/env";
+import { isDevelopmentMode } from "~/env";
 
 /**
  * This is the client-side entrypoint for your tRPC API. It is used to create the `api` object which
@@ -41,8 +42,8 @@ const authLink: TRPCLink<AppRouter> = () => {
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
-  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`; // SSR should use vercel url
-  return `http://localhost:${env.PORT ?? 3000}`; // dev SSR should use localhost
+  if (runtimeEnv("VERCEL_URL")) return `https://${runtimeEnv("VERCEL_URL")}`; // SSR should use vercel url
+  return `http://localhost:${runtimeEnv("PORT") ?? 3000}`; // dev SSR should use localhost
 };
 
 const queryClient = new QueryClient();
@@ -54,7 +55,7 @@ export const api = createTRPCNext<AppRouter>({
       links: [
         loggerLink({
           enabled: (opts) =>
-            env.NODE_ENV === "development" ||
+            isDevelopmentMode() ||
             (opts.direction === "down" && opts.result instanceof Error),
         }),
         authLink,

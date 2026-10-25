@@ -175,3 +175,6 @@ export const env = createEnv({
   skipValidation:
     !!process.env.CI || process.env.npm_lifecycle_event === "lint",
 });
+
+// Keep callback-time reads and Next's literal NODE_ENV substitution.
+export const isDevelopmentMode = () => process.env.NODE_ENV === "development";

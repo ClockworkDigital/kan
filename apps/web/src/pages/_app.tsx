@@ -12,7 +12,7 @@ import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import { useEffect } from "react";
 
-import { env as validatedEnv } from "~/env";
+import { isDevelopmentMode } from "~/env";
 import { FontSizeProvider } from "~/providers/font-size";
 import { KeyboardShortcutProvider } from "~/providers/keyboard-shortcuts";
 import { LinguiProviderWrapper } from "~/providers/lingui";
@@ -59,7 +59,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
         person_profiles: "identified_only",
         defaults: "2025-05-24",
         loaded: (posthog) => {
-          if (validatedEnv.NODE_ENV === "development") posthog.debug();
+          if (isDevelopmentMode()) posthog.debug();
         },
       });
     }
