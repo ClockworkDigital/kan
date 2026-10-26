@@ -45,8 +45,9 @@ GitHub label names, colours and issue assignments flow into board-local Kan
 labels. See [label ownership and recovery](github-sync/README.md#github-label-ownership).
 
 The real-image verifier requires the sibling Formwork checkout and its gateway
-configuration. Deployment-specific notes, backups and environment files belong
-in the ignored `.runtime/` directory, not the public fork. Existing upstream
+configuration; set `FORMWORK_ROOT` to test another checkout. Deployment-specific
+notes, backups and environment files belong in the ignored `.runtime/`
+directory, not the public fork. Existing upstream
 broader lint/type errors remain; focused auth and GitHub sync checks are provided.
 
 Kan uses a dedicated egress network for GitHub HTTPS calls. PostgreSQL remains
