@@ -144,6 +144,11 @@ describe("createRESTContext", () => {
     { status: 401 },
     { name: "APIError", status: "UNAUTHORIZED", statusCode: 401 },
     Object.assign(new Error(""), { status: "UNAUTHORIZED", statusCode: 401 }),
+    Object.assign(new Error(""), {
+      name: "APIError",
+      status: "UNAUTHORIZED",
+      statusCode: 401,
+    }),
   ])(
     "logs unexpected lookup failures with error details: %s",
     async (error) => {

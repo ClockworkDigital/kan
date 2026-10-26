@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { NextApiRequest } from "next";
 import { TRPCError } from "@trpc/server";
+import { APIError } from "better-auth/api";
 
 import type { dbClient } from "@kan/db/client";
 import { initAuth } from "@kan/auth/server";
@@ -111,23 +112,13 @@ const isRateLimitedApiKeyError = (
 };
 
 const isAnonymousSessionError = (error: unknown, headers: Headers): boolean => {
-  if (
-    !(error instanceof Error) ||
-    error.name !== "APIError" ||
-    error.message !== "" ||
-    error.cause !== undefined
-  )
-    return false;
-
-  const apiError = error as Error & {
-    status?: unknown;
-    statusCode?: unknown;
-    body?: unknown;
-  };
   return (
-    apiError.status === "UNAUTHORIZED" &&
-    apiError.statusCode === 401 &&
-    apiError.body === undefined &&
+    error instanceof APIError &&
+    error.status === "UNAUTHORIZED" &&
+    error.statusCode === 401 &&
+    error.message === "" &&
+    error.cause === undefined &&
+    error.body === undefined &&
     // Formwork also uses bare UNAUTHORIZED errors for rejected identities.
     !Array.from(headers.keys()).some(
       (name) =>
