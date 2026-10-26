@@ -10,7 +10,7 @@ import tempfile
 import time
 
 ROOT = Path(__file__).resolve().parents[2]
-PLATFORM = ROOT.parent / 'formwork'
+PLATFORM = Path(os.environ.get('FORMWORK_ROOT', ROOT.parent / 'formwork')).resolve()
 os.chdir(ROOT)
 
 def run(args, text=None, env=None):
@@ -173,6 +173,9 @@ http://:8080 {
         delegated = json.loads(sync_profile.read_text())
         assert delegated['expiresAt'] is None
         sync_bearer = {'Authorization':'Bearer '+delegated['apiToken']}
+        # Caller Connection nominations must not strip the verified worker scope.
+        for nomination in ['X-Formwork-Sync-Workspace', 'x-FORMWORK-sync-workspace', 'keep-alive, X-Formwork-Sync-Workspace']:
+            assert request('/api/v1/workspaces','none',extra={**sync_bearer,'Connection':nomination})[0] == 403, nomination
         settings_path = '/api/v1/integrations/github/sync/settings?workspacePublicId='+workspace['publicId']
         assert request(settings_path,'none',extra=sync_bearer)[0] == 200
         assert request('/api/v1/workspaces','none',extra=sync_bearer)[0] == 403
