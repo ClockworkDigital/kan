@@ -73,8 +73,8 @@ systemctl --user disable --now formwork-kan-github-sync.timer
 The service files select this host's checkout and Python. The worker requires only Python and access to Kan through Formwork. It no longer
 uses GitHub CLI authentication. Update paths when relocating.
 Unit and simulated API tests cover import idempotence, both update directions,
-closing an issue and conflicts. Live initial import and repeated polling are
-verified; tests do not edit real GitHub issues.
+closing an issue and conflicts. Label sync has not been validated against live
+data; these tests do not edit real GitHub issues.
 
 The protected `~/.config/formwork/kan/github-sync.json` selects `baseUrl`,
 `workspacePublicId`, and the expected stable `userId`. These values must match the
@@ -113,6 +113,9 @@ repository ID and GitHub label ID. Existing issue mappings and conflict baseline
 are retained. Renaming or recolouring a label updates its existing Kan public ID.
 Kan edits to imported names, colours or assignments are corrected on the next
 poll. These changes never generate GitHub label writes.
+Conflicting board ownership or duplicate ownership of any current or retired Kan
+label public ID stops the worker before board or repository reads. Repair the protected
+mapping after inspecting the affected boards; never resolve ownership by name.
 
 Only mapped labels are managed. A Kan-only label with the same name or colour is
 not adopted, renamed, detached or deleted. It can coexist with an imported label
@@ -127,19 +130,22 @@ an active imported Kan label recreates it on the next poll.
 A pending label-create intent is saved before POST. If a request times out, or the
 process stops before saving the returned public ID, later polls stop label sync
 for that repository instead of creating a duplicate or guessing ownership by
-name. The protected report identifies this condition. An operator must inspect
+name. This also applies if the pending source label has disappeared from GitHub.
+The protected report identifies this condition. An operator must inspect
 the board and pending entry, then record the confirmed new label public ID or
 clear that pending entry only after proving no label was created. Preserve the
 entry's `retiredPublicIds` when repairing a mapping. Never remove the state file.
-Definitively rejected HTTP 4xx requests other than request timeouts clear their
-pending intent and can retry normally. Repository errors skip that repository;
+Definitively rejected HTTP 4xx requests other than HTTP 408 and 499 clear their
+pending intent and can retry normally. Timeouts, client disconnects and server
+failures retain the intent. Repository errors skip that repository;
 other selected repositories continue.
 
 The membership API toggles labels, so the worker re-reads each card immediately
 before each toggle and checks the returned membership. The existing polling
 limitation still applies to concurrent edits during the final request window.
 Full GitHub names of up to 50 characters are accepted by the label API without
-truncation. No database migration is needed.
+truncation. Incomplete pagination and malformed label snapshots stop reconciliation
+without retiring definitions or removing assignments. No database migration is needed.
 
 ### Delegation boundaries
 
@@ -151,9 +157,62 @@ creating cards. Label deletion and all GitHub label writes remain forbidden.
 Current owner, pause, provider and native permission checks still apply on every
 request. This change does not alter credentials or deployed gateway policy.
 
-This implementation has not been deployed. A later approved deployment must
-update the app and worker together because older app versions reject label-list
-reads and Kan label operations from this delegation.
+Deployment and live label validation are still outstanding. A later approved
+rollout must update the app and separately scheduled worker together. Older app
+versions reject label-list reads and Kan label operations from this delegation.
+
+Before resuming the scheduler, back up the protected state and record both the
+running app image revision and the worker checkout revision. Check the running
+image, not just the primary checkout's source. Stage the app's selected-repository
+label allowlist before enabling the label-aware worker. Run the offline worker
+and delegated API tests against that release. Any later live verification needs
+separate approval and disposable data. Verify a selected repository label read
+through the existing delegation, then verify one import and an unchanged repeat
+poll before resuming regular polling. Confirm unselected reads and label writes
+remain denied. Do not reset mappings or conflict baselines during rollout.
+
+The protected report includes numeric `httpStatus` for HTTP failures, alongside
+the repository and operation. It never includes HTTP error URLs, headers, reasons
+or response bodies. HTTP 403 during `labels` means the request was rejected;
+it does not establish whether the rejection came from the gateway or Kan.
+Check the app's private request logs for the corresponding procedure and denial.
+On 2026-10-26, operator diagnosis found five repository label failures and a
+403 with `Outside background sync delegation.` at `githubSync.request`.
+Current source permits selected-repository label reads, so an app/worker version
+mismatch is the leading explanation, not a verified deployment diagnosis.
+Compare running revisions first, then check the existing owner, workspace,
+selection, pause, provider and native permissions. Do not broaden delegation,
+renew credentials, edit live mappings or retry live sync to diagnose this error.
+
+### Offline build verification, 2026-10-26
+
+These results are from this build, independently of the earlier draft's counts.
+Full command logs are in `/tmp/kan-issue6-validation/` on the build host.
+
+| Check                                                         | Result                                                                                                                              |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `python3 -m unittest discover -s deploy/formwork/github-sync` | 20 passed                                                                                                                           |
+| Targeted API tests                                            | 69 passed across github-sync, sync-scope, label, card-labels, card-description, card-members and label repository integration tests |
+| `pnpm lint`                                                   | Passed, 19 tasks, eight existing web warnings                                                                                       |
+| `pnpm typecheck`                                              | Passed, 22 tasks                                                                                                                    |
+| Direct API/DB typechecks and targeted ESLint/Prettier         | Passed                                                                                                                              |
+| Label UI check                                                | Three colour tests passed; shared badge render preserved a 50-character name and custom SVG fill                                    |
+| `pnpm test`                                                   | Failed at MCP; its local HTTP server cannot bind, `listen EPERM 127.0.0.1`                                                          |
+| Continued unit run                                            | Shared 18/18, auth 80/80, web 98/98; MCP 12 passed/1 failed; API 211 passed/3 failed                                                |
+| `pnpm test:e2e`                                               | Stopped before tests, `mailpit: not found`; cloud mode was not reached                                                              |
+| Docker app build                                              | Could not start, permission denied on `/var/run/docker.sock`                                                                        |
+
+The continued run used
+`pnpm --filter='!@kan/e2e' -r --no-bail --workspace-concurrency=1 --if-present test`.
+API failures were the unchanged `github-policy.test.ts:64` assertion and two
+5-second timeouts in `integration.repo.integration.test.ts`. The initial parallel
+API run had 210 passed/4 failed, including an additional webhook fixture timeout;
+that webhook test passed in the continued run. A separate serial recheck still
+failed the policy assertion and one integration timeout. The affected policy,
+integration, webhook and MCP fixtures and implementations match base
+`ed59609b41a58d7f2cc0f68a3f30c69e5c467858`; no unrelated fixture repairs were made.
+These failures remain recorded rather than treating the broader gates as passed.
+No live sync or deployment was performed.
 
 ## Production and Experiment policy
 

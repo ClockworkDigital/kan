@@ -8,10 +8,7 @@ import * as checklistRepo from "@kan/db/repository/checklist.repo";
 import * as labelRepo from "@kan/db/repository/label.repo";
 import * as listRepo from "@kan/db/repository/list.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
-import {
-  generateAttachmentUrl,
-  normalizeDescription,
-} from "@kan/shared/utils";
+import { generateAttachmentUrl, normalizeDescription } from "@kan/shared/utils";
 
 import {
   activityItemSchema,
@@ -81,6 +78,18 @@ export const cardRouter = createTRPCRouter({
 
       await assertPermission(ctx.db, userId, list.workspaceId, "card:create");
 
+      const labels = input.labelPublicIds.length
+        ? await labelRepo.getAllByPublicIds(ctx.db, input.labelPublicIds)
+        : [];
+      if (
+        labels.length !== new Set(input.labelPublicIds).size ||
+        labels.some((label) => label.boardId !== list.boardId)
+      )
+        throw new TRPCError({
+          message: "Labels must be active and belong to the card's board",
+          code: "NOT_FOUND",
+        });
+
       const members = input.memberPublicIds.length
         ? await workspaceRepo.getAllMembersByPublicIds(
             ctx.db,
@@ -113,18 +122,7 @@ export const cardRouter = createTRPCRouter({
           code: "INTERNAL_SERVER_ERROR",
         });
 
-      if (newCardId && input.labelPublicIds.length) {
-        const labels = await labelRepo.getAllByPublicIds(
-          ctx.db,
-          input.labelPublicIds,
-        );
-
-        if (!labels.length)
-          throw new TRPCError({
-            message: `Labels with public IDs (${input.labelPublicIds.join(", ")}) not found`,
-            code: "NOT_FOUND",
-          });
-
+      if (labels.length) {
         const labelsInsert = labels.map((label) => ({
           cardId: newCardId,
           labelId: label.id,
@@ -500,7 +498,7 @@ export const cardRouter = createTRPCRouter({
 
       const label = await labelRepo.getByPublicId(ctx.db, input.labelPublicId);
 
-      if (!label)
+      if (!label || label.boardId !== card.boardId)
         throw new TRPCError({
           message: `Label with public ID ${input.labelPublicId} not found`,
           code: "NOT_FOUND",

@@ -9,7 +9,6 @@ import {
   createCardWebhookPayload,
   sendWebhooksForWorkspace,
 } from "../utils/webhook";
-
 import { cardRouter } from "./card";
 
 vi.mock("@kan/db/repository/card.repo", () => ({
@@ -51,6 +50,7 @@ describe("card description updates", () => {
     vi.mocked(assertCanEdit).mockResolvedValue(undefined);
     vi.mocked(cardRepo.getWorkspaceAndCardIdByCardPublicId).mockResolvedValue({
       id: 1,
+      boardId: 3,
       createdBy: "user-123",
       workspaceId: 2,
       workspaceVisibility: "private",

@@ -143,9 +143,15 @@ describe("saved GitHub token for sync", () => {
     const labels = {
       ...input,
       path: "repos/ClockworkDigital/formwork/labels?per_page=100",
+      page: 2,
     };
     await delegated.githubSync.request(labels);
     expect(fetch).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toEqual(
+      new URL(
+        "https://api.github.com/repos/ClockworkDigital/formwork/labels?per_page=100&page=2",
+      ),
+    );
     vi.mocked(fetch).mockClear();
     await expect(
       delegated.githubSync.request({

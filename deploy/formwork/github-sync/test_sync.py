@@ -148,3 +148,62 @@ class WorkerTests(unittest.TestCase):
     self.assertEqual(label_writes,closed_writes)
     self.assertEqual(len(cards['card00000001']['labels']),2)
     self.assertEqual(cards['standalone01'],standalone)
+
+ def test_partial_label_pagination_failure_keeps_state_and_continues(self):
+  self.label_read_failure(TimeoutError('Partial snapshot'), {'error':'TimeoutError'})
+
+ def test_rejected_label_read_reports_status_without_secrets(self):
+  import io
+  from urllib.error import HTTPError
+  for status in (403,502):
+   with self.subTest(status=status):
+    failure=HTTPError('https://kan.test/secret-url',status,'secret-reason',
+                      {'Authorization':'Bearer secret-token'},io.BytesIO(b'secret-response'))
+    try:self.label_read_failure(failure,{'error':'HTTPError','httpStatus':status})
+    finally:failure.close()
+
+ def label_read_failure(self,failure,expected):
+  import sync, tempfile, pathlib, json, io
+  from unittest.mock import patch
+  from types import SimpleNamespace
+  repos=[{'id':n,'full_name':f'ClockworkDigital/repo{n}','archived':False,'has_issues':True} for n in (1,2)]
+  old={'boards':{'1':'board0000001','2':'board0000002'},'issues':{},'labels':{'1':{'board':'board0000001','labels':{'9':{'publicId':'label0000001'}}}}}
+  calls=[]
+  def api(req,**kw):
+   path=req.full_url.split('/api/v1')[1];body=json.loads(req.data) if req.data else None
+   calls.append((path,body))
+   if path.startswith('/integrations/github/sync/settings'):
+    result={'enabled':True,'repositories':[repo['full_name'] for repo in repos]}
+   elif path=='/users/me':result={'id':'owner'}
+   elif path.endswith('/permissions/me'):result={'permissions':['board:create','card:create','card:edit']}
+   elif path.endswith('/boards'):result=[]
+   elif path=='/integrations/github/sync/status':result={'success':True}
+   elif path=='/integrations/github/sync':
+    target=body['path']
+    if target.startswith('orgs/'):result=repos
+    elif '/issues?' in target:result=[]
+    elif '/repo1/labels?' in target:
+     if body['page']==2:raise failure
+     result=[{'id':n,'name':str(n),'color':'abcdef'} for n in range(1,101)]
+    elif '/repo2/labels?' in target:result=[]
+    else:raise AssertionError(target)
+   elif path.startswith('/boards/'):
+    result={'publicId':path.split('/')[-1],'workspace':{'publicId':'workspace123'},'visibility':'private',
+            'labels':[{'publicId':'label0000001','name':'old','colourCode':'#000000'}] if path.endswith('1') else [],
+            'lists':[{'name':'Open','publicId':'open00000001','cards':[]},{'name':'Closed','publicId':'closed000001','cards':[]}]}
+   else:raise AssertionError(f'Unexpected mutation: {path}')
+   return io.BytesIO(json.dumps(result).encode())
+  with tempfile.TemporaryDirectory() as folder:
+   root=pathlib.Path(folder);state=root/'state';state.mkdir();(state/'state.json').write_text(json.dumps(old))
+   profile=root/'profile';profile.write_text(json.dumps({'apiToken':'test','baseUrl':'https://kan.test'}));profile.chmod(0o600)
+   config=root/'config';config.write_text(json.dumps({'workspacePublicId':'workspace123','userId':'owner','baseUrl':'https://kan.test'}))
+   with patch.object(sync,'CONFIG',config),patch.object(sync,'STATE',state),patch.object(sync,'PROFILE',profile),patch.object(sync.urllib.request,'build_opener',return_value=SimpleNamespace(open=api)),patch('sys.stdout',new=io.StringIO()) as output:
+    with self.assertRaises(SystemExit):sync.main()
+   self.assertNotIn('secret-',output.getvalue())
+   report=json.loads((state/'status.json').read_text())
+   self.assertEqual(report['errors'],[{'repository':'ClockworkDigital/repo1','operation':'labels',**expected}])
+   self.assertNotIn('secret-',json.dumps(report))
+   self.assertIn(('/integrations/github/sync',{'workspacePublicId':'workspace123','path':'repos/ClockworkDigital/repo2/labels?per_page=100','page':1}),calls)
+   # Existing repository boards are polled even with no open or tracked issues.
+   after=json.loads((state/'state.json').read_text())
+   self.assertEqual(after,old)

@@ -6,15 +6,18 @@ from urllib.error import HTTPError
 
 def github_labels(labels):
     """Validate the complete snapshot before changing any Kan labels."""
+    if not isinstance(labels, list):
+        raise ValueError('Expected a GitHub label list')
     result = {}
     for label in labels:
         if not isinstance(label, dict):
             raise ValueError('Expected expanded GitHub labels')
-        identity = str(label['id'])
-        name, colour = label['name'], label['color']
-        if (not identity.isdecimal() or not isinstance(name, str)
+        identity = label.get('id')
+        name, colour = label.get('name'), label.get('color')
+        if (type(identity) is not int or identity <= 0 or not isinstance(name, str)
                 or not 1 <= len(name) <= 50):
             raise ValueError('Invalid GitHub label identity or name')
+        identity = str(identity)
         if not isinstance(colour, str) or not re.fullmatch(r'[0-9a-fA-F]{6}', colour):
             raise ValueError('Invalid GitHub label colour')
         if identity in result:
@@ -23,24 +26,43 @@ def github_labels(labels):
     return result
 
 
+def owned_label_ids(saved):
+    return [identity for entry in saved.get('labels', {}).values()
+            for identity in ([entry['publicId']] if entry.get('publicId') else [])
+            + entry.get('retiredPublicIds', [])]
+
+
+def validate_label_ownership(boards, repositories):
+    """Reject conflicting protected mappings before making any requests."""
+    if len(boards.values()) != len(set(boards.values())):
+        raise RuntimeError('Duplicate repository board ownership in state')
+    owners = []
+    for repository, saved in repositories.items():
+        if repository not in boards or saved.get('board') != boards[repository]:
+            raise RuntimeError('Label mapping belongs to a different board')
+        owners.extend(owned_label_ids(saved))
+    if len(owners) != len(set(owners)):
+        raise RuntimeError('Duplicate Kan label ownership in state')
+
+
 def sync_labels(kan, board, source, saved, save):
     """Keep stable source IDs; never adopt or delete an unrelated Kan label."""
     if saved.setdefault('board', board['publicId']) != board['publicId']:
         raise RuntimeError('Label mapping belongs to a different board')
     mappings = saved.setdefault('labels', {})
     inventory = {label['publicId']: label for label in board['labels']}
-    owners = [entry['publicId'] for entry in mappings.values()
-              if entry.get('publicId')]
+    owners = owned_label_ids(saved)
     if len(owners) != len(set(owners)):
         raise RuntimeError('Duplicate Kan label ownership in state')
-    active = {}
-    for identity, fields in source.items():
-        entry = mappings.get(identity)
-        if entry and not entry.get('publicId'):
+    for identity, entry in mappings.items():
+        if not entry.get('publicId'):
             # The create may have succeeded before a timeout or process failure.
             raise RuntimeError(
                 f'Uncertain creation for GitHub label {identity}; '
                 'inspect its pending state before retrying')
+    active = {}
+    for identity, fields in source.items():
+        entry = mappings.get(identity)
         label = inventory.get(entry['publicId']) if entry else None
         if not label:
             # Persist intent before POST. An uncertain outcome must never create duplicates.
@@ -51,7 +73,7 @@ def sync_labels(kan, board, source, saved, save):
             try:
                 label = kan('/labels', {**fields, 'boardPublicId': board['publicId']})
             except HTTPError as error:
-                if 400 <= error.code < 500 and error.code != 408:
+                if 400 <= error.code < 500 and error.code not in (408, 499):
                     if entry:
                         mappings[identity] = entry
                     else:
@@ -78,9 +100,12 @@ def sync_labels(kan, board, source, saved, save):
 
 
 def issue_label_ids(issue, active):
+    if not isinstance(issue.get('labels'), list):
+        raise ValueError('Expected an issue label list')
     result = set()
     for label in issue['labels']:
-        if not isinstance(label, dict) or str(label['id']) not in active:
+        if (not isinstance(label, dict) or type(label.get('id')) is not int
+                or str(label['id']) not in active):
             raise ValueError('Issue label missing from repository snapshot; retry next sync')
         result.add(active[str(label['id'])])
     return result
