@@ -63,6 +63,7 @@ i18n.cache
 
 # local scripts
 scripts/
+!/deploy/formwork/scripts/
 
 .claude
 
