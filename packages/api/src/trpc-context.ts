@@ -110,6 +110,35 @@ const isRateLimitedApiKeyError = (
   );
 };
 
+const isAnonymousSessionError = (error: unknown, headers: Headers): boolean => {
+  if (
+    !(error instanceof Error) ||
+    error.name !== "APIError" ||
+    error.message !== "" ||
+    error.cause !== undefined
+  )
+    return false;
+
+  const apiError = error as Error & {
+    status?: unknown;
+    statusCode?: unknown;
+    body?: unknown;
+  };
+  return (
+    apiError.status === "UNAUTHORIZED" &&
+    apiError.statusCode === 401 &&
+    apiError.body === undefined &&
+    // Formwork also uses bare UNAUTHORIZED errors for rejected identities.
+    !Array.from(headers.keys()).some(
+      (name) =>
+        name === "authorization" ||
+        name === "cookie" ||
+        name === "x-api-key" ||
+        name.startsWith("x-formwork-"),
+    )
+  );
+};
+
 export const createRESTContext = async ({ req }: CreateNextContextOptions) => {
   const headers = new Headers(req.headers as Record<string, string>);
   const auth = createAuthWithHeaders(baseAuth, headers);
@@ -127,10 +156,12 @@ export const createRESTContext = async ({ req }: CreateNextContextOptions) => {
           (tryAgainIn ? ` Try again in ${Math.ceil(tryAgainIn / 1000)}s.` : ""),
       });
     }
-    log.warn(
-      { err: error },
-      "Failed to get session, treating as unauthenticated",
-    );
+    if (!isAnonymousSessionError(error, headers)) {
+      log.warn(
+        { err: error },
+        "Failed to get session, treating as unauthenticated",
+      );
+    }
   }
 
   return createInnerTRPCContext({
