@@ -71,8 +71,12 @@ export const getAllByPublicIds = (db: dbClient, labelPublicIds: string[]) => {
   return db.query.labels.findMany({
     columns: {
       id: true,
+      boardId: true,
     },
-    where: inArray(labels.publicId, labelPublicIds),
+    where: and(
+      inArray(labels.publicId, labelPublicIds),
+      isNull(labels.deletedAt),
+    ),
   });
 };
 
@@ -80,11 +84,12 @@ export const getByPublicId = async (db: dbClient, labelPublicId: string) => {
   return db.query.labels.findFirst({
     columns: {
       id: true,
+      boardId: true,
       publicId: true,
       name: true,
       colourCode: true,
     },
-    where: eq(labels.publicId, labelPublicId),
+    where: and(eq(labels.publicId, labelPublicId), isNull(labels.deletedAt)),
   });
 };
 

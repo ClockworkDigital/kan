@@ -2,7 +2,8 @@ import copy
 import unittest
 from urllib.error import HTTPError
 
-from labels import github_labels, issue_label_ids, sync_card_labels, sync_labels
+from labels import (github_labels, issue_label_ids, sync_card_labels, sync_labels,
+                    validate_label_ownership)
 
 
 class LabelTests(unittest.TestCase):
@@ -75,6 +76,39 @@ class LabelTests(unittest.TestCase):
             self.run_sync()
         self.assertEqual(len(self.writes), 1)
 
+    def test_pending_disappeared_label_stops_before_other_creates(self):
+        self.saved['labels'] = {'99': {'pending': self.source['42']}}
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain'):
+            self.run_sync()
+        self.source = {}
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain'):
+            self.run_sync()
+        self.assertEqual(self.writes, [])
+
+    def test_ambiguous_server_failures_keep_create_intent(self):
+        for status in (408, 499, 500, 502, 504):
+            with self.subTest(status=status):
+                self.setUp()
+                def uncertain(path, body):
+                    raise HTTPError('https://kan.test/labels', status, 'Uncertain', {}, None)
+                with self.assertRaises(HTTPError):
+                    sync_labels(uncertain, self.board, self.source, self.saved, self.save)
+                with self.assertRaisesRegex(RuntimeError, 'Uncertain'):
+                    self.run_sync()
+                self.assertEqual(self.writes, [])
+
+    def test_interruption_before_response_saved_retains_pending_intent(self):
+        def interrupted_save():
+            if self.snapshots:
+                raise InterruptedError()
+            self.save()
+        with self.assertRaises(InterruptedError):
+            sync_labels(self.api, self.board, self.source, self.saved, interrupted_save)
+        self.saved = self.snapshots[0]
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain'):
+            self.run_sync()
+        self.assertEqual(len(self.writes), 1)
+
     def test_rejected_create_does_not_leave_uncertain_state(self):
         def forbidden(path, body):
             raise HTTPError('https://kan.test/labels', 403, 'Forbidden', {}, None)
@@ -94,12 +128,39 @@ class LabelTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             self.run_sync()
 
+    def test_ownership_includes_retired_ids_and_other_repositories(self):
+        self.run_sync()
+        mapping = copy.deepcopy(self.saved)
+        validate_label_ownership({'2': self.board['publicId']}, {'2': mapping})
+        with self.assertRaises(RuntimeError):
+            validate_label_ownership({'2': 'otherboard01'}, {'2': mapping})
+        with self.assertRaises(RuntimeError):
+            validate_label_ownership({'2': self.board['publicId'], '3': self.board['publicId']}, {})
+        other = {'board': 'otherboard01', 'labels': {'99': {
+            'publicId': 'anotherlabel', 'retiredPublicIds': [mapping['labels']['42']['publicId']]}}}
+        with self.assertRaises(RuntimeError):
+            validate_label_ownership({'2': self.board['publicId'], '3': 'otherboard01'},
+                                     {'2': mapping, '3': other})
+        self.saved['labels']['43'] = other['labels']['99']
+        with self.assertRaises(RuntimeError):
+            self.run_sync()
+        self.assertEqual(len(self.writes), 1)
+
     def test_validation_and_issue_snapshot_fail_closed(self):
         self.assertEqual(self.source['42']['colourCode'], '#abcdef')
-        for label in ['bug', {'id': 1, 'name': '', 'color': 'ffffff'},
+        for label in ['bug', {}, {'id': 0, 'name': 'bug', 'color': 'ffffff'},
+                      {'id': True, 'name': 'bug', 'color': 'ffffff'},
+                      {'id': 1, 'name': '', 'color': 'ffffff'},
+                      {'id': 1, 'name': 'x' * 51, 'color': 'ffffff'},
                       {'id': 1, 'name': 'bug', 'color': '#ffffff'}]:
             with self.assertRaises(ValueError):
                 github_labels([label])
+        self.assertEqual(github_labels([{'id': 1, 'name': 'x' * 50, 'color': 'ffffff'}])['1']['name'], 'x' * 50)
+        for snapshot in ({}, None, 'bug'):
+            with self.assertRaises(ValueError):
+                github_labels(snapshot)
+            with self.assertRaises(ValueError):
+                issue_label_ids({'labels': snapshot}, {})
         with self.assertRaises(ValueError):
             issue_label_ids({'labels': [{'id': 99}]}, {'42': 'label0000001'})
         self.assertEqual(issue_label_ids({'labels': [{'id': 42}, {'id': 42}]},
@@ -130,3 +191,11 @@ class LabelTests(unittest.TestCase):
         card['list']['board']['publicId'] = 'anotherboard'
         with self.assertRaises(RuntimeError):
             sync_card_labels(api, stale, 'board0000001', desired, managed)
+
+    def test_wrong_toggle_response_is_reported(self):
+        card = {'publicId': 'card00000001', 'labels': [],
+                'list': {'board': {'publicId': 'board0000001'}}}
+        def api(path, body=None):
+            return card if body is None else {'newLabel': False}
+        with self.assertRaisesRegex(RuntimeError, 'Concurrent'):
+            sync_card_labels(api, card, 'board0000001', {'label0000001'}, {'label0000001'})

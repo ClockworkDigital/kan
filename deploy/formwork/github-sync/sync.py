@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 import json, os, subprocess, urllib.request, datetime, pathlib, fcntl, html
-from labels import github_labels, sync_labels, issue_label_ids, sync_card_labels
+from urllib.error import HTTPError
+from labels import github_labels, sync_labels, issue_label_ids, sync_card_labels, validate_label_ownership
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
 STATE = pathlib.Path.home()/'.local/share/formwork/kan-github-sync'
 PROFILE = pathlib.Path.home()/'.config/formwork/kan/github-sync-credential.json'
 CONFIG = pathlib.Path.home()/'.config/formwork/kan/github-sync.json'
 WORKSPACE = 'workspace-set-at-start'
+
+def error_fields(error):
+    result = {'error': type(error).__name__}
+    # HTTP errors may contain credentials in URLs, headers, reasons or response bodies.
+    if isinstance(error, HTTPError):result['httpStatus'] = error.code
+    return result
 
 def reconcile(base, github, kan):
     outbound, inbound, conflicts = {}, {}, []
@@ -64,6 +71,7 @@ def main():
     file=STATE/'state.json'
     state=json.loads(file.read_text()) if file.exists() else {'boards':{},'issues':{}}
     state.setdefault('labels', {})
+    validate_label_ownership(state['boards'], state['labels'])
     def save():
         tmp=STATE/'state.tmp';tmp.write_text(json.dumps(state));tmp.replace(file)
     boards=kan(f'/workspaces/{WORKSPACE}/boards')
@@ -82,7 +90,7 @@ def main():
         for old in tracked:
             if old['id'] not in present:
                 try: issues.append(gh(f'repos/{name}/issues/{old["number"]}'))
-                except Exception: report['errors'].append(f'{name}#{old["number"]}: unavailable');continue
+                except Exception as e: report['errors'].append({'repository':name,'number':old['number'],'operation':'issue-read',**error_fields(e)});continue
         if not issues and rid not in state['boards']: continue
         if rid not in state['boards']:
             title='GitHub: '+name
@@ -95,7 +103,7 @@ def main():
             source=github_labels(gh(f'repos/{name}/labels?per_page=100',pages=True))
             active_labels,managed_labels=sync_labels(kan,board,source,state['labels'].setdefault(rid,{}),save)
         except Exception as e:
-            error={'repository':name,'error':type(e).__name__,'operation':'labels'}
+            error={'repository':name,'operation':'labels',**error_fields(e)}
             if isinstance(e,(RuntimeError,ValueError)):error['detail']=str(e)
             report['errors'].append(error)
             continue
@@ -159,7 +167,7 @@ def main():
                     if g[field]==k[field]:old['base'][field]=g[field]
                 save()
             except Exception as e:
-                report['errors'].append({'issue':url,'error':type(e).__name__})
+                report['errors'].append({'issue':url,**error_fields(e)})
     report['checkedAt']=datetime.datetime.now(datetime.timezone.utc).isoformat()
     (STATE/'status.json').write_text(json.dumps(report,indent=2))
     kan('/integrations/github/sync/status',{'workspacePublicId':WORKSPACE,'status':{**{key:report[key] for key in ['checkedAt','created','updatedGitHub','updatedKan']},'conflicts':len(report['conflicts']),'errors':len(report['errors'])}})
@@ -170,7 +178,7 @@ def main():
 if __name__=='__main__':
     try:main()
     except Exception as error:
-        failure={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stopped':True,'error':type(error).__name__}
+        failure={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stopped':True,**error_fields(error)}
         if STATE.exists():(STATE/'status.json').write_text(json.dumps(failure))
-        print('GitHub sync stopped: '+type(error).__name__,file=__import__('sys').stderr)
+        print('GitHub sync stopped: '+json.dumps(error_fields(error)),file=__import__('sys').stderr)
         raise SystemExit(1)
