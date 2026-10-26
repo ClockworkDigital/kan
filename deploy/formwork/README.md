@@ -50,6 +50,13 @@ notes, backups and environment files belong in the ignored `.runtime/`
 directory, not the public fork. Existing upstream
 broader lint/type errors remain; focused auth and GitHub sync checks are provided.
 
+The web healthcheck uses Node to fetch `/api/v1/health` on the container's
+loopback within four seconds and requires `status` and `database` to be `ok`; the
+route runs `SELECT 1`. It needs no shell, Python or curl and works with existing
+images. Formwork's monitor runs this same healthcheck when its tool registry sets
+`readyHealthcheck: true` for `web`. Through Caddy, `/api/v1/*` still requires
+gateway sign-in or a verified bearer key plus current policy.
+
 Kan uses a dedicated egress network for GitHub HTTPS calls. PostgreSQL remains
 on its internal network, and neither service publishes a port. Adjust the
 egress subnet if it overlaps an existing deployment.
