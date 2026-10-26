@@ -32,7 +32,8 @@ services:
     security_opt: [no-new-privileges:true]
     logging: *logging
     healthcheck:
-      test: [CMD, node, -e, "fetch('http://127.0.0.1:3000/login',{signal:AbortSignal.timeout(4000)}).then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      # Private readiness: the health route runs SELECT 1 against Kan's database.
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3000/api/v1/health',{signal:AbortSignal.timeout(4000)}).then(r=>r.json().then(b=>process.exit(r.ok&&b.status==='ok'&&b.database==='ok'?0:1))).catch(()=>process.exit(1))"]
       interval: 20s
       timeout: 5s
       start_period: 30s
