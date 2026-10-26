@@ -49,6 +49,45 @@ configuration. Deployment-specific notes, backups and environment files belong
 in the ignored `.runtime/` directory, not the public fork. Existing upstream
 broader lint/type errors remain; focused auth and GitHub sync checks are provided.
 
+## Backup and restore
+
+Kan's state is in its PostgreSQL database. This deployment configures no object
+storage, so attachment and avatar uploads are unavailable; back up any bucket
+separately if one is enabled later. Run both commands with the deployment's
+environment file and, when it differs from `compose.yaml`, its complete
+colon-separated `COMPOSE_FILE` list:
+
+```sh
+deploy/formwork/scripts/backup.sh <compose-env-file> <new-output-directory>
+deploy/formwork/scripts/restore.sh <compose-env-file> <backup-directory> <new-database-name>
+```
+
+The backup takes one consistent `pg_dump` snapshot through the database
+container's local socket, without stopping or reconfiguring containers. It
+writes a checksummed manifest last and removes its output on failure. Formwork's
+coordinated exporter invokes it through the operator's tool registry, with
+`deploy/formwork` as the project directory.
+
+Restore validates the export, then creates a new database in the selected
+project's running PostgreSQL. It refuses existing names, so it cannot replace
+live data, and drops its own database if `pg_restore` fails. Nothing is
+reconfigured; review the copy before pointing a runtime credential at it.
+Restored grants require the runtime role to exist already. Kan enables
+row-level security without policies, so recreate that role with its original
+attributes, including `BYPASSRLS`, before restoring into a fresh cluster.
+
+Exports contain sessions, hashed API keys and encrypted GitHub tokens, but no
+credentials from the secret directory. Keep the secret directory's recovery copy
+separately protected: `auth-secret` is required to decrypt saved GitHub tokens,
+and the database files recreate the owner and runtime roles. Passwords are read
+from files or sent on stdin, never passed as arguments or logged.
+
+`verify-recovery.py` runs the disposable drill: representative data, the
+coordinated exporter, failure cleanup, refused restores, a restore into a new
+project, row/grant comparison, and gateway, emergency-block and native
+permission checks. It uses the sibling Formwork checkout (or `FORMWORK_ROOT`)
+and `KAN_TEST_IMAGE`, and removes every container, network and volume it creates.
+
 Kan uses a dedicated egress network for GitHub HTTPS calls. PostgreSQL remains
 on its internal network, and neither service publishes a port. Adjust the
 egress subnet if it overlaps an existing deployment.
