@@ -45,9 +45,21 @@ GitHub label names, colours and issue assignments flow into board-local Kan
 labels. See [label ownership and recovery](github-sync/README.md#github-label-ownership).
 
 The real-image verifier requires the sibling Formwork checkout and its gateway
-configuration. Deployment-specific notes, backups and environment files belong
-in the ignored `.runtime/` directory, not the public fork. Existing upstream
+configuration; set `FORMWORK_ROOT` to test another checkout. Deployment-specific
+notes, backups and environment files belong in the ignored `.runtime/`
+directory, not the public fork. Existing upstream
 broader lint/type errors remain; focused auth and GitHub sync checks are provided.
+
+The web healthcheck uses Node to fetch `/api/v1/health` on the container's
+loopback within four seconds and requires `status` and `database` to be `ok`; the
+route runs `SELECT 1`. It needs no shell, Python or curl and works with existing
+images. Formwork's monitor runs this same healthcheck when its tool registry sets
+`readyHealthcheck: true` for `web`. Through Caddy, `/api/v1/*` still requires
+gateway sign-in or a verified bearer key plus current policy.
+
+Kan uses a dedicated egress network for GitHub HTTPS calls. PostgreSQL remains
+on its internal network, and neither service publishes a port. Adjust the
+egress subnet if it overlaps an existing deployment.
 
 ## Backup and restore
 
@@ -87,7 +99,3 @@ coordinated exporter, failure cleanup, refused restores, a restore into a new
 project, row/grant comparison, and gateway, emergency-block and native
 permission checks. It uses the sibling Formwork checkout (or `FORMWORK_ROOT`)
 and `KAN_TEST_IMAGE`, and removes every container, network and volume it creates.
-
-Kan uses a dedicated egress network for GitHub HTTPS calls. PostgreSQL remains
-on its internal network, and neither service publishes a port. Adjust the
-egress subnet if it overlaps an existing deployment.
