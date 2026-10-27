@@ -1,4 +1,5 @@
 export { initAuth } from "./auth";
+export { FORMWORK_IDENTITY_MISSING } from "./formwork";
 export {
   formworkApiGrant,
   initFormworkApiAuth,

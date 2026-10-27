@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { dbClient } from "@kan/db/client";
 
-import { formworkHook } from "./formwork";
+import { FORMWORK_IDENTITY_MISSING, formworkHook } from "./formwork";
 
 const tenant = "10000000-0000-4000-8000-000000000001";
 const userId = "10000000-0000-4000-8000-000000000002";
@@ -60,23 +60,45 @@ describe("Formwork gateway identity", () => {
     async (key, value) => {
       const h = headers();
       h.set(key, value);
-      await expect(auth.api.getSession({ headers: h })).rejects.toMatchObject({
-        status: "UNAUTHORIZED",
+      const error = await auth.api
+        .getSession({ headers: h })
+        .catch((e: unknown) => e);
+      expect(error).toMatchObject({ status: "UNAUTHORIZED" });
+      expect(error).not.toMatchObject({
+        body: { code: FORMWORK_IDENTITY_MISSING },
       });
       expect(findFirst).not.toHaveBeenCalled();
     },
   );
 
-  it("does not accept a Kan cookie or API key in place of Formwork identity", async () => {
-    await expect(
-      auth.api.getSession({
-        headers: new Headers({
-          cookie: "kan.session_token=anything",
-          "x-api-key": "anything",
-        }),
-      }),
-    ).rejects.toMatchObject({ status: "UNAUTHORIZED" });
+  it("treats any partial Formwork identity as a rejected identity", async () => {
+    const error = await auth.api
+      .getSession({ headers: new Headers({ "x-formwork-groups": tenant }) })
+      .catch((e: unknown) => e);
+    expect(error).toMatchObject({ status: "UNAUTHORIZED" });
+    expect(error).not.toMatchObject({
+      body: { code: FORMWORK_IDENTITY_MISSING },
+    });
   });
+
+  it.each([
+    ["no credentials", {}],
+    [
+      "a Kan cookie or API key",
+      { cookie: "kan.session_token=anything", "x-api-key": "anything" },
+    ],
+  ])(
+    "rejects requests without Formwork identity carrying %s",
+    async (_scenario, supplied) => {
+      await expect(
+        auth.api.getSession({ headers: new Headers(supplied) }),
+      ).rejects.toMatchObject({
+        status: "UNAUTHORIZED",
+        body: { code: FORMWORK_IDENTITY_MISSING },
+      });
+      expect(findFirst).not.toHaveBeenCalled();
+    },
+  );
 
   it("denies users who were not explicitly provisioned", async () => {
     findFirst.mockResolvedValue(undefined);

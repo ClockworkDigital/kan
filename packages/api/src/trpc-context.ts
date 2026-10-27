@@ -2,10 +2,9 @@ import { randomUUID } from "crypto";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { NextApiRequest } from "next";
 import { TRPCError } from "@trpc/server";
-import { APIError } from "better-auth/api";
 
 import type { dbClient } from "@kan/db/client";
-import { initAuth } from "@kan/auth/server";
+import { FORMWORK_IDENTITY_MISSING, initAuth } from "@kan/auth/server";
 import { createDrizzleClient } from "@kan/db/client";
 import { createLogger } from "@kan/logger";
 
@@ -111,22 +110,14 @@ const isRateLimitedApiKeyError = (
   );
 };
 
-const isAnonymousSessionError = (error: unknown, headers: Headers): boolean => {
+// Raised by the Formwork hook for requests with no gateway identity at all.
+const isMissingFormworkIdentityError = (error: unknown): boolean => {
   return (
-    error instanceof APIError &&
-    error.status === "UNAUTHORIZED" &&
-    error.statusCode === 401 &&
-    error.message === "" &&
-    error.cause === undefined &&
-    error.body === undefined &&
-    // Formwork also uses bare UNAUTHORIZED errors for rejected identities.
-    !Array.from(headers.keys()).some(
-      (name) =>
-        name === "authorization" ||
-        name === "cookie" ||
-        name === "x-api-key" ||
-        name.startsWith("x-formwork-"),
-    )
+    typeof error === "object" &&
+    error !== null &&
+    (error as { name?: unknown }).name === "APIError" &&
+    (error as { body?: { code?: unknown } }).body?.code ===
+      FORMWORK_IDENTITY_MISSING
   );
 };
 
@@ -147,7 +138,7 @@ export const createRESTContext = async ({ req }: CreateNextContextOptions) => {
           (tryAgainIn ? ` Try again in ${Math.ceil(tryAgainIn / 1000)}s.` : ""),
       });
     }
-    if (!isAnonymousSessionError(error, headers)) {
+    if (!isMissingFormworkIdentityError(error)) {
       log.warn(
         { err: error },
         "Failed to get session, treating as unauthenticated",

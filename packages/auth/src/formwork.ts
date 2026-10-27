@@ -5,11 +5,24 @@ import type { dbClient } from "@kan/db/client";
 const uuid =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+export const FORMWORK_IDENTITY_MISSING = "FORMWORK_IDENTITY_MISSING";
+
 export function formworkHook(db: dbClient, tenantId: string) {
   if (!uuid.test(tenantId)) throw new Error("Invalid FORMWORK_TENANT_ID");
 
   return createAuthMiddleware(async (ctx) => {
     // Only the isolated, gateway-only deployment may enable this adapter.
+    // Requests that never passed the gateway, such as the container
+    // healthcheck, carry no identity; tag them so callers can stay quiet.
+    // Throwing still matters: a null result would fall through to Kan's
+    // cookie and API-key sessions.
+    if (
+      !Array.from(ctx.headers?.keys() ?? []).some((name) =>
+        name.startsWith("x-formwork-"),
+      )
+    )
+      throw new APIError("UNAUTHORIZED", { code: FORMWORK_IDENTITY_MISSING });
+
     const tenant = ctx.headers?.get("x-formwork-tenant");
     const userId = ctx.headers?.get("x-formwork-user");
     const issued = ctx.headers?.get("x-formwork-issued-at") ?? "";
