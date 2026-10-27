@@ -4,7 +4,7 @@ import type { NextApiRequest } from "next";
 import { TRPCError } from "@trpc/server";
 
 import type { dbClient } from "@kan/db/client";
-import { initAuth } from "@kan/auth/server";
+import { FORMWORK_IDENTITY_MISSING, initAuth } from "@kan/auth/server";
 import { createDrizzleClient } from "@kan/db/client";
 import { createLogger } from "@kan/logger";
 
@@ -110,6 +110,16 @@ const isRateLimitedApiKeyError = (
   );
 };
 
+const isMissingFormworkIdentityError = (error: unknown): boolean => {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    (error as { name?: unknown }).name === "APIError" &&
+    (error as { body?: { code?: unknown } }).body?.code ===
+      FORMWORK_IDENTITY_MISSING
+  );
+};
+
 export const createRESTContext = async ({ req }: CreateNextContextOptions) => {
   const headers = new Headers(req.headers as Record<string, string>);
   const auth = createAuthWithHeaders(baseAuth, headers);
@@ -127,10 +137,12 @@ export const createRESTContext = async ({ req }: CreateNextContextOptions) => {
           (tryAgainIn ? ` Try again in ${Math.ceil(tryAgainIn / 1000)}s.` : ""),
       });
     }
-    log.warn(
-      { err: error },
-      "Failed to get session, treating as unauthenticated",
-    );
+    if (!isMissingFormworkIdentityError(error)) {
+      log.warn(
+        { err: error },
+        "Failed to get session, treating as unauthenticated",
+      );
+    }
   }
 
   return createInnerTRPCContext({
