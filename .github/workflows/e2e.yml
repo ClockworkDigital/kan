@@ -3,6 +3,13 @@ name: E2E
 on:
   pull_request:
     branches: ["main"]
+    # E2E is the slowest workflow; skip it when nothing the browser exercises changed.
+    paths-ignore:
+      - "factory/**"
+      - "deploy/**"
+      - "apps/docs/**"
+      - "**/*.md"
+      - "**/*.mdx"
 
 concurrency:
   group: e2e-${{ github.ref }}
