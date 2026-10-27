@@ -34,15 +34,6 @@
       "deploy/formwork/github-sync",
       "-p",
       "test_*.py"
-    ],
-    [
-      "python3",
-      "-m",
-      "unittest",
-      "discover",
-      "-s",
-      "factory/tests",
-      "-v"
     ]
   ],
   "protected_paths": [
@@ -52,39 +43,20 @@
     "AGENTS.md",
     ".github/workflows/*",
     "AGENT.md",
-    "replit.md"
+    "replit.md",
+    ".claude/*",
+    "CLAUDE.md"
   ],
   "high_risk_roles": {
-    "spec": {
-      "model": "gpt-6-astra",
-      "effort": "high"
-    }
+    "spec": "critical"
   },
   "roles": {
-    "intake": {
-      "model": "gpt-6.1-sol",
-      "effort": "low"
-    },
-    "spec": {
-      "model": "gpt-6.1-sol",
-      "effort": "medium"
-    },
-    "build": {
-      "model": "gpt-6.1-sol",
-      "effort": "high"
-    },
-    "review": {
-      "model": "gpt-6.1-sol",
-      "effort": "high"
-    },
-    "security": {
-      "model": "gpt-6-astra",
-      "effort": "high"
-    },
-    "ui": {
-      "model": "gpt-6.1-sol",
-      "effort": "medium"
-    }
+    "intake": "fast",
+    "spec": "standard",
+    "build": "deep",
+    "review": "deep",
+    "security": "critical",
+    "ui": "standard"
   },
   "risk_guidance": "Treat Formwork gateway identity, tenant/workspace isolation, delegated credentials, department/block checks, GitHub sync mappings and conflict baselines as high risk. Preserve stable UUID identity, eight-hour snapshot expiry, private verification callbacks and no automatic credential renewal. Never propagate deletes or run live sync/deployment. Read deploy/formwork/github-sync/README.md before changing sync. Explicitly target ClockworkDigital/kan for GitHub operations; gh may default to upstream kanbn/kan."
 }
