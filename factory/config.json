@@ -70,8 +70,8 @@
       "effort": "medium"
     },
     "build": {
-      "model": "gpt-6.1-sol",
-      "effort": "high"
+      "model": "gpt-6.1-terra",
+      "effort": "max"
     },
     "review": {
       "model": "gpt-6.1-sol",

@@ -181,8 +181,9 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(runner.role_profile(job, 'security')['model'], 'gpt-6-astra')
         job['intake']['risk'] = 'high'
         self.assertEqual(runner.role_profile(job, 'spec')['model'], 'gpt-6-astra')
-        for role in ('intake', 'build', 'review', 'ui'):
+        for role in ('intake', 'review', 'ui'):
             self.assertEqual(runner.role_profile(job, role)['model'], 'gpt-6.1-sol')
+        self.assertEqual(runner.role_profile(job, 'build'), {'model': 'gpt-6.1-terra', 'effort': 'max'})
 
     def test_intake_contract_requires_risk_evidence(self):
         value = dict(summary='Inspect', decision='accept', risk='high', surfaces=['security'],
