@@ -1,14 +1,23 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import * as integrationsRepo from "@kan/db/repository/integration.repo";
 
+import type { TestDbClient } from "./test-db";
 import { createTestDb, seedTestData } from "./test-db";
 
 describe("integration repository", () => {
-  it("replaces a legacy access token only while it is still current", async () => {
-    const db = await createTestDb();
-    const { user } = await seedTestData(db);
+  let db: TestDbClient;
+  let user: Awaited<ReturnType<typeof seedTestData>>["user"];
 
+  // Booting PGlite and applying every migration takes about 2.5 s alone and
+  // over 5 s in the parallel full suite. Keep it out of the 5 s test timeout,
+  // bounded so a real hang still fails.
+  beforeEach(async () => {
+    db = await createTestDb();
+    ({ user } = await seedTestData(db));
+  }, 30_000);
+
+  it("replaces a legacy access token only while it is still current", async () => {
     await integrationsRepo.createOrUpdateProvider(db, {
       provider: "trello",
       userId: user.id,
@@ -38,9 +47,6 @@ describe("integration repository", () => {
   });
 
   it("does not return credentials when listing providers", async () => {
-    const db = await createTestDb();
-    const { user } = await seedTestData(db);
-
     await integrationsRepo.createOrUpdateProvider(db, {
       provider: "trello",
       userId: user.id,
