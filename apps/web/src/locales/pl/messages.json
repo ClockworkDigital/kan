@@ -8423,5 +8423,469 @@
         128
       ]
     ]
+  },
+  "ZAWGCX": {
+    "message": "{0} seconds",
+    "placeholders": {
+      "0": [
+        "snapshot.elapsedSeconds"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        108
+      ]
+    ],
+    "translation": "{0} sekund"
+  },
+  "g+1BiC": {
+    "message": "Builder model",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        90
+      ]
+    ],
+    "translation": "Model budujący"
+  },
+  "oZd08v": {
+    "message": "Building",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        18
+      ]
+    ],
+    "translation": "Budowanie"
+  },
+  "SYZzGm": {
+    "message": "Checks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        19
+      ],
+      [
+        "src/views/factory/index.tsx",
+        119
+      ]
+    ],
+    "translation": "Kontrole"
+  },
+  "qqWcBV": {
+    "message": "Completed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        25
+      ]
+    ],
+    "translation": "Ukończono"
+  },
+  "wCJFlW": {
+    "message": "Elapsed time",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        107
+      ]
+    ],
+    "translation": "Czas trwania"
+  },
+  "ZEipBs": {
+    "message": "Estimated cost (USD)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        96
+      ]
+    ],
+    "translation": "Szacowany koszt (USD)"
+  },
+  "WiW78t": {
+    "message": "Factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        123
+      ]
+    ],
+    "translation": "Fabryka"
+  },
+  "XeWg8z": {
+    "message": "Factory | {0}",
+    "placeholders": {
+      "0": [
+        "workspace.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        244
+      ]
+    ],
+    "translation": "Fabryka | {0}"
+  },
+  "7Bj3x9": {
+    "message": "Failed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        24
+      ],
+      [
+        "src/views/factory/index.tsx",
+        42
+      ]
+    ],
+    "translation": "Niepowodzenie"
+  },
+  "V0xvQb": {
+    "message": "Go to factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        131
+      ]
+    ],
+    "translation": "Przejdź do fabryki"
+  },
+  "yx/fMc": {
+    "message": "High",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        45
+      ]
+    ],
+    "translation": "Wysokie"
+  },
+  "hfbUAJ": {
+    "message": "Inspect artifacts",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        133
+      ]
+    ],
+    "translation": "Przeglądaj artefakty"
+  },
+  "7IGsHy": {
+    "message": "Intake",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        16
+      ]
+    ],
+    "translation": "Przyjęcie"
+  },
+  "rTI7tI": {
+    "message": "Issue #{0}",
+    "placeholders": {
+      "0": [
+        "snapshot.issueNumber"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        71
+      ]
+    ],
+    "translation": "Zgłoszenie #{0}"
+  },
+  "+CfSGY": {
+    "message": "Job artifacts",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        157
+      ]
+    ],
+    "translation": "Artefakty zadania"
+  },
+  "nTWWCZ": {
+    "message": "Low",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        45
+      ]
+    ],
+    "translation": "Niskie"
+  },
+  "hXzOVo": {
+    "message": "Next",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        231
+      ]
+    ],
+    "translation": "Dalej"
+  },
+  "ePzKW4": {
+    "message": "No artifacts published yet.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        178
+      ]
+    ],
+    "translation": "Nie opublikowano jeszcze artefaktów."
+  },
+  "CKxR1n": {
+    "message": "No factory jobs yet. Publish a run to this workspace to see its progress here.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        209
+      ]
+    ],
+    "translation": "Nie ma jeszcze zadań. Opublikuj uruchomienie w tym obszarze roboczym, aby śledzić jego postęp tutaj."
+  },
+  "tdta9X": {
+    "message": "Page {0}",
+    "placeholders": {
+      "0": [
+        "page + 1"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        226
+      ]
+    ],
+    "translation": "Strona {0}"
+  },
+  "nqMwPi": {
+    "message": "Passed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        41
+      ]
+    ],
+    "translation": "Zaliczono"
+  },
+  "v++/+j": {
+    "message": "PR #{0}",
+    "placeholders": {
+      "0": [
+        "snapshot.prNumber"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        78
+      ]
+    ],
+    "translation": "PR #{0}"
+  },
+  "DHhJ7s": {
+    "message": "Previous",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        225
+      ]
+    ],
+    "translation": "Wstecz"
+  },
+  "8wu9lr": {
+    "message": "Queued",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        15
+      ]
+    ],
+    "translation": "W kolejce"
+  },
+  "blJqUG": {
+    "message": "Rework",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        20
+      ]
+    ],
+    "translation": "Poprawki"
+  },
+  "Xwlwdm": {
+    "message": "Risk",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        84
+      ]
+    ],
+    "translation": "Ryzyko"
+  },
+  "xXKDhD": {
+    "message": "Round {0}",
+    "placeholders": {
+      "0": [
+        "round.round"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        117
+      ]
+    ],
+    "translation": "Runda {0}"
+  },
+  "9NyAH9": {
+    "message": "Skipped",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        43
+      ]
+    ],
+    "translation": "Pominięto"
+  },
+  "N3MPTP": {
+    "message": "Software factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        245
+      ]
+    ],
+    "translation": "Fabryka oprogramowania"
+  },
+  "rJ/oy5": {
+    "message": "Specification",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        17
+      ]
+    ],
+    "translation": "Specyfikacja"
+  },
+  "efxx4a": {
+    "message": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        204
+      ]
+    ],
+    "translation": "Nie udało się załadować zadań. Sprawdź połączenie i dostęp do obszaru roboczego; aktualizacje zostaną automatycznie ponowione."
+  },
+  "Paui2p": {
+    "message": "Unable to load job artifacts. Check your connection and access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        160
+      ]
+    ],
+    "translation": "Nie udało się załadować artefaktów. Sprawdź połączenie i uprawnienia dostępu."
+  },
+  "6jKCD3": {
+    "message": "Updates automatically every five seconds.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        201
+      ]
+    ],
+    "translation": "Aktualizuje się automatycznie co pięć sekund."
+  },
+  "eS9Soo": {
+    "message": "Waiting for human review",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        23
+      ]
+    ],
+    "translation": "Oczekiwanie na przegląd przez człowieka"
+  },
+  "GWprY1": {
+    "message": "Waiting for information",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        22
+      ]
+    ],
+    "translation": "Oczekiwanie na informacje"
   }
 }

@@ -78,6 +78,9 @@ describe("background sync scope", () => {
     "workspace.all",
     "label.delete",
     "label.byPublicId",
+    "factory.publish",
+    "factory.list",
+    "factory.byId",
   ])("denies %s", async (path) => {
     await expect(check(path)).rejects.toMatchObject({ code: "FORBIDDEN" });
   });

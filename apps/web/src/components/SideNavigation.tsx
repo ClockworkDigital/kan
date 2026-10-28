@@ -120,6 +120,18 @@ export default function SideNavigation({
         },
       },
       {
+        name: t`Factory`,
+        href: "/factory",
+        icon: isDarkMode ? boardsIconDark : boardsIconLight,
+        keyboardShortcut: {
+          type: "SEQUENCE",
+          strokes: [{ key: "G" }, { key: "F" }],
+          action: () => router.push("/factory"),
+          group: "NAVIGATION",
+          description: t`Go to factory`,
+        },
+      },
+      {
         name: t`Members`,
         href: "/members",
         icon: isDarkMode ? membersIconDark : membersIconLight,

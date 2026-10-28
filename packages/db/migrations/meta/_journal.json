@@ -260,6 +260,20 @@
       "when": 1792776697736,
       "tag": "20261023173137_AddGithubSyncSettings",
       "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1793160731312,
+      "tag": "20261028041211_AddFactoryJobs",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1793161665662,
+      "tag": "20261028042745_AllowDeletedFactoryPublisher",
+      "breakpoints": true
     }
   ]
 }
