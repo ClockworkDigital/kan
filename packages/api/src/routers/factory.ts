@@ -34,7 +34,13 @@ const snapshot = z.object({
               summary: z.string().max(2000),
             }),
           )
-          .max(10),
+          .max(10)
+          .refine(
+            (reviews) =>
+              new Set(reviews.map((review) => review.name)).size ===
+              reviews.length,
+            "Reviewer names must be unique within each round.",
+          ),
       }),
     )
     .max(50)

@@ -302,6 +302,46 @@ describe("factory job publication", () => {
       });
     }));
 
+  it("rejects duplicate reviewer names after trimming within each round", async () =>
+    fixture(async (tx, { user }) => {
+      const api = caller(tx, user);
+      const review = { name: "security", result: "pass" as const, summary: "" };
+      const saved = await api.publish({
+        ...report,
+        snapshot: {
+          ...snapshot,
+          rounds: [1, 2].map((round) => ({
+            round,
+            gate: "pass" as const,
+            reviews: [review],
+          })),
+        },
+      });
+      for (const name of ["security", " security "])
+        await expect(
+          api.publish({
+            ...report,
+            revision: 2,
+            snapshot: {
+              ...snapshot,
+              rounds: [
+                {
+                  round: 1,
+                  gate: "pass",
+                  reviews: [review, { ...review, name, result: "fail" }],
+                },
+              ],
+            },
+          }),
+        ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+      expect(
+        await api.byId({
+          workspacePublicId: report.workspacePublicId,
+          jobPublicId: saved.publicId,
+        }),
+      ).toMatchObject({ revision: 1 });
+    }));
+
   it("validates the trust boundary and produces OpenAPI routes", async () =>
     fixture(async (tx, { user }) => {
       const api = caller(tx, user);

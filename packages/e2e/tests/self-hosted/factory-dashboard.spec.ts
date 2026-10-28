@@ -135,6 +135,80 @@ test("factory reports update the dashboard and survive reload and connection los
       path: testInfo.outputPath("factory-mobile.png"),
       fullPage: true,
     });
+
+    for (let index = 1; index < 8; index++) {
+      expect(
+        (
+          await publisher.put(endpoint, {
+            data: {
+              ...report,
+              runKey: `sample-run-${index}`,
+              snapshot: { ...report.snapshot, title: `Sample run ${index}` },
+            },
+          })
+        ).ok(),
+      ).toBe(true);
+    }
+    await expect(page.getByRole("article")).toHaveCount(8, { timeout: 15000 });
+    for (let index = 1; index < 8; index++) {
+      const extraCard = page.getByRole("article").filter({
+        has: page.getByRole("heading", {
+          name: `Sample run ${index}`,
+          exact: true,
+        }),
+      });
+      await extraCard.getByText("Inspect artifacts", { exact: true }).click();
+      await expect(
+        extraCard.getByText("review.md", { exact: true }),
+      ).toBeVisible();
+    }
+    let listReads = 0;
+    let artifactReads = 0;
+    page.on("request", (req) => {
+      const path = new URL(req.url()).pathname;
+      if (path.includes("factory.list")) listReads++;
+      if (path.includes("factory.byId")) artifactReads++;
+    });
+    await expect
+      .poll(() => listReads, { timeout: 15000 })
+      .toBeGreaterThanOrEqual(2);
+    expect(artifactReads).toBe(0);
+    const updatedCard = page.getByRole("article").filter({
+      has: page.getByRole("heading", {
+        name: "Sample factory run",
+        exact: true,
+      }),
+    });
+    await updatedCard.getByText("spec.md", { exact: true }).click();
+    report.revision++;
+    report.artifacts = [{ name: "spec.md", content: "Updated specification." }];
+    expect((await publisher.put(endpoint, { data: report })).ok()).toBe(true);
+    await expect(updatedCard.locator("pre:visible")).toHaveText(
+      "Updated specification.",
+      { timeout: 15000 },
+    );
+    expect(artifactReads).toBe(1);
+    let abortedArtifactReads = 0;
+    await page.route("**/api/trpc/factory.byId*", (route) => {
+      if (abortedArtifactReads < 2) {
+        abortedArtifactReads++;
+        return route.abort();
+      }
+      return route.continue();
+    });
+    report.revision++;
+    report.artifacts = [
+      { name: "spec.md", content: "Recovered specification." },
+    ];
+    expect((await publisher.put(endpoint, { data: report })).ok()).toBe(true);
+    await expect(updatedCard.locator("pre")).toHaveText(
+      "Recovered specification.",
+      { timeout: 15000 },
+    );
+    await expect(updatedCard.getByRole("alert")).not.toBeVisible();
+    expect(abortedArtifactReads).toBe(2);
+    expect(artifactReads).toBe(4);
+    await page.unroute("**/api/trpc/factory.byId*");
     expect(browserErrors).toEqual([]);
     const unauthorized = await request.newContext({ baseURL });
     expect((await unauthorized.get(endpoint)).status()).toBe(401);

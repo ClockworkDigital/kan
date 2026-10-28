@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { RouterOutputs } from "~/utils/api";
 import Button from "~/components/Button";
@@ -29,9 +29,11 @@ function stageLabels() {
 function JobCard({
   job,
   workspacePublicId,
+  listUpdatedAt,
 }: {
   job: Job;
   workspacePublicId: string;
+  listUpdatedAt: number;
 }) {
   const { i18n } = useLingui();
   const [inspecting, setInspecting] = useState(false);
@@ -135,6 +137,8 @@ function JobCard({
           <Artifacts
             workspacePublicId={workspacePublicId}
             jobPublicId={job.publicId}
+            revision={job.revision}
+            listUpdatedAt={listUpdatedAt}
           />
         )}
       </details>
@@ -145,14 +149,25 @@ function JobCard({
 function Artifacts({
   workspacePublicId,
   jobPublicId,
+  revision,
+  listUpdatedAt,
 }: {
   workspacePublicId: string;
   jobPublicId: string;
+  revision: number;
+  listUpdatedAt: number;
 }) {
   const job = api.factory.byId.useQuery(
     { workspacePublicId, jobPublicId },
-    { refetchInterval: 5000, retry: false },
+    { retry: false },
   );
+  const loadedRevision = job.isSuccess ? job.data.revision : undefined;
+  const { refetch } = job;
+  // List refreshes retry failed artifacts even when the job revision is unchanged.
+  useEffect(() => {
+    if (loadedRevision === undefined || loadedRevision < revision)
+      void refetch({ cancelRefetch: false });
+  }, [loadedRevision, revision, listUpdatedAt, refetch]);
   return (
     <section aria-label={t`Job artifacts`} className="mt-3">
       {job.isPending && <p role="status">{t`Loading...`}</p>}
@@ -214,6 +229,7 @@ function WorkspaceFactory({
                 key={job.publicId}
                 job={job}
                 workspacePublicId={workspacePublicId}
+                listUpdatedAt={jobs.dataUpdatedAt}
               />
             ))}
           </div>

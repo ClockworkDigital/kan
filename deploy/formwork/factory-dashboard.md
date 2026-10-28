@@ -8,7 +8,8 @@ estimates, not billing totals. Missing telemetry is omitted.
 
 The page polls every five seconds while visible and recovers on reconnect or
 reload from PostgreSQL. It shows an error instead of stale results after a failed
-read. Twenty jobs are shown per page, newest report first. Reports can move jobs
+read. Open artifacts refresh when their job revision changes; failed loads retry
+after a successful list refresh. Twenty jobs are shown per page, newest report first. Reports can move jobs
 between pages while the factory is running.
 
 ## Publish from a running factory
@@ -56,7 +57,8 @@ Stages: `queued`, `intake`, `spec`, `building`, `checks`, `rework`, `review`,
 `pending`, `pass`, `fail`, `skipped`. Use `null` for unavailable issue/PR numbers,
 risk, model, cost and elapsed time. Reports are limited to 512 KiB, 50 rounds,
 10 reviewers per round and 50 artifacts of at most 65,536 characters each.
-Round numbers and artifact names must be unique. Artifact names are display
+Round numbers and artifact names must be unique; reviewer names must be unique
+within each round. Artifact names are display
 labels, never server paths. Kan neither reads the producer's files nor fetches
 artifact URLs. Publish only artifacts appropriate for workspace members; remove
 credentials and private machine details before sending. Report bodies are
