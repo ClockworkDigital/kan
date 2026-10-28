@@ -16,13 +16,15 @@ policy and forward only verified tenant/user/group/issued-at headers. Provision
 approved stable UUIDs with provision.ts; email is not an identity key. Kan retains
 its own database and native workspace permissions.
 
-Build with Node 24:
+Build with Node 24. Load `KAN_URL` and `FORMWORK_URL` from the operator environment
+first; these public origins must match the deployment so prerendered navigation
+and browser runtime configuration render the same branding:
 
 ```sh
 corepack pnpm install --frozen-lockfile --ignore-scripts
 corepack pnpm --filter @kan/mcp build
 corepack pnpm --filter @kan/auth test
-NEXT_PUBLIC_USE_STANDALONE_OUTPUT=true BETTER_AUTH_SECRET=build-only-placeholder-secret-at-least-32-characters CI=true corepack pnpm --filter @kan/web exec next build --turbo
+NEXT_PUBLIC_BASE_URL="$KAN_URL" NEXT_PUBLIC_FORMWORK_URL="$FORMWORK_URL" NEXT_PUBLIC_USE_STANDALONE_OUTPUT=true BETTER_AUTH_SECRET=build-only-placeholder-secret-at-least-32-characters CI=true corepack pnpm --filter @kan/web exec next build --turbo
 docker build -f deploy/formwork/Dockerfile -t kan:formwork .
 ```
 
