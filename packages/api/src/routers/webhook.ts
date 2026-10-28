@@ -42,7 +42,7 @@ export const webhookRouter = createTRPCRouter({
       ),
     )
     .query(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -97,7 +97,7 @@ export const webhookRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -170,7 +170,7 @@ export const webhookRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -238,7 +238,7 @@ export const webhookRouter = createTRPCRouter({
     )
     .output(z.object({ success: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -300,7 +300,7 @@ export const webhookRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.user?.id;
+      const userId = ctx.user.id;
 
       if (!userId)
         throw new TRPCError({
@@ -345,7 +345,7 @@ export const webhookRouter = createTRPCRouter({
         listName: "Test List",
         user: {
           id: userId,
-          name: ctx.user?.name ?? "Test User",
+          name: ctx.user.name ?? "Test User",
         },
       });
 

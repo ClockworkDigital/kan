@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function useClipboard({ timeout = 500 } = {}) {
-  const [error, setError] = useState<string | Error | null | undefined>(null);
+  const [error, setError] = useState<unknown>(null);
   const [copied, setCopied] = useState<boolean>(false);
   const [copyTimeout, setCopyTimeout] = useState<number | undefined>(undefined);
 
@@ -20,7 +20,7 @@ export function useClipboard({ timeout = 500 } = {}) {
       navigator.clipboard
         .writeText(value)
         .then(() => handleCopyResult(true))
-        .catch((err) => setError(err));
+        .catch((err: unknown) => setError(err));
     } else {
       setError(new Error("Error: navigator.clipboard is not supported"));
     }

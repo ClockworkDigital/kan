@@ -11,7 +11,6 @@ import {
   HiXMark,
 } from "react-icons/hi2";
 
-import type { NewCardInput } from "@kan/api/types";
 import { generateUID } from "@kan/shared/utils";
 
 import type { WorkspaceMember } from "~/components/Editor";
@@ -24,6 +23,7 @@ import Input from "~/components/Input";
 import LabelIcon from "~/components/LabelIcon";
 import Toggle from "~/components/Toggle";
 import { useModalFormState } from "~/hooks/useModalFormState";
+import type { ModalStateValues } from "~/providers/modal";
 import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { useWorkspace } from "~/providers/workspace";
@@ -31,10 +31,7 @@ import { api } from "~/utils/api";
 import { formatMemberDisplayName, getAvatarUrl } from "~/utils/helpers";
 import GithubIssueForm from "./GithubIssueForm";
 
-type NewCardFormInput = NewCardInput & {
-  isCreateAnotherEnabled: boolean;
-  dueDate?: Date | null;
-};
+type NewCardFormInput = ModalStateValues["NEW_CARD"];
 
 interface QueryParams {
   boardPublicId: string;
@@ -65,7 +62,7 @@ function LocalNewCardForm({
   const utils = api.useUtils();
 
   // persists the form values
-  const { formState, saveFormState } = useModalFormState<NewCardFormInput>({
+  const { formState, saveFormState } = useModalFormState<"NEW_CARD">({
     modalType: "NEW_CARD",
     initialValues: {
       title: "",
@@ -85,8 +82,8 @@ function LocalNewCardForm({
       values: formState,
     });
 
-  const labelPublicIds = watch("labelPublicIds") || [];
-  const memberPublicIds = watch("memberPublicIds") || [];
+  const labelPublicIds = watch("labelPublicIds");
+  const memberPublicIds = watch("memberPublicIds");
   const isCreateAnotherEnabled = watch("isCreateAnotherEnabled");
   const position = watch("position");
   const title = watch("title");
@@ -172,7 +169,7 @@ function LocalNewCardForm({
                   .map((member) => ({
                     ...member,
                     deletedAt: null,
-                  })) ?? [],
+                  })),
               _filteredLabels: labelPublicIds.map((id) => ({ publicId: id })),
               _filteredMembers: memberPublicIds.map((id) => ({ publicId: id })),
               index: position === "start" ? 0 : list.cards.length,

@@ -47,6 +47,7 @@ export default tseslint.config(
       import: importPlugin,
       turbo: turboPlugin,
     },
+    settings: turboPlugin.configs["flat/recommended"].settings,
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,

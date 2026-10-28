@@ -13,21 +13,13 @@ interface EditYouTubeFormInput {
   title: string;
 }
 
-interface EditYouTubeModalState {
-  url: string;
-  title: string;
-  onSave: (url: string, title: string) => void;
-}
-
 export function EditYouTubeModal() {
   const { closeModal, getModalState } = useModal();
   const [isValidating, setIsValidating] = useState(false);
   const [urlError, setUrlError] = useState<string | null>(null);
 
   // Get initial values and callback from modal state
-  const modalState = getModalState("EDIT_YOUTUBE") as
-    | EditYouTubeModalState
-    | undefined;
+  const modalState = getModalState("EDIT_YOUTUBE");
   const initialUrl = modalState?.url ?? "";
   const initialTitle = modalState?.title ?? "";
   const onSave = modalState?.onSave;

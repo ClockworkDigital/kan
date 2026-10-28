@@ -46,7 +46,7 @@ export default function ChecklistItemRow({
       await utils.card.byId.cancel({ cardPublicId });
       const previous = utils.card.byId.getData({ cardPublicId });
       utils.card.byId.setData({ cardPublicId }, (old) => {
-        if (!old) return old as any;
+        if (!old) return old;
         const updatedChecklists = old.checklists.map((cl) => ({
           ...cl,
           items: cl.items.map((ci) =>
@@ -84,7 +84,7 @@ export default function ChecklistItemRow({
       await utils.card.byId.cancel({ cardPublicId });
       const previous = utils.card.byId.getData({ cardPublicId });
       utils.card.byId.setData({ cardPublicId }, (old) => {
-        if (!old) return old as any;
+        if (!old) return old;
         const updatedChecklists = old.checklists.map((cl) => ({
           ...cl,
           items: cl.items.filter((ci) => ci.publicId !== item.publicId),

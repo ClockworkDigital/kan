@@ -27,6 +27,7 @@ const db = {
     cards: { findFirst: vi.fn() },
     lists: { findFirst: vi.fn() },
     boards: { findFirst: vi.fn() },
+    labels: { findFirst: vi.fn(), findMany: vi.fn() },
   },
 };
 const check = (path: string, input: unknown = {}) =>
@@ -49,6 +50,10 @@ describe("background sync scope", () => {
     });
     db.query.lists.findFirst.mockResolvedValue({ deletedAt: null, board });
     db.query.boards.findFirst.mockResolvedValue(board);
+    db.query.labels.findFirst.mockResolvedValue({ deletedAt: null, board });
+    db.query.labels.findMany.mockResolvedValue([
+      { publicId: "label1234567", boardId: board.id, deletedAt: null },
+    ]);
   });
   it("allows selected issue requests and card updates", async () => {
     await check("githubSync.request", {
@@ -71,6 +76,11 @@ describe("background sync scope", () => {
     "card.delete",
     "board.update",
     "workspace.all",
+    "label.delete",
+    "label.byPublicId",
+    "factory.publish",
+    "factory.list",
+    "factory.byId",
   ])("denies %s", async (path) => {
     await expect(check(path)).rejects.toMatchObject({ code: "FORBIDDEN" });
   });
@@ -130,4 +140,147 @@ describe("background sync scope", () => {
       check("githubSync.settings", { workspacePublicId: "other1234567" }),
     ).rejects.toThrow();
   });
+
+  it("allows selected repository label reads but denies writes and other paths", async () => {
+    const input = {
+      workspacePublicId: "workspace123",
+      path: "repos/ClockworkDigital/test/labels?per_page=100",
+    };
+    await check("githubSync.request", input);
+    for (const path of [
+      "repos/ClockworkDigital/other/labels?per_page=100",
+      "repos/Other/test/labels?per_page=100",
+      "repos/ClockworkDigital/test/labels/bug",
+      "repos/ClockworkDigital/test/labels?per_page=100&extra=1",
+      "repos/ClockworkDigital/../labels?per_page=100",
+    ])
+      await expect(
+        check("githubSync.request", { ...input, path }),
+      ).rejects.toThrow();
+    await expect(
+      check("githubSync.request", { ...input, changes: { title: "edit" } }),
+    ).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(
+      check("githubSync.request", {
+        ...input,
+        workspacePublicId: "other1234567",
+      }),
+    ).rejects.toThrow();
+  });
+
+  const labelInputs = {
+    "label.create": { boardPublicId: "board1234567" },
+    "label.update": { labelPublicId: "label1234567" },
+    "card.addOrRemoveLabel": {
+      cardPublicId: "card12345678",
+      labelPublicId: "label1234567",
+    },
+  };
+  it.each(Object.entries(labelInputs))(
+    "allows %s only in the delegated private board",
+    async (path, input) => {
+      await check(path, input);
+      if (path !== "card.addOrRemoveLabel")
+        expect(assertPermission).toHaveBeenCalledWith(
+          db,
+          "owner",
+          1,
+          "board:edit",
+        );
+      for (const invalid of [
+        { ...board, workspaceId: 9 },
+        { ...board, name: "Kan-only board" },
+        { ...board, name: "GitHub: ClockworkDigital/other" },
+        { ...board, visibility: "public" },
+        { ...board, deletedAt: new Date() },
+      ]) {
+        db.query.boards.findFirst.mockResolvedValue(invalid);
+        db.query.labels.findFirst.mockResolvedValue({
+          deletedAt: null,
+          board: invalid,
+        });
+        db.query.cards.findFirst.mockResolvedValue({
+          deletedAt: null,
+          list: { deletedAt: null, board: invalid },
+        });
+        await expect(check(path, input)).rejects.toMatchObject({
+          code: "FORBIDDEN",
+        });
+      }
+    },
+  );
+
+  it("requires board edit permission for label definitions", async () => {
+    vi.mocked(assertPermission).mockImplementation(
+      (_db, _user, _workspace, permission) =>
+        permission === "board:edit"
+          ? Promise.reject(new Error("Denied"))
+          : Promise.resolve(),
+    );
+    for (const path of ["label.create", "label.update"] as const)
+      await expect(check(path, labelInputs[path])).rejects.toThrow("Denied");
+  });
+
+  it("rejects missing and deleted labels or boards", async () => {
+    db.query.boards.findFirst.mockResolvedValue(undefined);
+    await expect(
+      check("label.create", labelInputs["label.create"]),
+    ).rejects.toThrow();
+    for (const label of [undefined, { deletedAt: new Date(), board }]) {
+      db.query.labels.findFirst.mockResolvedValue(label);
+      await expect(
+        check("label.update", labelInputs["label.update"]),
+      ).rejects.toThrow();
+    }
+  });
+
+  it.each(["card.create", "card.addOrRemoveLabel"])(
+    "rejects foreign, deleted or missing labels during %s",
+    async (path) => {
+      const input =
+        path === "card.create"
+          ? { listPublicId: "list12345678", labelPublicIds: ["label1234567"] }
+          : labelInputs["card.addOrRemoveLabel"];
+      await check(path, input);
+      for (const labels of [
+        [],
+        [{ publicId: "label1234567", boardId: 99, deletedAt: null }],
+        [
+          {
+            publicId: "label1234567",
+            boardId: board.id,
+            deletedAt: new Date(),
+          },
+        ],
+      ]) {
+        db.query.labels.findMany.mockResolvedValue(labels);
+        await expect(check(path, input)).rejects.toMatchObject({
+          code: "FORBIDDEN",
+        });
+      }
+    },
+  );
+
+  it.each(Object.entries(labelInputs))(
+    "retains owner, pause, provider and permission checks for %s",
+    async (path, input) => {
+      vi.mocked(assertPermission).mockRejectedValueOnce(new Error("revoked"));
+      await expect(check(path, input)).rejects.toThrow();
+      vi.mocked(get).mockResolvedValueOnce({
+        userId: "other",
+        enabled: true,
+      } as never);
+      await expect(check(path, input)).rejects.toThrow();
+      vi.mocked(get).mockResolvedValueOnce({
+        userId: "owner",
+        enabled: false,
+      } as never);
+      await expect(check(path, input)).rejects.toThrow();
+      vi.mocked(getProviderForUser).mockResolvedValueOnce(undefined);
+      await expect(check(path, input)).rejects.toThrow();
+      await expect(
+        assertSyncScope(db as never, undefined, "workspace123", path, input),
+      ).rejects.toThrow();
+    },
+  );
 });

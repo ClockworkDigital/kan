@@ -55,20 +55,12 @@ export function NewTemplateForm({
 
   const createBoard = api.board.create.useMutation({
     onSuccess: (newTemplate) => {
-      if (!newTemplate) {
-        showPopup({
-          header: t`Unable to create template`,
-          message: t`Please try again later, or contact customer support.`,
-          icon: "error",
-        });
-      } else {
-        router.push(`/templates/${newTemplate.publicId}`);
-        showPopup({
-          header: t`Template created`,
-          message: t`Template created successfully`,
-          icon: "success",
-        });
-      }
+      router.push(`/templates/${newTemplate.publicId}`);
+      showPopup({
+        header: t`Template created`,
+        message: t`Template created successfully`,
+        icon: "success",
+      });
       closeModal();
     },
     onError: () => {

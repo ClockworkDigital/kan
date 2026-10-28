@@ -1,4 +1,5 @@
 import { stripe } from "@better-auth/stripe";
+import { APIError, logger as betterAuthLogger } from "better-auth";
 import { apiKey, genericOAuth } from "better-auth/plugins";
 import { magicLink } from "better-auth/plugins/magic-link";
 
@@ -65,28 +66,39 @@ async function cancelWorkspaceAccess(
 }
 
 export function createPlugins(db: dbClient) {
+  const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
   return [
     socialProvidersPlugin(),
     ...(process.env.NEXT_PUBLIC_KAN_ENV === "cloud"
       ? [
           stripe({
             stripeClient: createStripeClient(),
-            stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+            // The SDK reads this getter only after receiving the webhook body.
+            get stripeWebhookSecret(): string {
+              if (!stripeWebhookSecret) {
+                betterAuthLogger.error("Stripe webhook secret not found");
+                throw new APIError("BAD_REQUEST", {
+                  message: "Webhook Error: Stripe webhook secret not found",
+                });
+              }
+              return stripeWebhookSecret;
+            },
             createCustomerOnSignUp: true,
             subscription: {
               enabled: true,
               plans: [
                 {
                   name: "team",
-                  priceId: process.env.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID!,
+                  priceId: process.env.STRIPE_TEAM_PLAN_MONTHLY_PRICE_ID,
                   annualDiscountPriceId:
-                    process.env.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID!,
+                    process.env.STRIPE_TEAM_PLAN_YEARLY_PRICE_ID,
                 },
                 {
                   name: "pro",
-                  priceId: process.env.STRIPE_PRO_PLAN_MONTHLY_PRICE_ID!,
+                  priceId: process.env.STRIPE_PRO_PLAN_MONTHLY_PRICE_ID,
                   annualDiscountPriceId:
-                    process.env.STRIPE_PRO_PLAN_YEARLY_PRICE_ID!,
+                    process.env.STRIPE_PRO_PLAN_YEARLY_PRICE_ID,
                 },
               ],
               authorizeReference: async (data) => {
@@ -160,7 +172,8 @@ export function createPlugins(db: dbClient) {
       : []),
     apiKey({
       enableSessionForAPIKeys: true,
-      customAPIKeyGetter: (ctx) => getApiKeyFromHeaders(ctx.headers),
+      customAPIKeyGetter: (ctx: { headers?: Headers }) =>
+        getApiKeyFromHeaders(ctx.headers),
       rateLimit: {
         enabled: true,
         timeWindow: 1000 * 60, // 1 minute

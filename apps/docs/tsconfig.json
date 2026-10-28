@@ -1,0 +1,5 @@
+{
+  "extends": "../../tooling/typescript/base.json",
+  "include": ["**/*.js", "**/*.ts", "**/*.tsx", "mint.json"],
+  "exclude": ["node_modules"]
+}

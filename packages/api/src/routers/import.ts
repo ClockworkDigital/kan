@@ -178,12 +178,6 @@ export const importRouter = createTRPCRouter({
 
         const user = ctx.user;
 
-        if (!user)
-          throw new TRPCError({
-            message: "User not authenticated",
-            code: "UNAUTHORIZED",
-          });
-
         const token = await getTrelloTokenForUser(ctx.db, user.id);
 
         const response = await fetch(
@@ -227,7 +221,7 @@ export const importRouter = createTRPCRouter({
       )
       .output(z.object({ boardsCreated: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        const userId = ctx.user?.id;
+        const userId = ctx.user.id;
 
         const apiKey = apiKeys.trello;
 
@@ -592,12 +586,6 @@ export const importRouter = createTRPCRouter({
       .query(async ({ ctx }) => {
         const user = ctx.user;
 
-        if (!user)
-          throw new TRPCError({
-            message: "User not authenticated",
-            code: "UNAUTHORIZED",
-          });
-
         const integration = await integrationsRepo.getProviderForUser(
           ctx.db,
           user.id,
@@ -701,7 +689,7 @@ export const importRouter = createTRPCRouter({
       )
       .output(z.object({ projectsImported: z.number() }))
       .mutation(async ({ ctx, input }) => {
-        const userId = ctx.user?.id;
+        const userId = ctx.user.id;
         if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
 
         const integration = await integrationsRepo.getProviderForUser(

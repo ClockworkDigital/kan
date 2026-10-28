@@ -1,18 +1,23 @@
 import { useCallback, useEffect, useRef } from "react";
 
+import type { ModalStateValues } from "~/providers/modal";
 import { useModal } from "~/providers/modal";
 
-interface UseModalFormStateOptions<T> {
-  modalType: string;
-  initialValues: T;
+interface UseModalFormStateOptions<
+  Type extends Exclude<keyof ModalStateValues, "NEW_LABEL_CREATED">,
+> {
+  modalType: Type;
+  initialValues: ModalStateValues[Type];
   resetOnClose?: boolean;
 }
 
-export function useModalFormState<T extends Record<string, any>>({
+export function useModalFormState<
+  Type extends Exclude<keyof ModalStateValues, "NEW_LABEL_CREATED">,
+>({
   modalType,
   initialValues,
   resetOnClose = false,
-}: UseModalFormStateOptions<T>) {
+}: UseModalFormStateOptions<Type>) {
   const {
     modalContentType,
     isOpen,
@@ -22,10 +27,10 @@ export function useModalFormState<T extends Record<string, any>>({
   } = useModal();
 
   const isCurrentModal = modalContentType === modalType;
-  const savedState = getModalState(modalType) as T | undefined;
+  const savedState = getModalState(modalType);
 
   // get current form state (using the saved values if available, otherwise the initial values)
-  const formState = savedState || initialValues;
+  const formState = savedState ?? initialValues;
 
   // Keep refs so the callbacks below stay stable across re-renders.
   const modalTypeRef = useRef(modalType);
@@ -36,7 +41,7 @@ export function useModalFormState<T extends Record<string, any>>({
   getModalStateRef.current = getModalState;
 
   const saveFormState = useCallback(
-    (state: Partial<T>) => {
+    (state: Partial<ModalStateValues[Type]>) => {
       const type = modalTypeRef.current;
       const currentState =
         getModalStateRef.current(type) ?? initialValuesRef.current;

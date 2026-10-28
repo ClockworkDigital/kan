@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { userSchema } from "./common";
-
 // ─── workspace.all ───────────────────────────────────────────
 export const workspaceListItemSchema = z.object({
   role: z.string(),

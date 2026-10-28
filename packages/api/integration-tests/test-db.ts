@@ -46,6 +46,8 @@ export async function seedTestData(db: TestDbClient) {
     })
     .returning();
 
+  if (!user) throw new Error("Test user was not created");
+
   // Create a test workspace (publicId must be exactly 12 chars)
   const [workspace] = await db
     .insert(schema.workspaces)
@@ -53,22 +55,24 @@ export async function seedTestData(db: TestDbClient) {
       publicId: "wstest123456",
       name: "Test Workspace",
       slug: "test-workspace",
-      ownerId: user!.id,
+      createdBy: user.id,
       createdAt: new Date(),
     })
     .returning();
 
+  if (!workspace) throw new Error("Test workspace was not created");
+
   // Add user as admin member of workspace
   await db.insert(schema.workspaceMembers).values({
     publicId: "wm1234567890",
-    email: user!.email,
-    workspaceId: workspace!.id,
-    userId: user!.id,
-    createdBy: user!.id,
+    email: user.email,
+    workspaceId: workspace.id,
+    userId: user.id,
+    createdBy: user.id,
     role: "admin",
     status: "active",
     createdAt: new Date(),
   });
 
-  return { user: user!, workspace: workspace! };
+  return { user, workspace };
 }

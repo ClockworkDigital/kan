@@ -9,6 +9,7 @@ import {
   createCardWebhookPayload,
   sendWebhooksForWorkspace,
 } from "../utils/webhook";
+import { cardRouter } from "./card";
 
 vi.mock("@kan/db/repository/card.repo", () => ({
   getWorkspaceAndCardIdByCardPublicId: vi.fn(),
@@ -37,6 +38,7 @@ describe("card description updates", () => {
     const mockDb = {} as never;
     const cardPublicId = "card-12345678";
     const ctx = {
+      headers: new Headers(),
       user: {
         id: "user-123",
         name: "Test User",
@@ -48,6 +50,7 @@ describe("card description updates", () => {
     vi.mocked(assertCanEdit).mockResolvedValue(undefined);
     vi.mocked(cardRepo.getWorkspaceAndCardIdByCardPublicId).mockResolvedValue({
       id: 1,
+      boardId: 3,
       createdBy: "user-123",
       workspaceId: 2,
       workspaceVisibility: "private",
@@ -77,8 +80,6 @@ describe("card description updates", () => {
     });
     vi.mocked(cardActivityRepo.bulkCreate).mockResolvedValue([]);
     vi.mocked(sendWebhooksForWorkspace).mockResolvedValue(undefined);
-
-    const { cardRouter } = await import("./card");
 
     await cardRouter.createCaller(ctx).update({
       cardPublicId,

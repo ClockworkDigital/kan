@@ -146,21 +146,12 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   const { tooltipContent: createListShortcutTooltipContent } =
     useKeyboardShortcut(createListShortcut);
 
-  const updateBoard = api.board.update.useMutation();
-
   const { register, handleSubmit, setValue } = useForm<UpdateBoardInput>({
     values: {
       boardPublicId: boardId ?? "",
       name: "",
     },
   });
-
-  const onSubmit = (values: UpdateBoardInput) => {
-    updateBoard.mutate({
-      boardPublicId: values.boardPublicId,
-      name: values.name,
-    });
-  };
 
   const semanticFilters = formatToArray(router.query.dueDate) as (
     | "overdue"
@@ -216,14 +207,38 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   });
   const github = parseGithubBoardName(boardData?.name ?? "");
 
+  const updateBoard = api.board.update.useMutation({
+    onSuccess: async (_data, variables) => {
+      await utils.board.byId.invalidate({
+        boardPublicId: variables.boardPublicId,
+      });
+    },
+    onError: () => {
+      setValue("name", boardData?.name ?? "");
+      showPopup({
+        header: t`Unable to update board`,
+        message: t`Please try again later, or contact customer support.`,
+        icon: "error",
+      });
+    },
+  });
+
+  const onSubmit = (values: UpdateBoardInput) => {
+    if (!canEditBoard) return;
+    updateBoard.mutate({
+      boardPublicId: values.boardPublicId,
+      name: values.name,
+    });
+  };
+
   // Redirect to 404 if board doesn't exist
   useEffect(() => {
     if (router.isReady && boardId && !isQueryLoading) {
       if (
         error?.data?.code === "NOT_FOUND" ||
-        (!boardData && !isQueryLoading)
+        !boardData
       ) {
-        router.replace("/404");
+        void router.replace("/404");
       }
     }
   }, [router, boardId, isQueryLoading, error, boardData]);
@@ -387,7 +402,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   });
 
   useEffect(() => {
-    if (isSuccess && boardData) {
+    if (isSuccess) {
       setValue("name", boardData.name || "");
     }
   }, [isSuccess, boardData, setValue]);
@@ -797,7 +812,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
           isVisible={isOpen && modalContentType === "CREATE_TEMPLATE"}
         >
           <NewTemplateForm
-            workspacePublicId={workspace.publicId ?? ""}
+            workspacePublicId={workspace.publicId}
             sourceBoardPublicId={boardId ?? ""}
             sourceBoardName={boardData?.name ?? ""}
           />
@@ -859,7 +874,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
   return (
     <>
       <PageHead
-        title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name ?? t`Workspace`}`}
+        title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name}`}
       />
       <div className="relative isolate flex h-full flex-col">
         <PatternedBackground />

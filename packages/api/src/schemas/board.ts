@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { boardVisibilityStatuses } from "@kan/db/schema";
+
 import {
   checklistResponseSchema,
   labelSchema,
@@ -53,7 +55,7 @@ export const boardDetailSchema = z.object({
   publicId: z.string(),
   name: z.string(),
   slug: z.string(),
-  visibility: z.string(),
+  visibility: z.enum(boardVisibilityStatuses),
   isArchived: z.boolean(),
   favorite: z.boolean(),
   workspace: z.object({
@@ -96,7 +98,7 @@ export const boardBySlugSchema = z.object({
   publicId: z.string(),
   name: z.string(),
   slug: z.string(),
-  visibility: z.string(),
+  visibility: z.enum(boardVisibilityStatuses),
   workspace: z.object({
     publicId: z.string(),
     name: z.string(),

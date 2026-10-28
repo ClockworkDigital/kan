@@ -11,6 +11,7 @@ import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import { useEffect } from "react";
 
+import { isDevelopmentMode } from "~/env";
 import { FontSizeProvider } from "~/providers/font-size";
 import { KeyboardShortcutProvider } from "~/providers/keyboard-shortcuts";
 import { LinguiProviderWrapper } from "~/providers/lingui";
@@ -31,7 +32,10 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = object, IP = P> = NextPage<
+  P,
+  IP
+> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -49,7 +53,7 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
         person_profiles: "identified_only",
         defaults: "2025-05-24",
         loaded: (posthog) => {
-          if (process.env.NODE_ENV === "development") posthog.debug();
+          if (isDevelopmentMode()) posthog.debug();
         },
       });
     }
@@ -66,7 +70,6 @@ const MyApp: AppType = ({ Component, pageProps }: AppPropsWithLayout) => {
           data-website-id={env("NEXT_PUBLIC_UMAMI_ID")}
         />
       )}
-      <script src="/__ENV.js" />
       <main className="font-sans">
         <KeyboardShortcutProvider>
           <LinguiProviderWrapper>

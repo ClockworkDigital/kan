@@ -12,7 +12,7 @@ const log = createLogger("api");
 
 export interface User {
   id: string;
-  name: string;
+  name: string | null;
   email: string;
   emailVerified: boolean;
   createdAt: Date;

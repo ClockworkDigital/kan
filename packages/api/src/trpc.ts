@@ -86,7 +86,9 @@ const loggingMiddleware = t.middleware(
       userId: user?.id,
       ...(isCloud && { email: user?.email }),
       input:
-        path.startsWith("integration.") || path.startsWith("githubSync.")
+        path.startsWith("integration.") ||
+        path.startsWith("githubSync.") ||
+        path.startsWith("factory.")
           ? undefined
           : input,
     };

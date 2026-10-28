@@ -198,8 +198,8 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
   // Redirect to 404 if card doesn't exist
   useEffect(() => {
     if (router.isReady && cardId && !isLoading) {
-      if (error?.data?.code === "NOT_FOUND" || (!card && !isLoading)) {
-        router.replace("/404");
+      if (error?.data?.code === "NOT_FOUND" || !card) {
+        void router.replace("/404");
       }
     }
   }, [router, cardId, isLoading, error, card]);
@@ -262,7 +262,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
     },
   });
 
-  const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
+  const { register, handleSubmit, setValue } = useForm<FormValues>({
     values: {
       cardId: cardId ?? "",
       title: card?.title ?? "",
@@ -309,9 +309,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
 
   // Auto-resize title textarea
   useEffect(() => {
-    const titleTextarea = document.getElementById(
-      "title",
-    ) as HTMLTextAreaElement;
+    const titleTextarea = document.getElementById("title");
     if (titleTextarea) {
       titleTextarea.style.height = "auto";
       titleTextarea.style.height = `${titleTextarea.scrollHeight}px`;
@@ -364,15 +362,15 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                   cardPublicId={cardId}
                   isTemplate={isTemplate}
                   boardPublicId={boardId}
-                  cardCreatedBy={card?.createdBy}
+                  cardCreatedBy={card.createdBy}
                   ticketNumber={
                     card.cardNumber != null &&
                     card.list.board.workspace.cardPrefix
                       ? `${card.list.board.workspace.cardPrefix}-${card.cardNumber}`
                       : null
                   }
-                  listPublicId={card?.list.publicId}
-                  cardIndex={card?.index}
+                  listPublicId={card.list.publicId}
+                  cardIndex={card.index}
                 />
                 <Link
                   href={boardReturnUrl}
@@ -460,11 +458,11 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                   />
                   {!isTemplate && (
                     <>
-                      {card?.attachments.length > 0 && (
+                      {card.attachments.length > 0 && (
                         <div className="mt-6">
                           <AttachmentThumbnails
                             attachments={card.attachments}
-                            cardPublicId={cardId ?? ""}
+                            cardPublicId={cardId}
                             isReadOnly={!canEdit}
                           />
                         </div>

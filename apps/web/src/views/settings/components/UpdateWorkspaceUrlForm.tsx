@@ -124,10 +124,11 @@ const UpdateWorkspaceUrlForm = ({
               : ""
           }`}
           errorMessage={
-            errors.slug?.message ||
-            (isWorkspaceSlugAvailable?.isAvailable === false
-              ? t`This workspace username has already been taken`
-              : undefined)
+            errors.slug?.message?.length
+              ? errors.slug.message
+              : isWorkspaceSlugAvailable?.isAvailable === false
+                ? t`This workspace username has already been taken`
+                : undefined
           }
           prefix={
             env("NEXT_PUBLIC_KAN_ENV") === "cloud"

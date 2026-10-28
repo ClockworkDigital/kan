@@ -490,7 +490,7 @@ function FormattedShortcut({ shortcut }: { shortcut: KeyboardShortcut }) {
       const keyedParts = strokeParts.map((part, partIndex) => {
         if (React.isValidElement(part)) {
           return React.cloneElement(part, {
-            key: `stroke-${strokeIndex}-${part.key || partIndex}`,
+            key: `stroke-${strokeIndex}-${part.key?.length ? part.key : partIndex}`,
           });
         }
         return part;

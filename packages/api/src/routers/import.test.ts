@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TRPCError } from "@trpc/server";
 
+import { importRouter } from "./import";
+
 vi.mock("@kan/db/repository/integration.repo", () => ({
   getProviderForUser: vi.fn(),
 }));
@@ -51,7 +53,8 @@ describe("import router - importProjects authorization", () => {
     mockWorkspaceGetByPublicId.mockResolvedValue(mockWorkspace);
     mockImportCreate.mockResolvedValue({ id: 1 });
     global.fetch = vi.fn().mockResolvedValue({
-      json: async () => ({ errors: [{ message: "stop before board creation" }] }),
+      json: () =>
+        Promise.resolve({ errors: [{ message: "stop before board creation" }] }),
     }) as never;
   });
 
@@ -64,7 +67,6 @@ describe("import router - importProjects authorization", () => {
       }),
     );
 
-    const { importRouter } = await import("./import");
     const caller = importRouter.createCaller({
       db: mockDb,
       user: mockUser,
@@ -89,7 +91,6 @@ describe("import router - importProjects authorization", () => {
   it("allows the import when the caller has board:create permission", async () => {
     mockAssertPermission.mockResolvedValue(undefined);
 
-    const { importRouter } = await import("./import");
     const caller = importRouter.createCaller({
       db: mockDb,
       user: mockUser,

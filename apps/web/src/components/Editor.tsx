@@ -59,14 +59,14 @@ declare module "@tiptap/core" {
 export interface SlashCommandItem {
   title: string;
   icon?: React.ReactNode;
-  command?: (props: { editor: TiptapEditor; range: TiptapRange }) => void;
+  command: (props: { editor: TiptapEditor; range: TiptapRange }) => void;
   disabled?: boolean;
 }
 
 export interface SlashCommandsOptions {
-  suggestion?: Partial<SuggestionOptions>;
+  suggestion?: Partial<SuggestionOptions<SlashCommandItem, SlashCommandItem>>;
   commandItems?: SlashCommandItem[];
-  options?: any;
+  options?: unknown;
 }
 
 function filterSlashCommandItems(items: SlashCommandItem[], query: string) {
@@ -77,7 +77,7 @@ function filterSlashCommandItems(items: SlashCommandItem[], query: string) {
 
 export interface RenderSuggestionsProps {
   editor: TiptapEditor;
-  clientRect: () => DOMRect;
+  clientRect?: (() => DOMRect | null) | null;
   items: SlashCommandItem[];
   command: (item: SlashCommandItem) => void;
 }
@@ -152,9 +152,15 @@ const CommandsList = forwardRef<
 
 CommandsList.displayName = "CommandsList";
 
+function getSuggestionRect(clientRect: () => DOMRect | null): DOMRect {
+  const rect = clientRect();
+  if (!rect) throw new Error("Suggestion client rect is unavailable");
+  return rect;
+}
+
 const RenderSuggestions = () => {
   let reactRenderer: ReactRenderer;
-  let popup: TippyInstance[];
+  let popup: TippyInstance[] | undefined;
 
   return {
     onStart: (props: RenderSuggestionsProps) => {
@@ -166,7 +172,7 @@ const RenderSuggestions = () => {
       if (!props.clientRect) return;
 
       popup = tippy("body", {
-        getReferenceClientRect: props.clientRect,
+        getReferenceClientRect: getSuggestionRect.bind(null, props.clientRect),
         appendTo: () => document.body,
         content: reactRenderer.element,
         showOnCreate: true,
@@ -181,7 +187,7 @@ const RenderSuggestions = () => {
       if (!props.clientRect) return;
 
       popup?.[0]?.setProps({
-        getReferenceClientRect: props.clientRect,
+        getReferenceClientRect: getSuggestionRect.bind(null, props.clientRect),
       });
     },
     onKeyDown(props: SuggestionKeyDownProps): boolean {
@@ -282,12 +288,20 @@ const MentionList = forwardRef<
 
 MentionList.displayName = "MentionList";
 
+type RenderMentionSuggestionsProps = Omit<
+  RenderSuggestionsProps,
+  "items" | "command"
+> & {
+  items: MentionItem[];
+  command: (item: MentionItem) => void;
+};
+
 const renderMentionSuggestions = () => {
   let reactRenderer: ReactRenderer;
-  let popup: TippyInstance[];
+  let popup: TippyInstance[] | undefined;
 
   return {
-    onStart: (props: any) => {
+    onStart: (props: RenderMentionSuggestionsProps) => {
       reactRenderer = new ReactRenderer(MentionList, {
         props,
         editor: props.editor,
@@ -296,7 +310,7 @@ const renderMentionSuggestions = () => {
       if (!props.clientRect) return;
 
       popup = tippy("body", {
-        getReferenceClientRect: props.clientRect,
+        getReferenceClientRect: getSuggestionRect.bind(null, props.clientRect),
         appendTo: () => document.body,
         content: reactRenderer.element,
         showOnCreate: true,
@@ -305,10 +319,12 @@ const renderMentionSuggestions = () => {
         placement: "bottom-start",
       });
     },
-    onUpdate(props: any) {
+    onUpdate(props: RenderMentionSuggestionsProps) {
       reactRenderer.updateProps(props);
       if (!props.clientRect) return;
-      popup?.[0]?.setProps({ getReferenceClientRect: props.clientRect });
+      popup?.[0]?.setProps({
+        getReferenceClientRect: getSuggestionRect.bind(null, props.clientRect),
+      });
     },
     onKeyDown(props: SuggestionKeyDownProps) {
       if (props.event.key === "Escape") {
@@ -349,18 +365,18 @@ const SlashCommands = Extension.create<SlashCommandsOptions>({
         render: () => {
           let component: ReturnType<typeof RenderSuggestions>;
           return {
-            onStart: (props: any) => {
+            onStart: (props: RenderSuggestionsProps) => {
               component = RenderSuggestions();
               component.onStart(props);
             },
-            onUpdate(props: any) {
+            onUpdate(props: RenderSuggestionsProps) {
               component.onUpdate(props);
             },
-            onKeyDown(props: any) {
+            onKeyDown(props: SuggestionKeyDownProps) {
               if (props.event.key === "Escape") {
                 return true;
               }
-              return component.onKeyDown(props) ?? false;
+              return component.onKeyDown(props);
             },
             onExit: () => {
               component.onExit();
@@ -520,8 +536,10 @@ export default function Editor({
 
               const mapped = withEmail.map((member: WorkspaceMember) => ({
                 id: member.publicId,
-                label: member?.user?.name?.trim() || member.email || "",
-                image: member?.user?.image ?? null,
+                label: member.user?.name?.trim().length
+                  ? member.user.name.trim()
+                  : member.email,
+                image: member.user?.image ?? null,
               }));
 
               const all: MentionItem[] = mapped.filter(

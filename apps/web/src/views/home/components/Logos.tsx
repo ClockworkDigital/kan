@@ -20,42 +20,42 @@ export default function Logos() {
   }[] = [
     {
       id: 1,
-      component: SanaLogo as LogoComponent,
+      component: SanaLogo,
       alt: "Sana Logo",
     },
     {
       id: 2,
-      component: FastCompanyLogo as LogoComponent,
+      component: FastCompanyLogo,
       alt: "Fast Company Logo",
     },
     {
       id: 3,
-      component: CouchbaseLogo as LogoComponent,
+      component: CouchbaseLogo,
       alt: "Couchbase Logo",
     },
     {
       id: 4,
-      component: LegoLogo as LogoComponent,
+      component: LegoLogo,
       alt: "Lego Logo",
     },
     {
       id: 5,
-      component: AirbusLogo as LogoComponent,
+      component: AirbusLogo,
       alt: "Airbus Logo",
     },
     {
       id: 6,
-      component: DeloitteLogo as LogoComponent,
+      component: DeloitteLogo,
       alt: "Deloitte Logo",
     },
     {
       id: 7,
-      component: WakamLogo as LogoComponent,
+      component: WakamLogo,
       alt: "Wakam Logo",
     },
     {
       id: 8,
-      component: LinkedinLogo as LogoComponent,
+      component: LinkedinLogo,
       alt: "Linked In Logo",
     },
   ];

@@ -73,10 +73,7 @@ function createRateLimiter(options: RateLimitOptions = {}) {
 
 export function withRateLimit(
   options: RateLimitOptions,
-  handler: (
-    req: NextApiRequest,
-    res: NextApiResponse,
-  ) => Promise<unknown> | unknown,
+  handler: (req: NextApiRequest, res: NextApiResponse) => unknown,
 ) {
   if (process.env.DISABLE_RATE_LIMIT === "true") {
     return handler;
