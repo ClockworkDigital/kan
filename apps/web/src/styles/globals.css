@@ -138,7 +138,7 @@ html {
 }
 
 .boards-small-caps,
-.boards-small-caps * {
+.boards-small-caps :not(.formwork-wordmark, .formwork-wordmark *) {
   font-variant-caps: small-caps;
   text-transform: lowercase;
 }
