@@ -182,6 +182,31 @@ describe("portfolio", () => {
       });
     }));
 
+  it("reports last-list progress for every live board, with or without project details", async () =>
+    fixture(async (tx, seed) => {
+      const sync = await addBoard(tx, seed, { name: "GitHub: acme/app" });
+      await addList(tx, sync.id, 0, 2); // Open
+      await addList(tx, sync.id, 1, 1); // In progress
+      await addList(tx, sync.id, 2, 3, 1); // Closed
+      const empty = await addBoard(tx, seed);
+      await addBoard(tx, seed, { type: "template" });
+      await addBoard(tx, seed, { deletedAt: new Date() });
+
+      const input = { workspacePublicId: seed.workspace.publicId };
+      const guest = await addUser(tx, seed, "guest");
+      const progress = await caller(tx, guest).progress(input);
+      expect(progress).toHaveLength(2);
+      expect(progress).toEqual(
+        expect.arrayContaining([
+          { boardPublicId: sync.publicId, totalCards: 6, doneCards: 3 },
+          { boardPublicId: empty.publicId, totalCards: 0, doneCards: 0 },
+        ]),
+      );
+      await expect(
+        caller(tx, await addUser(tx, seed)).progress(input),
+      ).rejects.toThrow();
+    }));
+
   it("lets guests read, and only board editors or the board's creator write", async () =>
     fixture(async (tx, seed) => {
       const board = await addBoard(tx, seed);

@@ -10,9 +10,11 @@ import Avatar from "~/components/Avatar";
 import Badge from "~/components/Badge";
 import Modal from "~/components/modal";
 import { PageHead } from "~/components/PageHead";
+import { ProjectProgress } from "~/components/ProjectProgress";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
+import { parseGithubBoardName } from "~/utils/github-board-name";
 import {
   ProjectDetailsForm,
   projectStatusColours,
@@ -40,9 +42,7 @@ function ProjectRow({
   const { i18n } = useLingui();
   const { openModal } = useModal();
   const statusLabels = projectStatusLabels();
-  const percent = project.totalCards
-    ? (project.doneCards / project.totalCards) * 100
-    : 0;
+  const github = !!parseGithubBoardName(project.name);
 
   return (
     <tr className="relative border-b border-light-300 align-top hover:bg-light-100 dark:border-dark-300 dark:hover:bg-dark-100">
@@ -90,20 +90,11 @@ function ProjectRow({
         )}
       </td>
       <td className="px-3 py-3">
-        <span className="text-xs tabular-nums text-light-950 dark:text-dark-950">
-          {project.doneCards} / {project.totalCards}
-        </span>
-        <div
-          role="progressbar"
-          aria-label={t`Cards done`}
-          aria-valuenow={Math.round(percent)}
-          className="mt-1.5 h-1 w-20 overflow-hidden rounded bg-light-300 dark:bg-dark-400"
-        >
-          <div
-            className="h-full rounded bg-light-1000 dark:bg-dark-1000"
-            style={{ width: `${percent}%` }}
-          />
-        </div>
+        <ProjectProgress
+          github={github}
+          done={project.doneCards}
+          total={project.totalCards}
+        />
       </td>
       <td className="px-3 py-3 text-sm">
         <p className="whitespace-pre-line break-words text-light-1000 dark:text-dark-950">
@@ -247,7 +238,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
                 <th
                   scope="col"
                   className={twMerge(head, "w-[12%]")}
-                >{t`Cards done`}</th>
+                >{t`Progress`}</th>
                 <th scope="col" className={head}>{t`Next steps`}</th>
                 {anyEditable && (
                   <th scope="col" className="w-10">
@@ -267,7 +258,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
             </tbody>
           </table>
           <p className="mt-4 text-xs text-light-900 dark:text-dark-800">
-            {t`Cards done counts the cards in each board's last list.`}
+            {t`Progress counts the cards in each board's last list. On GitHub boards that is the Closed list.`}
           </p>
         </div>
       )}
