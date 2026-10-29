@@ -82,6 +82,9 @@ vi.mock("next/router", () => ({
 }));
 vi.mock("next-runtime-env", () => ({ env: () => "self-hosted" }));
 vi.mock("~/utils/helpers", () => import("../../utils/helpers"));
+vi.mock("~/utils/github-board-name", () =>
+  import("../../utils/github-board-name"),
+);
 vi.mock("./dnd/collision", () => ({ createBoardCollisionDetection: vi.fn() }));
 vi.mock("~/hooks/usePermissions", () => ({
   usePermissions: () => ({ canEditBoard: state.canEditBoard }),
@@ -385,7 +388,9 @@ describe("board name rename", () => {
     expect(refetch).not.toHaveBeenCalled();
     // Refocusing uses the same registered input, which must contain the persisted full name.
     expect(board.input["aria-label"]).toBe("Board name");
-    expect(board.input.className).not.toContain("opacity-0");
+    if (board.input.className?.split(" ").includes("opacity-0")) {
+      expect(board.input.className).toContain("focus:opacity-100");
+    }
     expect(renderBoard().name).toBe(before);
   });
 

@@ -26,6 +26,7 @@ import { keepPreviousData } from "@tanstack/react-query";
 import { env } from "next-runtime-env";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaGithub } from "react-icons/fa";
 import {
   HiOutlinePlusSmall,
   HiOutlineRectangleStack,
@@ -55,6 +56,7 @@ import { useModal } from "~/providers/modal";
 import { usePopup } from "~/providers/popup";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
+import { parseGithubBoardName } from "~/utils/github-board-name";
 import { formatToArray, isPlaceholderPublicId } from "~/utils/helpers";
 import { DeleteCardConfirmation } from "~/views/card/components/DeleteCardConfirmation";
 import BoardDropdown from "./components/BoardDropdown";
@@ -204,6 +206,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
     enabled: !!boardId,
     placeholderData: keepPreviousData,
   });
+  const github = parseGithubBoardName(boardData?.name ?? "");
 
   const updateBoard = api.board.update.useMutation({
     onSuccess: async (_data, variables) => {
@@ -884,9 +887,15 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
       <PageHead
         title={`${boardData?.name ?? (isTemplate ? t`Template` : t`Board`)} | ${workspace.name}`}
       />
-      <div className="relative flex h-full flex-col">
+      <div className="relative isolate flex h-full flex-col">
         <PatternedBackground />
-        <div className="z-10 flex w-full flex-col justify-between p-6 md:flex-row md:p-8">
+        {github && (
+          <div className="pointer-events-none absolute bottom-6 right-6 -z-10 flex select-none items-center gap-2 text-xs text-light-900 dark:text-dark-900 md:bottom-8 md:right-8">
+            <FaGithub aria-hidden="true" className="h-4 w-4 shrink-0" />
+            <span>{github.owner}</span>
+          </div>
+        )}
+        <div className="z-10 flex w-full flex-col justify-between gap-y-3 p-6 md:grid md:grid-cols-1 md:items-center md:gap-x-6 md:p-8 xl:grid-cols-[minmax(0,1fr)_auto]">
           {isLoading && !boardData && (
             <div className="flex space-x-2">
               <div className="h-[2.3rem] w-[150px] animate-pulse rounded-[5px] bg-light-200 dark:bg-dark-100" />
@@ -895,7 +904,7 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
           {boardData && (
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="order-2 focus-visible:outline-none md:order-1"
+              className="relative order-1 min-w-0 focus-visible:outline-none"
             >
               <input
                 id="name"
@@ -904,16 +913,19 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                 {...register("name")}
                 onBlur={canEditBoard ? handleSubmit(onSubmit) : undefined}
                 readOnly={!canEditBoard}
-                className="block border-0 bg-transparent p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed dark:text-dark-1000 sm:text-[1.2rem]"
+                className={`font-heading block border-0 bg-transparent p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed dark:text-dark-1000 sm:text-[1.2rem] peer absolute inset-0 w-full opacity-0 focus:opacity-100`}
               />
+              <h1 className="font-heading pointer-events-none line-clamp-2 break-words text-[clamp(1.225rem,2.8vw,2.8rem)] font-bold leading-tight tracking-tight text-neutral-900 peer-focus:invisible dark:text-dark-1000">
+                {github?.repo ?? boardData.name}
+              </h1>
             </form>
           )}
           {!boardData && !isLoading && (
-            <p className="order-2 block p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 dark:text-dark-1000 sm:text-[1.2rem] md:order-1">
+            <p className="font-heading order-2 block p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 dark:text-dark-1000 sm:text-[1.2rem] md:order-1">
               {t`${isTemplate ? "Template" : "Board"} not found`}
             </p>
           )}
-          <div className="order-1 mb-4 flex items-center justify-end space-x-1.5 sm:space-x-2 md:order-2 md:mb-0">
+          <div className="order-2 mb-4 flex items-center justify-end space-x-1.5 sm:space-x-2 md:mb-0">
             {isTemplate && (
               <div className="inline-flex cursor-default items-center justify-center whitespace-nowrap rounded-md border-[1px] border-light-300 bg-light-50 px-3 py-2 text-sm font-semibold text-light-950 shadow-sm dark:border-dark-300 dark:bg-dark-50 dark:text-dark-950">
                 <span className="mr-2">

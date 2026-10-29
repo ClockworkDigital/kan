@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Anybody is bundled under the SIL Open Font License in /fonts/OFL.txt. */
+@font-face {
+  font-family: "Anybody Expanded";
+  src: url("/fonts/Anybody-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 50% 150%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Anybody SemiExpanded";
+  src: url("/fonts/Anybody-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 50% 150%;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    @apply font-sans;
+    font-stretch: 112.5%;
+    font-variation-settings: "wdth" 112.5;
+  }
+
+  body {
+    position: relative;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
 html {
   font-size: 14px;
 }
@@ -31,6 +71,13 @@ html {
 }
 
 @layer utilities {
+  .font-heading {
+    font-variant-caps: small-caps;
+    text-transform: lowercase;
+    font-stretch: 125%;
+    font-variation-settings: "wdth" 125;
+  }
+
   @supports not (overflow-wrap: anywhere) {
     .break-anywhere {
       word-break: break-word;
@@ -42,6 +89,74 @@ html {
       overflow-wrap: anywhere;
     }
   }
+}
+
+.formwork-wordmark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: 32px;
+  padding-right: 0.9em;
+  font-family: "Anybody Expanded", Arial, sans-serif;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  font-variant-caps: normal;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .formwork-wordmark {
+    font-size: 24px;
+  }
+}
+
+.formwork-wordmark-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.8em;
+  height: auto;
+  animation: formwork-logo-spin 34s linear infinite;
+}
+
+@keyframes formwork-logo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .formwork-wordmark-icon {
+    animation: none;
+  }
+}
+
+.boards-small-caps,
+.boards-small-caps :not(.formwork-wordmark, .formwork-wordmark *) {
+  font-variant-caps: small-caps;
+  text-transform: lowercase;
+}
+
+.card-body {
+  font-family: "Anybody Expanded", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  font-stretch: 100%;
+  font-variation-settings: "wdth" 100;
+}
+
+.card-body,
+.card-body * {
+  font-variant-caps: normal;
+  text-transform: none;
 }
 
 /* Tippy.js tooltip theme */

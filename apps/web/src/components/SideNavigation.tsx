@@ -25,6 +25,7 @@ import settingsIconLight from "~/assets/settings-light.json";
 import templatesIconDark from "~/assets/templates-dark.json";
 import templatesIconLight from "~/assets/templates-light.json";
 import ButtonComponent from "~/components/Button";
+import FormworkLogo from "~/components/FormworkLogo";
 import ReactiveButton from "~/components/ReactiveButton";
 import UserMenu from "~/components/UserMenu";
 import WorkspaceMenu from "~/components/WorkspaceMenu";
@@ -185,13 +186,16 @@ export default function SideNavigation({
       >
         <div>
           <div className="hidden h-[45px] items-center justify-between pb-3 md:flex">
-            {!isCollapsed && (
-              <Link href={formworkUrl?.length ? formworkUrl : "/"} className="block">
-                <h1 className="pl-2 text-[16px] font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
-                  {formworkUrl ? "Formwork" : "kan.bn"}
-                </h1>
-              </Link>
-            )}
+            {!isCollapsed &&
+              (formworkUrl?.length ? (
+                <FormworkLogo href={formworkUrl} />
+              ) : (
+                <Link href="/" className="block">
+                  <h1 className="pl-2 text-[16px] font-bold tracking-tight text-neutral-900 dark:text-dark-1000">
+                    kan.bn
+                  </h1>
+                </Link>
+              ))}
             <Button
               onClick={toggleCollapse}
               className={twMerge(
