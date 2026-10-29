@@ -81,6 +81,10 @@ describe("background sync scope", () => {
     "factory.publish",
     "factory.list",
     "factory.byId",
+    "portfolio.list",
+    "portfolio.byBoardId",
+    "portfolio.update",
+    "portfolio.remove",
   ])("denies %s", async (path) => {
     await expect(check(path)).rejects.toMatchObject({ code: "FORBIDDEN" });
   });

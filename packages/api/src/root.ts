@@ -4,6 +4,7 @@ import { cardRouter } from "./routers/card";
 import { checklistRouter } from "./routers/checklist";
 import { feedbackRouter } from "./routers/feedback";
 import { factoryRouter } from "./routers/factory";
+import { portfolioRouter } from "./routers/portfolio";
 import { githubSyncRouter } from "./routers/github-sync";
 import { healthRouter } from "./routers/health";
 import { importRouter } from "./routers/import";
@@ -24,6 +25,7 @@ export const appRouter = createTRPCRouter({
   checklist: checklistRouter,
   feedback: feedbackRouter,
   factory: factoryRouter,
+  portfolio: portfolioRouter,
   health: healthRouter,
   label: labelRouter,
   list: listRouter,

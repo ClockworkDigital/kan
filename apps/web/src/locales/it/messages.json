@@ -10,7 +10,7 @@
     "message": ", or see our",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 102]],
+    "origin": [["src/components/FeedbackModal.tsx", 101]],
     "translation": ", oppure consulta il nostro"
   },
   "J/hVSQ": {
@@ -27,12 +27,12 @@
     "message": "{0} | {1}",
     "placeholders": {
       "0": ["card?.title ?? t`Card`", "isTemplate ? t`Templates` : t`Boards`"],
-      "1": ["board?.name ?? t`Board`", "workspace.name ?? t`Workspace`"]
+      "1": ["board?.name ?? t`Board`", "workspace.name"]
     },
     "comments": [],
     "origin": [
       ["src/views/boards/index.tsx", 58],
-      ["src/views/card/index.tsx", 326]
+      ["src/views/card/index.tsx", 324]
     ],
     "translation": "{0} | {1}"
   },
@@ -51,7 +51,7 @@
       "0": ["boardName ?? \"Board\""]
     },
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 63]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 64]],
     "translation": "{0} è stato aggiunto ai tuoi preferiti."
   },
   "bDI6VI": {
@@ -60,7 +60,7 @@
       "0": ["boardName ?? \"Board\""]
     },
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 64]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 65]],
     "translation": "{0} è stato rimosso dai tuoi preferiti."
   },
   "CJukzS": {
@@ -69,7 +69,7 @@
       "0": ["labelPublicIds.length"]
     },
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 563]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 561]],
     "translation": "{0} etichette"
   },
   "9x4DAL": {
@@ -78,7 +78,7 @@
       "0": ["isTemplate ? \"Template\" : \"Board\""]
     },
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 887]],
+    "origin": [["src/views/board/index.tsx", 913]],
     "translation": "{0} non trovato"
   },
   "0xWkkH": {
@@ -87,7 +87,7 @@
       "boardCount": ["boardCount"]
     },
     "comments": [],
-    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 489]],
+    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 493]],
     "translation": "{boardCount, plural, one {Importa bacheca (1)} other {Importa bacheche ({boardCount})}}"
   },
   "yndBF+": {
@@ -96,7 +96,7 @@
       "projectCount": ["projectCount"]
     },
     "comments": [],
-    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 341]],
+    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 345]],
     "translation": "{projectCount, plural, one {Importa progetto (1)} other {Importa progetti ({projectCount})}}"
   },
   "9lFfqv": {
@@ -221,7 +221,10 @@
     "message": "Actions",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/providers/keyboard-shortcuts.tsx", 56]],
+    "origin": [
+      ["src/providers/keyboard-shortcuts.tsx", 56],
+      ["src/views/portfolio/index.tsx", 236]
+    ],
     "translation": "Azioni"
   },
   "JEt3q7": {
@@ -245,7 +248,7 @@
     "origin": [
       ["src/views/boards/index.tsx", 33],
       ["src/views/settings/components/NewWebhookModal.tsx", 321],
-      ["src/views/settings/components/WebhookList.tsx", 104]
+      ["src/views/settings/components/WebhookList.tsx", 103]
     ],
     "translation": "Attivo"
   },
@@ -254,7 +257,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/card/index.tsx", 481],
+      ["src/views/card/index.tsx", 479],
       ["src/views/public/board/CardModal.tsx", 209]
     ],
     "translation": "Attività"
@@ -337,7 +340,7 @@
     "message": "Add description... (type '/' to open commands or '@' to mention)",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Editor.tsx", 499]],
+    "origin": [["src/components/Editor.tsx", 515]],
     "translation": "Aggiungi descrizione... (digita '/' per aprire i comandi o '@' per menzionare)"
   },
   "abUZlY": {
@@ -371,14 +374,14 @@
     "message": "Add to favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 138]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 146]],
     "translation": "Aggiungi ai preferiti"
   },
   "cWXW+7": {
     "message": "Add webhook",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WebhookSettings.tsx", 36]],
+    "origin": [["src/views/settings/WebhookSettings.tsx", 32]],
     "translation": "Aggiungi webhook"
   },
   "bmXKoX": {
@@ -466,7 +469,7 @@
     "message": "Added to favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 60]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 61]],
     "translation": "Aggiunto ai preferiti"
   },
   "14Xi3Z": {
@@ -590,21 +593,21 @@
     "message": "An error occurred while connecting your GitHub account.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 107]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 108]],
     "translation": "Si è verificato un errore durante la connessione del tuo account GitHub."
   },
   "Dz63YI": {
     "message": "An error occurred while disconnecting your GitHub account.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 130]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 131]],
     "translation": "Si è verificato un errore durante la disconnessione del tuo account GitHub."
   },
   "WmPhYW": {
     "message": "An error occurred while disconnecting your Trello account.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 87]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 88]],
     "translation": "Si è verificato un errore durante la disconnessione del tuo account Trello."
   },
   "ZXSPJt": {
@@ -612,7 +615,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 122]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 126]
     ],
     "translation": "Si è verificato un errore imprevisto. Riprova più tardi."
   },
@@ -700,14 +703,17 @@
     "message": "Archive board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 118]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 126]],
     "translation": "Archivia bacheca"
   },
   "TdfEV7": {
     "message": "Archived",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/index.tsx", 34]],
+    "origin": [
+      ["src/views/boards/index.tsx", 34],
+      ["src/views/portfolio/index.tsx", 67]
+    ],
     "translation": "Archiviato"
   },
   "lo8xBK": {
@@ -814,8 +820,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/NewCardForm.tsx", 626],
-      ["src/views/board/components/NewCardForm.tsx", 627]
+      ["src/views/board/components/NewCardForm.tsx", 624],
+      ["src/views/board/components/NewCardForm.tsx", 625]
     ],
     "translation": "Allega file"
   },
@@ -839,7 +845,7 @@
     "comments": [],
     "origin": [
       ["src/views/board/components/Filters.tsx", 220],
-      ["src/views/onboarding/workspace-details/index.tsx", 284]
+      ["src/views/onboarding/workspace-details/index.tsx", 282]
     ],
     "translation": "Indietro"
   },
@@ -960,8 +966,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 859],
-      ["src/views/card/index.tsx", 326],
+      ["src/views/board/index.tsx", 885],
+      ["src/views/card/index.tsx", 324],
       ["src/views/public/board/index.tsx", 125]
     ],
     "translation": "Board"
@@ -980,7 +986,7 @@
     "message": "Board archived",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 49]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 50]],
     "translation": "Bacheca archiviata"
   },
   "wE3hGS": {
@@ -994,7 +1000,7 @@
     "message": "Board name",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 877]],
+    "origin": [["src/views/board/index.tsx", 903]],
     "translation": "Nome bacheca"
   },
   "wewm3j": {
@@ -1022,7 +1028,7 @@
     "message": "Board options",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 167]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 175]],
     "translation": "Opzioni bacheca"
   },
   "XNxYxq": {
@@ -1038,7 +1044,7 @@
     "message": "Board unarchived",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 50]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 51]],
     "translation": "Bacheca ripristinata"
   },
   "Xid3K6": {
@@ -1091,7 +1097,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 98],
+      ["src/components/SideNavigation.tsx", 99],
       ["src/views/boards/index.tsx", 58],
       ["src/views/boards/index.tsx", 63],
       ["src/views/pricing/components/FeatureComparisonTable.tsx", 83]
@@ -1379,8 +1385,8 @@
     "comments": [],
     "origin": [
       ["src/components/DeleteLabelConfirmation.tsx", 49],
-      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 176],
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 267],
+      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 168],
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 265],
       ["src/views/board/components/DeleteBoardConfirmation.tsx", 44],
       ["src/views/board/components/MoveBoardForm.tsx", 99],
       ["src/views/card/components/Comment.tsx", 195],
@@ -1390,14 +1396,15 @@
       ["src/views/members/components/DeleteMemberConfirmation.tsx", 55],
       ["src/views/onboarding/select-plan/index.tsx", 246],
       ["src/views/settings/components/Avatar.tsx", 287],
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 206],
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 210],
       [
         "src/views/settings/components/ClearCustomPermissionsConfirmation.tsx",
         40
       ],
       ["src/views/settings/components/DeleteAccountConfirmation.tsx", 88],
       ["src/views/settings/components/DeleteWebhookConfirmation.tsx", 75],
-      ["src/views/settings/components/DeleteWorkspaceConfirmation.tsx", 98]
+      ["src/views/settings/components/DeleteWorkspaceConfirmation.tsx", 98],
+      ["src/views/settings/GithubIssueSync.tsx", 69]
     ],
     "translation": "Annulla"
   },
@@ -1405,7 +1412,7 @@
     "message": "Card",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/card/index.tsx", 326]],
+    "origin": [["src/views/card/index.tsx", 324]],
     "translation": "Card"
   },
   "sU2uWc": {
@@ -1413,7 +1420,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 67],
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 65],
       ["src/views/card/components/Dropdown.tsx", 46]
     ],
     "translation": "Scheda duplicata"
@@ -1437,8 +1444,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/card/index.tsx", 389],
-      ["src/views/card/index.tsx", 426]
+      ["src/views/card/index.tsx", 387],
+      ["src/views/card/index.tsx", 424]
     ],
     "translation": "Card non trovata"
   },
@@ -1453,7 +1460,7 @@
     "message": "Card title",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 429]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 427]],
     "translation": "Titolo della card"
   },
   "rQXTmd": {
@@ -1461,7 +1468,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 432],
+      ["src/views/board/index.tsx", 448],
       ["src/views/card/components/Dropdown.tsx", 74],
       ["src/views/public/board/CardModal.tsx", 38]
     ],
@@ -1474,8 +1481,8 @@
     "origin": [
       ["src/views/settings/AccountSettings.tsx", 88],
       ["src/views/settings/AccountSettings.tsx", 100],
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 142],
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 216]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 146],
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 220]
     ],
     "translation": "Cambia password"
   },
@@ -1614,7 +1621,8 @@
     "comments": [],
     "origin": [
       ["src/components/Dashboard.tsx", 281],
-      ["src/views/card/index.tsx", 380],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 108],
+      ["src/views/card/index.tsx", 378],
       ["src/views/members/components/EditMemberPermissionsModal.tsx", 172],
       ["src/views/settings/components/NewApiKeyModal.tsx", 136]
     ],
@@ -1716,7 +1724,7 @@
     "message": "Configure webhooks to receive notifications when cards are created, updated, moved, or deleted.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WebhookSettings.tsx", 31]],
+    "origin": [["src/views/settings/WebhookSettings.tsx", 27]],
     "translation": "Configura i webhook per ricevere notifiche quando le schede vengono create, aggiornate, spostate o eliminate."
   },
   "/f3t6v": {
@@ -1739,7 +1747,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 188]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 192]
     ],
     "translation": "Conferma la tua nuova password"
   },
@@ -1754,14 +1762,14 @@
     "message": "Connect GitHub",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 212]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 213]],
     "translation": "Connetti GitHub"
   },
   "nk7caK": {
     "message": "Connect Trello",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 162]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 163]],
     "translation": "Connetti Trello"
   },
   "sDLCvT": {
@@ -1776,13 +1784,14 @@
     "placeholders": {},
     "comments": [],
     "origin": [["src/views/settings/IntegrationsSettings.tsx", 191]],
-    "translation": "Connetti il tuo account GitHub per importare progetti."
+    "translation": "Connetti il tuo account GitHub per importare progetti.",
+    "obsolete": true
   },
   "5eZwRW": {
     "message": "Connect your Trello account to import boards.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 149]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 150]],
     "translation": "Connetti il tuo account Trello per importare le bacheche."
   },
   "jfC/xh": {
@@ -1807,7 +1816,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/FeedbackModal.tsx", 100],
+      ["src/components/FeedbackModal.tsx", 99],
       ["src/views/pricing/components/PricingTiers.tsx", 75],
       ["src/views/pricing/components/PricingTiers.tsx", 75]
     ],
@@ -1826,7 +1835,7 @@
     "comments": [],
     "origin": [
       ["src/views/onboarding/select-plan/index.tsx", 252],
-      ["src/views/onboarding/workspace-details/index.tsx", 301]
+      ["src/views/onboarding/workspace-details/index.tsx", 299]
     ],
     "translation": "Continua"
   },
@@ -1880,7 +1889,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 257]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 255]
     ],
     "translation": "Copia checklist"
   },
@@ -1889,7 +1898,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 221]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 219]
     ],
     "translation": "Copia etichette"
   },
@@ -1905,7 +1914,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 239]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 237]
     ],
     "translation": "Copia membri"
   },
@@ -1931,7 +1940,7 @@
       "0": ["isTemplate ? \"template\" : \"board\""]
     },
     "comments": [],
-    "origin": [["src/views/boards/components/NewBoardForm.tsx", 166]],
+    "origin": [["src/views/boards/components/NewBoardForm.tsx", 158]],
     "translation": "Crea {0}"
   },
   "vgdzLf": {
@@ -1940,7 +1949,7 @@
     "comments": [],
     "origin": [
       ["src/components/LabelForm.tsx", 208],
-      ["src/views/board/components/NewCardForm.tsx", 658],
+      ["src/views/board/components/NewCardForm.tsx", 656],
       ["src/views/board/components/NewListForm.tsx", 156]
     ],
     "translation": "Crea un altro"
@@ -1956,7 +1965,7 @@
     "message": "Create card",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 668]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 666]],
     "translation": "Crea card"
   },
   "d33Usy": {
@@ -2011,7 +2020,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/NewCardForm.tsx", 525],
+      ["src/views/board/components/NewCardForm.tsx", 523],
       ["src/views/card/components/LabelSelector.tsx", 101]
     ],
     "translation": "Crea nuova etichetta"
@@ -2021,8 +2030,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 138],
-      ["src/views/board/index.tsx", 1012]
+      ["src/views/board/index.tsx", 139],
+      ["src/views/board/index.tsx", 1038]
     ],
     "translation": "Crea nuova lista"
   },
@@ -2030,7 +2039,7 @@
     "message": "Create template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewTemplateForm.tsx", 132]],
+    "origin": [["src/views/board/components/NewTemplateForm.tsx", 124]],
     "translation": "Crea template"
   },
   "SiPp29": {
@@ -2054,7 +2063,7 @@
     "message": "Created",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/components/WebhookList.tsx", 238]],
+    "origin": [["src/views/settings/components/WebhookList.tsx", 237]],
     "translation": "Creato"
   },
   "f8lDFq": {
@@ -2167,7 +2176,7 @@
     "message": "Custom usernames require upgrading to a Team plan",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 238]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 236]],
     "translation": "I nomi utente personalizzati richiedono l'upgrade a un piano Team"
   },
   "j9IZZ0": {
@@ -2198,7 +2207,7 @@
     "message": "Dark",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/UserMenu.tsx", 158]],
+    "origin": [["src/components/UserMenu.tsx", 170]],
     "translation": "Scuro"
   },
   "cp1rsD": {
@@ -2237,7 +2246,7 @@
       ["src/views/card/components/DeleteChecklistConfirmation.tsx", 67],
       ["src/views/card/components/DeleteCommentConfirmation.tsx", 83],
       ["src/views/settings/components/DeleteWebhookConfirmation.tsx", 82],
-      ["src/views/settings/components/WebhookList.tsx", 136]
+      ["src/views/settings/components/WebhookList.tsx", 135]
     ],
     "translation": "Elimina"
   },
@@ -2256,7 +2265,7 @@
     "message": "Delete board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 149]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 157]],
     "translation": "Elimina board"
   },
   "nabda1": {
@@ -2294,7 +2303,7 @@
     "message": "Delete template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 149]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 157]],
     "translation": "Elimina template"
   },
   "snMaH4": {
@@ -2312,8 +2321,8 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/DeleteWorkspaceConfirmation.tsx", 106],
-      ["src/views/settings/WorkspaceSettings.tsx", 85],
-      ["src/views/settings/WorkspaceSettings.tsx", 96]
+      ["src/views/settings/WorkspaceSettings.tsx", 83],
+      ["src/views/settings/WorkspaceSettings.tsx", 94]
     ],
     "translation": "Elimina workspace"
   },
@@ -2367,14 +2376,14 @@
     "message": "Disconnect GitHub",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 223]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 224]],
     "translation": "Disconnetti GitHub"
   },
   "YBBifR": {
     "message": "Disconnect Trello",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 177]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 178]],
     "translation": "Disconnetti Trello"
   },
   "1sRmLC": {
@@ -2434,7 +2443,7 @@
     "message": "docs",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 109]],
+    "origin": [["src/components/FeedbackModal.tsx", 108]],
     "translation": "docs"
   },
   "TbjyhA": {
@@ -2449,7 +2458,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/UserMenu.tsx", 209],
+      ["src/components/UserMenu.tsx", 232],
       ["src/views/boards/components/TemplateBoards.tsx", 24],
       ["src/views/boards/components/TemplateBoards.tsx", 30],
       ["src/views/boards/components/TemplateBoards.tsx", 36],
@@ -2473,6 +2482,7 @@
       ["src/views/board/components/CardContextDueDateModal.tsx", 36],
       ["src/views/board/components/CardContextLabelsModal.tsx", 48],
       ["src/views/board/components/CardContextMembersModal.tsx", 68],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 26],
       ["src/views/boards/components/TemplateBoards.tsx", 17],
       ["src/views/boards/components/TemplateBoards.tsx", 23],
       ["src/views/boards/components/TemplateBoards.tsx", 29],
@@ -2495,7 +2505,7 @@
     "comments": [],
     "origin": [
       ["src/views/board/components/Filters.tsx", 178],
-      ["src/views/board/components/NewCardForm.tsx", 580],
+      ["src/views/board/components/NewCardForm.tsx", 578],
       ["src/views/card/index.tsx", 154]
     ],
     "translation": "Data di scadenza"
@@ -2533,7 +2543,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 279]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 277]
     ],
     "translation": "Duplica"
   },
@@ -2542,7 +2552,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 111],
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 109],
       ["src/views/board/components/CardContextMenu.tsx", 68],
       ["src/views/card/components/Dropdown.tsx", 130]
     ],
@@ -2553,7 +2563,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 279]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 277]
     ],
     "translation": "Duplicazione in corso…"
   },
@@ -2563,7 +2573,7 @@
     "comments": [],
     "origin": [
       ["src/components/YouTubeEmbed/YouTubeDropdown.tsx", 42],
-      ["src/views/settings/components/WebhookList.tsx", 128]
+      ["src/views/settings/components/WebhookList.tsx", 127]
     ],
     "translation": "Modifica"
   },
@@ -2572,7 +2582,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/BoardDropdown.tsx", 109],
+      ["src/views/board/components/BoardDropdown.tsx", 117],
       ["src/views/board/components/UpdateBoardSlugForm.tsx", 116]
     ],
     "translation": "Modifica URL bacheca"
@@ -2612,14 +2622,14 @@
     "message": "Edit workspace URL",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/UpdateBoardSlugForm.tsx", 162]],
+    "origin": [["src/views/board/components/UpdateBoardSlugForm.tsx", 163]],
     "translation": "Modifica URL workspace"
   },
   "PRofO0": {
     "message": "Edit YouTube Video",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 108]],
+    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 100]],
     "translation": "Modifica video YouTube"
   },
   "gGx5tM": {
@@ -2666,7 +2676,7 @@
     "message": "Email visibility",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WorkspaceSettings.tsx", 73]],
+    "origin": [["src/views/settings/WorkspaceSettings.tsx", 71]],
     "translation": "Visibilità email"
   },
   "bFREhu": {
@@ -2674,7 +2684,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 200]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 198]
     ],
     "translation": "Fine dell'elenco"
   },
@@ -2682,7 +2692,7 @@
     "message": "Engineering",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 178]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 176]],
     "translation": "Ingegneria"
   },
   "0+ewPp": {
@@ -2700,7 +2710,7 @@
     "message": "Enter a custom title",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 131]],
+    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 123]],
     "translation": "Inserisci un titolo personalizzato"
   },
   "rQRXo8": {
@@ -2715,7 +2725,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 159]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 163]
     ],
     "translation": "Inserisci la tua password attuale"
   },
@@ -2724,7 +2734,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 146]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 150]
     ],
     "translation": "Inserisci la tua password attuale e scegli una nuova password sicura."
   },
@@ -2747,7 +2757,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 174]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 178]
     ],
     "translation": "Inserisci la tua nuova password"
   },
@@ -2773,8 +2783,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/boards/components/NewBoardForm.tsx", 77],
-      ["src/views/boards/components/NewBoardForm.tsx", 92],
+      ["src/views/boards/components/NewBoardForm.tsx", 84],
       ["src/views/members/components/InviteMemberForm.tsx", 226]
     ],
     "translation": "Errore"
@@ -2784,7 +2793,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 120]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 124]
     ],
     "translation": "Errore durante la modifica della password"
   },
@@ -2792,7 +2801,7 @@
     "message": "Error connecting GitHub",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 106]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 107]],
     "translation": "Errore nella connessione a GitHub"
   },
   "cji2nM": {
@@ -2838,14 +2847,14 @@
     "message": "Error disconnecting GitHub",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 129]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 130]],
     "translation": "Errore nella disconnessione da GitHub"
   },
   "lKAvEd": {
     "message": "Error disconnecting Trello",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 86]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 87]],
     "translation": "Errore durante la disconnessione da Trello"
   },
   "rarRW/": {
@@ -2863,7 +2872,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 121]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 125]
     ],
     "translation": "Errore nell'impostazione della password"
   },
@@ -2935,7 +2944,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 271],
-      ["src/views/settings/components/WebhookList.tsx", 226]
+      ["src/views/settings/components/WebhookList.tsx", 225]
     ],
     "translation": "Eventi"
   },
@@ -2985,10 +2994,7 @@
     "message": "Failed to create board",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      ["src/views/boards/components/NewBoardForm.tsx", 78],
-      ["src/views/boards/components/NewBoardForm.tsx", 93]
-    ],
+    "origin": [["src/views/boards/components/NewBoardForm.tsx", 85]],
     "translation": "Impossibile creare la board"
   },
   "o4sQAg": {
@@ -3011,7 +3017,7 @@
     "message": "Failed to fetch video information",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 82]],
+    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 74]],
     "translation": "Impossibile recuperare le informazioni del video"
   },
   "YtUfwW": {
@@ -3029,7 +3035,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 164],
-      ["src/views/settings/components/WebhookList.tsx", 186]
+      ["src/views/settings/components/WebhookList.tsx", 185]
     ],
     "translation": "Impossibile testare il webhook"
   },
@@ -3099,8 +3105,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/FeedbackModal.tsx", 59],
-      ["src/components/UserMenu.tsx", 217]
+      ["src/components/FeedbackModal.tsx", 58],
+      ["src/components/UserMenu.tsx", 240]
     ],
     "translation": "Feedback"
   },
@@ -3108,7 +3114,7 @@
     "message": "Feedback sent",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 33]],
+    "origin": [["src/components/FeedbackModal.tsx", 32]],
     "translation": "Feedback inviato"
   },
   "F6m23G": {
@@ -3258,7 +3264,7 @@
     "message": "Get started by creating a new list",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 994]],
+    "origin": [["src/views/board/index.tsx", 1020]],
     "translation": "Inizia creando una nuova lista"
   },
   "oW13KZ": {
@@ -3295,7 +3301,7 @@
     "comments": [],
     "origin": [
       ["src/views/home/components/Footer.tsx", 37],
-      ["src/views/settings/IntegrationsSettings.tsx", 186]
+      ["src/views/settings/IntegrationsSettings.tsx", 187]
     ],
     "translation": "GitHub"
   },
@@ -3303,14 +3309,14 @@
     "message": "GitHub connected",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 99]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 100]],
     "translation": "GitHub connesso"
   },
   "/bBVaD": {
     "message": "GitHub disconnected",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 122]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 123]],
     "translation": "GitHub disconnesso"
   },
   "7eMo+U": {
@@ -3335,7 +3341,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 106],
+      ["src/components/SideNavigation.tsx", 107],
       ["src/pages/404.tsx", 44]
     ],
     "translation": "Vai alle bacheche"
@@ -3351,21 +3357,21 @@
     "message": "Go to members",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 130]],
+    "origin": [["src/components/SideNavigation.tsx", 155]],
     "translation": "Vai ai membri"
   },
   "1WuwiM": {
     "message": "Go to settings",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 142]],
+    "origin": [["src/components/SideNavigation.tsx", 167]],
     "translation": "Vai alle impostazioni"
   },
   "csFbe+": {
     "message": "Go to templates",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 118]],
+    "origin": [["src/components/SideNavigation.tsx", 119]],
     "translation": "Vai ai modelli"
   },
   "SUvm1Y": {
@@ -3468,7 +3474,7 @@
     "message": "https://www.youtube.com/watch?v=...",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 151]],
+    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 143]],
     "translation": "https://www.youtube.com/watch?v=..."
   },
   "2liqDZ": {
@@ -3507,7 +3513,7 @@
     "message": "Ideas to improve this page...",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 75]],
+    "origin": [["src/components/FeedbackModal.tsx", 74]],
     "translation": "Idee per migliorare questa pagina..."
   },
   "l3s5ri": {
@@ -3523,7 +3529,7 @@
     "comments": [],
     "origin": [
       ["src/views/boards/components/ImportBoardsForm.tsx", 229],
-      ["src/views/boards/components/ImportBoardsForm.tsx", 381]
+      ["src/views/boards/components/ImportBoardsForm.tsx", 385]
     ],
     "translation": "Importazione completata"
   },
@@ -3533,7 +3539,7 @@
     "comments": [],
     "origin": [
       ["src/views/boards/components/ImportBoardsForm.tsx", 242],
-      ["src/views/boards/components/ImportBoardsForm.tsx", 394]
+      ["src/views/boards/components/ImportBoardsForm.tsx", 398]
     ],
     "translation": "Importazione fallita"
   },
@@ -3578,7 +3584,7 @@
     "message": "in",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/CommandPallette.tsx", 177]],
+    "origin": [["src/components/CommandPallette.tsx", 176]],
     "translation": "in"
   },
   "WbTDwg": {
@@ -3598,7 +3604,7 @@
     "message": "Inactive",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/components/WebhookList.tsx", 104]],
+    "origin": [["src/views/settings/components/WebhookList.tsx", 103]],
     "translation": "Inattivo"
   },
   "6mbe4b": {
@@ -3781,7 +3787,7 @@
     "origin": [
       ["src/views/board/components/CardContextLabelsModal.tsx", 31],
       ["src/views/board/components/Filters.tsx", 160],
-      ["src/views/board/components/NewCardForm.tsx", 529],
+      ["src/views/board/components/NewCardForm.tsx", 527],
       ["src/views/card/components/LabelSelector.tsx", 102],
       ["src/views/card/index.tsx", 134]
     ],
@@ -3814,7 +3820,7 @@
     "message": "Large",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FontSizeSelector.tsx", 9]],
+    "origin": [["src/components/FontSizeSelector.tsx", 10]],
     "translation": "Grande"
   },
   "8Is1ih": {
@@ -3886,7 +3892,7 @@
     "message": "Light",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/UserMenu.tsx", 172]],
+    "origin": [["src/components/UserMenu.tsx", 184]],
     "translation": "Chiaro"
   },
   "TCt/8K": {
@@ -3903,7 +3909,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 430],
+      ["src/views/board/index.tsx", 446],
       ["src/views/card/components/Dropdown.tsx", 72],
       ["src/views/public/board/CardModal.tsx", 36],
       ["src/views/public/board/index.tsx", 77]
@@ -3915,7 +3921,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 117],
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 115],
       ["src/views/card/index.tsx", 125]
     ],
     "translation": "Lista"
@@ -3951,7 +3957,7 @@
     "message": "Load more activities",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/card/components/ActivityList.tsx", 579]],
+    "origin": [["src/views/card/components/ActivityList.tsx", 578]],
     "translation": "Carica altre attività"
   },
   "0qyZ4b": {
@@ -3967,7 +3973,12 @@
     "message": "Loading...",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/card/components/ActivityList.tsx", 579]],
+    "origin": [
+      ["src/views/card/components/ActivityList.tsx", 578],
+      ["src/views/factory/index.tsx", 173],
+      ["src/views/factory/index.tsx", 217],
+      ["src/views/portfolio/index.tsx", 210]
+    ],
     "translation": "Caricamento..."
   },
   "N/bcWA": {
@@ -3981,7 +3992,7 @@
     "message": "Logout",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/UserMenu.tsx", 227]],
+    "origin": [["src/components/UserMenu.tsx", 250]],
     "translation": "Esci"
   },
   "vuxdLS": {
@@ -4016,7 +4027,7 @@
     "message": "Make template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 98]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 99]],
     "translation": "Crea template"
   },
   "hB02vO": {
@@ -4049,14 +4060,17 @@
     "message": "Marketing",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 178]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 176]],
     "translation": "Marketing"
   },
   "agPptk": {
     "message": "Medium",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FontSizeSelector.tsx", 8]],
+    "origin": [
+      ["src/components/FontSizeSelector.tsx", 9],
+      ["src/views/factory/index.tsx", 47]
+    ],
     "translation": "Medio"
   },
   "W/Elkg": {
@@ -4103,9 +4117,9 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 122],
+      ["src/components/SideNavigation.tsx", 147],
       ["src/views/board/components/Filters.tsx", 151],
-      ["src/views/board/components/NewCardForm.tsx", 487],
+      ["src/views/board/components/NewCardForm.tsx", 485],
       ["src/views/card/components/MemberSelector.tsx", 116],
       ["src/views/card/index.tsx", 144],
       ["src/views/members/index.tsx", 284],
@@ -4116,7 +4130,7 @@
   "9u5BOr": {
     "message": "Members | {0}",
     "placeholders": {
-      "0": ["workspace.name ?? t`Workspace`"]
+      "0": ["workspace.name"]
     },
     "comments": [],
     "origin": [["src/views/members/index.tsx", 279]],
@@ -4147,7 +4161,7 @@
     "origin": [
       ["src/views/onboarding/select-plan/index.tsx", 74],
       ["src/views/pricing/components/Pricing.tsx", 14],
-      ["src/views/pricing/index.tsx", 20]
+      ["src/views/pricing/index.tsx", 19]
     ],
     "translation": "Mensile"
   },
@@ -4190,7 +4204,7 @@
     "message": "Move to workspace",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 129]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 137]],
     "translation": "Sposta nell'area di lavoro"
   },
   "BOqTi5": {
@@ -4223,10 +4237,10 @@
     "comments": [],
     "origin": [
       ["src/components/LabelForm.tsx", 130],
-      ["src/views/board/components/NewTemplateForm.tsx", 118],
-      ["src/views/boards/components/NewBoardForm.tsx", 134],
+      ["src/views/board/components/NewTemplateForm.tsx", 110],
+      ["src/views/boards/components/NewBoardForm.tsx", 126],
       ["src/views/settings/components/NewWebhookModal.tsx", 227],
-      ["src/views/settings/components/WebhookList.tsx", 214]
+      ["src/views/settings/components/WebhookList.tsx", 213]
     ],
     "translation": "Nome"
   },
@@ -4241,7 +4255,7 @@
     "message": "Need help?",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 95]],
+    "origin": [["src/components/FeedbackModal.tsx", 94]],
     "translation": "Serve aiuto?"
   },
   "PSXKxs": {
@@ -4267,7 +4281,7 @@
       "0": ["isTemplate ? \"template\" : \"board\""]
     },
     "comments": [],
-    "origin": [["src/views/boards/components/NewBoardForm.tsx", 120]],
+    "origin": [["src/views/boards/components/NewBoardForm.tsx", 112]],
     "translation": "Nuovo {0}"
   },
   "TjREUS": {
@@ -4281,7 +4295,7 @@
     "message": "New card",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 412]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 410]],
     "translation": "Nuova card"
   },
   "cWcxrL": {
@@ -4295,7 +4309,7 @@
     "message": "New import",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 513]],
+    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 517]],
     "translation": "Nuova importazione"
   },
   "n1GRql": {
@@ -4311,7 +4325,7 @@
     "comments": [],
     "origin": [
       ["src/views/board/components/NewListForm.tsx", 128],
-      ["src/views/board/index.tsx", 939]
+      ["src/views/board/index.tsx", 965]
     ],
     "translation": "Nuova lista"
   },
@@ -4337,7 +4351,7 @@
     "message": "New template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewTemplateForm.tsx", 104]],
+    "origin": [["src/views/board/components/NewTemplateForm.tsx", 96]],
     "translation": "Nuovo template"
   },
   "RJA+sg": {
@@ -4409,7 +4423,7 @@
     "message": "No boards found",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 432]],
+    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 436]],
     "translation": "Nessuna board trovata"
   },
   "WAQMrN": {
@@ -4458,14 +4472,14 @@
     "message": "No lists",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 990]],
+    "origin": [["src/views/board/index.tsx", 1016]],
     "translation": "Nessuna lista"
   },
   "fvLNDy": {
     "message": "No lists have been created yet",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 995]],
+    "origin": [["src/views/board/index.tsx", 1021]],
     "translation": "Nessuna lista è stata ancora creata"
   },
   "i30J2U": {
@@ -4481,7 +4495,7 @@
       "debouncedQuery": ["debouncedQuery"]
     },
     "comments": [],
-    "origin": [["src/components/CommandPallette.tsx", 193]],
+    "origin": [["src/components/CommandPallette.tsx", 192]],
     "translation": "Nessun risultato trovato per \"{debouncedQuery}\"."
   },
   "Q9pQaX": {
@@ -4495,7 +4509,7 @@
     "message": "No webhooks configured. Add a webhook to receive notifications.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/components/WebhookList.tsx", 196]],
+    "origin": [["src/views/settings/components/WebhookList.tsx", 195]],
     "translation": "Nessun webhook configurato. Aggiungi un webhook per ricevere notifiche."
   },
   "9h7RDh": {
@@ -4539,7 +4553,7 @@
     "message": "Once you delete your workspace, there is no going back. This action cannot be undone.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WorkspaceSettings.tsx", 88]],
+    "origin": [["src/views/settings/WorkspaceSettings.tsx", 86]],
     "translation": "Una volta eliminato il tuo workspace, non si può tornare indietro. Questa azione non può essere annullata."
   },
   "69b7aE": {
@@ -4643,7 +4657,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 93]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 97]
     ],
     "translation": "Password modificata"
   },
@@ -4675,7 +4689,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 93]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 97]
     ],
     "translation": "Password impostata"
   },
@@ -4709,7 +4723,10 @@
     "message": "Pending",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/members/index.tsx", 230]],
+    "origin": [
+      ["src/views/factory/index.tsx", 42],
+      ["src/views/members/index.tsx", 230]
+    ],
     "translation": "In attesa"
   },
   "oVBq1w": {
@@ -4719,8 +4736,8 @@
     "origin": [
       ["src/views/pricing/components/Pricing.tsx", 15],
       ["src/views/pricing/components/Pricing.tsx", 20],
-      ["src/views/pricing/index.tsx", 21],
-      ["src/views/pricing/index.tsx", 26]
+      ["src/views/pricing/index.tsx", 20],
+      ["src/views/pricing/index.tsx", 25]
     ],
     "translation": "per utente/mese"
   },
@@ -4860,8 +4877,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 58],
-      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 98]
+      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 50],
+      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 90]
     ],
     "translation": "Inserisci un URL YouTube valido"
   },
@@ -4878,20 +4895,21 @@
     "comments": [],
     "origin": [
       ["src/components/DeleteLabelConfirmation.tsx", 26],
-      ["src/components/FeedbackModal.tsx", 41],
+      ["src/components/FeedbackModal.tsx", 40],
       ["src/components/NewWorkspaceForm.tsx", 110],
-      ["src/views/board/components/BoardDropdown.tsx", 72],
-      ["src/views/board/components/NewCardForm.tsx", 200],
+      ["src/views/board/components/BoardDropdown.tsx", 73],
+      ["src/views/board/components/NewCardForm.tsx", 198],
       ["src/views/board/components/NewListForm.tsx", 94],
-      ["src/views/board/components/NewTemplateForm.tsx", 61],
-      ["src/views/board/components/NewTemplateForm.tsx", 77],
+      ["src/views/board/components/NewTemplateForm.tsx", 69],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 66],
       ["src/views/board/components/UpdateBoardSlugForm.tsx", 73],
       ["src/views/board/components/VisibilityButton.tsx", 57],
-      ["src/views/board/index.tsx", 284],
-      ["src/views/board/index.tsx", 340],
-      ["src/views/board/index.tsx", 377],
+      ["src/views/board/index.tsx", 218],
+      ["src/views/board/index.tsx", 300],
+      ["src/views/board/index.tsx", 356],
+      ["src/views/board/index.tsx", 393],
       ["src/views/boards/components/ImportBoardsForm.tsx", 243],
-      ["src/views/boards/components/ImportBoardsForm.tsx", 395],
+      ["src/views/boards/components/ImportBoardsForm.tsx", 399],
       ["src/views/card/components/AttachmentThumbnails.tsx", 74],
       ["src/views/card/components/ChecklistItemRow.tsx", 73],
       ["src/views/card/components/ChecklistItemRow.tsx", 101],
@@ -4944,9 +4962,9 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 76],
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 74],
       ["src/views/board/components/CardContextMoveListModal.tsx", 42],
-      ["src/views/board/index.tsx", 439],
+      ["src/views/board/index.tsx", 455],
       ["src/views/card/components/Dropdown.tsx", 55],
       ["src/views/card/components/Dropdown.tsx", 81],
       ["src/views/card/components/Dropdown.tsx", 100],
@@ -4960,7 +4978,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 193]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 191]
     ],
     "translation": "Posizione nell'elenco (0 = primo, lascia vuoto per la fine)"
   },
@@ -4980,8 +4998,8 @@
       ["src/views/home/components/Header.tsx", 18],
       ["src/views/home/components/Header.tsx", 34],
       ["src/views/pricing/components/Pricing.tsx", 85],
-      ["src/views/pricing/index.tsx", 34],
-      ["src/views/pricing/index.tsx", 40]
+      ["src/views/pricing/index.tsx", 33],
+      ["src/views/pricing/index.tsx", 39]
     ],
     "translation": "Prezzi"
   },
@@ -5122,14 +5140,14 @@
     "message": "Remove file",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 645]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 643]],
     "translation": "Rimuovi file"
   },
   "T/pF0Z": {
     "message": "Remove from favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 138]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 146]],
     "translation": "Rimuovi dai preferiti"
   },
   "99VIgC": {
@@ -5183,7 +5201,7 @@
     "message": "Removed from favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 61]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 62]],
     "translation": "Rimosso dai preferiti"
   },
   "YVT40D": {
@@ -5274,7 +5292,10 @@
     "message": "Review",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/TemplateBoards.tsx", 92]],
+    "origin": [
+      ["src/views/boards/components/TemplateBoards.tsx", 92],
+      ["src/views/factory/index.tsx", 21]
+    ],
     "translation": "Revisione"
   },
   "/gaSVU": {
@@ -5285,7 +5306,7 @@
       ["src/views/home/components/Footer.tsx", 36],
       ["src/views/home/components/Header.tsx", 13],
       ["src/views/home/components/Header.tsx", 28],
-      ["src/views/onboarding/workspace-details/index.tsx", 178]
+      ["src/views/onboarding/workspace-details/index.tsx", 176]
     ],
     "translation": "Roadmap"
   },
@@ -5341,7 +5362,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 183],
+      ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 175],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 210],
       ["src/views/card/components/Comment.tsx", 202],
       ["src/views/settings/components/Avatar.tsx", 290]
     ],
@@ -5379,7 +5401,7 @@
     "message": "Search boards and cards...",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/CommandPallette.tsx", 105]],
+    "origin": [["src/components/CommandPallette.tsx", 104]],
     "translation": "Cerca board e card..."
   },
   "66Jmqh": {
@@ -5441,7 +5463,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 131]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 129]
     ],
     "translation": "Seleziona un elenco"
   },
@@ -5457,8 +5479,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/boards/components/ImportBoardsForm.tsx", 315],
-      ["src/views/boards/components/ImportBoardsForm.tsx", 464]
+      ["src/views/boards/components/ImportBoardsForm.tsx", 319],
+      ["src/views/boards/components/ImportBoardsForm.tsx", 468]
     ],
     "translation": "Seleziona tutto"
   },
@@ -5501,7 +5523,7 @@
     "message": "Send feedback",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 116]],
+    "origin": [["src/components/FeedbackModal.tsx", 115]],
     "translation": "Invia feedback"
   },
   "eus61c": {
@@ -5543,8 +5565,8 @@
     "origin": [
       ["src/views/settings/AccountSettings.tsx", 88],
       ["src/views/settings/AccountSettings.tsx", 100],
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 142],
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 216]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 146],
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 220]
     ],
     "translation": "Imposta password"
   },
@@ -5559,7 +5581,7 @@
     "message": "Set up your workspace",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 196]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 194]],
     "translation": "Configura il tuo workspace"
   },
   "Tz0i8g": {
@@ -5568,7 +5590,7 @@
     "comments": [],
     "origin": [
       ["src/components/SettingsLayout.tsx", 102],
-      ["src/components/SideNavigation.tsx", 134]
+      ["src/components/SideNavigation.tsx", 159]
     ],
     "translation": "Impostazioni"
   },
@@ -5597,7 +5619,7 @@
     "message": "Settings | Integrations",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 138]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 139]],
     "translation": "Impostazioni | Integrazioni"
   },
   "F/FPk/": {
@@ -5611,21 +5633,21 @@
     "message": "Settings | Webhooks",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WebhookSettings.tsx", 24]],
+    "origin": [["src/views/settings/WebhookSettings.tsx", 20]],
     "translation": "Impostazioni | Webhook"
   },
   "Ci/KUX": {
     "message": "Settings | Workspace",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WorkspaceSettings.tsx", 32]],
+    "origin": [["src/views/settings/WorkspaceSettings.tsx", 30]],
     "translation": "Impostazioni | Workspace"
   },
   "CTqTgr": {
     "message": "Shortcuts",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/UserMenu.tsx", 187]],
+    "origin": [["src/components/UserMenu.tsx", 210]],
     "translation": "Scorciatoie"
   },
   "5lWFkC": {
@@ -5664,7 +5686,7 @@
     "comments": [],
     "origin": [
       ["src/views/onboarding/select-plan/index.tsx", 325],
-      ["src/views/onboarding/workspace-details/index.tsx", 372]
+      ["src/views/onboarding/workspace-details/index.tsx", 370]
     ],
     "translation": "Esci"
   },
@@ -5712,7 +5734,7 @@
     "comments": [],
     "origin": [
       ["src/views/pricing/components/Pricing.tsx", 89],
-      ["src/views/pricing/index.tsx", 44]
+      ["src/views/pricing/index.tsx", 43]
     ],
     "translation": "Prezzi semplici"
   },
@@ -5736,7 +5758,7 @@
     "message": "Small",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FontSizeSelector.tsx", 7]],
+    "origin": [["src/components/FontSizeSelector.tsx", 8]],
     "translation": "Piccolo"
   },
   "++rVAm": {
@@ -5764,7 +5786,7 @@
     "message": "Some attachments failed",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 332]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 330]],
     "translation": "Alcuni allegati non sono riusciti"
   },
   "J9+zIR": {
@@ -5812,9 +5834,9 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 228],
-      ["src/components/SideNavigation.tsx", 229],
-      ["src/components/SideNavigation.tsx", 239]
+      ["src/components/SideNavigation.tsx", 253],
+      ["src/components/SideNavigation.tsx", 254],
+      ["src/components/SideNavigation.tsx", 264]
     ],
     "translation": "Inizia prova gratuita"
   },
@@ -5822,7 +5844,7 @@
     "message": "Start free. Upgrade as your team grows. No hidden fees, no contracts.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/pricing/index.tsx", 47]],
+    "origin": [["src/views/pricing/index.tsx", 46]],
     "translation": "Inizia gratis. Aggiorna man mano che il tuo team cresce. Nessun costo nascosto, nessun contratto."
   },
   "lUlbS2": {
@@ -5836,7 +5858,11 @@
     "message": "Status",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/components/WebhookList.tsx", 232]],
+    "origin": [
+      ["src/views/board/components/ProjectDetailsForm.tsx", 117],
+      ["src/views/portfolio/index.tsx", 230],
+      ["src/views/settings/components/WebhookList.tsx", 231]
+    ],
     "translation": "Stato"
   },
   "hQRttt": {
@@ -5894,7 +5920,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/UserMenu.tsx", 198],
+      ["src/components/UserMenu.tsx", 221],
       ["src/views/pricing/components/FeatureComparisonTable.tsx", 295]
     ],
     "translation": "Supporto"
@@ -5910,7 +5936,7 @@
     "message": "System",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/UserMenu.tsx", 144]],
+    "origin": [["src/components/UserMenu.tsx", 156]],
     "translation": "Sistema"
   },
   "KM6m8p": {
@@ -5947,8 +5973,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 859],
-      ["src/views/board/index.tsx", 896]
+      ["src/views/board/index.tsx", 885],
+      ["src/views/board/index.tsx", 922]
     ],
     "translation": "Template"
   },
@@ -5956,14 +5982,14 @@
     "message": "Template created",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewTemplateForm.tsx", 67]],
+    "origin": [["src/views/board/components/NewTemplateForm.tsx", 60]],
     "translation": "Template creato"
   },
   "QHhZeE": {
     "message": "Template created successfully",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewTemplateForm.tsx", 68]],
+    "origin": [["src/views/board/components/NewTemplateForm.tsx", 61]],
     "translation": "Template creato con successo"
   },
   "notwF1": {
@@ -5985,7 +6011,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 110],
+      ["src/components/SideNavigation.tsx", 111],
       ["src/views/boards/index.tsx", 58],
       ["src/views/boards/index.tsx", 63],
       ["src/views/home/components/Features.tsx", 115]
@@ -6003,7 +6029,7 @@
     "message": "Test",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/components/WebhookList.tsx", 132]],
+    "origin": [["src/views/settings/components/WebhookList.tsx", 131]],
     "translation": "Test"
   },
   "InJcdo": {
@@ -6012,7 +6038,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 154],
-      ["src/views/settings/components/WebhookList.tsx", 177]
+      ["src/views/settings/components/WebhookList.tsx", 176]
     ],
     "translation": "Test fallito"
   },
@@ -6022,7 +6048,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 148],
-      ["src/views/settings/components/WebhookList.tsx", 171]
+      ["src/views/settings/components/WebhookList.tsx", 170]
     ],
     "translation": "Test inviato"
   },
@@ -6032,7 +6058,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 149],
-      ["src/views/settings/components/WebhookList.tsx", 172]
+      ["src/views/settings/components/WebhookList.tsx", 171]
     ],
     "translation": "Webhook di test inviato con successo!"
   },
@@ -6047,7 +6073,7 @@
     "message": "Thank you for your feedback!",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 34]],
+    "origin": [["src/components/FeedbackModal.tsx", 33]],
     "translation": "Grazie per il tuo feedback!"
   },
   "ssK7k+": {
@@ -6061,7 +6087,7 @@
     "message": "The board has been archived.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 52]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 53]],
     "translation": "La bacheca è stata archiviata."
   },
   "ZWk38w": {
@@ -6077,7 +6103,7 @@
     "message": "The board has been unarchived.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 53]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 54]],
     "translation": "La bacheca è stata ripristinata."
   },
   "nKBUeF": {
@@ -6085,7 +6111,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 69]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 67]
     ],
     "translation": "La scheda è stata duplicata."
   },
@@ -6096,7 +6122,7 @@
       "failedCount": ["failedCount"]
     },
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 333]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 331]],
     "translation": "La scheda è stata creata, ma {failedCount} di {0} allegati non sono stati caricati."
   },
   "jlB2RY": {
@@ -6104,7 +6130,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 114]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 118]
     ],
     "translation": "La password attuale inserita non è corretta."
   },
@@ -6159,7 +6185,7 @@
     "message": "Theme",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/UserMenu.tsx", 131]],
+    "origin": [["src/components/UserMenu.tsx", 143]],
     "translation": "Tema"
   },
   "Yf9FAx": {
@@ -6202,7 +6228,7 @@
     "message": "This board URL has already been taken",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/UpdateBoardSlugForm.tsx", 136]],
+    "origin": [["src/views/board/components/UpdateBoardSlugForm.tsx", 137]],
     "translation": "Questo URL della bacheca è già stato utilizzato"
   },
   "mTwGOf": {
@@ -6291,7 +6317,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/UpdateWorkspaceUrlForm.tsx", 129]
+      ["src/views/settings/components/UpdateWorkspaceUrlForm.tsx", 130]
     ],
     "translation": "Questo nome utente dello workspace è già stato utilizzato"
   },
@@ -6306,7 +6332,7 @@
     "message": "Title",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 127]],
+    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 119]],
     "translation": "Titolo"
   },
   "wK4OTM": {
@@ -6314,7 +6340,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 180]
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 178]
     ],
     "translation": "Titolo (facoltativo)"
   },
@@ -6346,7 +6372,7 @@
     "message": "Token is required",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 19]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 20]],
     "translation": "Il token è obbligatorio"
   },
   "eEQyz+": {
@@ -6362,7 +6388,7 @@
     "comments": [],
     "origin": [
       ["src/views/pricing/components/FeatureComparisonTable.tsx", 197],
-      ["src/views/settings/IntegrationsSettings.tsx", 142]
+      ["src/views/settings/IntegrationsSettings.tsx", 143]
     ],
     "translation": "Trello"
   },
@@ -6370,7 +6396,7 @@
     "message": "Trello disconnected",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 79]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 80]],
     "translation": "Trello disconnesso"
   },
   "kxEs5t": {
@@ -6434,7 +6460,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 437],
+      ["src/views/board/index.tsx", 453],
       ["src/views/card/components/Dropdown.tsx", 79],
       ["src/views/public/board/CardModal.tsx", 43],
       ["src/views/public/board/index.tsx", 84]
@@ -6445,7 +6471,7 @@
     "message": "Unable to create card",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/NewCardForm.tsx", 197]],
+    "origin": [["src/views/board/components/NewCardForm.tsx", 195]],
     "translation": "Impossibile creare la card"
   },
   "mHhffx": {
@@ -6466,10 +6492,7 @@
     "message": "Unable to create template",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      ["src/views/board/components/NewTemplateForm.tsx", 60],
-      ["src/views/board/components/NewTemplateForm.tsx", 76]
-    ],
+    "origin": [["src/views/board/components/NewTemplateForm.tsx", 68]],
     "translation": "Impossibile creare il template"
   },
   "c1vOQR": {
@@ -6540,7 +6563,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/CardContextDuplicateModal.tsx", 75],
+      ["src/views/board/components/CardContextDuplicateModal.tsx", 73],
       ["src/views/card/components/Dropdown.tsx", 53]
     ],
     "translation": "Impossibile duplicare la scheda"
@@ -6588,7 +6611,7 @@
     "message": "Unable to send feedback",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/FeedbackModal.tsx", 40]],
+    "origin": [["src/components/FeedbackModal.tsx", 39]],
     "translation": "Impossibile inviare il feedback"
   },
   "Q60WUZ": {
@@ -6604,7 +6627,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 163],
-      ["src/views/settings/components/WebhookList.tsx", 185]
+      ["src/views/settings/components/WebhookList.tsx", 184]
     ],
     "translation": "Impossibile testare il webhook"
   },
@@ -6612,7 +6635,10 @@
     "message": "Unable to update board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 71]],
+    "origin": [
+      ["src/views/board/components/BoardDropdown.tsx", 72],
+      ["src/views/board/index.tsx", 217]
+    ],
     "translation": "Impossibile aggiornare la board"
   },
   "XpcjLO": {
@@ -6634,7 +6660,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 339],
+      ["src/views/board/index.tsx", 355],
       ["src/views/card/index.tsx", 240]
     ],
     "translation": "Impossibile aggiornare la card"
@@ -6665,7 +6691,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 376],
+      ["src/views/board/index.tsx", 392],
       ["src/views/card/components/DueDateSelector.tsx", 63]
     ],
     "translation": "Impossibile aggiornare la data di scadenza"
@@ -6682,7 +6708,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 283],
+      ["src/views/board/index.tsx", 299],
       ["src/views/card/components/ListSelector.tsx", 54]
     ],
     "translation": "Impossibile aggiornare la lista"
@@ -6722,7 +6748,7 @@
     "message": "Unarchive board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 118]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 126]],
     "translation": "Ripristina bacheca"
   },
   "E8zYtd": {
@@ -6863,11 +6889,11 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/UpdateBoardSlugForm.tsx", 175],
+      ["src/views/board/components/UpdateBoardSlugForm.tsx", 176],
       ["src/views/settings/components/UpdateDisplayNameForm.tsx", 84],
       ["src/views/settings/components/UpdateWorkspaceDescriptionForm.tsx", 94],
       ["src/views/settings/components/UpdateWorkspaceNameForm.tsx", 90],
-      ["src/views/settings/components/UpdateWorkspaceUrlForm.tsx", 161]
+      ["src/views/settings/components/UpdateWorkspaceUrlForm.tsx", 162]
     ],
     "translation": "Aggiorna"
   },
@@ -6974,7 +7000,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 239],
-      ["src/views/settings/components/WebhookList.tsx", 220]
+      ["src/views/settings/components/WebhookList.tsx", 219]
     ],
     "translation": "URL"
   },
@@ -7019,7 +7045,7 @@
     "message": "Use template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/NewBoardForm.tsx", 154]],
+    "origin": [["src/views/boards/components/NewBoardForm.tsx", 146]],
     "translation": "Usa template"
   },
   "n6EWYz": {
@@ -7180,7 +7206,7 @@
     "message": "Webhook options",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/components/WebhookList.tsx", 125]],
+    "origin": [["src/views/settings/components/WebhookList.tsx", 124]],
     "translation": "Opzioni webhook"
   },
   "8iP9oQ": {
@@ -7189,7 +7215,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/NewWebhookModal.tsx", 155],
-      ["src/views/settings/components/WebhookList.tsx", 178]
+      ["src/views/settings/components/WebhookList.tsx", 177]
     ],
     "translation": "Test del webhook non riuscito"
   },
@@ -7220,7 +7246,7 @@
     "comments": [],
     "origin": [
       ["src/components/SettingsLayout.tsx", 71],
-      ["src/views/settings/WebhookSettings.tsx", 28]
+      ["src/views/settings/WebhookSettings.tsx", 24]
     ],
     "translation": "Webhook"
   },
@@ -7228,7 +7254,7 @@
     "message": "Week start day",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/WorkspaceSettings.tsx", 64]],
+    "origin": [["src/views/settings/WorkspaceSettings.tsx", 62]],
     "translation": "Giorno di inizio settimana"
   },
   "9eF5oV": {
@@ -7272,9 +7298,6 @@
     "comments": [],
     "origin": [
       ["src/components/SettingsLayout.tsx", 47],
-      ["src/views/board/index.tsx", 859],
-      ["src/views/boards/index.tsx", 58],
-      ["src/views/members/index.tsx", 279],
       ["src/views/public/board/index.tsx", 125],
       ["src/views/public/boards/index.tsx", 75]
     ],
@@ -7302,8 +7325,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/onboarding/workspace-details/index.tsx", 261],
-      ["src/views/settings/WorkspaceSettings.tsx", 55]
+      ["src/views/onboarding/workspace-details/index.tsx", 259],
+      ["src/views/settings/WorkspaceSettings.tsx", 53]
     ],
     "translation": "Descrizione workspace"
   },
@@ -7351,9 +7374,9 @@
     "comments": [],
     "origin": [
       ["src/components/NewWorkspaceForm.tsx", 165],
-      ["src/views/onboarding/workspace-details/index.tsx", 205],
+      ["src/views/onboarding/workspace-details/index.tsx", 203],
       ["src/views/settings/components/UpdateWorkspaceNameForm.tsx", 76],
-      ["src/views/settings/WorkspaceSettings.tsx", 36]
+      ["src/views/settings/WorkspaceSettings.tsx", 34]
     ],
     "translation": "Nome workspace"
   },
@@ -7414,7 +7437,7 @@
     "comments": [],
     "origin": [
       ["src/views/settings/components/UpdateWorkspaceUrlForm.tsx", 118],
-      ["src/views/settings/WorkspaceSettings.tsx", 45]
+      ["src/views/settings/WorkspaceSettings.tsx", 43]
     ],
     "translation": "URL del workspace"
   },
@@ -7447,7 +7470,7 @@
     "comments": [],
     "origin": [
       ["src/views/pricing/components/Pricing.tsx", 19],
-      ["src/views/pricing/index.tsx", 25]
+      ["src/views/pricing/index.tsx", 24]
     ],
     "translation": "Annuale"
   },
@@ -7469,7 +7492,7 @@
     "message": "You can always change these later in settings.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 199]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 197]],
     "translation": "Potrai sempre modificarli in seguito nelle impostazioni."
   },
   "aelko+": {
@@ -7515,8 +7538,8 @@
     "origin": [
       ["src/views/board/components/List.tsx", 133],
       ["src/views/board/components/VisibilityButton.tsx", 72],
-      ["src/views/board/index.tsx", 927],
-      ["src/views/board/index.tsx", 1001],
+      ["src/views/board/index.tsx", 953],
+      ["src/views/board/index.tsx", 1027],
       ["src/views/boards/components/BoardsList.tsx", 71],
       ["src/views/boards/index.tsx", 69],
       ["src/views/boards/index.tsx", 90]
@@ -7565,7 +7588,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 147]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 151]
     ],
     "translation": "Hai effettuato l'accesso senza una password. Imposta una password per abilitare l'accesso tramite password."
   },
@@ -7619,7 +7642,7 @@
     "message": "Your boards have been imported.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 382]],
+    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 386]],
     "translation": "Le tue board sono state importate."
   },
   "LqWW5F": {
@@ -7640,21 +7663,21 @@
     "message": "Your GitHub account has been connected.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 100]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 101]],
     "translation": "Il tuo account GitHub è stato connesso."
   },
   "AdxYds": {
     "message": "Your GitHub account has been disconnected.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 123]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 124]],
     "translation": "Il tuo account GitHub è stato disconnesso."
   },
   "PELbXB": {
     "message": "Your GitHub account is connected.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 220]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 221]],
     "translation": "Il tuo account GitHub è connesso."
   },
   "ygpeZ8": {
@@ -7676,7 +7699,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 95]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 99]
     ],
     "translation": "La tua password è stata modificata."
   },
@@ -7685,7 +7708,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 96]
+      ["src/views/settings/components/ChangePasswordConfirmation.tsx", 100]
     ],
     "translation": "La tua password è stata impostata."
   },
@@ -7707,14 +7730,14 @@
     "message": "Your Trello account has been disconnected.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 80]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 81]],
     "translation": "Il tuo account Trello è stato disconnesso."
   },
   "WRsbHO": {
     "message": "Your Trello account is connected.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/settings/IntegrationsSettings.tsx", 171]],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 172]],
     "translation": "Il tuo account Trello è connesso."
   },
   "25fAUC": {
@@ -7729,14 +7752,14 @@
     "message": "Your workspace",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 332]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 330]],
     "translation": "Il tuo workspace"
   },
   "j0o6ml": {
     "message": "Your workspace description",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/onboarding/workspace-details/index.tsx", 335]],
+    "origin": [["src/views/onboarding/workspace-details/index.tsx", 333]],
     "translation": "La descrizione del tuo workspace"
   },
   "GnSSGm": {
@@ -7780,8 +7803,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/onboarding/workspace-details/index.tsx", 215],
-      ["src/views/onboarding/workspace-details/index.tsx", 216]
+      ["src/views/onboarding/workspace-details/index.tsx", 213],
+      ["src/views/onboarding/workspace-details/index.tsx", 214]
     ],
     "translation": "il-tuo-workspace"
   },
@@ -7789,503 +7812,298 @@
     "message": "YouTube URL",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 147]],
+    "origin": [["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 139]],
     "translation": "URL YouTube"
   },
   "I3MOt6": {
-    "translation": "",
     "message": " · Settings saved",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        118
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 216]],
+    "translation": ""
   },
   "Gr9Tuz": {
-    "translation": "",
     "message": "(write access unavailable)",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        86
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 175]],
+    "translation": ""
   },
   "r1lTDz": {
-    "translation": "",
     "message": "Cards created",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        127
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 225]],
+    "translation": ""
   },
   "aEV+fe": {
     "translation": "",
     "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        34
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 34]],
+    "obsolete": true
   },
   "KGJb9/": {
-    "translation": "",
     "message": "Conflicts",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        131
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 229]],
+    "translation": ""
   },
   "O7r0Hr": {
-    "translation": "",
     "message": "Connect GitHub to import projects and sync repository issues.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/IntegrationsSettings.tsx",
-        192
-      ]
-    ]
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 192]],
+    "translation": ""
   },
   "NlHDHN": {
-    "translation": "",
     "message": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        91
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 189]],
+    "translation": ""
   },
   "UirGxE": {
-    "translation": "",
     "message": "Errors",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        131
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 229]],
+    "translation": ""
   },
   "0woCX7": {
-    "translation": "",
     "message": "GitHub issue sync",
     "placeholders": {},
     "comments": [],
     "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        30
-      ],
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        32
-      ]
-    ]
+      ["src/views/settings/GithubIssueSync.tsx", 103],
+      ["src/views/settings/GithubIssueSync.tsx", 105]
+    ],
+    "translation": ""
   },
   "J5/Qm/": {
-    "translation": "",
     "message": "GitHub updates",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        127
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 225]],
+    "translation": ""
   },
   "QTc6JG": {
-    "translation": "",
     "message": "Kan updates",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        128
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 226]],
+    "translation": ""
   },
   "TiFl9U": {
-    "translation": "",
     "message": "Last check",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        124
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 222]],
+    "translation": ""
   },
   "XZCS8f": {
-    "translation": "",
     "message": "Loading repositories…",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        36
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 109]],
+    "translation": ""
   },
   "KeR6Jx": {
-    "translation": "",
     "message": "No accessible repositories with issues enabled. Check your GitHub token's repository access.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        53
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 126]],
+    "translation": ""
   },
   "MGBNwj": {
-    "translation": "",
     "message": "Pause sync",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        113
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 211]],
+    "translation": ""
   },
   "6gRgw8": {
-    "translation": "",
     "message": "Retry",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        50
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 123]],
+    "translation": ""
   },
   "GbVGZA": {
-    "translation": "",
     "message": "Save and enable sync",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        102
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 200]],
+    "translation": ""
   },
   "fgSwc+": {
-    "translation": "",
     "message": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        134
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 232]],
+    "translation": ""
   },
   "OqyYBW": {
-    "translation": "",
     "message": "Sync enabled",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        117
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 215]],
+    "translation": ""
   },
   "dLBY90": {
-    "translation": "",
     "message": "Sync GitHub issues from repositories",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/ImportBoardsForm.tsx",
-        314
-      ]
-    ]
+    "origin": [["src/views/boards/components/ImportBoardsForm.tsx", 314]],
+    "translation": ""
   },
   "T/WrwN": {
-    "translation": "",
     "message": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        137
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 235]],
+    "translation": ""
   },
   "U6wmNc": {
-    "translation": "",
     "message": "Sync paused",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        117
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 215]],
+    "translation": ""
   },
   "TtUKSD": {
-    "translation": "",
     "message": "Waiting for the first sync check.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        141
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 239]],
+    "translation": ""
   },
   "A2+/8i": {
-    "translation": "",
     "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        34
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 107]],
+    "translation": ""
   },
   "1Usr2Q": {
-    "translation": "",
     "message": "Actual result",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        22
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 26]],
+    "translation": ""
   },
   "Q//+1+": {
-    "translation": "",
     "message": "Bug report",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        58
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 70]],
+    "translation": ""
   },
   "Npq97V": {
-    "translation": "",
     "message": "Desired outcome",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        24
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 28]],
+    "translation": ""
   },
   "AVlZoM": {
-    "translation": "",
     "message": "Environment",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        23
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 27]],
+    "translation": ""
   },
   "o4lVGz": {
-    "translation": "",
     "message": "Expected result",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        21
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 25]],
+    "translation": ""
   },
   "R1QFqA": {
-    "translation": "",
     "message": "Feature request",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        59
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 71]],
+    "translation": ""
   },
   "kfl2e1": {
-    "translation": "",
     "message": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        94
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 109]],
+    "translation": ""
   },
   "KxXEyD": {
-    "translation": "",
     "message": "Issue submitted. Its linked card will appear within five minutes.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        29
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 35]],
+    "translation": ""
   },
   "YOmYvx": {
-    "translation": "",
     "message": "Issue type",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        48
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 60]],
+    "translation": ""
   },
   "Pwqkdw": {
-    "translation": "",
     "message": "Loading…",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/NewCardForm.tsx",
-        679
-      ]
-    ]
+    "origin": [["src/views/board/components/NewCardForm.tsx", 676]],
+    "translation": ""
   },
   "q289QZ": {
-    "translation": "",
     "message": "Steps to reproduce",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        20
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 24]],
+    "translation": ""
   },
   "Tdlhz2": {
-    "translation": "",
     "message": "Submit GitHub issue",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        46
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 58]],
+    "translation": ""
   },
   "7dHmqW": {
-    "translation": "",
     "message": "Submit issue",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        102
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 117]],
+    "translation": ""
   },
   "dXoieq": {
-    "translation": "",
     "message": "Summary",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        63
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 75]],
+    "translation": ""
   },
   "WhbM7n": {
-    "translation": "",
     "message": "View issue on GitHub",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        35
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 41]],
+    "translation": ""
   },
   "aaJj/a": {
-    "translation": "",
     "message": "Acceptance criteria",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        21
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 21]],
+    "translation": ""
   },
   "+MzOSL": {
     "message": "Edit GitHub topics",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        40
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 40]],
     "translation": ""
   },
   "Euyy8s": {
@@ -8293,14 +8111,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        130
-      ],
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        131
-      ]
+      ["src/views/settings/GithubIssueSync.tsx", 130],
+      ["src/views/settings/GithubIssueSync.tsx", 131]
     ],
     "translation": ""
   },
@@ -8308,160 +8120,93 @@
     "message": "GitHub topics",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        45
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 45]],
     "translation": ""
   },
   "CdOPq+": {
-    "translation": "",
     "message": "Impact and risks",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        23
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 23]],
+    "translation": ""
   },
   "sZbZAB": {
-    "translation": "",
     "message": "Loading requirements…",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        30
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 30]],
+    "translation": ""
   },
   "EdQY6l": {
     "message": "None",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        31
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 31]],
     "translation": ""
   },
   "yIi6nT": {
     "message": "Save topics on GitHub",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        64
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 64]],
     "translation": ""
   },
   "VS6sz8": {
-    "translation": "",
     "message": "Test plan",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        22
-      ]
-    ]
+    "origin": [["src/views/board/components/GithubIssueForm.tsx", 22]],
+    "translation": ""
   },
   "6kQ+B3": {
     "message": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        43
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 43]],
     "translation": ""
   },
   "sFMBP5": {
     "message": "Topics",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        31
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 31]],
     "translation": ""
   },
   "yNJxCk": {
     "message": "Topics saved",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        74
-      ]
-    ],
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 74]],
     "translation": ""
   },
   "K/M1Pl": {
-    "translation": "",
     "message": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        128
-      ]
-    ]
+    "origin": [["src/views/settings/GithubIssueSync.tsx", 128]],
+    "translation": ""
   },
   "ZAWGCX": {
     "message": "{0} seconds",
     "placeholders": {
-      "0": [
-        "snapshot.elapsedSeconds"
-      ]
+      "0": ["snapshot.elapsedSeconds"]
     },
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        108
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 110]],
     "translation": "{0} secondi"
   },
   "g+1BiC": {
     "message": "Builder model",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        90
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 92]],
     "translation": "Modello di costruzione"
   },
   "oZd08v": {
     "message": "Building",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        18
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 18]],
     "translation": "In costruzione"
   },
   "SYZzGm": {
@@ -8469,14 +8214,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      [
-        "src/views/factory/index.tsx",
-        19
-      ],
-      [
-        "src/views/factory/index.tsx",
-        119
-      ]
+      ["src/views/factory/index.tsx", 19],
+      ["src/views/factory/index.tsx", 121]
     ],
     "translation": "Controlli"
   },
@@ -8484,64 +8223,37 @@
     "message": "Completed",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        25
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 25]],
     "translation": "Completato"
   },
   "wCJFlW": {
     "message": "Elapsed time",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        107
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 109]],
     "translation": "Tempo trascorso"
   },
   "ZEipBs": {
     "message": "Estimated cost (USD)",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        96
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 98]],
     "translation": "Costo stimato (USD)"
   },
   "WiW78t": {
     "message": "Factory",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/components/SideNavigation.tsx",
-        123
-      ]
-    ],
+    "origin": [["src/components/SideNavigation.tsx", 135]],
     "translation": "Fabbrica"
   },
   "XeWg8z": {
     "message": "Factory | {0}",
     "placeholders": {
-      "0": [
-        "workspace.name"
-      ]
+      "0": ["workspace.name"]
     },
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        244
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 260]],
     "translation": "Fabbrica | {0}"
   },
   "7Bj3x9": {
@@ -8549,14 +8261,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      [
-        "src/views/factory/index.tsx",
-        24
-      ],
-      [
-        "src/views/factory/index.tsx",
-        42
-      ]
+      ["src/views/factory/index.tsx", 24],
+      ["src/views/factory/index.tsx", 44]
     ],
     "translation": "Non riuscito"
   },
@@ -8564,328 +8270,451 @@
     "message": "Go to factory",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/components/SideNavigation.tsx",
-        131
-      ]
-    ],
+    "origin": [["src/components/SideNavigation.tsx", 143]],
     "translation": "Vai alla fabbrica"
   },
   "yx/fMc": {
     "message": "High",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        45
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 47]],
     "translation": "Alto"
   },
   "hfbUAJ": {
     "message": "Inspect artifacts",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        133
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 135]],
     "translation": "Esamina artefatti"
   },
   "7IGsHy": {
     "message": "Intake",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        16
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 16]],
     "translation": "Accettazione"
   },
   "rTI7tI": {
     "message": "Issue #{0}",
     "placeholders": {
-      "0": [
-        "snapshot.issueNumber"
-      ]
+      "0": ["snapshot.issueNumber"]
     },
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        71
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 73]],
     "translation": "Issue #{0}"
   },
   "+CfSGY": {
     "message": "Job artifacts",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        157
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 172]],
     "translation": "Artefatti del lavoro"
   },
   "nTWWCZ": {
     "message": "Low",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        45
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 47]],
     "translation": "Basso"
   },
   "hXzOVo": {
     "message": "Next",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        231
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 247]],
     "translation": "Successivo"
   },
   "ePzKW4": {
     "message": "No artifacts published yet.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        178
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 193]],
     "translation": "Nessun artefatto ancora pubblicato."
   },
   "CKxR1n": {
     "message": "No factory jobs yet. Publish a run to this workspace to see its progress here.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        209
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 224]],
     "translation": "Nessun lavoro presente. Pubblica un’esecuzione in questo spazio di lavoro per seguirne l’avanzamento qui."
   },
   "tdta9X": {
     "message": "Page {0}",
     "placeholders": {
-      "0": [
-        "page + 1"
-      ]
+      "0": ["page + 1"]
     },
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        226
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 242]],
     "translation": "Pagina {0}"
   },
   "nqMwPi": {
     "message": "Passed",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        41
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 43]],
     "translation": "Superato"
   },
   "v++/+j": {
     "message": "PR #{0}",
     "placeholders": {
-      "0": [
-        "snapshot.prNumber"
-      ]
+      "0": ["snapshot.prNumber"]
     },
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        78
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 80]],
     "translation": "PR #{0}"
   },
   "DHhJ7s": {
     "message": "Previous",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        225
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 241]],
     "translation": "Precedente"
   },
   "8wu9lr": {
     "message": "Queued",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        15
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 15]],
     "translation": "In coda"
   },
   "blJqUG": {
     "message": "Rework",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        20
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 20]],
     "translation": "Rielaborazione"
   },
   "Xwlwdm": {
     "message": "Risk",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        84
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 86]],
     "translation": "Rischio"
   },
   "xXKDhD": {
     "message": "Round {0}",
     "placeholders": {
-      "0": [
-        "round.round"
-      ]
+      "0": ["round.round"]
     },
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        117
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 119]],
     "translation": "Ciclo {0}"
   },
   "9NyAH9": {
     "message": "Skipped",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        43
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 45]],
     "translation": "Ignorato"
   },
   "N3MPTP": {
     "message": "Software factory",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        245
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 261]],
     "translation": "Fabbrica software"
   },
   "rJ/oy5": {
     "message": "Specification",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        17
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 17]],
     "translation": "Specifica"
   },
   "efxx4a": {
     "message": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        204
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 219]],
     "translation": "Impossibile caricare i lavori. Verifica la connessione e l’accesso allo spazio di lavoro; gli aggiornamenti riproveranno automaticamente."
   },
   "Paui2p": {
     "message": "Unable to load job artifacts. Check your connection and access.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        160
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 175]],
     "translation": "Impossibile caricare gli artefatti. Verifica la connessione e i permessi di accesso."
   },
   "6jKCD3": {
     "message": "Updates automatically every five seconds.",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        201
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 216]],
     "translation": "Si aggiorna automaticamente ogni cinque secondi."
   },
   "eS9Soo": {
     "message": "Waiting for human review",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        23
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 23]],
     "translation": "In attesa di revisione umana"
   },
   "GWprY1": {
     "message": "Waiting for information",
     "placeholders": {},
     "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        22
-      ]
-    ],
+    "origin": [["src/views/factory/index.tsx", 22]],
     "translation": "In attesa di informazioni"
+  },
+  "x5x78r": {
+    "translation": "",
+    "message": "{boardName} · shown on the Portfolio page",
+    "placeholders": {
+      "boardName": ["boardName"]
+    },
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 102]]
+  },
+  "MLGtCX": {
+    "translation": "",
+    "message": "Add to Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 210]]
+  },
+  "N40H+G": {
+    "translation": "",
+    "message": "All",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 163]]
+  },
+  "kVHATU": {
+    "translation": "",
+    "message": "Busy",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 25]]
+  },
+  "FcvUpU": {
+    "translation": "",
+    "message": "Cards done",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/portfolio/index.tsx", 99],
+      ["src/views/portfolio/index.tsx", 232]
+    ]
+  },
+  "1hwfyg": {
+    "translation": "",
+    "message": "Cards done counts the cards in each board's last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 252]]
+  },
+  "+6NyRG": {
+    "translation": "",
+    "message": "Client",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 64]]
+  },
+  "7iRQ7y": {
+    "translation": "",
+    "message": "Client name(s)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 168]]
+  },
+  "URmyfc": {
+    "translation": "",
+    "message": "Details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 143]]
+  },
+  "zbQBnx": {
+    "translation": "",
+    "message": "Edit project details for {0}",
+    "placeholders": {
+      "0": ["project.name"]
+    },
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 124]]
+  },
+  "F2XK4g": {
+    "translation": "",
+    "message": "Filter projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 188]]
+  },
+  "evlkre": {
+    "translation": "",
+    "message": "Go to portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/components/SideNavigation.tsx", 131]]
+  },
+  "wv1e0F": {
+    "translation": "",
+    "message": "Internal",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 64]]
+  },
+  "BW7qlT": {
+    "translation": "",
+    "message": "Internal project",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 160]]
+  },
+  "KqojOL": {
+    "translation": "",
+    "message": "Next steps",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/board/components/ProjectDetailsForm.tsx", 180],
+      ["src/views/portfolio/index.tsx", 233]
+    ]
+  },
+  "1UzENP": {
+    "translation": "",
+    "message": "No",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 85]]
+  },
+  "K4+arj": {
+    "translation": "",
+    "message": "No projects match. Try another tab or search.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 221]]
+  },
+  "K8ZdtH": {
+    "translation": "",
+    "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 216]]
+  },
+  "5xvHen": {
+    "translation": "",
+    "message": "Not yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 24]]
+  },
+  "MqA4qt": {
+    "translation": "",
+    "message": "Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/components/SideNavigation.tsx", 123],
+      ["src/views/portfolio/index.tsx", 267]
+    ]
+  },
+  "ALFid7": {
+    "translation": "",
+    "message": "Portfolio | {0}",
+    "placeholders": {
+      "0": ["workspace.name"]
+    },
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 265]]
+  },
+  "e0NrBM": {
+    "translation": "",
+    "message": "Project",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 229]]
+  },
+  "tjbyOy": {
+    "translation": "",
+    "message": "Project details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/board/components/BoardDropdown.tsx", 110],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 98]
+    ]
+  },
+  "eWhG0/": {
+    "translation": "",
+    "message": "Remove from Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 201]]
+  },
+  "blFttG": {
+    "translation": "",
+    "message": "Search projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 181]]
+  },
+  "GH4RRY": {
+    "translation": "",
+    "message": "Search projects, clients, next steps…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 182]]
+  },
+  "6oD6kQ": {
+    "translation": "",
+    "message": "Shown on the Portfolio page",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 103]]
+  },
+  "1DSSKf": {
+    "translation": "",
+    "message": "Shown to client",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/board/components/ProjectDetailsForm.tsx", 154],
+      ["src/views/portfolio/index.tsx", 231]
+    ]
+  },
+  "lo0WWp": {
+    "translation": "",
+    "message": "Shown to clients",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 167]]
+  },
+  "5UOxSd": {
+    "translation": "",
+    "message": "Turn on \"Shown to client\" to add",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 173]]
+  },
+  "T0T+qy": {
+    "translation": "",
+    "message": "Unable to load the portfolio. Check your connection and workspace access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 212]]
+  },
+  "1V2+xR": {
+    "translation": "",
+    "message": "Unable to save project details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 65]]
+  },
+  "4Y9aig": {
+    "translation": "",
+    "message": "Updated {0}",
+    "placeholders": {
+      "0": ["i18n.date(project.updatedAt, { dateStyle: \"medium\" })"]
+    },
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 117]]
+  },
+  "l75CjT": {
+    "translation": "",
+    "message": "Yes",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/portfolio/index.tsx", 85]]
   }
 }

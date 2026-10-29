@@ -120,6 +120,18 @@ export default function SideNavigation({
         },
       },
       {
+        name: t`Portfolio`,
+        href: "/portfolio",
+        icon: isDarkMode ? boardsIconDark : boardsIconLight,
+        keyboardShortcut: {
+          type: "SEQUENCE",
+          strokes: [{ key: "G" }, { key: "P" }],
+          action: () => router.push("/portfolio"),
+          group: "NAVIGATION",
+          description: t`Go to portfolio`,
+        },
+      },
+      {
         name: t`Factory`,
         href: "/factory",
         icon: isDarkMode ? boardsIconDark : boardsIconLight,

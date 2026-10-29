@@ -18,7 +18,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        102
+        101
       ]
     ],
     "translation": ", or see our"
@@ -49,7 +49,7 @@
       ],
       "1": [
         "board?.name ?? t`Board`",
-        "workspace.name ?? t`Workspace`"
+        "workspace.name"
       ]
     },
     "comments": [],
@@ -60,7 +60,7 @@
       ],
       [
         "src/views/card/index.tsx",
-        326
+        324
       ]
     ],
     "translation": "{0} | {1}"
@@ -92,7 +92,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        63
+        64
       ]
     ],
     "translation": "{0} has been added to your favorites."
@@ -108,7 +108,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        64
+        65
       ]
     ],
     "translation": "{0} has been removed from your favorites."
@@ -124,7 +124,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        563
+        561
       ]
     ],
     "translation": "{0} labels"
@@ -140,7 +140,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        887
+        913
       ]
     ],
     "translation": "{0} not found"
@@ -156,7 +156,7 @@
     "origin": [
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        489
+        493
       ]
     ],
     "translation": "{boardCount, plural, one {Import board (1)} other {Import boards ({boardCount})}}"
@@ -172,7 +172,7 @@
     "origin": [
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        341
+        345
       ]
     ],
     "translation": "{projectCount, plural, one {Import project (1)} other {Import projects ({projectCount})}}"
@@ -378,6 +378,10 @@
       [
         "src/providers/keyboard-shortcuts.tsx",
         56
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        236
       ]
     ],
     "translation": "Actions"
@@ -421,7 +425,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        104
+        103
       ]
     ],
     "translation": "Active"
@@ -433,7 +437,7 @@
     "origin": [
       [
         "src/views/card/index.tsx",
-        481
+        479
       ],
       [
         "src/views/public/board/CardModal.tsx",
@@ -569,7 +573,7 @@
     "origin": [
       [
         "src/components/Editor.tsx",
-        499
+        515
       ]
     ],
     "translation": "Add description... (type '/' to open commands or '@' to mention)"
@@ -625,7 +629,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        138
+        146
       ]
     ],
     "translation": "Add to favorites"
@@ -637,7 +641,7 @@
     "origin": [
       [
         "src/views/settings/WebhookSettings.tsx",
-        36
+        32
       ]
     ],
     "translation": "Add webhook"
@@ -792,7 +796,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        60
+        61
       ]
     ],
     "translation": "Added to favorites"
@@ -996,7 +1000,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        107
+        108
       ]
     ],
     "translation": "An error occurred while connecting your GitHub account."
@@ -1008,7 +1012,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        130
+        131
       ]
     ],
     "translation": "An error occurred while disconnecting your GitHub account."
@@ -1020,7 +1024,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        87
+        88
       ]
     ],
     "translation": "An error occurred while disconnecting your Trello account."
@@ -1032,7 +1036,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        122
+        126
       ]
     ],
     "translation": "An unexpected error occurred. Please try again later."
@@ -1180,7 +1184,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        118
+        126
       ]
     ],
     "translation": "Archive board"
@@ -1193,6 +1197,10 @@
       [
         "src/views/boards/index.tsx",
         34
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        67
       ]
     ],
     "translation": "Archived"
@@ -1356,11 +1364,11 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        626
+        624
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
-        627
+        625
       ]
     ],
     "translation": "Attach files"
@@ -1400,7 +1408,7 @@
       ],
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        284
+        282
       ]
     ],
     "translation": "Back"
@@ -1603,11 +1611,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        859
+        885
       ],
       [
         "src/views/card/index.tsx",
-        326
+        324
       ],
       [
         "src/views/public/board/index.tsx",
@@ -1636,7 +1644,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        49
+        50
       ]
     ],
     "translation": "Board archived"
@@ -1660,7 +1668,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        877
+        903
       ]
     ],
     "translation": "Board name"
@@ -1708,7 +1716,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        167
+        175
       ]
     ],
     "translation": "Board options"
@@ -1732,7 +1740,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        50
+        51
       ]
     ],
     "translation": "Board unarchived"
@@ -1820,7 +1828,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        98
+        99
       ],
       [
         "src/views/boards/index.tsx",
@@ -2292,11 +2300,11 @@
       ],
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        176
+        168
       ],
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        267
+        265
       ],
       [
         "src/views/board/components/DeleteBoardConfirmation.tsx",
@@ -2336,7 +2344,7 @@
       ],
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        206
+        210
       ],
       [
         "src/views/settings/components/ClearCustomPermissionsConfirmation.tsx",
@@ -2353,6 +2361,10 @@
       [
         "src/views/settings/components/DeleteWorkspaceConfirmation.tsx",
         98
+      ],
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        69
       ]
     ],
     "translation": "Cancel"
@@ -2364,7 +2376,7 @@
     "origin": [
       [
         "src/views/card/index.tsx",
-        326
+        324
       ]
     ],
     "translation": "Card"
@@ -2376,7 +2388,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        67
+        65
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -2416,11 +2428,11 @@
     "origin": [
       [
         "src/views/card/index.tsx",
-        389
+        387
       ],
       [
         "src/views/card/index.tsx",
-        426
+        424
       ]
     ],
     "translation": "Card not found"
@@ -2444,7 +2456,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        429
+        427
       ]
     ],
     "translation": "Card title"
@@ -2456,7 +2468,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        432
+        448
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -2484,11 +2496,11 @@
       ],
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        142
+        146
       ],
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        216
+        220
       ]
     ],
     "translation": "Change Password"
@@ -2707,8 +2719,12 @@
         281
       ],
       [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        108
+      ],
+      [
         "src/views/card/index.tsx",
-        380
+        378
       ],
       [
         "src/views/members/components/EditMemberPermissionsModal.tsx",
@@ -2881,7 +2897,7 @@
     "origin": [
       [
         "src/views/settings/WebhookSettings.tsx",
-        31
+        27
       ]
     ],
     "translation": "Configure webhooks to receive notifications when cards are created, updated, moved, or deleted."
@@ -2918,7 +2934,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        188
+        192
       ]
     ],
     "translation": "Confirm your new password"
@@ -2942,7 +2958,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        212
+        213
       ]
     ],
     "translation": "Connect GitHub"
@@ -2954,7 +2970,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        162
+        163
       ]
     ],
     "translation": "Connect Trello"
@@ -2981,7 +2997,8 @@
         191
       ]
     ],
-    "translation": "Connect your GitHub account to import projects."
+    "translation": "Connect your GitHub account to import projects.",
+    "obsolete": true
   },
   "5eZwRW": {
     "message": "Connect your Trello account to import boards.",
@@ -2990,7 +3007,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        149
+        150
       ]
     ],
     "translation": "Connect your Trello account to import boards."
@@ -3030,7 +3047,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        100
+        99
       ],
       [
         "src/views/pricing/components/PricingTiers.tsx",
@@ -3066,7 +3083,7 @@
       ],
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        301
+        299
       ]
     ],
     "translation": "Continue"
@@ -3155,7 +3172,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        257
+        255
       ]
     ],
     "translation": "Copy checklists"
@@ -3167,7 +3184,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        221
+        219
       ]
     ],
     "translation": "Copy labels"
@@ -3191,7 +3208,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        239
+        237
       ]
     ],
     "translation": "Copy members"
@@ -3231,7 +3248,7 @@
     "origin": [
       [
         "src/views/boards/components/NewBoardForm.tsx",
-        166
+        158
       ]
     ],
     "translation": "Create {0}"
@@ -3247,7 +3264,7 @@
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
-        658
+        656
       ],
       [
         "src/views/board/components/NewListForm.tsx",
@@ -3275,7 +3292,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        668
+        666
       ]
     ],
     "translation": "Create card"
@@ -3367,7 +3384,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        525
+        523
       ],
       [
         "src/views/card/components/LabelSelector.tsx",
@@ -3383,11 +3400,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        138
+        139
       ],
       [
         "src/views/board/index.tsx",
-        1012
+        1038
       ]
     ],
     "translation": "Create new list"
@@ -3399,7 +3416,7 @@
     "origin": [
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        132
+        124
       ]
     ],
     "translation": "Create template"
@@ -3439,7 +3456,7 @@
     "origin": [
       [
         "src/views/settings/components/WebhookList.tsx",
-        238
+        237
       ]
     ],
     "translation": "Created"
@@ -3626,7 +3643,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        238
+        236
       ]
     ],
     "translation": "Custom usernames require upgrading to a Team plan"
@@ -3675,7 +3692,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        158
+        170
       ]
     ],
     "translation": "Dark"
@@ -3755,7 +3772,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        136
+        135
       ]
     ],
     "translation": "Delete"
@@ -3787,7 +3804,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        149
+        157
       ]
     ],
     "translation": "Delete board"
@@ -3851,7 +3868,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        149
+        157
       ]
     ],
     "translation": "Delete template"
@@ -3879,11 +3896,11 @@
       ],
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        85
+        83
       ],
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        96
+        94
       ]
     ],
     "translation": "Delete workspace"
@@ -3975,7 +3992,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        223
+        224
       ]
     ],
     "translation": "Disconnect GitHub"
@@ -3987,7 +4004,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        177
+        178
       ]
     ],
     "translation": "Disconnect Trello"
@@ -4088,7 +4105,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        109
+        108
       ]
     ],
     "translation": "docs"
@@ -4112,7 +4129,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        209
+        232
       ],
       [
         "src/views/boards/components/TemplateBoards.tsx",
@@ -4167,6 +4184,10 @@
         68
       ],
       [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        26
+      ],
+      [
         "src/views/boards/components/TemplateBoards.tsx",
         17
       ],
@@ -4216,7 +4237,7 @@
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
-        580
+        578
       ],
       [
         "src/views/card/index.tsx",
@@ -4280,7 +4301,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        279
+        277
       ]
     ],
     "translation": "Duplicate"
@@ -4292,7 +4313,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        111
+        109
       ],
       [
         "src/views/board/components/CardContextMenu.tsx",
@@ -4312,7 +4333,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        279
+        277
       ]
     ],
     "translation": "Duplicating…"
@@ -4328,7 +4349,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        128
+        127
       ]
     ],
     "translation": "Edit"
@@ -4340,7 +4361,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        109
+        117
       ],
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
@@ -4408,7 +4429,7 @@
     "origin": [
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
-        162
+        163
       ]
     ],
     "translation": "Edit workspace URL"
@@ -4420,7 +4441,7 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        108
+        100
       ]
     ],
     "translation": "Edit YouTube Video"
@@ -4496,7 +4517,7 @@
     "origin": [
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        73
+        71
       ]
     ],
     "translation": "Email visibility"
@@ -4508,7 +4529,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        200
+        198
       ]
     ],
     "translation": "End of list"
@@ -4520,7 +4541,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        178
+        176
       ]
     ],
     "translation": "Engineering"
@@ -4552,7 +4573,7 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        131
+        123
       ]
     ],
     "translation": "Enter a custom title"
@@ -4576,7 +4597,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        159
+        163
       ]
     ],
     "translation": "Enter your current password"
@@ -4588,7 +4609,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        146
+        150
       ]
     ],
     "translation": "Enter your current password and choose a new secure password."
@@ -4624,7 +4645,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        174
+        178
       ]
     ],
     "translation": "Enter your new password"
@@ -4664,11 +4685,7 @@
     "origin": [
       [
         "src/views/boards/components/NewBoardForm.tsx",
-        77
-      ],
-      [
-        "src/views/boards/components/NewBoardForm.tsx",
-        92
+        84
       ],
       [
         "src/views/members/components/InviteMemberForm.tsx",
@@ -4684,7 +4701,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        120
+        124
       ]
     ],
     "translation": "Error Changing Password"
@@ -4696,7 +4713,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        106
+        107
       ]
     ],
     "translation": "Error connecting GitHub"
@@ -4768,7 +4785,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        129
+        130
       ]
     ],
     "translation": "Error disconnecting GitHub"
@@ -4780,7 +4797,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        86
+        87
       ]
     ],
     "translation": "Error disconnecting Trello"
@@ -4808,7 +4825,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        121
+        125
       ]
     ],
     "translation": "Error Setting Password"
@@ -4914,7 +4931,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        226
+        225
       ]
     ],
     "translation": "Events"
@@ -4998,11 +5015,7 @@
     "origin": [
       [
         "src/views/boards/components/NewBoardForm.tsx",
-        78
-      ],
-      [
-        "src/views/boards/components/NewBoardForm.tsx",
-        93
+        85
       ]
     ],
     "translation": "Failed to create board"
@@ -5038,7 +5051,7 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        82
+        74
       ]
     ],
     "translation": "Failed to fetch video information"
@@ -5070,7 +5083,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        186
+        185
       ]
     ],
     "translation": "Failed to test webhook"
@@ -5190,11 +5203,11 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        59
+        58
       ],
       [
         "src/components/UserMenu.tsx",
-        217
+        240
       ]
     ],
     "translation": "Feedback"
@@ -5206,7 +5219,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        33
+        32
       ]
     ],
     "translation": "Feedback sent"
@@ -5474,7 +5487,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        994
+        1020
       ]
     ],
     "translation": "Get started by creating a new list"
@@ -5538,7 +5551,7 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        186
+        187
       ]
     ],
     "translation": "GitHub"
@@ -5550,7 +5563,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        99
+        100
       ]
     ],
     "translation": "GitHub connected"
@@ -5562,7 +5575,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        122
+        123
       ]
     ],
     "translation": "GitHub disconnected"
@@ -5602,7 +5615,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        106
+        107
       ],
       [
         "src/pages/404.tsx",
@@ -5630,7 +5643,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        130
+        155
       ]
     ],
     "translation": "Go to members"
@@ -5642,7 +5655,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        142
+        167
       ]
     ],
     "translation": "Go to settings"
@@ -5654,7 +5667,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        118
+        119
       ]
     ],
     "translation": "Go to templates"
@@ -5826,7 +5839,7 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        151
+        143
       ]
     ],
     "translation": "https://www.youtube.com/watch?v=..."
@@ -5886,7 +5899,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        75
+        74
       ]
     ],
     "translation": "Ideas to improve this page..."
@@ -5914,7 +5927,7 @@
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        381
+        385
       ]
     ],
     "translation": "Import complete"
@@ -5930,7 +5943,7 @@
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        394
+        398
       ]
     ],
     "translation": "Import failed"
@@ -6002,7 +6015,7 @@
     "origin": [
       [
         "src/components/CommandPallette.tsx",
-        177
+        176
       ]
     ],
     "translation": "in"
@@ -6042,7 +6055,7 @@
     "origin": [
       [
         "src/views/settings/components/WebhookList.tsx",
-        104
+        103
       ]
     ],
     "translation": "Inactive"
@@ -6348,7 +6361,7 @@
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
-        529
+        527
       ],
       [
         "src/views/card/components/LabelSelector.tsx",
@@ -6404,7 +6417,7 @@
     "origin": [
       [
         "src/components/FontSizeSelector.tsx",
-        9
+        10
       ]
     ],
     "translation": "Large"
@@ -6526,7 +6539,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        172
+        184
       ]
     ],
     "translation": "Light"
@@ -6550,7 +6563,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        430
+        446
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -6574,7 +6587,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        117
+        115
       ],
       [
         "src/views/card/index.tsx",
@@ -6634,7 +6647,7 @@
     "origin": [
       [
         "src/views/card/components/ActivityList.tsx",
-        579
+        578
       ]
     ],
     "translation": "Load more activities"
@@ -6658,7 +6671,19 @@
     "origin": [
       [
         "src/views/card/components/ActivityList.tsx",
-        579
+        578
+      ],
+      [
+        "src/views/factory/index.tsx",
+        173
+      ],
+      [
+        "src/views/factory/index.tsx",
+        217
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        210
       ]
     ],
     "translation": "Loading..."
@@ -6682,7 +6707,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        227
+        250
       ]
     ],
     "translation": "Logout"
@@ -6742,7 +6767,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        98
+        99
       ]
     ],
     "translation": "Make template"
@@ -6798,7 +6823,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        178
+        176
       ]
     ],
     "translation": "Marketing"
@@ -6810,7 +6835,11 @@
     "origin": [
       [
         "src/components/FontSizeSelector.tsx",
-        8
+        9
+      ],
+      [
+        "src/views/factory/index.tsx",
+        47
       ]
     ],
     "translation": "Medium"
@@ -6890,7 +6919,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        122
+        147
       ],
       [
         "src/views/board/components/Filters.tsx",
@@ -6898,7 +6927,7 @@
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
-        487
+        485
       ],
       [
         "src/views/card/components/MemberSelector.tsx",
@@ -6923,7 +6952,7 @@
     "message": "Members | {0}",
     "placeholders": {
       "0": [
-        "workspace.name ?? t`Workspace`"
+        "workspace.name"
       ]
     },
     "comments": [],
@@ -6974,7 +7003,7 @@
       ],
       [
         "src/views/pricing/index.tsx",
-        20
+        19
       ]
     ],
     "translation": "Monthly"
@@ -7046,7 +7075,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        129
+        137
       ]
     ],
     "translation": "Move to workspace"
@@ -7105,11 +7134,11 @@
       ],
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        118
+        110
       ],
       [
         "src/views/boards/components/NewBoardForm.tsx",
-        134
+        126
       ],
       [
         "src/views/settings/components/NewWebhookModal.tsx",
@@ -7117,7 +7146,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        214
+        213
       ]
     ],
     "translation": "Name"
@@ -7141,7 +7170,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        95
+        94
       ]
     ],
     "translation": "Need help?"
@@ -7185,7 +7214,7 @@
     "origin": [
       [
         "src/views/boards/components/NewBoardForm.tsx",
-        120
+        112
       ]
     ],
     "translation": "New {0}"
@@ -7209,7 +7238,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        412
+        410
       ]
     ],
     "translation": "New card"
@@ -7233,7 +7262,7 @@
     "origin": [
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        513
+        517
       ]
     ],
     "translation": "New import"
@@ -7261,7 +7290,7 @@
       ],
       [
         "src/views/board/index.tsx",
-        939
+        965
       ]
     ],
     "translation": "New list"
@@ -7297,7 +7326,7 @@
     "origin": [
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        104
+        96
       ]
     ],
     "translation": "New template"
@@ -7421,7 +7450,7 @@
     "origin": [
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        432
+        436
       ]
     ],
     "translation": "No boards found"
@@ -7505,7 +7534,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        990
+        1016
       ]
     ],
     "translation": "No lists"
@@ -7517,7 +7546,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        995
+        1021
       ]
     ],
     "translation": "No lists have been created yet"
@@ -7545,7 +7574,7 @@
     "origin": [
       [
         "src/components/CommandPallette.tsx",
-        193
+        192
       ]
     ],
     "translation": "No results found for \"{debouncedQuery}\"."
@@ -7569,7 +7598,7 @@
     "origin": [
       [
         "src/views/settings/components/WebhookList.tsx",
-        196
+        195
       ]
     ],
     "translation": "No webhooks configured. Add a webhook to receive notifications."
@@ -7641,7 +7670,7 @@
     "origin": [
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        88
+        86
       ]
     ],
     "translation": "Once you delete your workspace, there is no going back. This action cannot be undone."
@@ -7813,7 +7842,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        93
+        97
       ]
     ],
     "translation": "Password Changed"
@@ -7861,7 +7890,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        93
+        97
       ]
     ],
     "translation": "Password Set"
@@ -7912,6 +7941,10 @@
     "comments": [],
     "origin": [
       [
+        "src/views/factory/index.tsx",
+        42
+      ],
+      [
         "src/views/members/index.tsx",
         230
       ]
@@ -7933,11 +7966,11 @@
       ],
       [
         "src/views/pricing/index.tsx",
-        21
+        20
       ],
       [
         "src/views/pricing/index.tsx",
-        26
+        25
       ]
     ],
     "translation": "per user/month"
@@ -8161,11 +8194,11 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        58
+        50
       ],
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        98
+        90
       ]
     ],
     "translation": "Please enter a valid YouTube URL"
@@ -8193,7 +8226,7 @@
       ],
       [
         "src/components/FeedbackModal.tsx",
-        41
+        40
       ],
       [
         "src/components/NewWorkspaceForm.tsx",
@@ -8201,11 +8234,11 @@
       ],
       [
         "src/views/board/components/BoardDropdown.tsx",
-        72
+        73
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
-        200
+        198
       ],
       [
         "src/views/board/components/NewListForm.tsx",
@@ -8213,11 +8246,11 @@
       ],
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        61
+        69
       ],
       [
-        "src/views/board/components/NewTemplateForm.tsx",
-        77
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        66
       ],
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
@@ -8229,15 +8262,19 @@
       ],
       [
         "src/views/board/index.tsx",
-        284
+        218
       ],
       [
         "src/views/board/index.tsx",
-        340
+        300
       ],
       [
         "src/views/board/index.tsx",
-        377
+        356
+      ],
+      [
+        "src/views/board/index.tsx",
+        393
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
@@ -8245,7 +8282,7 @@
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        395
+        399
       ],
       [
         "src/views/card/components/AttachmentThumbnails.tsx",
@@ -8409,7 +8446,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        76
+        74
       ],
       [
         "src/views/board/components/CardContextMoveListModal.tsx",
@@ -8417,7 +8454,7 @@
       ],
       [
         "src/views/board/index.tsx",
-        439
+        455
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -8449,7 +8486,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        193
+        191
       ]
     ],
     "translation": "Position in list (0 = first, leave empty for end)"
@@ -8489,11 +8526,11 @@
       ],
       [
         "src/views/pricing/index.tsx",
-        34
+        33
       ],
       [
         "src/views/pricing/index.tsx",
-        40
+        39
       ]
     ],
     "translation": "Pricing"
@@ -8730,7 +8767,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        645
+        643
       ]
     ],
     "translation": "Remove file"
@@ -8742,7 +8779,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        138
+        146
       ]
     ],
     "translation": "Remove from favorites"
@@ -8837,7 +8874,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        61
+        62
       ]
     ],
     "translation": "Removed from favorites"
@@ -8990,6 +9027,10 @@
       [
         "src/views/boards/components/TemplateBoards.tsx",
         92
+      ],
+      [
+        "src/views/factory/index.tsx",
+        21
       ]
     ],
     "translation": "Review"
@@ -9013,7 +9054,7 @@
       ],
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        178
+        176
       ]
     ],
     "translation": "Roadmap"
@@ -9098,7 +9139,11 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        183
+        175
+      ],
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        210
       ],
       [
         "src/views/card/components/Comment.tsx",
@@ -9166,7 +9211,7 @@
     "origin": [
       [
         "src/components/CommandPallette.tsx",
-        105
+        104
       ]
     ],
     "translation": "Search boards and cards..."
@@ -9266,7 +9311,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        131
+        129
       ]
     ],
     "translation": "Select a list"
@@ -9290,11 +9335,11 @@
     "origin": [
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        315
+        319
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        464
+        468
       ]
     ],
     "translation": "Select all"
@@ -9366,7 +9411,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        116
+        115
       ]
     ],
     "translation": "Send feedback"
@@ -9442,11 +9487,11 @@
       ],
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        142
+        146
       ],
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        216
+        220
       ]
     ],
     "translation": "Set Password"
@@ -9470,7 +9515,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        196
+        194
       ]
     ],
     "translation": "Set up your workspace"
@@ -9486,7 +9531,7 @@
       ],
       [
         "src/components/SideNavigation.tsx",
-        134
+        159
       ]
     ],
     "translation": "Settings"
@@ -9534,7 +9579,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        138
+        139
       ]
     ],
     "translation": "Settings | Integrations"
@@ -9558,7 +9603,7 @@
     "origin": [
       [
         "src/views/settings/WebhookSettings.tsx",
-        24
+        20
       ]
     ],
     "translation": "Settings | Webhooks"
@@ -9570,7 +9615,7 @@
     "origin": [
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        32
+        30
       ]
     ],
     "translation": "Settings | Workspace"
@@ -9582,7 +9627,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        187
+        210
       ]
     ],
     "translation": "Shortcuts"
@@ -9650,7 +9695,7 @@
       ],
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        372
+        370
       ]
     ],
     "translation": "Sign out"
@@ -9730,7 +9775,7 @@
       ],
       [
         "src/views/pricing/index.tsx",
-        44
+        43
       ]
     ],
     "translation": "Simple pricing"
@@ -9766,7 +9811,7 @@
     "origin": [
       [
         "src/components/FontSizeSelector.tsx",
-        7
+        8
       ]
     ],
     "translation": "Small"
@@ -9814,7 +9859,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        332
+        330
       ]
     ],
     "translation": "Some attachments failed"
@@ -9887,15 +9932,15 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        228
+        253
       ],
       [
         "src/components/SideNavigation.tsx",
-        229
+        254
       ],
       [
         "src/components/SideNavigation.tsx",
-        239
+        264
       ]
     ],
     "translation": "Start free trial"
@@ -9907,7 +9952,7 @@
     "origin": [
       [
         "src/views/pricing/index.tsx",
-        47
+        46
       ]
     ],
     "translation": "Start free. Upgrade as your team grows. No hidden fees, no contracts."
@@ -9930,8 +9975,16 @@
     "comments": [],
     "origin": [
       [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        117
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        230
+      ],
+      [
         "src/views/settings/components/WebhookList.tsx",
-        232
+        231
       ]
     ],
     "translation": "Status"
@@ -10020,7 +10073,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        198
+        221
       ],
       [
         "src/views/pricing/components/FeatureComparisonTable.tsx",
@@ -10048,7 +10101,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        144
+        156
       ]
     ],
     "translation": "System"
@@ -10112,11 +10165,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        859
+        885
       ],
       [
         "src/views/board/index.tsx",
-        896
+        922
       ]
     ],
     "translation": "Template"
@@ -10128,7 +10181,7 @@
     "origin": [
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        67
+        60
       ]
     ],
     "translation": "Template created"
@@ -10140,7 +10193,7 @@
     "origin": [
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        68
+        61
       ]
     ],
     "translation": "Template created successfully"
@@ -10176,7 +10229,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        110
+        111
       ],
       [
         "src/views/boards/index.tsx",
@@ -10212,7 +10265,7 @@
     "origin": [
       [
         "src/views/settings/components/WebhookList.tsx",
-        132
+        131
       ]
     ],
     "translation": "Test"
@@ -10228,7 +10281,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        177
+        176
       ]
     ],
     "translation": "Test failed"
@@ -10244,7 +10297,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        171
+        170
       ]
     ],
     "translation": "Test sent"
@@ -10260,7 +10313,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        172
+        171
       ]
     ],
     "translation": "Test webhook sent successfully!"
@@ -10284,7 +10337,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        34
+        33
       ]
     ],
     "translation": "Thank you for your feedback!"
@@ -10308,7 +10361,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        52
+        53
       ]
     ],
     "translation": "The board has been archived."
@@ -10336,7 +10389,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        53
+        54
       ]
     ],
     "translation": "The board has been unarchived."
@@ -10348,7 +10401,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        69
+        67
       ]
     ],
     "translation": "The card has been duplicated."
@@ -10367,7 +10420,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        333
+        331
       ]
     ],
     "translation": "The card was created, but {failedCount} of {0} attachments could not be uploaded."
@@ -10379,7 +10432,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        114
+        118
       ]
     ],
     "translation": "The current password you entered is incorrect."
@@ -10471,7 +10524,7 @@
     "origin": [
       [
         "src/components/UserMenu.tsx",
-        131
+        143
       ]
     ],
     "translation": "Theme"
@@ -10547,7 +10600,7 @@
     "origin": [
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
-        136
+        137
       ]
     ],
     "translation": "This board URL has already been taken"
@@ -10679,7 +10732,7 @@
     "origin": [
       [
         "src/views/settings/components/UpdateWorkspaceUrlForm.tsx",
-        129
+        130
       ]
     ],
     "translation": "This workspace username has already been taken"
@@ -10703,7 +10756,7 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        127
+        119
       ]
     ],
     "translation": "Title"
@@ -10715,7 +10768,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        180
+        178
       ]
     ],
     "translation": "Title (optional)"
@@ -10767,7 +10820,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        19
+        20
       ]
     ],
     "translation": "Token is required"
@@ -10795,7 +10848,7 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        142
+        143
       ]
     ],
     "translation": "Trello"
@@ -10807,7 +10860,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        79
+        80
       ]
     ],
     "translation": "Trello disconnected"
@@ -10915,7 +10968,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        437
+        453
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -10939,7 +10992,7 @@
     "origin": [
       [
         "src/views/board/components/NewCardForm.tsx",
-        197
+        195
       ]
     ],
     "translation": "Unable to create card"
@@ -10975,11 +11028,7 @@
     "origin": [
       [
         "src/views/board/components/NewTemplateForm.tsx",
-        60
-      ],
-      [
-        "src/views/board/components/NewTemplateForm.tsx",
-        76
+        68
       ]
     ],
     "translation": "Unable to create template"
@@ -11091,7 +11140,7 @@
     "origin": [
       [
         "src/views/board/components/CardContextDuplicateModal.tsx",
-        75
+        73
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -11167,7 +11216,7 @@
     "origin": [
       [
         "src/components/FeedbackModal.tsx",
-        40
+        39
       ]
     ],
     "translation": "Unable to send feedback"
@@ -11195,7 +11244,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        185
+        184
       ]
     ],
     "translation": "Unable to test webhook"
@@ -11207,7 +11256,11 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        71
+        72
+      ],
+      [
+        "src/views/board/index.tsx",
+        217
       ]
     ],
     "translation": "Unable to update board"
@@ -11243,7 +11296,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        339
+        355
       ],
       [
         "src/views/card/index.tsx",
@@ -11295,7 +11348,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        376
+        392
       ],
       [
         "src/views/card/components/DueDateSelector.tsx",
@@ -11323,7 +11376,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        283
+        299
       ],
       [
         "src/views/card/components/ListSelector.tsx",
@@ -11391,7 +11444,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        118
+        126
       ]
     ],
     "translation": "Unarchive board"
@@ -11634,7 +11687,7 @@
     "origin": [
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
-        175
+        176
       ],
       [
         "src/views/settings/components/UpdateDisplayNameForm.tsx",
@@ -11650,7 +11703,7 @@
       ],
       [
         "src/views/settings/components/UpdateWorkspaceUrlForm.tsx",
-        161
+        162
       ]
     ],
     "translation": "Update"
@@ -11828,7 +11881,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        220
+        219
       ]
     ],
     "translation": "URL"
@@ -11900,7 +11953,7 @@
     "origin": [
       [
         "src/views/boards/components/NewBoardForm.tsx",
-        154
+        146
       ]
     ],
     "translation": "Use template"
@@ -12169,7 +12222,7 @@
     "origin": [
       [
         "src/views/settings/components/WebhookList.tsx",
-        125
+        124
       ]
     ],
     "translation": "Webhook options"
@@ -12185,7 +12238,7 @@
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
-        178
+        177
       ]
     ],
     "translation": "Webhook test failed"
@@ -12237,7 +12290,7 @@
       ],
       [
         "src/views/settings/WebhookSettings.tsx",
-        28
+        24
       ]
     ],
     "translation": "Webhooks"
@@ -12249,7 +12302,7 @@
     "origin": [
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        64
+        62
       ]
     ],
     "translation": "Week start day"
@@ -12324,18 +12377,6 @@
         47
       ],
       [
-        "src/views/board/index.tsx",
-        859
-      ],
-      [
-        "src/views/boards/index.tsx",
-        58
-      ],
-      [
-        "src/views/members/index.tsx",
-        279
-      ],
-      [
         "src/views/public/board/index.tsx",
         125
       ],
@@ -12378,11 +12419,11 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        261
+        259
       ],
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        55
+        53
       ]
     ],
     "translation": "Workspace description"
@@ -12454,7 +12495,7 @@
       ],
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        205
+        203
       ],
       [
         "src/views/settings/components/UpdateWorkspaceNameForm.tsx",
@@ -12462,7 +12503,7 @@
       ],
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        36
+        34
       ]
     ],
     "translation": "Workspace name"
@@ -12554,7 +12595,7 @@
       ],
       [
         "src/views/settings/WorkspaceSettings.tsx",
-        45
+        43
       ]
     ],
     "translation": "Workspace URL"
@@ -12606,7 +12647,7 @@
       ],
       [
         "src/views/pricing/index.tsx",
-        25
+        24
       ]
     ],
     "translation": "Yearly"
@@ -12642,7 +12683,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        199
+        197
       ]
     ],
     "translation": "You can always change these later in settings."
@@ -12723,11 +12764,11 @@
       ],
       [
         "src/views/board/index.tsx",
-        927
+        953
       ],
       [
         "src/views/board/index.tsx",
-        1001
+        1027
       ],
       [
         "src/views/boards/components/BoardsList.tsx",
@@ -12813,7 +12854,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        147
+        151
       ]
     ],
     "translation": "You signed in without a password. Set a password to enable password-based login."
@@ -12901,7 +12942,7 @@
     "origin": [
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
-        382
+        386
       ]
     ],
     "translation": "Your boards have been imported."
@@ -12937,7 +12978,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        100
+        101
       ]
     ],
     "translation": "Your GitHub account has been connected."
@@ -12949,7 +12990,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        123
+        124
       ]
     ],
     "translation": "Your GitHub account has been disconnected."
@@ -12961,7 +13002,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        220
+        221
       ]
     ],
     "translation": "Your GitHub account is connected."
@@ -12997,7 +13038,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        95
+        99
       ]
     ],
     "translation": "Your password has been changed."
@@ -13009,7 +13050,7 @@
     "origin": [
       [
         "src/views/settings/components/ChangePasswordConfirmation.tsx",
-        96
+        100
       ]
     ],
     "translation": "Your password has been set."
@@ -13045,7 +13086,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        80
+        81
       ]
     ],
     "translation": "Your Trello account has been disconnected."
@@ -13057,7 +13098,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        171
+        172
       ]
     ],
     "translation": "Your Trello account is connected."
@@ -13082,7 +13123,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        332
+        330
       ]
     ],
     "translation": "Your workspace"
@@ -13094,7 +13135,7 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        335
+        333
       ]
     ],
     "translation": "Your workspace description"
@@ -13154,11 +13195,11 @@
     "origin": [
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        215
+        213
       ],
       [
         "src/views/onboarding/workspace-details/index.tsx",
-        216
+        214
       ]
     ],
     "translation": "your-workspace"
@@ -13170,46 +13211,46 @@
     "origin": [
       [
         "src/components/YouTubeEmbed/EditYouTubeModal.tsx",
-        147
+        139
       ]
     ],
     "translation": "YouTube URL"
   },
   "I3MOt6": {
-    "translation": " · Settings saved",
     "message": " · Settings saved",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        118
+        216
       ]
-    ]
+    ],
+    "translation": " · Settings saved"
   },
   "Gr9Tuz": {
-    "translation": "(write access unavailable)",
     "message": "(write access unavailable)",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        86
+        175
       ]
-    ]
+    ],
+    "translation": "(write access unavailable)"
   },
   "r1lTDz": {
-    "translation": "Cards created",
     "message": "Cards created",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        127
+        225
       ]
-    ]
+    ],
+    "translation": "Cards created"
   },
   "aEV+fe": {
     "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
@@ -13221,22 +13262,22 @@
         "src/views/settings/GithubIssueSync.tsx",
         34
       ]
-    ]
+    ],
+    "obsolete": true
   },
   "KGJb9/": {
-    "translation": "Conflicts",
     "message": "Conflicts",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        131
+        229
       ]
-    ]
+    ],
+    "translation": "Conflicts"
   },
   "O7r0Hr": {
-    "translation": "Connect GitHub to import projects and sync repository issues.",
     "message": "Connect GitHub to import projects and sync repository issues.",
     "placeholders": {},
     "comments": [],
@@ -13245,170 +13286,170 @@
         "src/views/settings/IntegrationsSettings.tsx",
         192
       ]
-    ]
+    ],
+    "translation": "Connect GitHub to import projects and sync repository issues."
   },
   "NlHDHN": {
-    "translation": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it.",
     "message": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        91
+        189
       ]
-    ]
+    ],
+    "translation": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it."
   },
   "UirGxE": {
-    "translation": "Errors",
     "message": "Errors",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        131
+        229
       ]
-    ]
+    ],
+    "translation": "Errors"
   },
   "0woCX7": {
-    "translation": "GitHub issue sync",
     "message": "GitHub issue sync",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        30
+        103
       ],
       [
         "src/views/settings/GithubIssueSync.tsx",
-        32
+        105
       ]
-    ]
+    ],
+    "translation": "GitHub issue sync"
   },
   "J5/Qm/": {
-    "translation": "GitHub updates",
     "message": "GitHub updates",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        127
+        225
       ]
-    ]
+    ],
+    "translation": "GitHub updates"
   },
   "QTc6JG": {
-    "translation": "Kan updates",
     "message": "Kan updates",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        128
+        226
       ]
-    ]
+    ],
+    "translation": "Kan updates"
   },
   "TiFl9U": {
-    "translation": "Last check",
     "message": "Last check",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        124
+        222
       ]
-    ]
+    ],
+    "translation": "Last check"
   },
   "XZCS8f": {
-    "translation": "Loading repositories…",
     "message": "Loading repositories…",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        36
+        109
       ]
-    ]
+    ],
+    "translation": "Loading repositories…"
   },
   "KeR6Jx": {
-    "translation": "No accessible repositories with issues enabled. Check your GitHub token's repository access.",
     "message": "No accessible repositories with issues enabled. Check your GitHub token's repository access.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        53
+        126
       ]
-    ]
+    ],
+    "translation": "No accessible repositories with issues enabled. Check your GitHub token's repository access."
   },
   "MGBNwj": {
-    "translation": "Pause sync",
     "message": "Pause sync",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        113
+        211
       ]
-    ]
+    ],
+    "translation": "Pause sync"
   },
   "6gRgw8": {
-    "translation": "Retry",
     "message": "Retry",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        50
+        123
       ]
-    ]
+    ],
+    "translation": "Retry"
   },
   "GbVGZA": {
-    "translation": "Save and enable sync",
     "message": "Save and enable sync",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        102
+        200
       ]
-    ]
+    ],
+    "translation": "Save and enable sync"
   },
   "fgSwc+": {
-    "translation": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report.",
     "message": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        134
+        232
       ]
-    ]
+    ],
+    "translation": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report."
   },
   "OqyYBW": {
-    "translation": "Sync enabled",
     "message": "Sync enabled",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        117
+        215
       ]
-    ]
+    ],
+    "translation": "Sync enabled"
   },
   "dLBY90": {
-    "translation": "Sync GitHub issues from repositories",
     "message": "Sync GitHub issues from repositories",
     "placeholders": {},
     "comments": [],
@@ -13417,227 +13458,143 @@
         "src/views/boards/components/ImportBoardsForm.tsx",
         314
       ]
-    ]
+    ],
+    "translation": "Sync GitHub issues from repositories"
   },
   "T/WrwN": {
-    "translation": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access.",
     "message": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        137
+        235
       ]
-    ]
+    ],
+    "translation": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access."
   },
   "U6wmNc": {
-    "translation": "Sync paused",
     "message": "Sync paused",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        117
+        215
       ]
-    ]
+    ],
+    "translation": "Sync paused"
   },
   "TtUKSD": {
-    "translation": "Waiting for the first sync check.",
     "message": "Waiting for the first sync check.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        141
+        239
       ]
-    ]
+    ],
+    "translation": "Waiting for the first sync check."
   },
   "A2+/8i": {
-    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
     "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/GithubIssueSync.tsx",
-        34
+        107
       ]
-    ]
+    ],
+    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards."
   },
   "1Usr2Q": {
-    "translation": "Actual result",
     "message": "Actual result",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        22
+        26
       ]
-    ]
+    ],
+    "translation": "Actual result"
   },
   "Q//+1+": {
-    "translation": "Bug report",
     "message": "Bug report",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        58
+        70
       ]
-    ]
+    ],
+    "translation": "Bug report"
   },
   "Npq97V": {
-    "translation": "Desired outcome",
     "message": "Desired outcome",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        24
+        28
       ]
-    ]
+    ],
+    "translation": "Desired outcome"
   },
   "AVlZoM": {
-    "translation": "Environment",
     "message": "Environment",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        23
+        27
       ]
-    ]
+    ],
+    "translation": "Environment"
   },
   "o4lVGz": {
-    "translation": "Expected result",
     "message": "Expected result",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        21
+        25
       ]
-    ]
+    ],
+    "translation": "Expected result"
   },
   "R1QFqA": {
-    "translation": "Feature request",
     "message": "Feature request",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        59
+        71
       ]
-    ]
+    ],
+    "translation": "Feature request"
   },
   "kfl2e1": {
-    "translation": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
     "message": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/GithubIssueForm.tsx",
-        94
+        109
       ]
-    ]
+    ],
+    "translation": "If the request timed out, check GitHub before retrying to avoid a duplicate."
   },
   "KxXEyD": {
-    "translation": "Issue submitted. Its linked card will appear within five minutes.",
     "message": "Issue submitted. Its linked card will appear within five minutes.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        29
-      ]
-    ]
-  },
-  "YOmYvx": {
-    "translation": "Issue type",
-    "message": "Issue type",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        48
-      ]
-    ]
-  },
-  "Pwqkdw": {
-    "translation": "Loading…",
-    "message": "Loading…",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/NewCardForm.tsx",
-        679
-      ]
-    ]
-  },
-  "q289QZ": {
-    "translation": "Steps to reproduce",
-    "message": "Steps to reproduce",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        20
-      ]
-    ]
-  },
-  "Tdlhz2": {
-    "translation": "Submit GitHub issue",
-    "message": "Submit GitHub issue",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        46
-      ]
-    ]
-  },
-  "7dHmqW": {
-    "translation": "Submit issue",
-    "message": "Submit issue",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        102
-      ]
-    ]
-  },
-  "dXoieq": {
-    "translation": "Summary",
-    "message": "Summary",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        63
-      ]
-    ]
-  },
-  "WhbM7n": {
-    "translation": "View issue on GitHub",
-    "message": "View issue on GitHub",
     "placeholders": {},
     "comments": [],
     "origin": [
@@ -13645,10 +13602,94 @@
         "src/views/board/components/GithubIssueForm.tsx",
         35
       ]
-    ]
+    ],
+    "translation": "Issue submitted. Its linked card will appear within five minutes."
+  },
+  "YOmYvx": {
+    "message": "Issue type",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        60
+      ]
+    ],
+    "translation": "Issue type"
+  },
+  "Pwqkdw": {
+    "message": "Loading…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        676
+      ]
+    ],
+    "translation": "Loading…"
+  },
+  "q289QZ": {
+    "message": "Steps to reproduce",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        24
+      ]
+    ],
+    "translation": "Steps to reproduce"
+  },
+  "Tdlhz2": {
+    "message": "Submit GitHub issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        58
+      ]
+    ],
+    "translation": "Submit GitHub issue"
+  },
+  "7dHmqW": {
+    "message": "Submit issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        117
+      ]
+    ],
+    "translation": "Submit issue"
+  },
+  "dXoieq": {
+    "message": "Summary",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        75
+      ]
+    ],
+    "translation": "Summary"
+  },
+  "WhbM7n": {
+    "message": "View issue on GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        41
+      ]
+    ],
+    "translation": "View issue on GitHub"
   },
   "aaJj/a": {
-    "translation": "Acceptance criteria",
     "message": "Acceptance criteria",
     "placeholders": {},
     "comments": [],
@@ -13657,7 +13698,8 @@
         "src/views/board/components/GithubIssueForm.tsx",
         21
       ]
-    ]
+    ],
+    "translation": "Acceptance criteria"
   },
   "+MzOSL": {
     "message": "Edit GitHub topics",
@@ -13700,7 +13742,6 @@
     "translation": "GitHub topics"
   },
   "CdOPq+": {
-    "translation": "Impact and risks",
     "message": "Impact and risks",
     "placeholders": {},
     "comments": [],
@@ -13709,10 +13750,10 @@
         "src/views/board/components/GithubIssueForm.tsx",
         23
       ]
-    ]
+    ],
+    "translation": "Impact and risks"
   },
   "sZbZAB": {
-    "translation": "Loading requirements…",
     "message": "Loading requirements…",
     "placeholders": {},
     "comments": [],
@@ -13721,7 +13762,8 @@
         "src/views/board/components/GithubIssueForm.tsx",
         30
       ]
-    ]
+    ],
+    "translation": "Loading requirements…"
   },
   "EdQY6l": {
     "message": "None",
@@ -13748,7 +13790,6 @@
     "translation": "Save topics on GitHub"
   },
   "VS6sz8": {
-    "translation": "Test plan",
     "message": "Test plan",
     "placeholders": {},
     "comments": [],
@@ -13757,7 +13798,8 @@
         "src/views/board/components/GithubIssueForm.tsx",
         22
       ]
-    ]
+    ],
+    "translation": "Test plan"
   },
   "6kQ+B3": {
     "message": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters.",
@@ -13796,7 +13838,6 @@
     "translation": "Topics saved"
   },
   "K/M1Pl": {
-    "translation": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.",
     "message": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.",
     "placeholders": {},
     "comments": [],
@@ -13805,7 +13846,8 @@
         "src/views/settings/GithubIssueSync.tsx",
         128
       ]
-    ]
+    ],
+    "translation": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access."
   },
   "ZAWGCX": {
     "message": "{0} seconds",
@@ -13818,7 +13860,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        108
+        110
       ]
     ],
     "translation": "{0} seconds"
@@ -13830,7 +13872,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        90
+        92
       ]
     ],
     "translation": "Builder model"
@@ -13858,7 +13900,7 @@
       ],
       [
         "src/views/factory/index.tsx",
-        119
+        121
       ]
     ],
     "translation": "Checks"
@@ -13882,7 +13924,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        107
+        109
       ]
     ],
     "translation": "Elapsed time"
@@ -13894,7 +13936,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        96
+        98
       ]
     ],
     "translation": "Estimated cost (USD)"
@@ -13906,7 +13948,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        123
+        135
       ]
     ],
     "translation": "Factory"
@@ -13922,7 +13964,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        244
+        260
       ]
     ],
     "translation": "Factory | {0}"
@@ -13938,7 +13980,7 @@
       ],
       [
         "src/views/factory/index.tsx",
-        42
+        44
       ]
     ],
     "translation": "Failed"
@@ -13950,7 +13992,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        131
+        143
       ]
     ],
     "translation": "Go to factory"
@@ -13962,7 +14004,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        45
+        47
       ]
     ],
     "translation": "High"
@@ -13974,7 +14016,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        133
+        135
       ]
     ],
     "translation": "Inspect artifacts"
@@ -14002,7 +14044,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        71
+        73
       ]
     ],
     "translation": "Issue #{0}"
@@ -14014,7 +14056,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        157
+        172
       ]
     ],
     "translation": "Job artifacts"
@@ -14026,7 +14068,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        45
+        47
       ]
     ],
     "translation": "Low"
@@ -14038,7 +14080,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        231
+        247
       ]
     ],
     "translation": "Next"
@@ -14050,7 +14092,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        178
+        193
       ]
     ],
     "translation": "No artifacts published yet."
@@ -14062,7 +14104,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        209
+        224
       ]
     ],
     "translation": "No factory jobs yet. Publish a run to this workspace to see its progress here."
@@ -14078,7 +14120,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        226
+        242
       ]
     ],
     "translation": "Page {0}"
@@ -14090,7 +14132,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        41
+        43
       ]
     ],
     "translation": "Passed"
@@ -14106,7 +14148,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        78
+        80
       ]
     ],
     "translation": "PR #{0}"
@@ -14118,7 +14160,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        225
+        241
       ]
     ],
     "translation": "Previous"
@@ -14154,7 +14196,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        84
+        86
       ]
     ],
     "translation": "Risk"
@@ -14170,7 +14212,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        117
+        119
       ]
     ],
     "translation": "Round {0}"
@@ -14182,7 +14224,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        43
+        45
       ]
     ],
     "translation": "Skipped"
@@ -14194,7 +14236,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        245
+        261
       ]
     ],
     "translation": "Software factory"
@@ -14218,7 +14260,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        204
+        219
       ]
     ],
     "translation": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically."
@@ -14230,7 +14272,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        160
+        175
       ]
     ],
     "translation": "Unable to load job artifacts. Check your connection and access."
@@ -14242,7 +14284,7 @@
     "origin": [
       [
         "src/views/factory/index.tsx",
-        201
+        216
       ]
     ],
     "translation": "Updates automatically every five seconds."
@@ -14270,5 +14312,449 @@
       ]
     ],
     "translation": "Waiting for information"
+  },
+  "x5x78r": {
+    "translation": "{boardName} · shown on the Portfolio page",
+    "message": "{boardName} · shown on the Portfolio page",
+    "placeholders": {
+      "boardName": [
+        "boardName"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        102
+      ]
+    ]
+  },
+  "MLGtCX": {
+    "translation": "Add to Portfolio",
+    "message": "Add to Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        210
+      ]
+    ]
+  },
+  "N40H+G": {
+    "translation": "All",
+    "message": "All",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        163
+      ]
+    ]
+  },
+  "kVHATU": {
+    "translation": "Busy",
+    "message": "Busy",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        25
+      ]
+    ]
+  },
+  "FcvUpU": {
+    "translation": "Cards done",
+    "message": "Cards done",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        99
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        232
+      ]
+    ]
+  },
+  "1hwfyg": {
+    "translation": "Cards done counts the cards in each board's last list.",
+    "message": "Cards done counts the cards in each board's last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        252
+      ]
+    ]
+  },
+  "+6NyRG": {
+    "translation": "Client",
+    "message": "Client",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        64
+      ]
+    ]
+  },
+  "7iRQ7y": {
+    "translation": "Client name(s)",
+    "message": "Client name(s)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        168
+      ]
+    ]
+  },
+  "URmyfc": {
+    "translation": "Details",
+    "message": "Details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        143
+      ]
+    ]
+  },
+  "zbQBnx": {
+    "translation": "Edit project details for {0}",
+    "message": "Edit project details for {0}",
+    "placeholders": {
+      "0": [
+        "project.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        124
+      ]
+    ]
+  },
+  "F2XK4g": {
+    "translation": "Filter projects",
+    "message": "Filter projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        188
+      ]
+    ]
+  },
+  "evlkre": {
+    "translation": "Go to portfolio",
+    "message": "Go to portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        131
+      ]
+    ]
+  },
+  "wv1e0F": {
+    "translation": "Internal",
+    "message": "Internal",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        64
+      ]
+    ]
+  },
+  "BW7qlT": {
+    "translation": "Internal project",
+    "message": "Internal project",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        160
+      ]
+    ]
+  },
+  "KqojOL": {
+    "translation": "Next steps",
+    "message": "Next steps",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        180
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        233
+      ]
+    ]
+  },
+  "1UzENP": {
+    "translation": "No",
+    "message": "No",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        85
+      ]
+    ]
+  },
+  "K4+arj": {
+    "translation": "No projects match. Try another tab or search.",
+    "message": "No projects match. Try another tab or search.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        221
+      ]
+    ]
+  },
+  "K8ZdtH": {
+    "translation": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
+    "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        216
+      ]
+    ]
+  },
+  "5xvHen": {
+    "translation": "Not yet",
+    "message": "Not yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        24
+      ]
+    ]
+  },
+  "MqA4qt": {
+    "translation": "Portfolio",
+    "message": "Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        123
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        267
+      ]
+    ]
+  },
+  "ALFid7": {
+    "translation": "Portfolio | {0}",
+    "message": "Portfolio | {0}",
+    "placeholders": {
+      "0": [
+        "workspace.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        265
+      ]
+    ]
+  },
+  "e0NrBM": {
+    "translation": "Project",
+    "message": "Project",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        229
+      ]
+    ]
+  },
+  "tjbyOy": {
+    "translation": "Project details",
+    "message": "Project details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/BoardDropdown.tsx",
+        110
+      ],
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        98
+      ]
+    ]
+  },
+  "eWhG0/": {
+    "translation": "Remove from Portfolio",
+    "message": "Remove from Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        201
+      ]
+    ]
+  },
+  "blFttG": {
+    "translation": "Search projects",
+    "message": "Search projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        181
+      ]
+    ]
+  },
+  "GH4RRY": {
+    "translation": "Search projects, clients, next steps…",
+    "message": "Search projects, clients, next steps…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        182
+      ]
+    ]
+  },
+  "6oD6kQ": {
+    "translation": "Shown on the Portfolio page",
+    "message": "Shown on the Portfolio page",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        103
+      ]
+    ]
+  },
+  "1DSSKf": {
+    "translation": "Shown to client",
+    "message": "Shown to client",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        154
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        231
+      ]
+    ]
+  },
+  "lo0WWp": {
+    "translation": "Shown to clients",
+    "message": "Shown to clients",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        167
+      ]
+    ]
+  },
+  "5UOxSd": {
+    "translation": "Turn on \"Shown to client\" to add",
+    "message": "Turn on \"Shown to client\" to add",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        173
+      ]
+    ]
+  },
+  "T0T+qy": {
+    "translation": "Unable to load the portfolio. Check your connection and workspace access.",
+    "message": "Unable to load the portfolio. Check your connection and workspace access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        212
+      ]
+    ]
+  },
+  "1V2+xR": {
+    "translation": "Unable to save project details",
+    "message": "Unable to save project details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        65
+      ]
+    ]
+  },
+  "4Y9aig": {
+    "translation": "Updated {0}",
+    "message": "Updated {0}",
+    "placeholders": {
+      "0": [
+        "i18n.date(project.updatedAt, { dateStyle: \"medium\" })"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        117
+      ]
+    ]
+  },
+  "l75CjT": {
+    "translation": "Yes",
+    "message": "Yes",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        85
+      ]
+    ]
   }
 }
