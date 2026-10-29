@@ -149,11 +149,11 @@ export function BoardsList({
                     <HiOutlineStar className="h-5 w-5 text-neutral-700 dark:text-dark-800" />
                   )}
                 </button>
-                {github ? (
-                  <div className="relative flex h-full min-w-0 flex-1 flex-col justify-between p-5">
-                    <h2 className="line-clamp-2 break-words pr-8 text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
-                      {github.repo}
-                    </h2>
+                <div className="relative flex h-full min-w-0 flex-1 flex-col justify-between p-5">
+                  <h2 className="line-clamp-2 break-words pr-8 text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
+                    {github?.repo ?? board.name}
+                  </h2>
+                  {github && (
                     <div className="flex min-w-0 items-center justify-end gap-2 text-xs text-light-900 dark:text-dark-900">
                       <FaGithub
                         aria-hidden="true"
@@ -161,12 +161,8 @@ export function BoardsList({
                       />
                       <span className="truncate">{github.owner}</span>
                     </div>
-                  </div>
-                ) : (
-                  <h2 className="px-4 text-[14px] font-bold text-neutral-700 dark:text-dark-1000">
-                    {board.name}
-                  </h2>
-                )}
+                  )}
+                </div>
               </div>
             </Link>
           </motion.div>

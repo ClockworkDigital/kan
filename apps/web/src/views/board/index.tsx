@@ -902,13 +902,11 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
                 {...register("name")}
                 onBlur={canEditBoard ? handleSubmit(onSubmit) : undefined}
                 readOnly={!canEditBoard}
-                className={`font-heading block border-0 bg-transparent p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed dark:text-dark-1000 sm:text-[1.2rem] ${github ? "peer absolute inset-0 w-full opacity-0 focus:opacity-100" : ""}`}
+                className={`font-heading block border-0 bg-transparent p-0 py-0 font-bold leading-[2.3rem] tracking-tight text-neutral-900 focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed dark:text-dark-1000 sm:text-[1.2rem] peer absolute inset-0 w-full opacity-0 focus:opacity-100`}
               />
-              {github && (
-                <h1 className="font-heading pointer-events-none line-clamp-2 break-words text-[clamp(1.225rem,2.8vw,2.8rem)] font-bold leading-tight tracking-tight text-neutral-900 peer-focus:invisible dark:text-dark-1000">
-                  {github.repo}
-                </h1>
-              )}
+              <h1 className="font-heading pointer-events-none line-clamp-2 break-words text-[clamp(1.225rem,2.8vw,2.8rem)] font-bold leading-tight tracking-tight text-neutral-900 peer-focus:invisible dark:text-dark-1000">
+                {github?.repo ?? boardData.name}
+              </h1>
             </form>
           )}
           {!boardData && !isLoading && (
