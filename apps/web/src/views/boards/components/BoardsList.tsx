@@ -125,8 +125,9 @@ export function BoardsList({
             <Link
               href={`${isTemplate ? "templates" : "boards"}/${board.publicId}`}
               aria-label={board.name}
+              className="block h-full"
             >
-              <div className="group relative mr-5 flex h-[150px] w-full items-center justify-center rounded-md border border-dashed border-light-400 bg-light-50 shadow-sm hover:bg-light-200 dark:border-dark-600 dark:bg-dark-50 dark:hover:bg-dark-100">
+              <div className="group relative mr-5 flex h-full min-h-[150px] w-full items-stretch rounded-md border border-dashed border-light-400 bg-light-50 shadow-sm hover:bg-light-200 dark:border-dark-600 dark:bg-dark-50 dark:hover:bg-dark-100">
                 <PatternedBackground />
                 <button
                   onClick={(e) =>
@@ -150,7 +151,7 @@ export function BoardsList({
                   )}
                 </button>
                 <div className="relative flex h-full min-w-0 flex-1 flex-col justify-between p-5">
-                  <h2 className="line-clamp-2 break-words pr-8 text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
+                  <h2 className="break-words pr-8 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
                     {github?.repo ?? board.name}
                   </h2>
                   {github && (
