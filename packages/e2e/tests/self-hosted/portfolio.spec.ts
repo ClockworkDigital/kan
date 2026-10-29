@@ -46,7 +46,10 @@ test(
     await expect(row).toContainText("Busy");
     await expect(row).toContainText("Yes");
     await expect(row).toContainText("Transit partner");
-    await expect(row).toContainText("1 / 2");
+    await expect(row).toContainText(/1\s*\/\s*2/);
+    await expect(
+      row.getByRole("progressbar", { name: "Cards done" }),
+    ).toHaveAttribute("aria-valuenow", "50");
     await expect(row).toContainText("Pilot sign-off");
     await expect(
       page.getByRole("button", { name: /Shown to clients/ }),
