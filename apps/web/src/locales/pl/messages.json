@@ -1123,7 +1123,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        108
+        114
       ]
     ],
     "translation": "Wystąpił błąd podczas łączenia konta GitHub."
@@ -1135,7 +1135,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        131
+        137
       ]
     ],
     "translation": "Wystąpił błąd podczas odłączania konta GitHub."
@@ -1147,7 +1147,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        88
+        94
       ]
     ],
     "translation": "Wystąpił błąd podczas odłączania konta Trello."
@@ -3259,7 +3259,11 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        213
+        201
+      ],
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        238
       ]
     ],
     "translation": "Połącz z GitHub"
@@ -3271,7 +3275,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        192
+        217
       ]
     ],
     "translation": ""
@@ -3283,7 +3287,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        163
+        169
       ]
     ],
     "translation": "Połącz Trello"
@@ -3320,7 +3324,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        150
+        156
       ]
     ],
     "translation": "Połącz swoje konto Trello, aby zaimportować tablice."
@@ -4329,7 +4333,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        224
+        249
       ]
     ],
     "translation": "Odłącz GitHub"
@@ -4341,7 +4345,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        178
+        184
       ]
     ],
     "translation": "Odłącz Trello"
@@ -5114,7 +5118,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        107
+        113
       ]
     ],
     "translation": "Błąd podczas łączenia z GitHub"
@@ -5186,7 +5190,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        130
+        136
       ]
     ],
     "translation": "Błąd podczas odłączania GitHub"
@@ -5198,7 +5202,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        87
+        93
       ]
     ],
     "translation": "Błąd podczas odłączania Trello"
@@ -6072,10 +6076,22 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        187
+        193
       ]
     ],
     "translation": "GitHub"
+  },
+  "ZT3ogS": {
+    "message": "GitHub authorization failed or expired. Try connecting again from this account.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        212
+      ]
+    ],
+    "translation": "Autoryzacja GitHub nie powiodła się lub wygasła. Spróbuj ponownie połączyć się z tego konta."
   },
   "PVT7q7": {
     "message": "GitHub connected",
@@ -6084,7 +6100,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        100
+        106
       ]
     ],
     "translation": "GitHub połączony"
@@ -6096,7 +6112,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        123
+        129
       ]
     ],
     "translation": "GitHub odłączony"
@@ -9853,6 +9869,18 @@
     ],
     "translation": "Szybka wygrana"
   },
+  "0tk280": {
+    "message": "Reconnect when your GitHub authorization expires.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        202
+      ]
+    ],
+    "translation": "Po wygaśnięciu autoryzacji GitHub połącz się ponownie."
+  },
   "6EWT6T": {
     "message": "Recruitment",
     "placeholders": {},
@@ -10832,7 +10860,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        139
+        145
       ]
     ],
     "translation": "Ustawienia | Integracje"
@@ -12349,7 +12377,7 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        143
+        149
       ]
     ],
     "translation": "Trello"
@@ -12361,7 +12389,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        80
+        86
       ]
     ],
     "translation": "Trello zostało odłączone"
@@ -14651,7 +14679,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        101
+        107
       ]
     ],
     "translation": "Twoje konto GitHub zostało połączone."
@@ -14663,7 +14691,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        124
+        130
       ]
     ],
     "translation": "Twoje konto GitHub zostało odłączone."
@@ -14675,7 +14703,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        221
+        246
       ]
     ],
     "translation": "Twoje konto GitHub jest połączone."
@@ -14759,7 +14787,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        81
+        87
       ]
     ],
     "translation": "Twoje konto Trello zostało odłączone."
@@ -14771,7 +14799,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        172
+        178
       ]
     ],
     "translation": "Twoje konto Trello jest połączone."

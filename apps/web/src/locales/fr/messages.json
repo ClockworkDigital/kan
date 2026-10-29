@@ -1123,7 +1123,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        108
+        114
       ]
     ],
     "translation": "Une erreur s'est produite lors de la connexion de votre compte GitHub."
@@ -1135,7 +1135,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        131
+        137
       ]
     ],
     "translation": "Une erreur s'est produite lors de la déconnexion de votre compte GitHub."
@@ -1147,7 +1147,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        88
+        94
       ]
     ],
     "translation": "Une erreur s'est produite lors de la déconnexion de votre compte Trello."
@@ -3259,7 +3259,11 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        213
+        201
+      ],
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        238
       ]
     ],
     "translation": "Connecter GitHub"
@@ -3271,7 +3275,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        192
+        217
       ]
     ],
     "translation": ""
@@ -3283,7 +3287,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        163
+        169
       ]
     ],
     "translation": "Connecter Trello"
@@ -3320,7 +3324,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        150
+        156
       ]
     ],
     "translation": "Connectez votre compte Trello pour importer des tableaux."
@@ -4329,7 +4333,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        224
+        249
       ]
     ],
     "translation": "Déconnecter GitHub"
@@ -4341,7 +4345,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        178
+        184
       ]
     ],
     "translation": "Déconnecter Trello"
@@ -5114,7 +5118,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        107
+        113
       ]
     ],
     "translation": "Erreur de connexion à GitHub"
@@ -5186,7 +5190,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        130
+        136
       ]
     ],
     "translation": "Erreur de déconnexion de GitHub"
@@ -5198,7 +5202,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        87
+        93
       ]
     ],
     "translation": "Erreur lors de la déconnexion de Trello"
@@ -6072,10 +6076,22 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        187
+        193
       ]
     ],
     "translation": "GitHub"
+  },
+  "ZT3ogS": {
+    "message": "GitHub authorization failed or expired. Try connecting again from this account.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        212
+      ]
+    ],
+    "translation": "L’autorisation GitHub a échoué ou a expiré. Réessayez de vous connecter depuis ce compte."
   },
   "PVT7q7": {
     "message": "GitHub connected",
@@ -6084,7 +6100,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        100
+        106
       ]
     ],
     "translation": "GitHub connecté"
@@ -6096,7 +6112,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        123
+        129
       ]
     ],
     "translation": "GitHub déconnecté"
@@ -9853,6 +9869,18 @@
     ],
     "translation": "Victoire rapide"
   },
+  "0tk280": {
+    "message": "Reconnect when your GitHub authorization expires.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        202
+      ]
+    ],
+    "translation": "Reconnectez-vous lorsque votre autorisation GitHub expire."
+  },
   "6EWT6T": {
     "message": "Recruitment",
     "placeholders": {},
@@ -10832,7 +10860,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        139
+        145
       ]
     ],
     "translation": "Paramètres | Intégrations"
@@ -12349,7 +12377,7 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        143
+        149
       ]
     ],
     "translation": "Trello"
@@ -12361,7 +12389,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        80
+        86
       ]
     ],
     "translation": "Trello déconnecté"
@@ -14651,7 +14679,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        101
+        107
       ]
     ],
     "translation": "Votre compte GitHub a été connecté."
@@ -14663,7 +14691,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        124
+        130
       ]
     ],
     "translation": "Votre compte GitHub a été déconnecté."
@@ -14675,7 +14703,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        221
+        246
       ]
     ],
     "translation": "Votre compte GitHub est connecté."
@@ -14759,7 +14787,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        81
+        87
       ]
     ],
     "translation": "Votre compte Trello a été déconnecté."
@@ -14771,7 +14799,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        172
+        178
       ]
     ],
     "translation": "Votre compte Trello est connecté."

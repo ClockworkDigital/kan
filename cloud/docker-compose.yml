@@ -29,6 +29,8 @@ services:
       - .env
     restart: unless-stopped
     environment:
+      - GITHUB_APP_CLIENT_ID=${GITHUB_APP_CLIENT_ID}
+      - GITHUB_APP_CLIENT_SECRET=${GITHUB_APP_CLIENT_SECRET}
       - KAN_ADMIN_API_KEY=${KAN_ADMIN_API_KEY}
       - NEXT_PUBLIC_KAN_ENV=${NEXT_PUBLIC_KAN_ENV}
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}

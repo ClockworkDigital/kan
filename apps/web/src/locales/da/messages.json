@@ -1123,7 +1123,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        108
+        114
       ]
     ],
     "translation": "Der opstod en fejl under tilslutning af din GitHub-konto."
@@ -1135,7 +1135,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        131
+        137
       ]
     ],
     "translation": "Der opstod en fejl under afbrydelse af din GitHub-konto."
@@ -1147,7 +1147,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        88
+        94
       ]
     ],
     "translation": "Der opstod en fejl under afbrydelse af din Trello-konto."
@@ -3246,7 +3246,11 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        213
+        201
+      ],
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        238
       ]
     ],
     "translation": "Forbind GitHub"
@@ -3258,7 +3262,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        192
+        217
       ]
     ],
     "translation": ""
@@ -3270,7 +3274,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        163
+        169
       ]
     ],
     "translation": "Forbind Trello"
@@ -3307,7 +3311,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        150
+        156
       ]
     ],
     "translation": "Forbind din Trello-konto for at importere tavler."
@@ -4303,7 +4307,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        224
+        249
       ]
     ],
     "translation": "Afbryd GitHub"
@@ -4315,7 +4319,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        178
+        184
       ]
     ],
     "translation": "Afbryd Trello"
@@ -5075,7 +5079,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        107
+        113
       ]
     ],
     "translation": "Fejl ved forbindelse til GitHub"
@@ -5147,7 +5151,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        130
+        136
       ]
     ],
     "translation": "Fejl ved afbrydelse af GitHub"
@@ -5159,7 +5163,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        87
+        93
       ]
     ],
     "translation": "Fejl ved afbrydelse af Trello"
@@ -6020,10 +6024,22 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        187
+        193
       ]
     ],
     "translation": "GitHub"
+  },
+  "ZT3ogS": {
+    "message": "GitHub authorization failed or expired. Try connecting again from this account.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        212
+      ]
+    ],
+    "translation": "GitHub-godkendelsen mislykkedes eller er udløbet. Prøv at oprette forbindelse igen fra denne konto."
   },
   "PVT7q7": {
     "message": "GitHub connected",
@@ -6032,7 +6048,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        100
+        106
       ]
     ],
     "translation": "GitHub forbundet"
@@ -6044,7 +6060,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        123
+        129
       ]
     ],
     "translation": "GitHub afbrudt"
@@ -9775,6 +9791,18 @@
     ],
     "translation": "Hurtig gevinst"
   },
+  "0tk280": {
+    "message": "Reconnect when your GitHub authorization expires.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        202
+      ]
+    ],
+    "translation": "Opret forbindelse igen, når din GitHub-godkendelse udløber."
+  },
   "6EWT6T": {
     "message": "Recruitment",
     "placeholders": {},
@@ -10754,7 +10782,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        139
+        145
       ]
     ],
     "translation": "Indstillinger | Integrationer"
@@ -12271,7 +12299,7 @@
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        143
+        149
       ]
     ],
     "translation": "Trello"
@@ -12283,7 +12311,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        80
+        86
       ]
     ],
     "translation": "Trello afbrudt"
@@ -14504,7 +14532,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        101
+        107
       ]
     ],
     "translation": "Din GitHub-konto er blevet forbundet."
@@ -14516,7 +14544,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        124
+        130
       ]
     ],
     "translation": "Din GitHub-konto er blevet afbrudt."
@@ -14528,7 +14556,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        221
+        246
       ]
     ],
     "translation": "Din GitHub-konto er forbundet."
@@ -14612,7 +14640,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        81
+        87
       ]
     ],
     "translation": "Din Trello-konto er blevet afbrudt."
@@ -14624,7 +14652,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        172
+        178
       ]
     ],
     "translation": "Din Trello-konto er forbundet."
