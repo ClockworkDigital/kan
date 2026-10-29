@@ -52,7 +52,7 @@ export function BoardsList({
     },
   });
 
-  const { data, isLoading } = api.board.all.useQuery(
+  const { data, isLoading, isSuccess } = api.board.all.useQuery(
     {
       workspacePublicId: workspace.publicId,
       type: isTemplate ? "template" : "regular",
@@ -68,7 +68,11 @@ export function BoardsList({
   );
   const progress = api.portfolio.progress.useQuery(
     { workspacePublicId: workspace.publicId },
-    { enabled: !isTemplate && !!workspace.publicId },
+    {
+      enabled: !isTemplate && !!workspace.publicId && isSuccess,
+      staleTime: 60_000,
+      refetchInterval: 300_000,
+    },
   );
   const projects = new Map(
     portfolio.data?.map((project) => [project.boardPublicId, project]),
@@ -187,11 +191,11 @@ export function BoardsList({
                 </button>
                 <FaGithub
                   aria-label={
-                    github
+                    counts?.repository
                       ? t`GitHub repository linked`
                       : t`No GitHub repository linked`
                   }
-                  className={`absolute right-3 top-4 z-10 h-4 w-4 ${github ? "text-neutral-900 dark:text-white" : "text-neutral-400 dark:text-neutral-500"}`}
+                  className={`absolute right-3 top-4 z-10 h-4 w-4 ${counts?.repository ? "text-neutral-900 dark:text-white" : "text-neutral-400 dark:text-neutral-500"}`}
                 />
                 <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
                   {project && (
@@ -231,12 +235,12 @@ export function BoardsList({
                       </p>
                     </div>
                   )}
-                  {(project ?? github) && (
+                  {!isTemplate && (
                     <div className="mt-auto flex min-w-0 items-center gap-3 text-xs text-light-900 dark:text-dark-900">
                       <ProjectProgress
-                        github={!!github}
-                        done={counts?.doneCards ?? 0}
-                        total={counts?.totalCards ?? 0}
+                        github={!!counts?.repository}
+                        done={counts?.done}
+                        total={counts?.total}
                       />
                       {project && (
                         <>

@@ -3,11 +3,15 @@ import { and, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 
 import type { dbClient } from "@kan/db/client";
+import * as syncSettings from "@kan/db/repository/github-sync.repo";
+import * as integrations from "@kan/db/repository/integration.repo";
 import * as portfolioRepo from "@kan/db/repository/portfolio.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { boards, projectStatuses } from "@kan/db/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { decryptToken } from "../utils/encryption";
+import { githubIssueCounts } from "../utils/github-progress";
 import {
   assertCanEdit,
   assertPermission,
@@ -68,7 +72,7 @@ export const portfolioRouter = createTRPCRouter({
         method: "GET",
         path: "/workspaces/{workspacePublicId}/progress",
         protect: true,
-        summary: "Get card progress for every board",
+        summary: "Get board progress",
         tags: ["Portfolio"],
       },
     })
@@ -77,8 +81,9 @@ export const portfolioRouter = createTRPCRouter({
       z.array(
         z.object({
           boardPublicId: z.string(),
-          totalCards: z.number(),
-          doneCards: z.number(),
+          repository: z.string().nullable(),
+          done: z.number().nullable(),
+          total: z.number().nullable(),
         }),
       ),
     )
@@ -90,7 +95,56 @@ export const portfolioRouter = createTRPCRouter({
       if (!workspace || workspace.deletedAt)
         throw new TRPCError({ code: "NOT_FOUND" });
       await assertPermission(ctx.db, ctx.user.id, workspace.id, "board:view");
-      return portfolioRepo.listBoardsForProgress(ctx.db, workspace.id);
+      const boards = await portfolioRepo.listBoardsForProgress(
+        ctx.db,
+        workspace.id,
+      );
+      const settings = await syncSettings.get(ctx.db, workspace.id);
+      const selected = new Map(
+        settings?.repositories.map((name) => [name.toLowerCase(), name]),
+      );
+      const linked = boards.map((board) => {
+        const name = /^GitHub: ([^/\s]+\/[^/\s]+)$/.exec(board.name)?.[1];
+        return {
+          ...board,
+          repository: name ? (selected.get(name.toLowerCase()) ?? null) : null,
+        };
+      });
+      let counts = new Map<string, { done: number; total: number }>();
+      const repositories = [
+        ...new Set(
+          linked.flatMap((board) =>
+            board.repository ? [board.repository] : [],
+          ),
+        ),
+      ];
+      if (repositories.length) {
+        const integration = await integrations.getProviderForUser(
+          ctx.db,
+          ctx.user.id,
+          "github",
+        );
+        if (integration) {
+          try {
+            counts = await githubIssueCounts(
+              decryptToken(integration.accessToken),
+              repositories,
+            );
+          } catch {
+            // An unreadable saved token must not fall back to local card counts.
+          }
+        }
+      }
+      return linked.map((board) => ({
+        boardPublicId: board.boardPublicId,
+        repository: board.repository,
+        done: board.repository
+          ? (counts.get(board.repository)?.done ?? null)
+          : board.doneCards,
+        total: board.repository
+          ? (counts.get(board.repository)?.total ?? null)
+          : board.totalCards,
+      }));
     }),
   list: protectedProcedure
     .input(z.object({ workspacePublicId: z.string().length(12) }))

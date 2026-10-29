@@ -16,7 +16,6 @@ const liveCards = sql`FROM "card" c JOIN "list" l ON c."listId" = l."id"
 const cardCounts = {
   totalCards: sql<number>`(SELECT count(*) ${liveCards})`.mapWith(Number),
   // Kanban convention: cards in the board's last list count as done.
-  // GitHub sync boards end in "Closed", so this also counts closed issues.
   doneCards: sql<number>`(SELECT count(*) ${liveCards} AND l."id" = (
     SELECT l2."id" FROM "list" l2
     WHERE l2."boardId" = ${boardId} AND l2."deletedAt" IS NULL
@@ -82,7 +81,11 @@ export async function remove(db: dbClient, boardId: number) {
 
 export async function listBoardsForProgress(db: dbClient, workspaceId: number) {
   return db
-    .select({ boardPublicId: boards.publicId, ...cardCounts })
+    .select({
+      boardPublicId: boards.publicId,
+      name: boards.name,
+      ...cardCounts,
+    })
     .from(boards)
     .where(
       and(

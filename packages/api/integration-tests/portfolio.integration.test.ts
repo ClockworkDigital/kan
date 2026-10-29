@@ -149,6 +149,18 @@ describe("portfolio", () => {
       const listed = await api.list({
         workspacePublicId: seed.workspace.publicId,
       });
+      const progress = await api.progress({
+        workspacePublicId: seed.workspace.publicId,
+      });
+      expect(progress).toHaveLength(2);
+      expect(
+        progress.find((item) => item.boardPublicId === board.publicId),
+      ).toEqual({
+        boardPublicId: board.publicId,
+        repository: null,
+        done: 4,
+        total: 9,
+      });
       expect(listed).toHaveLength(1);
       expect(listed[0]).toMatchObject({
         boardPublicId: board.publicId,

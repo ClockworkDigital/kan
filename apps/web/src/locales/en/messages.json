@@ -1,4 +1,16 @@
 {
+  "I3MOt6": {
+    "message": " · Settings saved",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        216
+      ]
+    ],
+    "translation": " · Settings saved"
+  },
   "X0N0PA": {
     "message": " (edited)",
     "placeholders": {},
@@ -22,6 +34,18 @@
       ]
     ],
     "translation": ", or see our"
+  },
+  "Gr9Tuz": {
+    "message": "(write access unavailable)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        175
+      ]
+    ],
+    "translation": "(write access unavailable)"
   },
   "J/hVSQ": {
     "message": "{0}",
@@ -145,6 +169,22 @@
     ],
     "translation": "{0} not found"
   },
+  "ZAWGCX": {
+    "message": "{0} seconds",
+    "placeholders": {
+      "0": [
+        "snapshot.elapsedSeconds"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        110
+      ]
+    ],
+    "translation": "{0} seconds"
+  },
   "0xWkkH": {
     "message": "{boardCount, plural, one {Import board (1)} other {Import boards ({boardCount})}}",
     "placeholders": {
@@ -160,6 +200,41 @@
       ]
     ],
     "translation": "{boardCount, plural, one {Import board (1)} other {Import boards ({boardCount})}}"
+  },
+  "x5x78r": {
+    "message": "{boardName} · shown on the Portfolio page",
+    "placeholders": {
+      "boardName": [
+        "boardName"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        102
+      ]
+    ],
+    "translation": "{boardName} · shown on the Portfolio page"
+  },
+  "Bq9TDi": {
+    "message": "{done} closed, {0} open issues",
+    "placeholders": {
+      "0": [
+        "total - done"
+      ],
+      "done": [
+        "done"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        23
+      ]
+    ],
+    "translation": "{done} closed, {0} open issues"
   },
   "yndBF+": {
     "message": "{projectCount, plural, one {Import project (1)} other {Import projects ({projectCount})}}",
@@ -334,6 +409,18 @@
     ],
     "translation": "A powerful, flexible kanban app that helps you organise work, track progress, and deliver results—all in one place."
   },
+  "aaJj/a": {
+    "message": "Acceptance criteria",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        21
+      ]
+    ],
+    "translation": "Acceptance criteria"
+  },
   "AeXO77": {
     "message": "Account",
     "placeholders": {},
@@ -381,7 +468,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        254
+        253
       ]
     ],
     "translation": "Actions"
@@ -469,6 +556,18 @@
       ]
     ],
     "translation": "Activity logs"
+  },
+  "1Usr2Q": {
+    "message": "Actual result",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        26
+      ]
+    ],
+    "translation": "Actual result"
   },
   "UGCIzB": {
     "message": "Add / edit label",
@@ -633,6 +732,18 @@
       ]
     ],
     "translation": "Add to favorites"
+  },
+  "MLGtCX": {
+    "message": "Add to Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        229
+      ]
+    ],
+    "translation": "Add to Portfolio"
   },
   "cWXW+7": {
     "message": "Add webhook",
@@ -903,6 +1014,18 @@
       ]
     ],
     "translation": "Advanced security, compliance, and dedicated support for large organizations."
+  },
+  "N40H+G": {
+    "message": "All",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        167
+      ]
+    ],
+    "translation": "All"
   },
   "h2ztFt": {
     "message": "All Free features +",
@@ -1852,7 +1975,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        107
+        116
       ]
     ],
     "translation": "Boards you archive will appear here."
@@ -1881,6 +2004,18 @@
     ],
     "translation": "Bug"
   },
+  "Q//+1+": {
+    "message": "Bug report",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        70
+      ]
+    ],
+    "translation": "Bug report"
+  },
   "/asTmx": {
     "message": "Bug Report",
     "placeholders": {},
@@ -1892,6 +2027,42 @@
       ]
     ],
     "translation": "Bug Report"
+  },
+  "g+1BiC": {
+    "message": "Builder model",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        92
+      ]
+    ],
+    "translation": "Builder model"
+  },
+  "oZd08v": {
+    "message": "Building",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        18
+      ]
+    ],
+    "translation": "Building"
+  },
+  "kVHATU": {
+    "message": "Busy",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        25
+      ]
+    ],
+    "translation": "Busy"
   },
   "AjVXBS": {
     "message": "Calendar",
@@ -2481,6 +2652,43 @@
     ],
     "translation": "Card URL copied to clipboard"
   },
+  "r1lTDz": {
+    "message": "Cards created",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        225
+      ]
+    ],
+    "translation": "Cards created"
+  },
+  "FcvUpU": {
+    "message": "Cards done",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        19
+      ]
+    ],
+    "translation": "Cards done"
+  },
+  "1hwfyg": {
+    "message": "Cards done counts the cards in each board's last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        270
+      ]
+    ],
+    "translation": "Cards done counts the cards in each board's last list.",
+    "obsolete": true
+  },
   "VhMDMg": {
     "message": "Change Password",
     "placeholders": {},
@@ -2609,6 +2817,22 @@
     ],
     "translation": "Checklists"
   },
+  "SYZzGm": {
+    "message": "Checks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        19
+      ],
+      [
+        "src/views/factory/index.tsx",
+        121
+      ]
+    ],
+    "translation": "Checks"
+  },
   "zMquA7": {
     "message": "Choose a plan",
     "placeholders": {},
@@ -2636,6 +2860,31 @@
       ]
     ],
     "translation": "Choose plan"
+  },
+  "A2+/8i": {
+    "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        107
+      ]
+    ],
+    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards."
+  },
+  "aEV+fe": {
+    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
+    "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        34
+      ]
+    ],
+    "obsolete": true
   },
   "VHS0aJ": {
     "message": "Clear all custom permissions?",
@@ -2708,6 +2957,34 @@
       ]
     ],
     "translation": "Click on the link we've sent to {magicLinkRecipient} to sign in."
+  },
+  "+6NyRG": {
+    "message": "Client",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        208
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        63
+      ]
+    ],
+    "translation": "Client"
+  },
+  "7iRQ7y": {
+    "message": "Client name(s)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        181
+      ]
+    ],
+    "translation": "Client name(s)"
   },
   "yz7wBu": {
     "message": "Close",
@@ -2849,6 +3126,18 @@
     ],
     "translation": "Complete control and ownership:"
   },
+  "qqWcBV": {
+    "message": "Completed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        25
+      ]
+    ],
+    "translation": "Completed"
+  },
   "Lt+ZP3": {
     "message": "completed a checklist item",
     "placeholders": {},
@@ -2939,6 +3228,18 @@
     ],
     "translation": "Confirm your new password"
   },
+  "KGJb9/": {
+    "message": "Conflicts",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        229
+      ]
+    ],
+    "translation": "Conflicts"
+  },
   "iSLIjg": {
     "message": "Connect",
     "placeholders": {},
@@ -2962,6 +3263,18 @@
       ]
     ],
     "translation": "Connect GitHub"
+  },
+  "O7r0Hr": {
+    "message": "Connect GitHub to import projects and sync repository issues.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        192
+      ]
+    ],
+    "translation": "Connect GitHub to import projects and sync repository issues."
   },
   "nk7caK": {
     "message": "Connect Trello",
@@ -3356,7 +3669,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        120
+        129
       ],
       [
         "src/views/boards/index.tsx",
@@ -3973,6 +4286,18 @@
     ],
     "translation": "Design"
   },
+  "Npq97V": {
+    "message": "Desired outcome",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        28
+      ]
+    ],
+    "translation": "Desired outcome"
+  },
   "Uf+1DF": {
     "message": "Destination workspace",
     "placeholders": {},
@@ -3984,6 +4309,18 @@
       ]
     ],
     "translation": "Destination workspace"
+  },
+  "URmyfc": {
+    "message": "Details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        153
+      ]
+    ],
+    "translation": "Details"
   },
   "Odv3J6": {
     "message": "Disconnect GitHub",
@@ -4382,6 +4719,18 @@
     ],
     "translation": "Edit comment"
   },
+  "+MzOSL": {
+    "message": "Edit GitHub topics",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        40
+      ]
+    ],
+    "translation": "Edit GitHub topics"
+  },
   "dgr4Kq": {
     "message": "Edit label",
     "placeholders": {},
@@ -4409,6 +4758,22 @@
       ]
     ],
     "translation": "Edit permissions"
+  },
+  "zbQBnx": {
+    "message": "Edit project details for {0}",
+    "placeholders": {
+      "0": [
+        "project.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        115
+      ]
+    ],
+    "translation": "Edit project details for {0}"
   },
   "fW5sSv": {
     "message": "Edit webhook",
@@ -4457,6 +4822,18 @@
       ]
     ],
     "translation": "Editing"
+  },
+  "wCJFlW": {
+    "message": "Elapsed time",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        109
+      ]
+    ],
+    "translation": "Elapsed time"
   },
   "b/LfJo": {
     "message": "email",
@@ -4521,6 +4898,18 @@
       ]
     ],
     "translation": "Email visibility"
+  },
+  "NlHDHN": {
+    "message": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        189
+      ]
+    ],
+    "translation": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it."
   },
   "bFREhu": {
     "message": "End of list",
@@ -4677,6 +5066,18 @@
       ]
     ],
     "translation": "Enterprise"
+  },
+  "AVlZoM": {
+    "message": "Environment",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        27
+      ]
+    ],
+    "translation": "Environment"
   },
   "SlfejT": {
     "message": "Error",
@@ -4920,6 +5321,30 @@
     ],
     "translation": "Error uploading profile image"
   },
+  "UirGxE": {
+    "message": "Errors",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        229
+      ]
+    ],
+    "translation": "Errors"
+  },
+  "ZEipBs": {
+    "message": "Estimated cost (USD)",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        98
+      ]
+    ],
+    "translation": "Estimated cost (USD)"
+  },
   "tst44n": {
     "message": "Events",
     "placeholders": {},
@@ -4972,6 +5397,18 @@
     ],
     "translation": "Execution"
   },
+  "o4lVGz": {
+    "message": "Expected result",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        25
+      ]
+    ],
+    "translation": "Expected result"
+  },
   "GwNIE2": {
     "message": "Extended Roadmap",
     "placeholders": {},
@@ -4983,6 +5420,50 @@
       ]
     ],
     "translation": "Extended Roadmap"
+  },
+  "WiW78t": {
+    "message": "Factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        136
+      ]
+    ],
+    "translation": "Factory"
+  },
+  "XeWg8z": {
+    "message": "Factory | {0}",
+    "placeholders": {
+      "0": [
+        "workspace.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        260
+      ]
+    ],
+    "translation": "Factory | {0}"
+  },
+  "7Bj3x9": {
+    "message": "Failed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        24
+      ],
+      [
+        "src/views/factory/index.tsx",
+        44
+      ]
+    ],
+    "translation": "Failed"
   },
   "HYV6Lq": {
     "message": "Failed to accept invitation. Please try again later, or contact customer support.",
@@ -5160,6 +5641,18 @@
     ],
     "translation": "Feature"
   },
+  "R1QFqA": {
+    "message": "Feature request",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        71
+      ]
+    ],
+    "translation": "Feature request"
+  },
   "JCdzgZ": {
     "message": "Feature Request",
     "placeholders": {},
@@ -5247,6 +5740,34 @@
       ]
     ],
     "translation": "Filter"
+  },
+  "F2XK4g": {
+    "message": "Filter projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        193
+      ]
+    ],
+    "translation": "Filter projects"
+  },
+  "Euyy8s": {
+    "message": "Filter repositories by name or topic",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        130
+      ],
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        131
+      ]
+    ],
+    "translation": "Filter repositories by name or topic"
   },
   "l31EoQ": {
     "message": "Find answers to common questions about Kan. Can't find what you're looking for? Feel free to <0>contact us</0>.",
@@ -5475,7 +5996,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        108
+        117
       ]
     ],
     "translation": "Get started by creating a new {0}"
@@ -5580,6 +6101,82 @@
     ],
     "translation": "GitHub disconnected"
   },
+  "0woCX7": {
+    "message": "GitHub issue sync",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        103
+      ],
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        105
+      ]
+    ],
+    "translation": "GitHub issue sync"
+  },
+  "0DGzH+": {
+    "message": "GitHub issues closed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        19
+      ]
+    ],
+    "translation": "GitHub issues closed"
+  },
+  "mofuGM": {
+    "message": "GitHub progress counts closed issues out of all issues. Other boards count cards in their last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        272
+      ]
+    ],
+    "translation": "GitHub progress counts closed issues out of all issues. Other boards count cards in their last list."
+  },
+  "ShwAMy": {
+    "message": "GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        195
+      ]
+    ],
+    "translation": "GitHub repository linked"
+  },
+  "j+bQgm": {
+    "message": "GitHub topics",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        45
+      ]
+    ],
+    "translation": "GitHub topics"
+  },
+  "J5/Qm/": {
+    "message": "GitHub updates",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        225
+      ]
+    ],
+    "translation": "GitHub updates"
+  },
   "7eMo+U": {
     "message": "Go Home",
     "placeholders": {},
@@ -5624,6 +6221,18 @@
     ],
     "translation": "Go to boards"
   },
+  "V0xvQb": {
+    "message": "Go to factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        144
+      ]
+    ],
+    "translation": "Go to factory"
+  },
   "XEoGkQ": {
     "message": "Go to homepage",
     "placeholders": {},
@@ -5647,6 +6256,18 @@
       ]
     ],
     "translation": "Go to members"
+  },
+  "evlkre": {
+    "message": "Go to portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        132
+      ]
+    ],
+    "translation": "Go to portfolio"
   },
   "1WuwiM": {
     "message": "Go to settings",
@@ -5723,6 +6344,18 @@
       ]
     ],
     "translation": "Guest"
+  },
+  "yx/fMc": {
+    "message": "High",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        47
+      ]
+    ],
+    "translation": "High"
   },
   "CB/NpV": {
     "message": "High Priority",
@@ -5904,6 +6537,30 @@
     ],
     "translation": "Ideas to improve this page..."
   },
+  "kfl2e1": {
+    "message": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        109
+      ]
+    ],
+    "translation": "If the request timed out, check GitHub before retrying to avoid a duplicate."
+  },
+  "CdOPq+": {
+    "message": "Impact and risks",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        23
+      ]
+    ],
+    "translation": "Impact and risks"
+  },
   "l3s5ri": {
     "message": "Import",
     "placeholders": {},
@@ -6072,6 +6729,30 @@
     ],
     "translation": "Individuals"
   },
+  "hfbUAJ": {
+    "message": "Inspect artifacts",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        135
+      ]
+    ],
+    "translation": "Inspect artifacts"
+  },
+  "7IGsHy": {
+    "message": "Intake",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        16
+      ]
+    ],
+    "translation": "Intake"
+  },
   "nbfdhU": {
     "message": "Integrations",
     "placeholders": {},
@@ -6099,6 +6780,34 @@
       ]
     ],
     "translation": "Intelligent search"
+  },
+  "wv1e0F": {
+    "message": "Internal",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        208
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        63
+      ]
+    ],
+    "translation": "Internal"
+  },
+  "BW7qlT": {
+    "message": "Internal project",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        170
+      ]
+    ],
+    "translation": "Internal project"
   },
   "goklcJ": {
     "message": "Interviewing",
@@ -6254,6 +6963,58 @@
     "translation": "Inviting members requires a Team Plan. You'll be redirected to upgrade your workspace.",
     "obsolete": true
   },
+  "rTI7tI": {
+    "message": "Issue #{0}",
+    "placeholders": {
+      "0": [
+        "snapshot.issueNumber"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        73
+      ]
+    ],
+    "translation": "Issue #{0}"
+  },
+  "KxXEyD": {
+    "message": "Issue submitted. Its linked card will appear within five minutes.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        35
+      ]
+    ],
+    "translation": "Issue submitted. Its linked card will appear within five minutes."
+  },
+  "YOmYvx": {
+    "message": "Issue type",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        60
+      ]
+    ],
+    "translation": "Issue type"
+  },
+  "+CfSGY": {
+    "message": "Job artifacts",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        172
+      ]
+    ],
+    "translation": "Job artifacts"
+  },
   "c9AJhn": {
     "message": "Join workspace",
     "placeholders": {},
@@ -6293,6 +7054,18 @@
       ]
     ],
     "translation": "Junior"
+  },
+  "QTc6JG": {
+    "message": "Kan updates",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        226
+      ]
+    ],
+    "translation": "Kan updates"
   },
   "aWDhU5": {
     "message": "Kanban is better with a team. Perfect for small and growing teams looking to collaborate.",
@@ -6421,6 +7194,18 @@
       ]
     ],
     "translation": "Large"
+  },
+  "TiFl9U": {
+    "message": "Last check",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        222
+      ]
+    ],
+    "translation": "Last check"
   },
   "8Is1ih": {
     "message": "Launch offer",
@@ -6664,6 +7449,30 @@
     ],
     "translation": "Loading permissions..."
   },
+  "XZCS8f": {
+    "message": "Loading repositories…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        109
+      ]
+    ],
+    "translation": "Loading repositories…"
+  },
+  "sZbZAB": {
+    "message": "Loading requirements…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        30
+      ]
+    ],
+    "translation": "Loading requirements…"
+  },
   "Z3FXyt": {
     "message": "Loading...",
     "placeholders": {},
@@ -6683,10 +7492,22 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        216
+        215
       ]
     ],
     "translation": "Loading..."
+  },
+  "Pwqkdw": {
+    "message": "Loading…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/NewCardForm.tsx",
+        676
+      ]
+    ],
+    "translation": "Loading…"
   },
   "N/bcWA": {
     "message": "Login | kan.bn",
@@ -6735,6 +7556,18 @@
       ]
     ],
     "translation": "Loved by teams worldwide"
+  },
+  "nTWWCZ": {
+    "message": "Low",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        47
+      ]
+    ],
+    "translation": "Low"
   },
   "O9jVbx": {
     "message": "Low Priority",
@@ -7379,6 +8212,18 @@
     ],
     "translation": "Newsletter"
   },
+  "hXzOVo": {
+    "message": "Next",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        247
+      ]
+    ],
+    "translation": "Next"
+  },
   "g8JmSC": {
     "message": "Next month",
     "placeholders": {},
@@ -7390,6 +8235,26 @@
       ]
     ],
     "translation": "Next month"
+  },
+  "KqojOL": {
+    "message": "Next steps",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        198
+      ],
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        231
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        250
+      ]
+    ],
+    "translation": "Next steps"
   },
   "HeFWjW": {
     "message": "Next Steps",
@@ -7403,6 +8268,18 @@
     ],
     "translation": "Next Steps"
   },
+  "1UzENP": {
+    "message": "No",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        84
+      ]
+    ],
+    "translation": "No"
+  },
   "/glL9Q": {
     "message": "No {0}",
     "placeholders": {
@@ -7414,10 +8291,22 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        103
+        112
       ]
     ],
     "translation": "No {0}"
+  },
+  "KeR6Jx": {
+    "message": "No accessible repositories with issues enabled. Check your GitHub token's repository access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        126
+      ]
+    ],
+    "translation": "No accessible repositories with issues enabled. Check your GitHub token's repository access."
   },
   "tlhgDC": {
     "message": "No archived boards",
@@ -7426,10 +8315,22 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        102
+        111
       ]
     ],
     "translation": "No archived boards"
+  },
+  "ePzKW4": {
+    "message": "No artifacts published yet.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        193
+      ]
+    ],
+    "translation": "No artifacts published yet."
   },
   "Eg99Sc": {
     "message": "No authentication methods are currently available",
@@ -7503,6 +8404,30 @@
     ],
     "translation": "No download URL available for this attachment."
   },
+  "CKxR1n": {
+    "message": "No factory jobs yet. Publish a run to this workspace to see its progress here.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        224
+      ]
+    ],
+    "translation": "No factory jobs yet. Publish a run to this workspace to see its progress here."
+  },
+  "IcVlrD": {
+    "message": "No GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        196
+      ]
+    ],
+    "translation": "No GitHub repository linked"
+  },
   "TXO5TM": {
     "message": "No keyboard shortcuts registered.",
     "placeholders": {},
@@ -7563,6 +8488,30 @@
     ],
     "translation": "No projects found"
   },
+  "K4+arj": {
+    "message": "No projects match. Try another tab or search.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        226
+      ]
+    ],
+    "translation": "No projects match. Try another tab or search."
+  },
+  "K8ZdtH": {
+    "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        221
+      ]
+    ],
+    "translation": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here."
+  },
   "ERpq2P": {
     "message": "No results found for \"{debouncedQuery}\".",
     "placeholders": {
@@ -7602,6 +8551,30 @@
       ]
     ],
     "translation": "No webhooks configured. Add a webhook to receive notifications."
+  },
+  "EdQY6l": {
+    "message": "None",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        31
+      ]
+    ],
+    "translation": "None"
+  },
+  "5xvHen": {
+    "message": "Not yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        24
+      ]
+    ],
+    "translation": "Not yet"
   },
   "9h7RDh": {
     "message": "Offer",
@@ -7799,6 +8772,22 @@
     ],
     "translation": "Own your data"
   },
+  "tdta9X": {
+    "message": "Page {0}",
+    "placeholders": {
+      "0": [
+        "page + 1"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        242
+      ]
+    ],
+    "translation": "Page {0}"
+  },
   "8F1i42": {
     "message": "Page not found",
     "placeholders": {},
@@ -7822,6 +8811,18 @@
       ]
     ],
     "translation": "Part-time"
+  },
+  "nqMwPi": {
+    "message": "Passed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        43
+      ]
+    ],
+    "translation": "Passed"
   },
   "nG7mus": {
     "message": "Password already set",
@@ -7906,6 +8907,18 @@
       ]
     ],
     "translation": "Passwords do not match"
+  },
+  "MGBNwj": {
+    "message": "Pause sync",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        211
+      ]
+    ],
+    "translation": "Pause sync"
   },
   "URAE3q": {
     "message": "Paused",
@@ -8479,6 +9492,38 @@
     ],
     "translation": "Please try again."
   },
+  "MqA4qt": {
+    "message": "Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/SideNavigation.tsx",
+        124
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        287
+      ]
+    ],
+    "translation": "Portfolio"
+  },
+  "ALFid7": {
+    "message": "Portfolio | {0}",
+    "placeholders": {
+      "0": [
+        "workspace.name"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        285
+      ]
+    ],
+    "translation": "Portfolio | {0}"
+  },
   "nYNMZZ": {
     "message": "Position in list (0 = first, leave empty for end)",
     "placeholders": {},
@@ -8490,6 +9535,34 @@
       ]
     ],
     "translation": "Position in list (0 = first, leave empty for end)"
+  },
+  "v++/+j": {
+    "message": "PR #{0}",
+    "placeholders": {
+      "0": [
+        "snapshot.prNumber"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        80
+      ]
+    ],
+    "translation": "PR #{0}"
+  },
+  "DHhJ7s": {
+    "message": "Previous",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        241
+      ]
+    ],
+    "translation": "Previous"
   },
   "1xwZj/": {
     "message": "Previous month",
@@ -8652,6 +9725,62 @@
     ],
     "translation": "Profile picture"
   },
+  "CP3D8G": {
+    "message": "Progress",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        249
+      ]
+    ],
+    "translation": "Progress"
+  },
+  "XrJzqb": {
+    "message": "Progress unavailable",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        14
+      ],
+      [
+        "src/components/ProjectProgress.tsx",
+        15
+      ]
+    ],
+    "translation": "Progress unavailable"
+  },
+  "e0NrBM": {
+    "message": "Project",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        237
+      ]
+    ],
+    "translation": "Project"
+  },
+  "tjbyOy": {
+    "message": "Project details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/BoardDropdown.tsx",
+        115
+      ],
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        98
+      ]
+    ],
+    "translation": "Project details"
+  },
   "7d1a0d": {
     "message": "Public",
     "placeholders": {},
@@ -8699,6 +9828,18 @@
       ]
     ],
     "translation": "Questions?"
+  },
+  "8wu9lr": {
+    "message": "Queued",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        15
+      ]
+    ],
+    "translation": "Queued"
   },
   "kfOGMr": {
     "message": "Quick Win",
@@ -8783,6 +9924,18 @@
       ]
     ],
     "translation": "Remove from favorites"
+  },
+  "eWhG0/": {
+    "message": "Remove from Portfolio",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        220
+      ]
+    ],
+    "translation": "Remove from Portfolio"
   },
   "99VIgC": {
     "message": "Remove member",
@@ -9019,6 +10172,18 @@
     ],
     "translation": "Resources"
   },
+  "6gRgw8": {
+    "message": "Retry",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        123
+      ]
+    ],
+    "translation": "Retry"
+  },
   "5k0NLb": {
     "message": "Review",
     "placeholders": {},
@@ -9034,6 +10199,30 @@
       ]
     ],
     "translation": "Review"
+  },
+  "blJqUG": {
+    "message": "Rework",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        20
+      ]
+    ],
+    "translation": "Rework"
+  },
+  "Xwlwdm": {
+    "message": "Risk",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        86
+      ]
+    ],
+    "translation": "Risk"
   },
   "/gaSVU": {
     "message": "Roadmap",
@@ -9096,6 +10285,22 @@
     "translation": "Roles & permissions",
     "obsolete": true
   },
+  "xXKDhD": {
+    "message": "Round {0}",
+    "placeholders": {
+      "0": [
+        "round.round"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        119
+      ]
+    ],
+    "translation": "Round {0}"
+  },
   "vAR/I8": {
     "message": "Run on your own infrastructure",
     "placeholders": {},
@@ -9156,6 +10361,18 @@
     ],
     "translation": "Save"
   },
+  "GbVGZA": {
+    "message": "Save and enable sync",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        200
+      ]
+    ],
+    "translation": "Save and enable sync"
+  },
   "y3aU20": {
     "message": "Save changes",
     "placeholders": {},
@@ -9179,6 +10396,18 @@
       ]
     ],
     "translation": "Save time with reusable board templates."
+  },
+  "yIi6nT": {
+    "message": "Save topics on GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        64
+      ]
+    ],
+    "translation": "Save topics on GitHub"
   },
   "cOh+MI": {
     "message": "Screening",
@@ -9215,6 +10444,30 @@
       ]
     ],
     "translation": "Search boards and cards..."
+  },
+  "blFttG": {
+    "message": "Search projects",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        186
+      ]
+    ],
+    "translation": "Search projects"
+  },
+  "GH4RRY": {
+    "message": "Search projects, clients, next steps…",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        187
+      ]
+    ],
+    "translation": "Search projects, clients, next steps…"
   },
   "66Jmqh": {
     "message": "Seat limit reached",
@@ -9632,6 +10885,62 @@
     ],
     "translation": "Shortcuts"
   },
+  "XMFcuV": {
+    "message": "Shown",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        214
+      ],
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        215
+      ]
+    ],
+    "translation": "Shown"
+  },
+  "6oD6kQ": {
+    "message": "Shown on the Portfolio page",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        103
+      ]
+    ],
+    "translation": "Shown on the Portfolio page"
+  },
+  "1DSSKf": {
+    "message": "Shown to client",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        164
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        245
+      ]
+    ],
+    "translation": "Shown to client"
+  },
+  "lo0WWp": {
+    "message": "Shown to clients",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        171
+      ]
+    ],
+    "translation": "Shown to clients"
+  },
   "5lWFkC": {
     "message": "Sign in",
     "placeholders": {},
@@ -9792,6 +11101,18 @@
     ],
     "translation": "Simple, visual task management that just works. Drag and drop cards, collaborate with your team, and get more done."
   },
+  "9NyAH9": {
+    "message": "Skipped",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        45
+      ]
+    ],
+    "translation": "Skipped"
+  },
   "zEcnBA": {
     "message": "SLA",
     "placeholders": {},
@@ -9840,6 +11161,18 @@
     ],
     "translation": "Software Development"
   },
+  "N3MPTP": {
+    "message": "Software factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        261
+      ]
+    ],
+    "translation": "Software factory"
+  },
   "6sKjjx": {
     "message": "Solo",
     "placeholders": {},
@@ -9864,6 +11197,18 @@
     ],
     "translation": "Some attachments failed"
   },
+  "fgSwc+": {
+    "message": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        232
+      ]
+    ],
+    "translation": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report."
+  },
   "J9+zIR": {
     "message": "Something went wrong during activation. Please try again.",
     "placeholders": {},
@@ -9887,6 +11232,18 @@
       ]
     ],
     "translation": "Something went wrong during license activation."
+  },
+  "rJ/oy5": {
+    "message": "Specification",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        17
+      ]
+    ],
+    "translation": "Specification"
   },
   "vnS6Rf": {
     "message": "SSO",
@@ -9980,7 +11337,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        242
+        241
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
@@ -9988,6 +11345,18 @@
       ]
     ],
     "translation": "Status"
+  },
+  "q289QZ": {
+    "message": "Steps to reproduce",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        24
+      ]
+    ],
+    "translation": "Steps to reproduce"
   },
   "hQRttt": {
     "message": "Submit",
@@ -10012,6 +11381,30 @@
       ]
     ],
     "translation": "Submit comment"
+  },
+  "Tdlhz2": {
+    "message": "Submit GitHub issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        58
+      ]
+    ],
+    "translation": "Submit GitHub issue"
+  },
+  "7dHmqW": {
+    "message": "Submit issue",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        117
+      ]
+    ],
+    "translation": "Submit issue"
   },
   "WYDptz": {
     "message": "Subscription Required",
@@ -10040,6 +11433,18 @@
       ]
     ],
     "translation": "Success"
+  },
+  "dXoieq": {
+    "message": "Summary",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        75
+      ]
+    ],
+    "translation": "Summary"
   },
   "DBC3t5": {
     "message": "Sunday",
@@ -10093,6 +11498,54 @@
       ]
     ],
     "translation": "Support the development of the project"
+  },
+  "OqyYBW": {
+    "message": "Sync enabled",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        215
+      ]
+    ],
+    "translation": "Sync enabled"
+  },
+  "dLBY90": {
+    "message": "Sync GitHub issues from repositories",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/ImportBoardsForm.tsx",
+        314
+      ]
+    ],
+    "translation": "Sync GitHub issues from repositories"
+  },
+  "T/WrwN": {
+    "message": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        235
+      ]
+    ],
+    "translation": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access."
+  },
+  "U6wmNc": {
+    "message": "Sync paused",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        215
+      ]
+    ],
+    "translation": "Sync paused"
   },
   "D+NlUC": {
     "message": "System",
@@ -10285,6 +11738,18 @@
       ]
     ],
     "translation": "Test failed"
+  },
+  "VS6sz8": {
+    "message": "Test plan",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        22
+      ]
+    ],
+    "translation": "Test plan"
   },
   "zDNL2V": {
     "message": "Test sent",
@@ -10825,6 +12290,42 @@
     ],
     "translation": "Token is required"
   },
+  "6kQ+B3": {
+    "message": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        43
+      ]
+    ],
+    "translation": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters."
+  },
+  "sFMBP5": {
+    "message": "Topics",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        31
+      ]
+    ],
+    "translation": "Topics"
+  },
+  "yNJxCk": {
+    "message": "Topics saved",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        74
+      ]
+    ],
+    "translation": "Topics saved"
+  },
   "eEQyz+": {
     "message": "Track all card changes with detailed activity history.",
     "placeholders": {},
@@ -10900,6 +12401,18 @@
       ]
     ],
     "translation": "Trusted by fast-moving teams<0/>around the world"
+  },
+  "5UOxSd": {
+    "message": "Turn on \"Shown to client\" to add",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        187
+      ]
+    ],
+    "translation": "Turn on \"Shown to client\" to add"
   },
   "bZSICm": {
     "message": "Unable to add checklist item",
@@ -11149,6 +12662,54 @@
     ],
     "translation": "Unable to duplicate card"
   },
+  "efxx4a": {
+    "message": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        219
+      ]
+    ],
+    "translation": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically."
+  },
+  "Paui2p": {
+    "message": "Unable to load job artifacts. Check your connection and access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        175
+      ]
+    ],
+    "translation": "Unable to load job artifacts. Check your connection and access."
+  },
+  "IQ4Gm+": {
+    "message": "Unable to load project details. Close and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        118
+      ]
+    ],
+    "translation": "Unable to load project details. Close and try again."
+  },
+  "T0T+qy": {
+    "message": "Unable to load the portfolio. Check your connection and workspace access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        217
+      ]
+    ],
+    "translation": "Unable to load the portfolio. Check your connection and workspace access."
+  },
   "d196/6": {
     "message": "Unable to move board",
     "placeholders": {},
@@ -11208,6 +12769,18 @@
       ]
     ],
     "translation": "Unable to reset permissions"
+  },
+  "1V2+xR": {
+    "message": "Unable to save project details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        65
+      ]
+    ],
+    "translation": "Unable to save project details"
   },
   "A8jqN7": {
     "message": "Unable to send feedback",
@@ -11720,6 +13293,22 @@
     ],
     "translation": "Update label"
   },
+  "4Y9aig": {
+    "message": "Updated {0}",
+    "placeholders": {
+      "0": [
+        "i18n.date(project.updatedAt, { dateStyle: \"medium\" })"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        107
+      ]
+    ],
+    "translation": "Updated {0}"
+  },
   "L5ZPjz": {
     "message": "updated a checklist item",
     "placeholders": {},
@@ -11783,6 +13372,18 @@
       ]
     ],
     "translation": "updated the title to <0>{0}</0>"
+  },
+  "6jKCD3": {
+    "message": "Updates automatically every five seconds.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        216
+      ]
+    ],
+    "translation": "Updates automatically every five seconds."
   },
   "kwkhPe": {
     "message": "Upgrade",
@@ -11946,6 +13547,18 @@
     ],
     "translation": "URL must be at least 3 characters long"
   },
+  "K/M1Pl": {
+    "message": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        128
+      ]
+    ],
+    "translation": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access."
+  },
   "QNtP5M": {
     "message": "Use template",
     "placeholders": {},
@@ -12042,6 +13655,18 @@
     ],
     "translation": "View docs"
   },
+  "WhbM7n": {
+    "message": "View issue on GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/GithubIssueForm.tsx",
+        41
+      ]
+    ],
+    "translation": "View issue on GitHub"
+  },
   "F8DaWi": {
     "message": "View only",
     "placeholders": {},
@@ -12089,6 +13714,42 @@
       ]
     ],
     "translation": "Visibility"
+  },
+  "eS9Soo": {
+    "message": "Waiting for human review",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        23
+      ]
+    ],
+    "translation": "Waiting for human review"
+  },
+  "GWprY1": {
+    "message": "Waiting for information",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        22
+      ]
+    ],
+    "translation": "Waiting for information"
+  },
+  "TtUKSD": {
+    "message": "Waiting for the first sync check.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/GithubIssueSync.tsx",
+        239
+      ]
+    ],
+    "translation": "Waiting for the first sync check."
   },
   "BJbLe4": {
     "message": "We are using the <0>AGPL-3.0 license</0>.",
@@ -12652,6 +14313,18 @@
     ],
     "translation": "Yearly"
   },
+  "l75CjT": {
+    "message": "Yes",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        84
+      ]
+    ],
+    "translation": "Yes"
+  },
   "eZCGbT": {
     "message": "Yes, we offer an forever free plan for individual use. No restrictions, no paywalls, no limits.",
     "placeholders": {},
@@ -12772,7 +14445,7 @@
       ],
       [
         "src/views/boards/components/BoardsList.tsx",
-        112
+        121
       ],
       [
         "src/views/boards/index.tsx",
@@ -13215,1669 +14888,5 @@
       ]
     ],
     "translation": "YouTube URL"
-  },
-  "I3MOt6": {
-    "message": " · Settings saved",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        216
-      ]
-    ],
-    "translation": " · Settings saved"
-  },
-  "Gr9Tuz": {
-    "message": "(write access unavailable)",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        175
-      ]
-    ],
-    "translation": "(write access unavailable)"
-  },
-  "r1lTDz": {
-    "message": "Cards created",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        225
-      ]
-    ],
-    "translation": "Cards created"
-  },
-  "aEV+fe": {
-    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
-    "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles, descriptions and open or closed status sync both ways. Unchecking a repository keeps its existing cards.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        34
-      ]
-    ],
-    "obsolete": true
-  },
-  "KGJb9/": {
-    "message": "Conflicts",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        229
-      ]
-    ],
-    "translation": "Conflicts"
-  },
-  "O7r0Hr": {
-    "message": "Connect GitHub to import projects and sync repository issues.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/IntegrationsSettings.tsx",
-        192
-      ]
-    ],
-    "translation": "Connect GitHub to import projects and sync repository issues."
-  },
-  "NlHDHN": {
-    "message": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        189
-      ]
-    ],
-    "translation": "Enabling sync authorizes background access using your saved GitHub token after you sign out. Formwork blocks and Kan permissions still apply. Pause sync or disconnect GitHub to stop it."
-  },
-  "UirGxE": {
-    "message": "Errors",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        229
-      ]
-    ],
-    "translation": "Errors"
-  },
-  "0woCX7": {
-    "message": "GitHub issue sync",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        103
-      ],
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        105
-      ]
-    ],
-    "translation": "GitHub issue sync"
-  },
-  "J5/Qm/": {
-    "message": "GitHub updates",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        225
-      ]
-    ],
-    "translation": "GitHub updates"
-  },
-  "QTc6JG": {
-    "message": "Kan updates",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        226
-      ]
-    ],
-    "translation": "Kan updates"
-  },
-  "TiFl9U": {
-    "message": "Last check",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        222
-      ]
-    ],
-    "translation": "Last check"
-  },
-  "XZCS8f": {
-    "message": "Loading repositories…",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        109
-      ]
-    ],
-    "translation": "Loading repositories…"
-  },
-  "KeR6Jx": {
-    "message": "No accessible repositories with issues enabled. Check your GitHub token's repository access.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        126
-      ]
-    ],
-    "translation": "No accessible repositories with issues enabled. Check your GitHub token's repository access."
-  },
-  "MGBNwj": {
-    "message": "Pause sync",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        211
-      ]
-    ],
-    "translation": "Pause sync"
-  },
-  "6gRgw8": {
-    "message": "Retry",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        123
-      ]
-    ],
-    "translation": "Retry"
-  },
-  "GbVGZA": {
-    "message": "Save and enable sync",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        200
-      ]
-    ],
-    "translation": "Save and enable sync"
-  },
-  "fgSwc+": {
-    "message": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        232
-      ]
-    ],
-    "translation": "Some issues need attention. Conflicting edits are preserved. Ask the operator to review the sync report."
-  },
-  "OqyYBW": {
-    "message": "Sync enabled",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        215
-      ]
-    ],
-    "translation": "Sync enabled"
-  },
-  "dLBY90": {
-    "message": "Sync GitHub issues from repositories",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/ImportBoardsForm.tsx",
-        314
-      ]
-    ],
-    "translation": "Sync GitHub issues from repositories"
-  },
-  "T/WrwN": {
-    "message": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        235
-      ]
-    ],
-    "translation": "Sync has not checked in recently. Ask the operator to check the worker and Formwork access."
-  },
-  "U6wmNc": {
-    "message": "Sync paused",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        215
-      ]
-    ],
-    "translation": "Sync paused"
-  },
-  "TtUKSD": {
-    "message": "Waiting for the first sync check.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        239
-      ]
-    ],
-    "translation": "Waiting for the first sync check."
-  },
-  "A2+/8i": {
-    "message": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        107
-      ]
-    ],
-    "translation": "Choose repositories to sync every five minutes. Each repository gets a board. Titles and descriptions sync both ways. Close and reopen issues in GitHub; their status flows into Kan. Unchecking a repository keeps its existing cards."
-  },
-  "1Usr2Q": {
-    "message": "Actual result",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        26
-      ]
-    ],
-    "translation": "Actual result"
-  },
-  "Q//+1+": {
-    "message": "Bug report",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        70
-      ]
-    ],
-    "translation": "Bug report"
-  },
-  "Npq97V": {
-    "message": "Desired outcome",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        28
-      ]
-    ],
-    "translation": "Desired outcome"
-  },
-  "AVlZoM": {
-    "message": "Environment",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        27
-      ]
-    ],
-    "translation": "Environment"
-  },
-  "o4lVGz": {
-    "message": "Expected result",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        25
-      ]
-    ],
-    "translation": "Expected result"
-  },
-  "R1QFqA": {
-    "message": "Feature request",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        71
-      ]
-    ],
-    "translation": "Feature request"
-  },
-  "kfl2e1": {
-    "message": "If the request timed out, check GitHub before retrying to avoid a duplicate.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        109
-      ]
-    ],
-    "translation": "If the request timed out, check GitHub before retrying to avoid a duplicate."
-  },
-  "KxXEyD": {
-    "message": "Issue submitted. Its linked card will appear within five minutes.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        35
-      ]
-    ],
-    "translation": "Issue submitted. Its linked card will appear within five minutes."
-  },
-  "YOmYvx": {
-    "message": "Issue type",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        60
-      ]
-    ],
-    "translation": "Issue type"
-  },
-  "Pwqkdw": {
-    "message": "Loading…",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/NewCardForm.tsx",
-        676
-      ]
-    ],
-    "translation": "Loading…"
-  },
-  "q289QZ": {
-    "message": "Steps to reproduce",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        24
-      ]
-    ],
-    "translation": "Steps to reproduce"
-  },
-  "Tdlhz2": {
-    "message": "Submit GitHub issue",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        58
-      ]
-    ],
-    "translation": "Submit GitHub issue"
-  },
-  "7dHmqW": {
-    "message": "Submit issue",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        117
-      ]
-    ],
-    "translation": "Submit issue"
-  },
-  "dXoieq": {
-    "message": "Summary",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        75
-      ]
-    ],
-    "translation": "Summary"
-  },
-  "WhbM7n": {
-    "message": "View issue on GitHub",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        41
-      ]
-    ],
-    "translation": "View issue on GitHub"
-  },
-  "aaJj/a": {
-    "message": "Acceptance criteria",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        21
-      ]
-    ],
-    "translation": "Acceptance criteria"
-  },
-  "+MzOSL": {
-    "message": "Edit GitHub topics",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        40
-      ]
-    ],
-    "translation": "Edit GitHub topics"
-  },
-  "Euyy8s": {
-    "message": "Filter repositories by name or topic",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        130
-      ],
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        131
-      ]
-    ],
-    "translation": "Filter repositories by name or topic"
-  },
-  "j+bQgm": {
-    "message": "GitHub topics",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        45
-      ]
-    ],
-    "translation": "GitHub topics"
-  },
-  "CdOPq+": {
-    "message": "Impact and risks",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        23
-      ]
-    ],
-    "translation": "Impact and risks"
-  },
-  "sZbZAB": {
-    "message": "Loading requirements…",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        30
-      ]
-    ],
-    "translation": "Loading requirements…"
-  },
-  "EdQY6l": {
-    "message": "None",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        31
-      ]
-    ],
-    "translation": "None"
-  },
-  "yIi6nT": {
-    "message": "Save topics on GitHub",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        64
-      ]
-    ],
-    "translation": "Save topics on GitHub"
-  },
-  "VS6sz8": {
-    "message": "Test plan",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/GithubIssueForm.tsx",
-        22
-      ]
-    ],
-    "translation": "Test plan"
-  },
-  "6kQ+B3": {
-    "message": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        43
-      ]
-    ],
-    "translation": "Topic names are public on GitHub. Use up to 20 comma-separated topics with lowercase letters, numbers and hyphens, each up to 50 characters."
-  },
-  "sFMBP5": {
-    "message": "Topics",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        31
-      ]
-    ],
-    "translation": "Topics"
-  },
-  "yNJxCk": {
-    "message": "Topics saved",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        74
-      ]
-    ],
-    "translation": "Topics saved"
-  },
-  "K/M1Pl": {
-    "message": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/settings/GithubIssueSync.tsx",
-        128
-      ]
-    ],
-    "translation": "Use production for strict bug, feature and PR requirements, or experiment for lighter forms. Setting a classification installs GitHub templates and a PR check. Production also requires the check on the default branch. Your token needs Contents, Workflows and Administration write access."
-  },
-  "ZAWGCX": {
-    "message": "{0} seconds",
-    "placeholders": {
-      "0": [
-        "snapshot.elapsedSeconds"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        110
-      ]
-    ],
-    "translation": "{0} seconds"
-  },
-  "g+1BiC": {
-    "message": "Builder model",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        92
-      ]
-    ],
-    "translation": "Builder model"
-  },
-  "oZd08v": {
-    "message": "Building",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        18
-      ]
-    ],
-    "translation": "Building"
-  },
-  "SYZzGm": {
-    "message": "Checks",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        19
-      ],
-      [
-        "src/views/factory/index.tsx",
-        121
-      ]
-    ],
-    "translation": "Checks"
-  },
-  "qqWcBV": {
-    "message": "Completed",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        25
-      ]
-    ],
-    "translation": "Completed"
-  },
-  "wCJFlW": {
-    "message": "Elapsed time",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        109
-      ]
-    ],
-    "translation": "Elapsed time"
-  },
-  "ZEipBs": {
-    "message": "Estimated cost (USD)",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        98
-      ]
-    ],
-    "translation": "Estimated cost (USD)"
-  },
-  "WiW78t": {
-    "message": "Factory",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/components/SideNavigation.tsx",
-        136
-      ]
-    ],
-    "translation": "Factory"
-  },
-  "XeWg8z": {
-    "message": "Factory | {0}",
-    "placeholders": {
-      "0": [
-        "workspace.name"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        260
-      ]
-    ],
-    "translation": "Factory | {0}"
-  },
-  "7Bj3x9": {
-    "message": "Failed",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        24
-      ],
-      [
-        "src/views/factory/index.tsx",
-        44
-      ]
-    ],
-    "translation": "Failed"
-  },
-  "V0xvQb": {
-    "message": "Go to factory",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/components/SideNavigation.tsx",
-        144
-      ]
-    ],
-    "translation": "Go to factory"
-  },
-  "yx/fMc": {
-    "message": "High",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        47
-      ]
-    ],
-    "translation": "High"
-  },
-  "hfbUAJ": {
-    "message": "Inspect artifacts",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        135
-      ]
-    ],
-    "translation": "Inspect artifacts"
-  },
-  "7IGsHy": {
-    "message": "Intake",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        16
-      ]
-    ],
-    "translation": "Intake"
-  },
-  "rTI7tI": {
-    "message": "Issue #{0}",
-    "placeholders": {
-      "0": [
-        "snapshot.issueNumber"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        73
-      ]
-    ],
-    "translation": "Issue #{0}"
-  },
-  "+CfSGY": {
-    "message": "Job artifacts",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        172
-      ]
-    ],
-    "translation": "Job artifacts"
-  },
-  "nTWWCZ": {
-    "message": "Low",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        47
-      ]
-    ],
-    "translation": "Low"
-  },
-  "hXzOVo": {
-    "message": "Next",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        247
-      ]
-    ],
-    "translation": "Next"
-  },
-  "ePzKW4": {
-    "message": "No artifacts published yet.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        193
-      ]
-    ],
-    "translation": "No artifacts published yet."
-  },
-  "CKxR1n": {
-    "message": "No factory jobs yet. Publish a run to this workspace to see its progress here.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        224
-      ]
-    ],
-    "translation": "No factory jobs yet. Publish a run to this workspace to see its progress here."
-  },
-  "tdta9X": {
-    "message": "Page {0}",
-    "placeholders": {
-      "0": [
-        "page + 1"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        242
-      ]
-    ],
-    "translation": "Page {0}"
-  },
-  "nqMwPi": {
-    "message": "Passed",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        43
-      ]
-    ],
-    "translation": "Passed"
-  },
-  "v++/+j": {
-    "message": "PR #{0}",
-    "placeholders": {
-      "0": [
-        "snapshot.prNumber"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        80
-      ]
-    ],
-    "translation": "PR #{0}"
-  },
-  "DHhJ7s": {
-    "message": "Previous",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        241
-      ]
-    ],
-    "translation": "Previous"
-  },
-  "8wu9lr": {
-    "message": "Queued",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        15
-      ]
-    ],
-    "translation": "Queued"
-  },
-  "blJqUG": {
-    "message": "Rework",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        20
-      ]
-    ],
-    "translation": "Rework"
-  },
-  "Xwlwdm": {
-    "message": "Risk",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        86
-      ]
-    ],
-    "translation": "Risk"
-  },
-  "xXKDhD": {
-    "message": "Round {0}",
-    "placeholders": {
-      "0": [
-        "round.round"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        119
-      ]
-    ],
-    "translation": "Round {0}"
-  },
-  "9NyAH9": {
-    "message": "Skipped",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        45
-      ]
-    ],
-    "translation": "Skipped"
-  },
-  "N3MPTP": {
-    "message": "Software factory",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        261
-      ]
-    ],
-    "translation": "Software factory"
-  },
-  "rJ/oy5": {
-    "message": "Specification",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        17
-      ]
-    ],
-    "translation": "Specification"
-  },
-  "efxx4a": {
-    "message": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        219
-      ]
-    ],
-    "translation": "Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically."
-  },
-  "Paui2p": {
-    "message": "Unable to load job artifacts. Check your connection and access.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        175
-      ]
-    ],
-    "translation": "Unable to load job artifacts. Check your connection and access."
-  },
-  "6jKCD3": {
-    "message": "Updates automatically every five seconds.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        216
-      ]
-    ],
-    "translation": "Updates automatically every five seconds."
-  },
-  "eS9Soo": {
-    "message": "Waiting for human review",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        23
-      ]
-    ],
-    "translation": "Waiting for human review"
-  },
-  "GWprY1": {
-    "message": "Waiting for information",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/factory/index.tsx",
-        22
-      ]
-    ],
-    "translation": "Waiting for information"
-  },
-  "x5x78r": {
-    "message": "{boardName} · shown on the Portfolio page",
-    "placeholders": {
-      "boardName": [
-        "boardName"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        102
-      ]
-    ],
-    "translation": "{boardName} · shown on the Portfolio page"
-  },
-  "MLGtCX": {
-    "message": "Add to Portfolio",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        229
-      ]
-    ],
-    "translation": "Add to Portfolio"
-  },
-  "N40H+G": {
-    "message": "All",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        168
-      ]
-    ],
-    "translation": "All"
-  },
-  "kVHATU": {
-    "message": "Busy",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        25
-      ]
-    ],
-    "translation": "Busy"
-  },
-  "FcvUpU": {
-    "message": "Cards done",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        225
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        98
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        250
-      ]
-    ],
-    "translation": "Cards done"
-  },
-  "1hwfyg": {
-    "message": "Cards done counts the cards in each board's last list.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        270
-      ]
-    ],
-    "translation": "Cards done counts the cards in each board's last list."
-  },
-  "+6NyRG": {
-    "message": "Client",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        188
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        63
-      ]
-    ],
-    "translation": "Client"
-  },
-  "7iRQ7y": {
-    "message": "Client name(s)",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        181
-      ]
-    ],
-    "translation": "Client name(s)"
-  },
-  "URmyfc": {
-    "message": "Details",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        153
-      ]
-    ],
-    "translation": "Details"
-  },
-  "zbQBnx": {
-    "message": "Edit project details for {0}",
-    "placeholders": {
-      "0": [
-        "project.name"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        124
-      ]
-    ],
-    "translation": "Edit project details for {0}"
-  },
-  "F2XK4g": {
-    "message": "Filter projects",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        194
-      ]
-    ],
-    "translation": "Filter projects"
-  },
-  "evlkre": {
-    "message": "Go to portfolio",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/components/SideNavigation.tsx",
-        132
-      ]
-    ],
-    "translation": "Go to portfolio"
-  },
-  "wv1e0F": {
-    "message": "Internal",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        188
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        63
-      ]
-    ],
-    "translation": "Internal"
-  },
-  "BW7qlT": {
-    "message": "Internal project",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        170
-      ]
-    ],
-    "translation": "Internal project"
-  },
-  "KqojOL": {
-    "message": "Next steps",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        198
-      ],
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        211
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        251
-      ]
-    ],
-    "translation": "Next steps"
-  },
-  "1UzENP": {
-    "message": "No",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        84
-      ]
-    ],
-    "translation": "No"
-  },
-  "K4+arj": {
-    "message": "No projects match. Try another tab or search.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        227
-      ]
-    ],
-    "translation": "No projects match. Try another tab or search."
-  },
-  "K8ZdtH": {
-    "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        222
-      ]
-    ],
-    "translation": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here."
-  },
-  "5xvHen": {
-    "message": "Not yet",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        24
-      ]
-    ],
-    "translation": "Not yet"
-  },
-  "MqA4qt": {
-    "message": "Portfolio",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/components/SideNavigation.tsx",
-        124
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        285
-      ]
-    ],
-    "translation": "Portfolio"
-  },
-  "ALFid7": {
-    "message": "Portfolio | {0}",
-    "placeholders": {
-      "0": [
-        "workspace.name"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        283
-      ]
-    ],
-    "translation": "Portfolio | {0}"
-  },
-  "e0NrBM": {
-    "message": "Project",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        238
-      ]
-    ],
-    "translation": "Project"
-  },
-  "tjbyOy": {
-    "message": "Project details",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/BoardDropdown.tsx",
-        115
-      ],
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        98
-      ]
-    ],
-    "translation": "Project details"
-  },
-  "eWhG0/": {
-    "message": "Remove from Portfolio",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        220
-      ]
-    ],
-    "translation": "Remove from Portfolio"
-  },
-  "blFttG": {
-    "message": "Search projects",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        187
-      ]
-    ],
-    "translation": "Search projects"
-  },
-  "GH4RRY": {
-    "message": "Search projects, clients, next steps…",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        188
-      ]
-    ],
-    "translation": "Search projects, clients, next steps…"
-  },
-  "6oD6kQ": {
-    "message": "Shown on the Portfolio page",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        103
-      ]
-    ],
-    "translation": "Shown on the Portfolio page"
-  },
-  "1DSSKf": {
-    "message": "Shown to client",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        164
-      ],
-      [
-        "src/views/portfolio/index.tsx",
-        246
-      ]
-    ],
-    "translation": "Shown to client"
-  },
-  "lo0WWp": {
-    "message": "Shown to clients",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        172
-      ]
-    ],
-    "translation": "Shown to clients"
-  },
-  "5UOxSd": {
-    "message": "Turn on \"Shown to client\" to add",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        187
-      ]
-    ],
-    "translation": "Turn on \"Shown to client\" to add"
-  },
-  "T0T+qy": {
-    "message": "Unable to load the portfolio. Check your connection and workspace access.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        218
-      ]
-    ],
-    "translation": "Unable to load the portfolio. Check your connection and workspace access."
-  },
-  "1V2+xR": {
-    "message": "Unable to save project details",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        65
-      ]
-    ],
-    "translation": "Unable to save project details"
-  },
-  "4Y9aig": {
-    "message": "Updated {0}",
-    "placeholders": {
-      "0": [
-        "i18n.date(project.updatedAt, { dateStyle: \"medium\" })"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        116
-      ]
-    ],
-    "translation": "Updated {0}"
-  },
-  "l75CjT": {
-    "message": "Yes",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        84
-      ]
-    ],
-    "translation": "Yes"
-  },
-  "XMFcuV": {
-    "translation": "Shown",
-    "message": "Shown",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        194
-      ],
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        195
-      ]
-    ]
-  },
-  "IQ4Gm+": {
-    "translation": "Unable to load project details. Close and try again.",
-    "message": "Unable to load project details. Close and try again.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/board/components/ProjectDetailsForm.tsx",
-        118
-      ]
-    ]
-  },
-  "Bq9TDi": {
-    "translation": "{done} closed, {0} open issues",
-    "message": "{done} closed, {0} open issues",
-    "placeholders": {
-      "0": [
-        "total - done"
-      ],
-      "done": [
-        "done"
-      ]
-    },
-    "comments": [],
-    "origin": [
-      [
-        "src/components/ProjectProgress.tsx",
-        17
-      ]
-    ]
-  },
-  "0DGzH+": {
-    "translation": "GitHub issues closed",
-    "message": "GitHub issues closed",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/components/ProjectProgress.tsx",
-        13
-      ]
-    ]
-  },
-  "ShwAMy": {
-    "translation": "GitHub repository linked",
-    "message": "GitHub repository linked",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        191
-      ]
-    ]
-  },
-  "IcVlrD": {
-    "translation": "No GitHub repository linked",
-    "message": "No GitHub repository linked",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/boards/components/BoardsList.tsx",
-        192
-      ]
-    ]
-  },
-  "CP3D8G": {
-    "translation": "Progress",
-    "message": "Progress",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        241
-      ]
-    ]
-  },
-  "hcExOu": {
-    "translation": "Progress counts the cards in each board's last list. On GitHub boards that is the Closed list.",
-    "message": "Progress counts the cards in each board's last list. On GitHub boards that is the Closed list.",
-    "placeholders": {},
-    "comments": [],
-    "origin": [
-      [
-        "src/views/portfolio/index.tsx",
-        261
-      ]
-    ]
   }
 }

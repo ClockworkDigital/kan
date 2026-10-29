@@ -5,10 +5,16 @@ export function ProjectProgress({
   total,
   github = false,
 }: {
-  done: number;
-  total: number;
+  done?: number | null;
+  total?: number | null;
   github?: boolean;
 }) {
+  if (done == null || total == null)
+    return (
+      <span className="text-xs" title={t`Progress unavailable`}>
+        —<span className="sr-only">{t`Progress unavailable`}</span>
+      </span>
+    );
   const percent = total ? Math.round((done / total) * 100) : 0;
   const label = github ? t`GitHub issues closed` : t`Cards done`;
   return (
