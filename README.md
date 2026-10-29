@@ -256,3 +256,10 @@ Kan is licensed under the [AGPLv3 license](LICENSE).
 ## Contact 📧
 
 For support or to get in touch, please email [henry@kan.bn](mailto:henry@kan.bn) or join our [Discord server](https://discord.gg/e6ejRb6CmT).
+
+GitHub App account connection uses server-only `GITHUB_APP_CLIENT_ID` and `GITHUB_APP_CLIENT_SECRET`, distinct from GitHub social login. See [operator setup](deploy/formwork/github-oauth.md).
+
+| Variable | Description |
+| --- | --- |
+| GITHUB_APP_CLIENT_ID | GitHub App OAuth client ID for account connection |
+| GITHUB_APP_CLIENT_SECRET | Server-only GitHub App OAuth client secret |

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiMiniArrowTopRightOnSquare } from "react-icons/hi2";
 import { z } from "zod";
@@ -25,6 +25,12 @@ type GitHubTokenFormValues = z.infer<typeof githubTokenSchema>;
 export default function IntegrationsSettings() {
   const { modalContentType, isOpen } = useModal();
   const { showPopup } = usePopup();
+  const [authorizationError, setAuthorizationError] = useState(false);
+  useEffect(() => {
+    setAuthorizationError(
+      new URLSearchParams(window.location.search).get("github") === "error",
+    );
+  }, []);
 
   const {
     register,
@@ -186,6 +192,25 @@ export default function IntegrationsSettings() {
         <h2 className="mb-4 mt-8 text-[14px] font-bold text-neutral-900 dark:text-dark-1000">
           {t`GitHub`}
         </h2>
+        {githubStatus?.appConfigured && (
+          <form
+            action="/api/integrations/github/start"
+            method="post"
+            className="mb-4"
+          >
+            <Button type="submit" variant="primary">{t`Connect GitHub`}</Button>
+            <p className="mt-2 text-sm text-neutral-500">{t`Reconnect when your GitHub authorization expires.`}</p>
+          </form>
+        )}
+        {githubStatus?.login && (
+          <p className="mb-4 text-sm">@{githubStatus.login}</p>
+        )}
+        {authorizationError && (
+          <p
+            role="alert"
+            className="mb-4 text-sm"
+          >{t`GitHub authorization failed or expired. Try connecting again from this account.`}</p>
+        )}
         {!githubStatus?.connected ? (
           <>
             <p className="mb-4 text-sm text-neutral-500 dark:text-dark-900">
@@ -227,11 +252,7 @@ export default function IntegrationsSettings() {
         )}
       </div>
 
-      {githubStatus?.connected && (
-        <GithubIssueSync
-          key="connected"
-        />
-      )}
+      {githubStatus?.connected && <GithubIssueSync key="connected" />}
 
       {/* Global modals */}
       <Modal
