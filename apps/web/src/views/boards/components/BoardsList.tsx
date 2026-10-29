@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import {
@@ -8,6 +9,8 @@ import {
   HiStar,
 } from "react-icons/hi2";
 
+import Avatar from "~/components/Avatar";
+import Badge from "~/components/Badge";
 import Button from "~/components/Button";
 import PatternedBackground from "~/components/PatternedBackground";
 import { Tooltip } from "~/components/Tooltip";
@@ -16,6 +19,18 @@ import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
 import { parseGithubBoardName } from "~/utils/github-board-name";
+import {
+  projectStatusColours,
+  projectStatusLabels,
+} from "~/views/board/components/ProjectDetailsForm";
+
+const dot = (colour: string) => (
+  <span
+    aria-hidden="true"
+    className="h-1.5 w-1.5 rounded-full"
+    style={{ backgroundColor: colour }}
+  />
+);
 
 export function BoardsList({
   isTemplate,
@@ -25,6 +40,7 @@ export function BoardsList({
   archived?: boolean;
 }) {
   const { workspace } = useWorkspace();
+  const { i18n } = useLingui();
   const { openModal } = useModal();
   const { canCreateBoard } = usePermissions();
 
@@ -43,6 +59,16 @@ export function BoardsList({
     },
     { enabled: workspace.publicId ? true : false },
   );
+
+  // Portfolio details, when a board has them, show on its tile.
+  const portfolio = api.portfolio.list.useQuery(
+    { workspacePublicId: workspace.publicId },
+    { enabled: !isTemplate && !!workspace.publicId },
+  );
+  const projects = new Map(
+    portfolio.data?.map((project) => [project.boardPublicId, project]),
+  );
+  const statusLabels = projectStatusLabels();
 
   const handleToggleFavorite = (
     e: React.MouseEvent,
@@ -104,6 +130,7 @@ export function BoardsList({
     >
       {data?.map((board) => {
         const github = parseGithubBoardName(board.name);
+        const project = projects.get(board.publicId);
 
         return (
           <motion.div
@@ -150,17 +177,95 @@ export function BoardsList({
                     <HiOutlineStar className="h-5 w-5 text-neutral-700 dark:text-dark-800" />
                   )}
                 </button>
-                <div className="relative flex h-full min-w-0 flex-1 flex-col justify-between p-5">
+                <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
+                  {project && (
+                    <div className="flex flex-wrap gap-1.5 pr-8">
+                      <Badge
+                        value={statusLabels[project.status]}
+                        iconLeft={dot(projectStatusColours[project.status])}
+                      />
+                      <Badge
+                        value={project.internal ? t`Internal` : t`Client`}
+                        iconLeft={dot(project.internal ? "#0d9488" : "#ea580c")}
+                      />
+                      {project.shownToClient && (
+                        <span className="mt-1 inline-flex items-center rounded-full bg-indigo-600/15 px-2 py-1 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600 dark:text-indigo-300">
+                          {project.clients
+                            ? `${t`Shown`} · ${project.clients}`
+                            : t`Shown`}
+                        </span>
+                      )}
+                    </div>
+                  )}
                   <h2 className="break-words pr-8 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
                     {github?.repo ?? board.name}
                   </h2>
-                  {github && (
-                    <div className="flex min-w-0 items-center justify-end gap-2 text-xs text-light-900 dark:text-dark-900">
-                      <FaGithub
-                        aria-hidden="true"
-                        className="h-4 w-4 shrink-0"
-                      />
-                      <span className="truncate">{github.owner}</span>
+                  {project?.details && (
+                    <p className="line-clamp-2 text-left text-xs text-light-900 dark:text-dark-900">
+                      {project.details}
+                    </p>
+                  )}
+                  {project?.nextSteps && (
+                    <div className="border-t border-light-300 pt-2 text-left text-xs dark:border-dark-300">
+                      <p className="text-[10px] uppercase tracking-wide text-light-900 dark:text-dark-800">
+                        {t`Next steps`}
+                      </p>
+                      <p className="whitespace-pre-line break-words text-light-1000 dark:text-dark-950">
+                        {project.nextSteps}
+                      </p>
+                    </div>
+                  )}
+                  {(project ?? github) && (
+                    <div className="mt-auto flex min-w-0 items-center gap-3 text-xs text-light-900 dark:text-dark-900">
+                      {project && (
+                        <>
+                          <span className="flex items-center gap-1.5 tabular-nums">
+                            <span
+                              role="progressbar"
+                              aria-label={t`Cards done`}
+                              aria-valuenow={
+                                project.totalCards
+                                  ? Math.round(
+                                      (project.doneCards / project.totalCards) *
+                                        100,
+                                    )
+                                  : 0
+                              }
+                              className="h-1 w-14 overflow-hidden rounded bg-light-300 dark:bg-dark-400"
+                            >
+                              <span
+                                className="block h-full rounded bg-light-1000 dark:bg-dark-1000"
+                                style={{
+                                  width: `${project.totalCards ? (project.doneCards / project.totalCards) * 100 : 0}%`,
+                                }}
+                              />
+                            </span>
+                            {project.doneCards}/{project.totalCards}
+                          </span>
+                          <span className="flex items-center gap-1.5 whitespace-nowrap">
+                            {project.updatedByName && (
+                              <Avatar
+                                size="xs"
+                                name={project.updatedByName}
+                                email=""
+                              />
+                            )}
+                            {i18n.date(project.updatedAt, {
+                              day: "numeric",
+                              month: "short",
+                            })}
+                          </span>
+                        </>
+                      )}
+                      {github && (
+                        <span className="ml-auto flex min-w-0 items-center gap-2">
+                          <FaGithub
+                            aria-hidden="true"
+                            className="h-4 w-4 shrink-0"
+                          />
+                          <span className="truncate">{github.owner}</span>
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
