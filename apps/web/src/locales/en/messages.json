@@ -14800,5 +14800,84 @@
         118
       ]
     ]
+  },
+  "Bq9TDi": {
+    "translation": "{done} closed, {0} open issues",
+    "message": "{done} closed, {0} open issues",
+    "placeholders": {
+      "0": [
+        "total - done"
+      ],
+      "done": [
+        "done"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        17
+      ]
+    ]
+  },
+  "0DGzH+": {
+    "translation": "GitHub issues closed",
+    "message": "GitHub issues closed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        13
+      ]
+    ]
+  },
+  "ShwAMy": {
+    "translation": "GitHub repository linked",
+    "message": "GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        191
+      ]
+    ]
+  },
+  "IcVlrD": {
+    "translation": "No GitHub repository linked",
+    "message": "No GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        192
+      ]
+    ]
+  },
+  "CP3D8G": {
+    "translation": "Progress",
+    "message": "Progress",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        241
+      ]
+    ]
+  },
+  "hcExOu": {
+    "translation": "Progress counts the cards in each board's last list. On GitHub boards that is the Closed list.",
+    "message": "Progress counts the cards in each board's last list. On GitHub boards that is the Closed list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        261
+      ]
+    ]
   }
 }

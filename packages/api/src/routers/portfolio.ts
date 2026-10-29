@@ -62,6 +62,36 @@ async function editCheck(db: dbClient, userId: string, workspaceId: number) {
 }
 
 export const portfolioRouter = createTRPCRouter({
+  progress: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/workspaces/{workspacePublicId}/progress",
+        protect: true,
+        summary: "Get card progress for every board",
+        tags: ["Portfolio"],
+      },
+    })
+    .input(z.object({ workspacePublicId: z.string().length(12) }))
+    .output(
+      z.array(
+        z.object({
+          boardPublicId: z.string(),
+          totalCards: z.number(),
+          doneCards: z.number(),
+        }),
+      ),
+    )
+    .query(async ({ ctx, input }) => {
+      const workspace = await workspaceRepo.getByPublicId(
+        ctx.db,
+        input.workspacePublicId,
+      );
+      if (!workspace || workspace.deletedAt)
+        throw new TRPCError({ code: "NOT_FOUND" });
+      await assertPermission(ctx.db, ctx.user.id, workspace.id, "board:view");
+      return portfolioRepo.listBoardsForProgress(ctx.db, workspace.id);
+    }),
   list: protectedProcedure
     .input(z.object({ workspacePublicId: z.string().length(12) }))
     .query(async ({ ctx, input }) => {
