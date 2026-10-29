@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 // Enumerate the intersection of this user's access and the App's selected repos.
@@ -11,6 +12,11 @@ export async function githubAppRepositories(token: string): Promise<unknown[]> {
       redirect: "error",
       signal: AbortSignal.timeout(20000),
     });
+    if (response.status === 401)
+      throw new TRPCError({
+        code: "PRECONDITION_FAILED",
+        message: "Reconnect GitHub in Kan settings.",
+      });
     if (!response.ok) throw new Error("GitHub repository discovery failed");
     return response.json();
   }

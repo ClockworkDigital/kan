@@ -46,7 +46,6 @@ export async function beginGitHubOAuth(
     state,
     code_challenge: oauthHash(verifier),
     code_challenge_method: "S256",
-    scope: "offline_access",
   }).toString();
   await repo.createOrUpdateProvider(db, {
     userId,

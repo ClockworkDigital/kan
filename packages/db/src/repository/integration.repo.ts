@@ -179,3 +179,13 @@ export async function finishGitHubState(
     return true;
   });
 }
+
+// Status may describe an expired connection without exposing its access token.
+export const getGitHubConnectionMetadata = (db: dbClient, userId: string) =>
+  db.query.integrations.findFirst({
+    columns: { expiresAt: true, refreshToken: true },
+    where: and(
+      eq(integrations.userId, userId),
+      eq(integrations.provider, "github"),
+    ),
+  });
