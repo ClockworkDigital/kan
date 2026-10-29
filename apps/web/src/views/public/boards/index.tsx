@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { t } from "@lingui/core/macro";
+import { useEffect } from "react";
+
 import { PageHead } from "~/components/PageHead";
 import PatternedBackground from "~/components/PatternedBackground";
 import { api } from "~/utils/api";
@@ -60,9 +61,9 @@ export default function PublicBoardsView() {
           >
             <div className="relative flex h-full w-full items-center justify-center rounded-md border border-dashed border-light-400 bg-light-50 shadow-sm hover:bg-light-200 dark:border-dark-600 dark:bg-dark-50 dark:hover:bg-dark-100">
               <PatternedBackground />
-              <p className="text-md px-4 font-medium text-neutral-900 dark:text-dark-1000">
+              <h2 className="text-md px-4 font-medium text-neutral-900 dark:text-dark-1000">
                 {board.name}
-              </p>
+              </h2>
             </div>
           </Link>
         ))}

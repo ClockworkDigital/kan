@@ -16,13 +16,15 @@ policy and forward only verified tenant/user/group/issued-at headers. Provision
 approved stable UUIDs with provision.ts; email is not an identity key. Kan retains
 its own database and native workspace permissions.
 
-Build with Node 24:
+Build with Node 24. Load `KAN_URL` and `FORMWORK_URL` from the operator environment
+first; these public origins must match the deployment so prerendered navigation
+and browser runtime configuration render the same branding:
 
 ```sh
 corepack pnpm install --frozen-lockfile --ignore-scripts
 corepack pnpm --filter @kan/mcp build
 corepack pnpm --filter @kan/auth test
-NEXT_PUBLIC_USE_STANDALONE_OUTPUT=true BETTER_AUTH_SECRET=build-only-placeholder-secret-at-least-32-characters CI=true corepack pnpm --filter @kan/web exec next build --turbo
+NEXT_PUBLIC_BASE_URL="$KAN_URL" NEXT_PUBLIC_FORMWORK_URL="$FORMWORK_URL" NEXT_PUBLIC_USE_STANDALONE_OUTPUT=true BETTER_AUTH_SECRET=build-only-placeholder-secret-at-least-32-characters CI=true corepack pnpm --filter @kan/web exec next build --turbo
 docker build -f deploy/formwork/Dockerfile -t kan:formwork .
 ```
 
@@ -40,6 +42,16 @@ See [GitHub issue sync](github-sync/README.md) for scheduling, state recovery an
 conflict handling. The GitHub PAT is decrypted only in Kan; replacement or
 removal takes effect on the next request. The issue worker has a separate, revocable background delegation; browser and
 MCP grants still expire after eight hours. See the sync guide for its restrictions.
+
+## Review priorities
+
+Use native board labels for review priorities: P0 (critical, red), P1 (high,
+orange), P2 (normal, yellow), and P3 (low, blue). Labels belong to individual
+boards; agents can create missing labels with `create_label`, discover their
+public IDs with `get_board`, and pass the chosen priority in
+`create_card.labelPublicIds`. Existing cards are not classified automatically.
+These labels are Kan configuration, not a schema change, and are not synchronised
+with GitHub issue labels. Normal gateway authentication and board permissions apply.
 
 GitHub label names, colours and issue assignments flow into board-local Kan
 labels. See [label ownership and recovery](github-sync/README.md#github-label-ownership).

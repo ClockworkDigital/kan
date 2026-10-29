@@ -19,7 +19,7 @@ function run() {
         readFileSync: (filename) => files[filename], existsSync: () => true,
         mkdirSync() {}, writeFileSync: (_, text) => { browserConfig = text; },
       };
-      assert.equal(name, "./apps/web/server.js");
+      assert.equal(name, "/app/apps/web/server.js");
       started = true;
     },
   });

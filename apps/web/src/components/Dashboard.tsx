@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { t } from "@lingui/core/macro";
 import { env } from "next-runtime-env";
 import { useTheme } from "next-themes";
@@ -19,6 +19,7 @@ import { useWorkspace, WorkspaceProvider } from "~/providers/workspace";
 import { api } from "~/utils/api";
 import { ChangePasswordFormConfirmation } from "~/views/settings/components/ChangePasswordConfirmation";
 import Button from "./Button";
+import FormworkLogo from "./FormworkLogo";
 import Modal from "./modal";
 import SideNavigation from "./SideNavigation";
 
@@ -52,6 +53,7 @@ export default function Dashboard({
   const { availableWorkspaces, hasLoaded } = useWorkspace();
   const { showPopup } = usePopup();
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const { data: session, isPending: sessionLoading } = authClient.useSession();
@@ -168,6 +170,7 @@ export default function Dashboard({
   }, [user, userLoading, openModal]);
 
   const isDarkMode = resolvedTheme === "dark";
+  const formworkUrl = env("NEXT_PUBLIC_FORMWORK_URL");
 
   return (
     <>
@@ -179,7 +182,9 @@ export default function Dashboard({
           background-color: ${!isDarkMode ? "hsl(0deg 0% 97.3%)" : "#1c1c1c"};
         }
       `}</style>
-      <div className="relative flex h-screen flex-col bg-light-50 dark:bg-dark-50 md:bg-light-100 md:p-3 md:dark:bg-dark-100">
+      <div
+        className={`relative flex h-screen flex-col bg-light-50 dark:bg-dark-50 md:bg-light-100 md:p-3 md:dark:bg-dark-100 ${pathname === "/boards" ? "boards-small-caps" : ""}`}
+      >
         {/* Mobile Header */}
         <div className="flex h-12 items-center justify-between border-b border-light-300 bg-light-50 px-3 dark:border-dark-300 dark:bg-dark-50 md:hidden">
           <button
@@ -200,6 +205,7 @@ export default function Dashboard({
             )}
           </button>
 
+          {formworkUrl && <FormworkLogo href={formworkUrl} />}
           {hasRightPanel && (
             <button
               ref={rightPanelButtonRef}

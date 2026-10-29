@@ -11,7 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        sans: ["Anybody SemiExpanded", ...fontFamily.sans],
+        heading: ["Anybody Expanded", ...fontFamily.sans],
         mono: fontFamily.mono,
       },
     },
