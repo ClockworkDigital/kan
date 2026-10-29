@@ -10,6 +10,7 @@ import Avatar from "~/components/Avatar";
 import Badge from "~/components/Badge";
 import Modal from "~/components/modal";
 import { PageHead } from "~/components/PageHead";
+import { ProjectProgress } from "~/components/ProjectProgress";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
@@ -33,16 +34,15 @@ const dot = (colour: string) => (
 function ProjectRow({
   project,
   showActions,
+  progress,
 }: {
   project: Project;
   showActions: boolean;
+  progress?: RouterOutputs["portfolio"]["progress"][number];
 }) {
   const { i18n } = useLingui();
   const { openModal } = useModal();
   const statusLabels = projectStatusLabels();
-  const percent = project.totalCards
-    ? (project.doneCards / project.totalCards) * 100
-    : 0;
 
   return (
     <tr className="relative border-b border-light-300 align-top hover:bg-light-100 dark:border-dark-300 dark:hover:bg-dark-100">
@@ -90,20 +90,11 @@ function ProjectRow({
         )}
       </td>
       <td className="px-3 py-3">
-        <span className="text-xs tabular-nums text-light-950 dark:text-dark-950">
-          {project.doneCards} / {project.totalCards}
-        </span>
-        <div
-          role="progressbar"
-          aria-label={t`Cards done`}
-          aria-valuenow={Math.round(percent)}
-          className="mt-1.5 h-1 w-20 overflow-hidden rounded bg-light-300 dark:bg-dark-400"
-        >
-          <div
-            className="h-full rounded bg-light-1000 dark:bg-dark-1000"
-            style={{ width: `${percent}%` }}
-          />
-        </div>
+        <ProjectProgress
+          github={!!progress?.repository}
+          done={progress?.done}
+          total={progress?.total}
+        />
       </td>
       <td className="px-3 py-3 text-sm">
         <p className="whitespace-pre-line break-words text-light-1000 dark:text-dark-950">
@@ -149,6 +140,14 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
     { enabled: workspacePublicId.length === 12 },
   );
 
+  const progress = api.portfolio.progress.useQuery(
+    { workspacePublicId },
+    {
+      enabled: workspacePublicId.length === 12 && projects.isSuccess,
+      staleTime: 60_000,
+      refetchInterval: 300_000,
+    },
+  );
   const all = projects.data ?? [];
   const inTab = (p: Project, key: Tab) =>
     key === "all" || (key === "shown" ? p.shownToClient : p.status === key);
@@ -247,7 +246,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
                 <th
                   scope="col"
                   className={twMerge(head, "w-[12%]")}
-                >{t`Cards done`}</th>
+                >{t`Progress`}</th>
                 <th scope="col" className={head}>{t`Next steps`}</th>
                 {anyEditable && (
                   <th scope="col" className="w-10">
@@ -261,13 +260,16 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
                 <ProjectRow
                   key={project.boardPublicId}
                   project={project}
+                  progress={progress.data?.find(
+                    (item) => item.boardPublicId === project.boardPublicId,
+                  )}
                   showActions={anyEditable}
                 />
               ))}
             </tbody>
           </table>
           <p className="mt-4 text-xs text-light-900 dark:text-dark-800">
-            {t`Cards done counts the cards in each board's last list.`}
+            {t`GitHub progress counts closed issues out of all issues. Other boards count cards in their last list.`}
           </p>
         </div>
       )}

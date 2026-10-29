@@ -8741,5 +8741,100 @@
     "placeholders": {},
     "comments": [],
     "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 118]]
+  },
+  "Bq9TDi": {
+    "translation": "{done} cerradas, {0} incidencias abiertas",
+    "message": "{done} closed, {0} open issues",
+    "placeholders": {
+      "0": [
+        "total - done"
+      ],
+      "done": [
+        "done"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        23
+      ]
+    ]
+  },
+  "0DGzH+": {
+    "translation": "Incidencias de GitHub cerradas",
+    "message": "GitHub issues closed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        19
+      ]
+    ]
+  },
+  "mofuGM": {
+    "translation": "El progreso de GitHub cuenta las incidencias cerradas del total. Los demás tableros cuentan las tarjetas de su última lista.",
+    "message": "GitHub progress counts closed issues out of all issues. Other boards count cards in their last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        272
+      ]
+    ]
+  },
+  "ShwAMy": {
+    "translation": "Repositorio de GitHub vinculado",
+    "message": "GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        195
+      ]
+    ]
+  },
+  "IcVlrD": {
+    "translation": "Ningún repositorio de GitHub vinculado",
+    "message": "No GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        196
+      ]
+    ]
+  },
+  "CP3D8G": {
+    "translation": "Progreso",
+    "message": "Progress",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        249
+      ]
+    ]
+  },
+  "XrJzqb": {
+    "translation": "Progreso no disponible",
+    "message": "Progress unavailable",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        14
+      ],
+      [
+        "src/components/ProjectProgress.tsx",
+        15
+      ]
+    ]
   }
 }

@@ -14800,5 +14800,100 @@
         118
       ]
     ]
+  },
+  "Bq9TDi": {
+    "translation": "{done} closed, {0} open issues",
+    "message": "{done} closed, {0} open issues",
+    "placeholders": {
+      "0": [
+        "total - done"
+      ],
+      "done": [
+        "done"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        23
+      ]
+    ]
+  },
+  "0DGzH+": {
+    "translation": "GitHub issues closed",
+    "message": "GitHub issues closed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        19
+      ]
+    ]
+  },
+  "mofuGM": {
+    "translation": "GitHub progress counts closed issues out of all issues. Other boards count cards in their last list.",
+    "message": "GitHub progress counts closed issues out of all issues. Other boards count cards in their last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        272
+      ]
+    ]
+  },
+  "ShwAMy": {
+    "translation": "GitHub repository linked",
+    "message": "GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        195
+      ]
+    ]
+  },
+  "IcVlrD": {
+    "translation": "No GitHub repository linked",
+    "message": "No GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        196
+      ]
+    ]
+  },
+  "CP3D8G": {
+    "translation": "Progress",
+    "message": "Progress",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        249
+      ]
+    ]
+  },
+  "XrJzqb": {
+    "translation": "Progress unavailable",
+    "message": "Progress unavailable",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        14
+      ],
+      [
+        "src/components/ProjectProgress.tsx",
+        15
+      ]
+    ]
   }
 }

@@ -13,6 +13,7 @@ import Avatar from "~/components/Avatar";
 import Badge from "~/components/Badge";
 import Button from "~/components/Button";
 import PatternedBackground from "~/components/PatternedBackground";
+import { ProjectProgress } from "~/components/ProjectProgress";
 import { Tooltip } from "~/components/Tooltip";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useModal } from "~/providers/modal";
@@ -51,7 +52,7 @@ export function BoardsList({
     },
   });
 
-  const { data, isLoading } = api.board.all.useQuery(
+  const { data, isLoading, isSuccess } = api.board.all.useQuery(
     {
       workspacePublicId: workspace.publicId,
       type: isTemplate ? "template" : "regular",
@@ -64,6 +65,14 @@ export function BoardsList({
   const portfolio = api.portfolio.list.useQuery(
     { workspacePublicId: workspace.publicId },
     { enabled: !isTemplate && !!workspace.publicId },
+  );
+  const progress = api.portfolio.progress.useQuery(
+    { workspacePublicId: workspace.publicId },
+    {
+      enabled: !isTemplate && !!workspace.publicId && isSuccess,
+      staleTime: 60_000,
+      refetchInterval: 300_000,
+    },
   );
   const projects = new Map(
     portfolio.data?.map((project) => [project.boardPublicId, project]),
@@ -131,6 +140,9 @@ export function BoardsList({
       {data?.map((board) => {
         const github = parseGithubBoardName(board.name);
         const project = projects.get(board.publicId);
+        const counts = progress.data?.find(
+          (item) => item.boardPublicId === board.publicId,
+        );
 
         return (
           <motion.div
@@ -160,7 +172,7 @@ export function BoardsList({
                   onClick={(e) =>
                     handleToggleFavorite(e, board.publicId, board.favorite)
                   }
-                  className={`absolute right-3 top-3 z-10 rounded p-1 transition-all hover:bg-light-300 dark:hover:bg-dark-200 ${
+                  className={`absolute right-10 top-3 z-10 rounded p-1 transition-all hover:bg-light-300 dark:hover:bg-dark-200 ${
                     board.favorite
                       ? ""
                       : "md:opacity-0 md:group-hover:opacity-100"
@@ -177,9 +189,17 @@ export function BoardsList({
                     <HiOutlineStar className="h-5 w-5 text-neutral-700 dark:text-dark-800" />
                   )}
                 </button>
+                <FaGithub
+                  aria-label={
+                    counts?.repository
+                      ? t`GitHub repository linked`
+                      : t`No GitHub repository linked`
+                  }
+                  className={`absolute right-3 top-4 z-10 h-4 w-4 ${counts?.repository ? "text-neutral-900 dark:text-white" : "text-neutral-400 dark:text-neutral-500"}`}
+                />
                 <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
                   {project && (
-                    <div className="flex flex-wrap gap-1.5 pr-8">
+                    <div className="flex flex-wrap gap-1.5 pr-14">
                       <Badge
                         value={statusLabels[project.status]}
                         iconLeft={dot(projectStatusColours[project.status])}
@@ -197,7 +217,7 @@ export function BoardsList({
                       )}
                     </div>
                   )}
-                  <h2 className="break-words pr-8 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
+                  <h2 className="break-words pr-14 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
                     {github?.repo ?? board.name}
                   </h2>
                   {project?.details && (
@@ -215,33 +235,15 @@ export function BoardsList({
                       </p>
                     </div>
                   )}
-                  {(project ?? github) && (
+                  {!isTemplate && (
                     <div className="mt-auto flex min-w-0 items-center gap-3 text-xs text-light-900 dark:text-dark-900">
+                      <ProjectProgress
+                        github={!!counts?.repository}
+                        done={counts?.done}
+                        total={counts?.total}
+                      />
                       {project && (
                         <>
-                          <span className="flex items-center gap-1.5 tabular-nums">
-                            <span
-                              role="progressbar"
-                              aria-label={t`Cards done`}
-                              aria-valuenow={
-                                project.totalCards
-                                  ? Math.round(
-                                      (project.doneCards / project.totalCards) *
-                                        100,
-                                    )
-                                  : 0
-                              }
-                              className="h-1 w-14 overflow-hidden rounded bg-light-300 dark:bg-dark-400"
-                            >
-                              <span
-                                className="block h-full rounded bg-light-1000 dark:bg-dark-1000"
-                                style={{
-                                  width: `${project.totalCards ? (project.doneCards / project.totalCards) * 100 : 0}%`,
-                                }}
-                              />
-                            </span>
-                            {project.doneCards}/{project.totalCards}
-                          </span>
                           <span className="flex items-center gap-1.5 whitespace-nowrap">
                             {project.updatedByName && (
                               <Avatar
@@ -256,15 +258,6 @@ export function BoardsList({
                             })}
                           </span>
                         </>
-                      )}
-                      {github && (
-                        <span className="ml-auto flex min-w-0 items-center gap-2">
-                          <FaGithub
-                            aria-hidden="true"
-                            className="h-4 w-4 shrink-0"
-                          />
-                          <span className="truncate">{github.owner}</span>
-                        </span>
                       )}
                     </div>
                   )}

@@ -8741,5 +8741,100 @@
     "placeholders": {},
     "comments": [],
     "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 118]]
+  },
+  "Bq9TDi": {
+    "translation": "{done} geschlossen, {0} offene Issues",
+    "message": "{done} closed, {0} open issues",
+    "placeholders": {
+      "0": [
+        "total - done"
+      ],
+      "done": [
+        "done"
+      ]
+    },
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        23
+      ]
+    ]
+  },
+  "0DGzH+": {
+    "translation": "Geschlossene GitHub-Issues",
+    "message": "GitHub issues closed",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        19
+      ]
+    ]
+  },
+  "mofuGM": {
+    "translation": "GitHub-Fortschritt zählt geschlossene von allen Issues. Andere Boards zählen Karten in ihrer letzten Liste.",
+    "message": "GitHub progress counts closed issues out of all issues. Other boards count cards in their last list.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        272
+      ]
+    ]
+  },
+  "ShwAMy": {
+    "translation": "GitHub-Repository verknüpft",
+    "message": "GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        195
+      ]
+    ]
+  },
+  "IcVlrD": {
+    "translation": "Kein GitHub-Repository verknüpft",
+    "message": "No GitHub repository linked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        196
+      ]
+    ]
+  },
+  "CP3D8G": {
+    "translation": "Fortschritt",
+    "message": "Progress",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/portfolio/index.tsx",
+        249
+      ]
+    ]
+  },
+  "XrJzqb": {
+    "translation": "Fortschritt nicht verfügbar",
+    "message": "Progress unavailable",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        14
+      ],
+      [
+        "src/components/ProjectProgress.tsx",
+        15
+      ]
+    ]
   }
 }

@@ -8,8 +8,19 @@ export type ProjectFields = Pick<
   "status" | "details" | "clients" | "shownToClient" | "internal" | "nextSteps"
 >;
 
+// Qualified by hand: single-table selects render bare "id", which the subqueries would capture.
+const boardId = sql`${boards}."id"`;
 const liveCards = sql`FROM "card" c JOIN "list" l ON c."listId" = l."id"
-  WHERE l."boardId" = ${boards.id} AND l."deletedAt" IS NULL AND c."deletedAt" IS NULL`;
+  WHERE l."boardId" = ${boardId} AND l."deletedAt" IS NULL AND c."deletedAt" IS NULL`;
+
+const cardCounts = {
+  totalCards: sql<number>`(SELECT count(*) ${liveCards})`.mapWith(Number),
+  // Kanban convention: cards in the board's last list count as done.
+  doneCards: sql<number>`(SELECT count(*) ${liveCards} AND l."id" = (
+    SELECT l2."id" FROM "list" l2
+    WHERE l2."boardId" = ${boardId} AND l2."deletedAt" IS NULL
+    ORDER BY l2."index" DESC, l2."id" DESC LIMIT 1))`.mapWith(Number),
+};
 
 export async function listByWorkspaceId(db: dbClient, workspaceId: number) {
   return db
@@ -26,12 +37,7 @@ export async function listByWorkspaceId(db: dbClient, workspaceId: number) {
       nextSteps: boardProjects.nextSteps,
       updatedAt: boardProjects.updatedAt,
       updatedByName: users.name,
-      totalCards: sql<number>`(SELECT count(*) ${liveCards})`.mapWith(Number),
-      // Kanban convention: cards in the board's last list count as done.
-      doneCards: sql<number>`(SELECT count(*) ${liveCards} AND l."id" = (
-        SELECT l2."id" FROM "list" l2
-        WHERE l2."boardId" = ${boards.id} AND l2."deletedAt" IS NULL
-        ORDER BY l2."index" DESC, l2."id" DESC LIMIT 1))`.mapWith(Number),
+      ...cardCounts,
     })
     .from(boardProjects)
     .innerJoin(boards, eq(boardProjects.boardId, boards.id))
@@ -71,4 +77,21 @@ export async function upsert(
 
 export async function remove(db: dbClient, boardId: number) {
   await db.delete(boardProjects).where(eq(boardProjects.boardId, boardId));
+}
+
+export async function listBoardsForProgress(db: dbClient, workspaceId: number) {
+  return db
+    .select({
+      boardPublicId: boards.publicId,
+      name: boards.name,
+      ...cardCounts,
+    })
+    .from(boards)
+    .where(
+      and(
+        eq(boards.workspaceId, workspaceId),
+        eq(boards.type, "regular"),
+        isNull(boards.deletedAt),
+      ),
+    );
 }
