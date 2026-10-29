@@ -92,7 +92,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        64
+        69
       ]
     ],
     "translation": "{0} has been added to your favorites."
@@ -108,7 +108,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        65
+        70
       ]
     ],
     "translation": "{0} has been removed from your favorites."
@@ -140,7 +140,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        913
+        925
       ]
     ],
     "translation": "{0} not found"
@@ -381,7 +381,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        236
+        254
       ]
     ],
     "translation": "Actions"
@@ -629,7 +629,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        146
+        155
       ]
     ],
     "translation": "Add to favorites"
@@ -796,7 +796,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        61
+        66
       ]
     ],
     "translation": "Added to favorites"
@@ -1184,7 +1184,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        126
+        135
       ]
     ],
     "translation": "Archive board"
@@ -1200,7 +1200,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        67
+        66
       ]
     ],
     "translation": "Archived"
@@ -1611,7 +1611,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        885
+        888
       ],
       [
         "src/views/card/index.tsx",
@@ -1644,7 +1644,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        50
+        55
       ]
     ],
     "translation": "Board archived"
@@ -1668,7 +1668,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        903
+        912
       ]
     ],
     "translation": "Board name"
@@ -1716,7 +1716,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        175
+        184
       ]
     ],
     "translation": "Board options"
@@ -1740,7 +1740,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        51
+        56
       ]
     ],
     "translation": "Board unarchived"
@@ -1828,7 +1828,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        99
+        100
       ],
       [
         "src/views/boards/index.tsx",
@@ -1852,7 +1852,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        66
+        107
       ]
     ],
     "translation": "Boards you archive will appear here."
@@ -2468,7 +2468,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        448
+        451
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -2716,7 +2716,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        281
+        287
       ],
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
@@ -3356,7 +3356,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        80
+        120
       ],
       [
         "src/views/boards/index.tsx",
@@ -3400,11 +3400,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        139
+        141
       ],
       [
         "src/views/board/index.tsx",
-        1038
+        1050
       ]
     ],
     "translation": "Create new list"
@@ -3804,7 +3804,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        157
+        166
       ]
     ],
     "translation": "Delete board"
@@ -3868,7 +3868,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        157
+        166
       ]
     ],
     "translation": "Delete template"
@@ -4361,7 +4361,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        117
+        126
       ],
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
@@ -5475,7 +5475,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        66
+        108
       ]
     ],
     "translation": "Get started by creating a new {0}"
@@ -5487,7 +5487,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        1020
+        1032
       ]
     ],
     "translation": "Get started by creating a new list"
@@ -5615,7 +5615,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        107
+        108
       ],
       [
         "src/pages/404.tsx",
@@ -5643,7 +5643,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        155
+        156
       ]
     ],
     "translation": "Go to members"
@@ -5655,7 +5655,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        167
+        168
       ]
     ],
     "translation": "Go to settings"
@@ -5667,7 +5667,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        119
+        120
       ]
     ],
     "translation": "Go to templates"
@@ -6515,7 +6515,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        115
+        117
       ]
     ],
     "translation": "License activated"
@@ -6527,7 +6527,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        129
+        131
       ]
     ],
     "translation": "License activation failed"
@@ -6563,7 +6563,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        446
+        449
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -6683,7 +6683,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        210
+        216
       ]
     ],
     "translation": "Loading..."
@@ -6767,7 +6767,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        99
+        104
       ]
     ],
     "translation": "Make template"
@@ -6919,7 +6919,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        147
+        148
       ],
       [
         "src/views/board/components/Filters.tsx",
@@ -7075,7 +7075,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        137
+        146
       ]
     ],
     "translation": "Move to workspace"
@@ -7290,7 +7290,7 @@
       ],
       [
         "src/views/board/index.tsx",
-        965
+        977
       ]
     ],
     "translation": "New list"
@@ -7414,7 +7414,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        63
+        103
       ]
     ],
     "translation": "No {0}"
@@ -7426,7 +7426,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        63
+        102
       ]
     ],
     "translation": "No archived boards"
@@ -7522,7 +7522,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        126
+        128
       ]
     ],
     "translation": "No license key was provided. Please try activating again."
@@ -7534,7 +7534,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        1016
+        1028
       ]
     ],
     "translation": "No lists"
@@ -7546,7 +7546,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        1021
+        1033
       ]
     ],
     "translation": "No lists have been created yet"
@@ -7830,7 +7830,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        271
+        277
       ]
     ],
     "translation": "Password already set"
@@ -8234,7 +8234,7 @@
       ],
       [
         "src/views/board/components/BoardDropdown.tsx",
-        73
+        78
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
@@ -8262,19 +8262,19 @@
       ],
       [
         "src/views/board/index.tsx",
-        218
+        221
       ],
       [
         "src/views/board/index.tsx",
-        300
+        303
       ],
       [
         "src/views/board/index.tsx",
-        356
+        359
       ],
       [
         "src/views/board/index.tsx",
-        393
+        396
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
@@ -8454,7 +8454,7 @@
       ],
       [
         "src/views/board/index.tsx",
-        455
+        458
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -8779,7 +8779,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        146
+        155
       ]
     ],
     "translation": "Remove from favorites"
@@ -8874,7 +8874,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        62
+        67
       ]
     ],
     "translation": "Removed from favorites"
@@ -9143,7 +9143,7 @@
       ],
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        210
+        229
       ],
       [
         "src/views/card/components/Comment.tsx",
@@ -9531,7 +9531,7 @@
       ],
       [
         "src/components/SideNavigation.tsx",
-        159
+        160
       ]
     ],
     "translation": "Settings"
@@ -9883,7 +9883,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        132
+        134
       ]
     ],
     "translation": "Something went wrong during license activation."
@@ -9932,15 +9932,15 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        253
+        257
       ],
       [
         "src/components/SideNavigation.tsx",
-        254
+        258
       ],
       [
         "src/components/SideNavigation.tsx",
-        264
+        268
       ]
     ],
     "translation": "Start free trial"
@@ -9976,11 +9976,11 @@
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        117
+        124
       ],
       [
         "src/views/portfolio/index.tsx",
-        230
+        242
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
@@ -10165,11 +10165,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        885
+        888
       ],
       [
         "src/views/board/index.tsx",
-        922
+        934
       ]
     ],
     "translation": "Template"
@@ -10229,7 +10229,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        111
+        112
       ],
       [
         "src/views/boards/index.tsx",
@@ -10349,7 +10349,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        124
+        126
       ]
     ],
     "translation": "That license key could not be found. Please contact support."
@@ -10361,7 +10361,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        53
+        58
       ]
     ],
     "translation": "The board has been archived."
@@ -10389,7 +10389,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        54
+        59
       ]
     ],
     "translation": "The board has been unarchived."
@@ -10968,7 +10968,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        453
+        456
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -11256,11 +11256,11 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        72
+        77
       ],
       [
         "src/views/board/index.tsx",
-        217
+        220
       ]
     ],
     "translation": "Unable to update board"
@@ -11296,7 +11296,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        355
+        358
       ],
       [
         "src/views/card/index.tsx",
@@ -11348,7 +11348,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        392
+        395
       ],
       [
         "src/views/card/components/DueDateSelector.tsx",
@@ -11376,7 +11376,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        299
+        302
       ],
       [
         "src/views/card/components/ListSelector.tsx",
@@ -11444,7 +11444,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        126
+        135
       ]
     ],
     "translation": "Unarchive board"
@@ -12382,7 +12382,7 @@
       ],
       [
         "src/views/public/boards/index.tsx",
-        75
+        76
       ]
     ],
     "translation": "Workspace"
@@ -12764,15 +12764,15 @@
       ],
       [
         "src/views/board/index.tsx",
-        953
+        965
       ],
       [
         "src/views/board/index.tsx",
-        1027
+        1039
       ],
       [
         "src/views/boards/components/BoardsList.tsx",
-        71
+        112
       ],
       [
         "src/views/boards/index.tsx",
@@ -12906,7 +12906,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        273
+        279
       ]
     ],
     "translation": "Your account already has a password. You can change it from your account settings."
@@ -13014,7 +13014,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        116
+        118
       ]
     ],
     "translation": "Your license has been activated successfully."
@@ -13026,7 +13026,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        125
+        127
       ]
     ],
     "translation": "Your license is not active. Please check your account."
@@ -13948,7 +13948,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        135
+        136
       ]
     ],
     "translation": "Factory"
@@ -13992,7 +13992,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        143
+        144
       ]
     ],
     "translation": "Go to factory"
@@ -14314,7 +14314,6 @@
     "translation": "Waiting for information"
   },
   "x5x78r": {
-    "translation": "{boardName} · shown on the Portfolio page",
     "message": "{boardName} · shown on the Portfolio page",
     "placeholders": {
       "boardName": [
@@ -14327,34 +14326,34 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         102
       ]
-    ]
+    ],
+    "translation": "{boardName} · shown on the Portfolio page"
   },
   "MLGtCX": {
-    "translation": "Add to Portfolio",
     "message": "Add to Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        210
+        229
       ]
-    ]
+    ],
+    "translation": "Add to Portfolio"
   },
   "N40H+G": {
-    "translation": "All",
     "message": "All",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        163
+        168
       ]
-    ]
+    ],
+    "translation": "All"
   },
   "kVHATU": {
-    "translation": "Busy",
     "message": "Busy",
     "placeholders": {},
     "comments": [],
@@ -14363,74 +14362,82 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         25
       ]
-    ]
+    ],
+    "translation": "Busy"
   },
   "FcvUpU": {
-    "translation": "Cards done",
     "message": "Cards done",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/views/portfolio/index.tsx",
-        99
+        "src/views/boards/components/BoardsList.tsx",
+        225
       ],
       [
         "src/views/portfolio/index.tsx",
-        232
+        98
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        250
       ]
-    ]
+    ],
+    "translation": "Cards done"
   },
   "1hwfyg": {
-    "translation": "Cards done counts the cards in each board's last list.",
     "message": "Cards done counts the cards in each board's last list.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        252
+        270
       ]
-    ]
+    ],
+    "translation": "Cards done counts the cards in each board's last list."
   },
   "+6NyRG": {
-    "translation": "Client",
     "message": "Client",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
+        "src/views/boards/components/BoardsList.tsx",
+        188
+      ],
+      [
         "src/views/portfolio/index.tsx",
-        64
+        63
       ]
-    ]
+    ],
+    "translation": "Client"
   },
   "7iRQ7y": {
-    "translation": "Client name(s)",
     "message": "Client name(s)",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        168
+        181
       ]
-    ]
+    ],
+    "translation": "Client name(s)"
   },
   "URmyfc": {
-    "translation": "Details",
     "message": "Details",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        143
+        153
       ]
-    ]
+    ],
+    "translation": "Details"
   },
   "zbQBnx": {
-    "translation": "Edit project details for {0}",
     "message": "Edit project details for {0}",
     "placeholders": {
       "0": [
@@ -14443,110 +14450,118 @@
         "src/views/portfolio/index.tsx",
         124
       ]
-    ]
+    ],
+    "translation": "Edit project details for {0}"
   },
   "F2XK4g": {
-    "translation": "Filter projects",
     "message": "Filter projects",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        188
+        194
       ]
-    ]
+    ],
+    "translation": "Filter projects"
   },
   "evlkre": {
-    "translation": "Go to portfolio",
     "message": "Go to portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        131
+        132
       ]
-    ]
+    ],
+    "translation": "Go to portfolio"
   },
   "wv1e0F": {
-    "translation": "Internal",
     "message": "Internal",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
+        "src/views/boards/components/BoardsList.tsx",
+        188
+      ],
+      [
         "src/views/portfolio/index.tsx",
-        64
+        63
       ]
-    ]
+    ],
+    "translation": "Internal"
   },
   "BW7qlT": {
-    "translation": "Internal project",
     "message": "Internal project",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        160
+        170
       ]
-    ]
+    ],
+    "translation": "Internal project"
   },
   "KqojOL": {
-    "translation": "Next steps",
     "message": "Next steps",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        180
+        198
+      ],
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        211
       ],
       [
         "src/views/portfolio/index.tsx",
-        233
+        251
       ]
-    ]
+    ],
+    "translation": "Next steps"
   },
   "1UzENP": {
-    "translation": "No",
     "message": "No",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        85
+        84
       ]
-    ]
+    ],
+    "translation": "No"
   },
   "K4+arj": {
-    "translation": "No projects match. Try another tab or search.",
     "message": "No projects match. Try another tab or search.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        221
+        227
       ]
-    ]
+    ],
+    "translation": "No projects match. Try another tab or search."
   },
   "K8ZdtH": {
-    "translation": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
     "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        216
+        222
       ]
-    ]
+    ],
+    "translation": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here."
   },
   "5xvHen": {
-    "translation": "Not yet",
     "message": "Not yet",
     "placeholders": {},
     "comments": [],
@@ -14555,26 +14570,26 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         24
       ]
-    ]
+    ],
+    "translation": "Not yet"
   },
   "MqA4qt": {
-    "translation": "Portfolio",
     "message": "Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        123
+        124
       ],
       [
         "src/views/portfolio/index.tsx",
-        267
+        285
       ]
-    ]
+    ],
+    "translation": "Portfolio"
   },
   "ALFid7": {
-    "translation": "Portfolio | {0}",
     "message": "Portfolio | {0}",
     "placeholders": {
       "0": [
@@ -14585,76 +14600,76 @@
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        265
+        283
       ]
-    ]
+    ],
+    "translation": "Portfolio | {0}"
   },
   "e0NrBM": {
-    "translation": "Project",
     "message": "Project",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        229
+        238
       ]
-    ]
+    ],
+    "translation": "Project"
   },
   "tjbyOy": {
-    "translation": "Project details",
     "message": "Project details",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        110
+        115
       ],
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
         98
       ]
-    ]
+    ],
+    "translation": "Project details"
   },
   "eWhG0/": {
-    "translation": "Remove from Portfolio",
     "message": "Remove from Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        201
+        220
       ]
-    ]
+    ],
+    "translation": "Remove from Portfolio"
   },
   "blFttG": {
-    "translation": "Search projects",
     "message": "Search projects",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        181
+        187
       ]
-    ]
+    ],
+    "translation": "Search projects"
   },
   "GH4RRY": {
-    "translation": "Search projects, clients, next steps…",
     "message": "Search projects, clients, next steps…",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        182
+        188
       ]
-    ]
+    ],
+    "translation": "Search projects, clients, next steps…"
   },
   "6oD6kQ": {
-    "translation": "Shown on the Portfolio page",
     "message": "Shown on the Portfolio page",
     "placeholders": {},
     "comments": [],
@@ -14663,62 +14678,62 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         103
       ]
-    ]
+    ],
+    "translation": "Shown on the Portfolio page"
   },
   "1DSSKf": {
-    "translation": "Shown to client",
     "message": "Shown to client",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        154
+        164
       ],
       [
         "src/views/portfolio/index.tsx",
-        231
+        246
       ]
-    ]
+    ],
+    "translation": "Shown to client"
   },
   "lo0WWp": {
-    "translation": "Shown to clients",
     "message": "Shown to clients",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        167
+        172
       ]
-    ]
+    ],
+    "translation": "Shown to clients"
   },
   "5UOxSd": {
-    "translation": "Turn on \"Shown to client\" to add",
     "message": "Turn on \"Shown to client\" to add",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        173
+        187
       ]
-    ]
+    ],
+    "translation": "Turn on \"Shown to client\" to add"
   },
   "T0T+qy": {
-    "translation": "Unable to load the portfolio. Check your connection and workspace access.",
     "message": "Unable to load the portfolio. Check your connection and workspace access.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        212
+        218
       ]
-    ]
+    ],
+    "translation": "Unable to load the portfolio. Check your connection and workspace access."
   },
   "1V2+xR": {
-    "translation": "Unable to save project details",
     "message": "Unable to save project details",
     "placeholders": {},
     "comments": [],
@@ -14727,10 +14742,10 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         65
       ]
-    ]
+    ],
+    "translation": "Unable to save project details"
   },
   "4Y9aig": {
-    "translation": "Updated {0}",
     "message": "Updated {0}",
     "placeholders": {
       "0": [
@@ -14741,19 +14756,48 @@
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        117
+        116
       ]
-    ]
+    ],
+    "translation": "Updated {0}"
   },
   "l75CjT": {
-    "translation": "Yes",
     "message": "Yes",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        85
+        84
+      ]
+    ],
+    "translation": "Yes"
+  },
+  "XMFcuV": {
+    "translation": "Shown",
+    "message": "Shown",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        194
+      ],
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        195
+      ]
+    ]
+  },
+  "IQ4Gm+": {
+    "translation": "Unable to load project details. Close and try again.",
+    "message": "Unable to load project details. Close and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        118
       ]
     ]
   }

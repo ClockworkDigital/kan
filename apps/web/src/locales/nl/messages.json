@@ -51,7 +51,7 @@
       "0": ["boardName ?? \"Board\""]
     },
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 64]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 69]],
     "translation": "{0} is toegevoegd aan je favorieten."
   },
   "bDI6VI": {
@@ -60,7 +60,7 @@
       "0": ["boardName ?? \"Board\""]
     },
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 65]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 70]],
     "translation": "{0} is verwijderd uit je favorieten."
   },
   "CJukzS": {
@@ -78,7 +78,7 @@
       "0": ["isTemplate ? \"Template\" : \"Board\""]
     },
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 913]],
+    "origin": [["src/views/board/index.tsx", 925]],
     "translation": "{0} niet gevonden"
   },
   "0xWkkH": {
@@ -223,7 +223,7 @@
     "comments": [],
     "origin": [
       ["src/providers/keyboard-shortcuts.tsx", 56],
-      ["src/views/portfolio/index.tsx", 236]
+      ["src/views/portfolio/index.tsx", 254]
     ],
     "translation": "Acties"
   },
@@ -374,7 +374,7 @@
     "message": "Add to favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 146]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 155]],
     "translation": "Toevoegen aan favorieten"
   },
   "cWXW+7": {
@@ -469,7 +469,7 @@
     "message": "Added to favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 61]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 66]],
     "translation": "Toegevoegd aan favorieten"
   },
   "14Xi3Z": {
@@ -703,7 +703,7 @@
     "message": "Archive board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 126]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 135]],
     "translation": "Board archiveren"
   },
   "TdfEV7": {
@@ -712,7 +712,7 @@
     "comments": [],
     "origin": [
       ["src/views/boards/index.tsx", 34],
-      ["src/views/portfolio/index.tsx", 67]
+      ["src/views/portfolio/index.tsx", 66]
     ],
     "translation": "Gearchiveerd"
   },
@@ -966,7 +966,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 885],
+      ["src/views/board/index.tsx", 888],
       ["src/views/card/index.tsx", 324],
       ["src/views/public/board/index.tsx", 125]
     ],
@@ -986,7 +986,7 @@
     "message": "Board archived",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 50]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 55]],
     "translation": "Board gearchiveerd"
   },
   "wE3hGS": {
@@ -1000,7 +1000,7 @@
     "message": "Board name",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 903]],
+    "origin": [["src/views/board/index.tsx", 912]],
     "translation": "Bordnaam"
   },
   "wewm3j": {
@@ -1028,7 +1028,7 @@
     "message": "Board options",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 175]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 184]],
     "translation": "Bordopties"
   },
   "XNxYxq": {
@@ -1044,7 +1044,7 @@
     "message": "Board unarchived",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 51]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 56]],
     "translation": "Board gedearchiveerd"
   },
   "Xid3K6": {
@@ -1097,7 +1097,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 99],
+      ["src/components/SideNavigation.tsx", 100],
       ["src/views/boards/index.tsx", 58],
       ["src/views/boards/index.tsx", 63],
       ["src/views/pricing/components/FeatureComparisonTable.tsx", 83]
@@ -1108,7 +1108,7 @@
     "message": "Boards you archive will appear here.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 66]],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 107]],
     "translation": "Boards die je archiveert verschijnen hier."
   },
   "ZDo4HN": {
@@ -1468,7 +1468,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 448],
+      ["src/views/board/index.tsx", 451],
       ["src/views/card/components/Dropdown.tsx", 74],
       ["src/views/public/board/CardModal.tsx", 38]
     ],
@@ -1620,7 +1620,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/Dashboard.tsx", 281],
+      ["src/components/Dashboard.tsx", 287],
       ["src/views/board/components/ProjectDetailsForm.tsx", 108],
       ["src/views/card/index.tsx", 378],
       ["src/views/members/components/EditMemberPermissionsModal.tsx", 172],
@@ -2003,7 +2003,7 @@
     },
     "comments": [],
     "origin": [
-      ["src/views/boards/components/BoardsList.tsx", 80],
+      ["src/views/boards/components/BoardsList.tsx", 120],
       ["src/views/boards/index.tsx", 46]
     ],
     "translation": "Maak nieuwe {0}"
@@ -2030,8 +2030,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 139],
-      ["src/views/board/index.tsx", 1038]
+      ["src/views/board/index.tsx", 141],
+      ["src/views/board/index.tsx", 1050]
     ],
     "translation": "Maak nieuwe lijst"
   },
@@ -2265,7 +2265,7 @@
     "message": "Delete board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 157]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 166]],
     "translation": "Bord verwijderen"
   },
   "nabda1": {
@@ -2303,7 +2303,7 @@
     "message": "Delete template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 157]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 166]],
     "translation": "Sjabloon verwijderen"
   },
   "snMaH4": {
@@ -2582,7 +2582,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/BoardDropdown.tsx", 117],
+      ["src/views/board/components/BoardDropdown.tsx", 126],
       ["src/views/board/components/UpdateBoardSlugForm.tsx", 116]
     ],
     "translation": "Bord-URL bewerken"
@@ -3257,14 +3257,14 @@
       "0": ["isTemplate ? \"template\" : \"board\""]
     },
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 66]],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 108]],
     "translation": "Ga aan de slag door een nieuwe {0} te maken"
   },
   "zC8Whw": {
     "message": "Get started by creating a new list",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 1020]],
+    "origin": [["src/views/board/index.tsx", 1032]],
     "translation": "Ga aan de slag door een nieuwe lijst te maken"
   },
   "oW13KZ": {
@@ -3341,7 +3341,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 107],
+      ["src/components/SideNavigation.tsx", 108],
       ["src/pages/404.tsx", 44]
     ],
     "translation": "Ga naar borden"
@@ -3357,21 +3357,21 @@
     "message": "Go to members",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 155]],
+    "origin": [["src/components/SideNavigation.tsx", 156]],
     "translation": "Ga naar leden"
   },
   "1WuwiM": {
     "message": "Go to settings",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 167]],
+    "origin": [["src/components/SideNavigation.tsx", 168]],
     "translation": "Ga naar instellingen"
   },
   "csFbe+": {
     "message": "Go to templates",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 119]],
+    "origin": [["src/components/SideNavigation.tsx", 120]],
     "translation": "Ga naar sjablonen"
   },
   "SUvm1Y": {
@@ -3878,14 +3878,14 @@
     "message": "License activated",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 115]],
+    "origin": [["src/components/Dashboard.tsx", 117]],
     "translation": "Licentie geactiveerd"
   },
   "K3LUJr": {
     "message": "License activation failed",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 129]],
+    "origin": [["src/components/Dashboard.tsx", 131]],
     "translation": "Licentieactivering mislukt"
   },
   "1njn7W": {
@@ -3909,7 +3909,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 446],
+      ["src/views/board/index.tsx", 449],
       ["src/views/card/components/Dropdown.tsx", 72],
       ["src/views/public/board/CardModal.tsx", 36],
       ["src/views/public/board/index.tsx", 77]
@@ -3977,7 +3977,7 @@
       ["src/views/card/components/ActivityList.tsx", 578],
       ["src/views/factory/index.tsx", 173],
       ["src/views/factory/index.tsx", 217],
-      ["src/views/portfolio/index.tsx", 210]
+      ["src/views/portfolio/index.tsx", 216]
     ],
     "translation": "Laden..."
   },
@@ -4027,7 +4027,7 @@
     "message": "Make template",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 99]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 104]],
     "translation": "Sjabloon maken"
   },
   "hB02vO": {
@@ -4117,7 +4117,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 147],
+      ["src/components/SideNavigation.tsx", 148],
       ["src/views/board/components/Filters.tsx", 151],
       ["src/views/board/components/NewCardForm.tsx", 485],
       ["src/views/card/components/MemberSelector.tsx", 116],
@@ -4204,7 +4204,7 @@
     "message": "Move to workspace",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 137]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 146]],
     "translation": "Verplaatsen naar werkruimte"
   },
   "BOqTi5": {
@@ -4325,7 +4325,7 @@
     "comments": [],
     "origin": [
       ["src/views/board/components/NewListForm.tsx", 128],
-      ["src/views/board/index.tsx", 965]
+      ["src/views/board/index.tsx", 977]
     ],
     "translation": "Nieuwe lijst"
   },
@@ -4402,14 +4402,14 @@
       "0": ["isTemplate ? \"templates\" : \"boards\""]
     },
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 63]],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 103]],
     "translation": "Geen {0}"
   },
   "tlhgDC": {
     "message": "No archived boards",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 63]],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 102]],
     "translation": "Geen gearchiveerde boards"
   },
   "Eg99Sc": {
@@ -4465,21 +4465,21 @@
     "message": "No license key was provided. Please try activating again.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 126]],
+    "origin": [["src/components/Dashboard.tsx", 128]],
     "translation": "Er is geen licentiecode opgegeven. Probeer het opnieuw te activeren."
   },
   "hXMFoN": {
     "message": "No lists",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 1016]],
+    "origin": [["src/views/board/index.tsx", 1028]],
     "translation": "Geen lijsten"
   },
   "fvLNDy": {
     "message": "No lists have been created yet",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/index.tsx", 1021]],
+    "origin": [["src/views/board/index.tsx", 1033]],
     "translation": "Er zijn nog geen lijsten aangemaakt"
   },
   "i30J2U": {
@@ -4649,7 +4649,7 @@
     "message": "Password already set",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 271]],
+    "origin": [["src/components/Dashboard.tsx", 277]],
     "translation": "Wachtwoord is al ingesteld"
   },
   "IrZaAn": {
@@ -4897,17 +4897,17 @@
       ["src/components/DeleteLabelConfirmation.tsx", 26],
       ["src/components/FeedbackModal.tsx", 40],
       ["src/components/NewWorkspaceForm.tsx", 110],
-      ["src/views/board/components/BoardDropdown.tsx", 73],
+      ["src/views/board/components/BoardDropdown.tsx", 78],
       ["src/views/board/components/NewCardForm.tsx", 198],
       ["src/views/board/components/NewListForm.tsx", 94],
       ["src/views/board/components/NewTemplateForm.tsx", 69],
       ["src/views/board/components/ProjectDetailsForm.tsx", 66],
       ["src/views/board/components/UpdateBoardSlugForm.tsx", 73],
       ["src/views/board/components/VisibilityButton.tsx", 57],
-      ["src/views/board/index.tsx", 218],
-      ["src/views/board/index.tsx", 300],
-      ["src/views/board/index.tsx", 356],
-      ["src/views/board/index.tsx", 393],
+      ["src/views/board/index.tsx", 221],
+      ["src/views/board/index.tsx", 303],
+      ["src/views/board/index.tsx", 359],
+      ["src/views/board/index.tsx", 396],
       ["src/views/boards/components/ImportBoardsForm.tsx", 243],
       ["src/views/boards/components/ImportBoardsForm.tsx", 399],
       ["src/views/card/components/AttachmentThumbnails.tsx", 74],
@@ -4964,7 +4964,7 @@
     "origin": [
       ["src/views/board/components/CardContextDuplicateModal.tsx", 74],
       ["src/views/board/components/CardContextMoveListModal.tsx", 42],
-      ["src/views/board/index.tsx", 455],
+      ["src/views/board/index.tsx", 458],
       ["src/views/card/components/Dropdown.tsx", 55],
       ["src/views/card/components/Dropdown.tsx", 81],
       ["src/views/card/components/Dropdown.tsx", 100],
@@ -5147,7 +5147,7 @@
     "message": "Remove from favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 146]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 155]],
     "translation": "Verwijderen uit favorieten"
   },
   "99VIgC": {
@@ -5201,7 +5201,7 @@
     "message": "Removed from favorites",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 62]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 67]],
     "translation": "Verwijderd uit favorieten"
   },
   "YVT40D": {
@@ -5363,7 +5363,7 @@
     "comments": [],
     "origin": [
       ["src/components/YouTubeEmbed/EditYouTubeModal.tsx", 175],
-      ["src/views/board/components/ProjectDetailsForm.tsx", 210],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 229],
       ["src/views/card/components/Comment.tsx", 202],
       ["src/views/settings/components/Avatar.tsx", 290]
     ],
@@ -5590,7 +5590,7 @@
     "comments": [],
     "origin": [
       ["src/components/SettingsLayout.tsx", 102],
-      ["src/components/SideNavigation.tsx", 159]
+      ["src/components/SideNavigation.tsx", 160]
     ],
     "translation": "Instellingen"
   },
@@ -5800,7 +5800,7 @@
     "message": "Something went wrong during license activation.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 132]],
+    "origin": [["src/components/Dashboard.tsx", 134]],
     "translation": "Er is iets misgegaan tijdens de licentieactivering."
   },
   "vnS6Rf": {
@@ -5834,9 +5834,9 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 253],
-      ["src/components/SideNavigation.tsx", 254],
-      ["src/components/SideNavigation.tsx", 264]
+      ["src/components/SideNavigation.tsx", 257],
+      ["src/components/SideNavigation.tsx", 258],
+      ["src/components/SideNavigation.tsx", 268]
     ],
     "translation": "Start gratis proefperiode"
   },
@@ -5859,8 +5859,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/ProjectDetailsForm.tsx", 117],
-      ["src/views/portfolio/index.tsx", 230],
+      ["src/views/board/components/ProjectDetailsForm.tsx", 124],
+      ["src/views/portfolio/index.tsx", 242],
       ["src/views/settings/components/WebhookList.tsx", 231]
     ],
     "translation": "Status"
@@ -5973,8 +5973,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 885],
-      ["src/views/board/index.tsx", 922]
+      ["src/views/board/index.tsx", 888],
+      ["src/views/board/index.tsx", 934]
     ],
     "translation": "Sjabloon"
   },
@@ -6011,7 +6011,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 111],
+      ["src/components/SideNavigation.tsx", 112],
       ["src/views/boards/index.tsx", 58],
       ["src/views/boards/index.tsx", 63],
       ["src/views/home/components/Features.tsx", 115]
@@ -6080,14 +6080,14 @@
     "message": "That license key could not be found. Please contact support.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 124]],
+    "origin": [["src/components/Dashboard.tsx", 126]],
     "translation": "Die licentiecode kon niet worden gevonden. Neem contact op met de ondersteuning."
   },
   "NcFrgC": {
     "message": "The board has been archived.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 53]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 58]],
     "translation": "Het board is gearchiveerd."
   },
   "ZWk38w": {
@@ -6103,7 +6103,7 @@
     "message": "The board has been unarchived.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 54]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 59]],
     "translation": "Het board is gedearchiveerd."
   },
   "nKBUeF": {
@@ -6460,7 +6460,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 453],
+      ["src/views/board/index.tsx", 456],
       ["src/views/card/components/Dropdown.tsx", 79],
       ["src/views/public/board/CardModal.tsx", 43],
       ["src/views/public/board/index.tsx", 84]
@@ -6636,8 +6636,8 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/BoardDropdown.tsx", 72],
-      ["src/views/board/index.tsx", 217]
+      ["src/views/board/components/BoardDropdown.tsx", 77],
+      ["src/views/board/index.tsx", 220]
     ],
     "translation": "Kan bord niet bijwerken"
   },
@@ -6660,7 +6660,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 355],
+      ["src/views/board/index.tsx", 358],
       ["src/views/card/index.tsx", 240]
     ],
     "translation": "Kan kaart niet bijwerken"
@@ -6691,7 +6691,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 392],
+      ["src/views/board/index.tsx", 395],
       ["src/views/card/components/DueDateSelector.tsx", 63]
     ],
     "translation": "Kan vervaldatum niet bijwerken"
@@ -6708,7 +6708,7 @@
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/index.tsx", 299],
+      ["src/views/board/index.tsx", 302],
       ["src/views/card/components/ListSelector.tsx", 54]
     ],
     "translation": "Kan lijst niet bijwerken"
@@ -6748,7 +6748,7 @@
     "message": "Unarchive board",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/BoardDropdown.tsx", 126]],
+    "origin": [["src/views/board/components/BoardDropdown.tsx", 135]],
     "translation": "Board dearchiveren"
   },
   "E8zYtd": {
@@ -7299,7 +7299,7 @@
     "origin": [
       ["src/components/SettingsLayout.tsx", 47],
       ["src/views/public/board/index.tsx", 125],
-      ["src/views/public/boards/index.tsx", 75]
+      ["src/views/public/boards/index.tsx", 76]
     ],
     "translation": "Workspace"
   },
@@ -7538,9 +7538,9 @@
     "origin": [
       ["src/views/board/components/List.tsx", 133],
       ["src/views/board/components/VisibilityButton.tsx", 72],
-      ["src/views/board/index.tsx", 953],
-      ["src/views/board/index.tsx", 1027],
-      ["src/views/boards/components/BoardsList.tsx", 71],
+      ["src/views/board/index.tsx", 965],
+      ["src/views/board/index.tsx", 1039],
+      ["src/views/boards/components/BoardsList.tsx", 112],
       ["src/views/boards/index.tsx", 69],
       ["src/views/boards/index.tsx", 90]
     ],
@@ -7619,7 +7619,7 @@
     "message": "Your account already has a password. You can change it from your account settings.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 273]],
+    "origin": [["src/components/Dashboard.tsx", 279]],
     "translation": "Uw account heeft al een wachtwoord. U kunt dit wijzigen via uw accountinstellingen."
   },
   "GoDLB9": {
@@ -7684,14 +7684,14 @@
     "message": "Your license has been activated successfully.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 116]],
+    "origin": [["src/components/Dashboard.tsx", 118]],
     "translation": "Uw licentie is succesvol geactiveerd."
   },
   "+A6Wuq": {
     "message": "Your license is not active. Please check your account.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/Dashboard.tsx", 125]],
+    "origin": [["src/components/Dashboard.tsx", 127]],
     "translation": "Uw licentie is niet actief. Controleer uw account."
   },
   "Ozt2vv": {
@@ -8244,7 +8244,7 @@
     "message": "Factory",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 135]],
+    "origin": [["src/components/SideNavigation.tsx", 136]],
     "translation": "Fabriek"
   },
   "XeWg8z": {
@@ -8270,7 +8270,7 @@
     "message": "Go to factory",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 143]],
+    "origin": [["src/components/SideNavigation.tsx", 144]],
     "translation": "Ga naar fabriek"
   },
   "yx/fMc": {
@@ -8457,264 +8457,289 @@
     "translation": "Wacht op informatie"
   },
   "x5x78r": {
-    "translation": "",
     "message": "{boardName} · shown on the Portfolio page",
     "placeholders": {
       "boardName": ["boardName"]
     },
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 102]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 102]],
+    "translation": ""
   },
   "MLGtCX": {
-    "translation": "",
     "message": "Add to Portfolio",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 210]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 229]],
+    "translation": ""
   },
   "N40H+G": {
-    "translation": "",
     "message": "All",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 163]]
+    "origin": [["src/views/portfolio/index.tsx", 168]],
+    "translation": ""
   },
   "kVHATU": {
-    "translation": "",
     "message": "Busy",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 25]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 25]],
+    "translation": ""
   },
   "FcvUpU": {
-    "translation": "",
     "message": "Cards done",
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/portfolio/index.tsx", 99],
-      ["src/views/portfolio/index.tsx", 232]
-    ]
+      ["src/views/boards/components/BoardsList.tsx", 225],
+      ["src/views/portfolio/index.tsx", 98],
+      ["src/views/portfolio/index.tsx", 250]
+    ],
+    "translation": ""
   },
   "1hwfyg": {
-    "translation": "",
     "message": "Cards done counts the cards in each board's last list.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 252]]
+    "origin": [["src/views/portfolio/index.tsx", 270]],
+    "translation": ""
   },
   "+6NyRG": {
-    "translation": "",
     "message": "Client",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 64]]
+    "origin": [
+      ["src/views/boards/components/BoardsList.tsx", 188],
+      ["src/views/portfolio/index.tsx", 63]
+    ],
+    "translation": ""
   },
   "7iRQ7y": {
-    "translation": "",
     "message": "Client name(s)",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 168]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 181]],
+    "translation": ""
   },
   "URmyfc": {
-    "translation": "",
     "message": "Details",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 143]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 153]],
+    "translation": ""
   },
   "zbQBnx": {
-    "translation": "",
     "message": "Edit project details for {0}",
     "placeholders": {
       "0": ["project.name"]
     },
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 124]]
+    "origin": [["src/views/portfolio/index.tsx", 124]],
+    "translation": ""
   },
   "F2XK4g": {
-    "translation": "",
     "message": "Filter projects",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 188]]
+    "origin": [["src/views/portfolio/index.tsx", 194]],
+    "translation": ""
   },
   "evlkre": {
-    "translation": "",
     "message": "Go to portfolio",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/components/SideNavigation.tsx", 131]]
+    "origin": [["src/components/SideNavigation.tsx", 132]],
+    "translation": ""
   },
   "wv1e0F": {
-    "translation": "",
     "message": "Internal",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 64]]
+    "origin": [
+      ["src/views/boards/components/BoardsList.tsx", 188],
+      ["src/views/portfolio/index.tsx", 63]
+    ],
+    "translation": ""
   },
   "BW7qlT": {
-    "translation": "",
     "message": "Internal project",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 160]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 170]],
+    "translation": ""
   },
   "KqojOL": {
-    "translation": "",
     "message": "Next steps",
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/ProjectDetailsForm.tsx", 180],
-      ["src/views/portfolio/index.tsx", 233]
-    ]
+      ["src/views/board/components/ProjectDetailsForm.tsx", 198],
+      ["src/views/boards/components/BoardsList.tsx", 211],
+      ["src/views/portfolio/index.tsx", 251]
+    ],
+    "translation": ""
   },
   "1UzENP": {
-    "translation": "",
     "message": "No",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 85]]
+    "origin": [["src/views/portfolio/index.tsx", 84]],
+    "translation": ""
   },
   "K4+arj": {
-    "translation": "",
     "message": "No projects match. Try another tab or search.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 221]]
+    "origin": [["src/views/portfolio/index.tsx", 227]],
+    "translation": ""
   },
   "K8ZdtH": {
-    "translation": "",
     "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 216]]
+    "origin": [["src/views/portfolio/index.tsx", 222]],
+    "translation": ""
   },
   "5xvHen": {
-    "translation": "",
     "message": "Not yet",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 24]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 24]],
+    "translation": ""
   },
   "MqA4qt": {
-    "translation": "",
     "message": "Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/components/SideNavigation.tsx", 123],
-      ["src/views/portfolio/index.tsx", 267]
-    ]
+      ["src/components/SideNavigation.tsx", 124],
+      ["src/views/portfolio/index.tsx", 285]
+    ],
+    "translation": ""
   },
   "ALFid7": {
-    "translation": "",
     "message": "Portfolio | {0}",
     "placeholders": {
       "0": ["workspace.name"]
     },
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 265]]
+    "origin": [["src/views/portfolio/index.tsx", 283]],
+    "translation": ""
   },
   "e0NrBM": {
-    "translation": "",
     "message": "Project",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 229]]
+    "origin": [["src/views/portfolio/index.tsx", 238]],
+    "translation": ""
   },
   "tjbyOy": {
-    "translation": "",
     "message": "Project details",
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/BoardDropdown.tsx", 110],
+      ["src/views/board/components/BoardDropdown.tsx", 115],
       ["src/views/board/components/ProjectDetailsForm.tsx", 98]
-    ]
+    ],
+    "translation": ""
   },
   "eWhG0/": {
-    "translation": "",
     "message": "Remove from Portfolio",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 201]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 220]],
+    "translation": ""
   },
   "blFttG": {
-    "translation": "",
     "message": "Search projects",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 181]]
+    "origin": [["src/views/portfolio/index.tsx", 187]],
+    "translation": ""
   },
   "GH4RRY": {
-    "translation": "",
     "message": "Search projects, clients, next steps…",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 182]]
+    "origin": [["src/views/portfolio/index.tsx", 188]],
+    "translation": ""
   },
   "6oD6kQ": {
-    "translation": "",
     "message": "Shown on the Portfolio page",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 103]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 103]],
+    "translation": ""
   },
   "1DSSKf": {
-    "translation": "",
     "message": "Shown to client",
     "placeholders": {},
     "comments": [],
     "origin": [
-      ["src/views/board/components/ProjectDetailsForm.tsx", 154],
-      ["src/views/portfolio/index.tsx", 231]
-    ]
+      ["src/views/board/components/ProjectDetailsForm.tsx", 164],
+      ["src/views/portfolio/index.tsx", 246]
+    ],
+    "translation": ""
   },
   "lo0WWp": {
-    "translation": "",
     "message": "Shown to clients",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 167]]
+    "origin": [["src/views/portfolio/index.tsx", 172]],
+    "translation": ""
   },
   "5UOxSd": {
-    "translation": "",
     "message": "Turn on \"Shown to client\" to add",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 173]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 187]],
+    "translation": ""
   },
   "T0T+qy": {
-    "translation": "",
     "message": "Unable to load the portfolio. Check your connection and workspace access.",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 212]]
+    "origin": [["src/views/portfolio/index.tsx", 218]],
+    "translation": ""
   },
   "1V2+xR": {
-    "translation": "",
     "message": "Unable to save project details",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 65]]
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 65]],
+    "translation": ""
   },
   "4Y9aig": {
-    "translation": "",
     "message": "Updated {0}",
     "placeholders": {
       "0": ["i18n.date(project.updatedAt, { dateStyle: \"medium\" })"]
     },
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 117]]
+    "origin": [["src/views/portfolio/index.tsx", 116]],
+    "translation": ""
   },
   "l75CjT": {
-    "translation": "",
     "message": "Yes",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/portfolio/index.tsx", 85]]
+    "origin": [["src/views/portfolio/index.tsx", 84]],
+    "translation": ""
+  },
+  "XMFcuV": {
+    "translation": "",
+    "message": "Shown",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      ["src/views/boards/components/BoardsList.tsx", 194],
+      ["src/views/boards/components/BoardsList.tsx", 195]
+    ]
+  },
+  "IQ4Gm+": {
+    "translation": "",
+    "message": "Unable to load project details. Close and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/board/components/ProjectDetailsForm.tsx", 118]]
   }
 }

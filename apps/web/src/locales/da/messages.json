@@ -92,7 +92,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        64
+        69
       ]
     ],
     "translation": "{0} er føjet til dine favoritter."
@@ -108,7 +108,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        65
+        70
       ]
     ],
     "translation": "{0} er fjernet fra dine favoritter."
@@ -140,7 +140,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        913
+        925
       ]
     ],
     "translation": "{0} blev ikke fundet"
@@ -381,7 +381,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        236
+        254
       ]
     ],
     "translation": "Handlinger"
@@ -629,7 +629,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        146
+        155
       ]
     ],
     "translation": "Føj til favoritter"
@@ -796,7 +796,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        61
+        66
       ]
     ],
     "translation": "Føjet til favoritter"
@@ -1184,7 +1184,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        126
+        135
       ]
     ],
     "translation": "Arkivér tavle"
@@ -1200,7 +1200,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        67
+        66
       ]
     ],
     "translation": "Arkiveret"
@@ -1611,7 +1611,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        885
+        888
       ],
       [
         "src/views/card/index.tsx",
@@ -1644,7 +1644,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        50
+        55
       ]
     ],
     "translation": "Tavle arkiveret"
@@ -1668,7 +1668,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        903
+        912
       ]
     ],
     "translation": ""
@@ -1716,7 +1716,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        175
+        184
       ]
     ],
     "translation": ""
@@ -1740,7 +1740,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        51
+        56
       ]
     ],
     "translation": "Tavle fjernet fra arkivet"
@@ -1828,7 +1828,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        99
+        100
       ],
       [
         "src/views/boards/index.tsx",
@@ -1852,7 +1852,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        66
+        107
       ]
     ],
     "translation": "Tavler, du arkiverer, vises her."
@@ -2468,7 +2468,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        448
+        451
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -2716,7 +2716,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        281
+        287
       ],
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
@@ -3343,7 +3343,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        80
+        120
       ],
       [
         "src/views/boards/index.tsx",
@@ -3387,11 +3387,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        139
+        141
       ],
       [
         "src/views/board/index.tsx",
-        1038
+        1050
       ]
     ],
     "translation": "Opret ny liste"
@@ -3778,7 +3778,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        157
+        166
       ]
     ],
     "translation": "Slet tavle"
@@ -3842,7 +3842,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        157
+        166
       ]
     ],
     "translation": "Slet skabelon"
@@ -4322,7 +4322,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        117
+        126
       ],
       [
         "src/views/board/components/UpdateBoardSlugForm.tsx",
@@ -5423,7 +5423,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        66
+        108
       ]
     ],
     "translation": "Kom i gang ved at oprette en ny {0}"
@@ -5435,7 +5435,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        1020
+        1032
       ]
     ],
     "translation": "Kom i gang ved at oprette en ny liste"
@@ -5563,7 +5563,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        107
+        108
       ],
       [
         "src/pages/404.tsx",
@@ -5591,7 +5591,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        155
+        156
       ]
     ],
     "translation": "Gå til medlemmer"
@@ -5603,7 +5603,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        167
+        168
       ]
     ],
     "translation": "Gå til indstillinger"
@@ -5615,7 +5615,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        119
+        120
       ]
     ],
     "translation": "Gå til skabeloner"
@@ -6437,7 +6437,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        115
+        117
       ]
     ],
     "translation": "Licens aktiveret"
@@ -6449,7 +6449,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        129
+        131
       ]
     ],
     "translation": "Aktivering af licens mislykkedes"
@@ -6485,7 +6485,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        446
+        449
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -6605,7 +6605,7 @@
       ],
       [
         "src/views/portfolio/index.tsx",
-        210
+        216
       ]
     ],
     "translation": "Indlæser..."
@@ -6689,7 +6689,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        99
+        104
       ]
     ],
     "translation": "Gør til skabelon"
@@ -6841,7 +6841,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        147
+        148
       ],
       [
         "src/views/board/components/Filters.tsx",
@@ -6997,7 +6997,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        137
+        146
       ]
     ],
     "translation": "Flyt til arbejdsområde"
@@ -7212,7 +7212,7 @@
       ],
       [
         "src/views/board/index.tsx",
-        965
+        977
       ]
     ],
     "translation": "Ny liste"
@@ -7336,7 +7336,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        63
+        103
       ]
     ],
     "translation": "Ingen {0}"
@@ -7348,7 +7348,7 @@
     "origin": [
       [
         "src/views/boards/components/BoardsList.tsx",
-        63
+        102
       ]
     ],
     "translation": "Ingen arkiverede tavler"
@@ -7444,7 +7444,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        126
+        128
       ]
     ],
     "translation": "Der blev ikke angivet nogen licensnøgle. Prøv at aktivere igen."
@@ -7456,7 +7456,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        1016
+        1028
       ]
     ],
     "translation": "Ingen lister"
@@ -7468,7 +7468,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        1021
+        1033
       ]
     ],
     "translation": "Der er endnu ikke oprettet nogen lister"
@@ -7752,7 +7752,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        271
+        277
       ]
     ],
     "translation": "Adgangskode allerede indstillet"
@@ -8156,7 +8156,7 @@
       ],
       [
         "src/views/board/components/BoardDropdown.tsx",
-        73
+        78
       ],
       [
         "src/views/board/components/NewCardForm.tsx",
@@ -8184,19 +8184,19 @@
       ],
       [
         "src/views/board/index.tsx",
-        218
+        221
       ],
       [
         "src/views/board/index.tsx",
-        300
+        303
       ],
       [
         "src/views/board/index.tsx",
-        356
+        359
       ],
       [
         "src/views/board/index.tsx",
-        393
+        396
       ],
       [
         "src/views/boards/components/ImportBoardsForm.tsx",
@@ -8376,7 +8376,7 @@
       ],
       [
         "src/views/board/index.tsx",
-        455
+        458
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -8701,7 +8701,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        146
+        155
       ]
     ],
     "translation": "Fjern fra favoritter"
@@ -8796,7 +8796,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        62
+        67
       ]
     ],
     "translation": "Fjernet fra favoritter"
@@ -9065,7 +9065,7 @@
       ],
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        210
+        229
       ],
       [
         "src/views/card/components/Comment.tsx",
@@ -9453,7 +9453,7 @@
       ],
       [
         "src/components/SideNavigation.tsx",
-        159
+        160
       ]
     ],
     "translation": "Indstillinger"
@@ -9805,7 +9805,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        132
+        134
       ]
     ],
     "translation": "Noget gik galt under aktiveringen af licensen."
@@ -9854,15 +9854,15 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        253
+        257
       ],
       [
         "src/components/SideNavigation.tsx",
-        254
+        258
       ],
       [
         "src/components/SideNavigation.tsx",
-        264
+        268
       ]
     ],
     "translation": "Start gratis prøveperiode"
@@ -9898,11 +9898,11 @@
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        117
+        124
       ],
       [
         "src/views/portfolio/index.tsx",
-        230
+        242
       ],
       [
         "src/views/settings/components/WebhookList.tsx",
@@ -10087,11 +10087,11 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        885
+        888
       ],
       [
         "src/views/board/index.tsx",
-        922
+        934
       ]
     ],
     "translation": "Skabelon"
@@ -10151,7 +10151,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        111
+        112
       ],
       [
         "src/views/boards/index.tsx",
@@ -10271,7 +10271,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        124
+        126
       ]
     ],
     "translation": "Licensnøglen blev ikke fundet. Kontakt support."
@@ -10283,7 +10283,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        53
+        58
       ]
     ],
     "translation": "Tavlen er blevet arkiveret."
@@ -10311,7 +10311,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        54
+        59
       ]
     ],
     "translation": "Tavlen er fjernet fra arkivet."
@@ -10890,7 +10890,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        453
+        456
       ],
       [
         "src/views/card/components/Dropdown.tsx",
@@ -11178,11 +11178,11 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        72
+        77
       ],
       [
         "src/views/board/index.tsx",
-        217
+        220
       ]
     ],
     "translation": "Kunne ikke opdatere tavle"
@@ -11218,7 +11218,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        355
+        358
       ],
       [
         "src/views/card/index.tsx",
@@ -11270,7 +11270,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        392
+        395
       ],
       [
         "src/views/card/components/DueDateSelector.tsx",
@@ -11298,7 +11298,7 @@
     "origin": [
       [
         "src/views/board/index.tsx",
-        299
+        302
       ],
       [
         "src/views/card/components/ListSelector.tsx",
@@ -11366,7 +11366,7 @@
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        126
+        135
       ]
     ],
     "translation": "Fjern tavle fra arkiv"
@@ -12274,7 +12274,7 @@
       ],
       [
         "src/views/public/boards/index.tsx",
-        75
+        76
       ]
     ],
     "translation": "Arbejdsområde"
@@ -12643,15 +12643,15 @@
       ],
       [
         "src/views/board/index.tsx",
-        953
+        965
       ],
       [
         "src/views/board/index.tsx",
-        1027
+        1039
       ],
       [
         "src/views/boards/components/BoardsList.tsx",
-        71
+        112
       ],
       [
         "src/views/boards/index.tsx",
@@ -12759,7 +12759,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        273
+        279
       ]
     ],
     "translation": "Din konto har allerede en adgangskode. Du kan ændre den under dine kontoindstillinger."
@@ -12867,7 +12867,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        116
+        118
       ]
     ],
     "translation": "Din licens er blevet aktiveret."
@@ -12879,7 +12879,7 @@
     "origin": [
       [
         "src/components/Dashboard.tsx",
-        125
+        127
       ]
     ],
     "translation": "Din licens er ikke aktiv. Kontrollér din konto."
@@ -13788,7 +13788,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        135
+        136
       ]
     ],
     "translation": "Fabrik"
@@ -13832,7 +13832,7 @@
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        143
+        144
       ]
     ],
     "translation": "Gå til fabrik"
@@ -14154,7 +14154,6 @@
     "translation": "Afventer oplysninger"
   },
   "x5x78r": {
-    "translation": "",
     "message": "{boardName} · shown on the Portfolio page",
     "placeholders": {
       "boardName": [
@@ -14167,34 +14166,34 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         102
       ]
-    ]
+    ],
+    "translation": ""
   },
   "MLGtCX": {
-    "translation": "",
     "message": "Add to Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        210
+        229
       ]
-    ]
+    ],
+    "translation": ""
   },
   "N40H+G": {
-    "translation": "",
     "message": "All",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        163
+        168
       ]
-    ]
+    ],
+    "translation": ""
   },
   "kVHATU": {
-    "translation": "",
     "message": "Busy",
     "placeholders": {},
     "comments": [],
@@ -14203,74 +14202,82 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         25
       ]
-    ]
+    ],
+    "translation": ""
   },
   "FcvUpU": {
-    "translation": "",
     "message": "Cards done",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
-        "src/views/portfolio/index.tsx",
-        99
+        "src/views/boards/components/BoardsList.tsx",
+        225
       ],
       [
         "src/views/portfolio/index.tsx",
-        232
+        98
+      ],
+      [
+        "src/views/portfolio/index.tsx",
+        250
       ]
-    ]
+    ],
+    "translation": ""
   },
   "1hwfyg": {
-    "translation": "",
     "message": "Cards done counts the cards in each board's last list.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        252
+        270
       ]
-    ]
+    ],
+    "translation": ""
   },
   "+6NyRG": {
-    "translation": "",
     "message": "Client",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
+        "src/views/boards/components/BoardsList.tsx",
+        188
+      ],
+      [
         "src/views/portfolio/index.tsx",
-        64
+        63
       ]
-    ]
+    ],
+    "translation": ""
   },
   "7iRQ7y": {
-    "translation": "",
     "message": "Client name(s)",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        168
+        181
       ]
-    ]
+    ],
+    "translation": ""
   },
   "URmyfc": {
-    "translation": "",
     "message": "Details",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        143
+        153
       ]
-    ]
+    ],
+    "translation": ""
   },
   "zbQBnx": {
-    "translation": "",
     "message": "Edit project details for {0}",
     "placeholders": {
       "0": [
@@ -14283,110 +14290,118 @@
         "src/views/portfolio/index.tsx",
         124
       ]
-    ]
+    ],
+    "translation": ""
   },
   "F2XK4g": {
-    "translation": "",
     "message": "Filter projects",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        188
+        194
       ]
-    ]
+    ],
+    "translation": ""
   },
   "evlkre": {
-    "translation": "",
     "message": "Go to portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        131
+        132
       ]
-    ]
+    ],
+    "translation": ""
   },
   "wv1e0F": {
-    "translation": "",
     "message": "Internal",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
+        "src/views/boards/components/BoardsList.tsx",
+        188
+      ],
+      [
         "src/views/portfolio/index.tsx",
-        64
+        63
       ]
-    ]
+    ],
+    "translation": ""
   },
   "BW7qlT": {
-    "translation": "",
     "message": "Internal project",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        160
+        170
       ]
-    ]
+    ],
+    "translation": ""
   },
   "KqojOL": {
-    "translation": "",
     "message": "Next steps",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        180
+        198
+      ],
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        211
       ],
       [
         "src/views/portfolio/index.tsx",
-        233
+        251
       ]
-    ]
+    ],
+    "translation": ""
   },
   "1UzENP": {
-    "translation": "",
     "message": "No",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        85
+        84
       ]
-    ]
+    ],
+    "translation": ""
   },
   "K4+arj": {
-    "translation": "",
     "message": "No projects match. Try another tab or search.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        221
+        227
       ]
-    ]
+    ],
+    "translation": ""
   },
   "K8ZdtH": {
-    "translation": "",
     "message": "No projects yet. Open a board and choose \"Project details\" from its menu to add it here.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        216
+        222
       ]
-    ]
+    ],
+    "translation": ""
   },
   "5xvHen": {
-    "translation": "",
     "message": "Not yet",
     "placeholders": {},
     "comments": [],
@@ -14395,26 +14410,26 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         24
       ]
-    ]
+    ],
+    "translation": ""
   },
   "MqA4qt": {
-    "translation": "",
     "message": "Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/components/SideNavigation.tsx",
-        123
+        124
       ],
       [
         "src/views/portfolio/index.tsx",
-        267
+        285
       ]
-    ]
+    ],
+    "translation": ""
   },
   "ALFid7": {
-    "translation": "",
     "message": "Portfolio | {0}",
     "placeholders": {
       "0": [
@@ -14425,76 +14440,76 @@
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        265
+        283
       ]
-    ]
+    ],
+    "translation": ""
   },
   "e0NrBM": {
-    "translation": "",
     "message": "Project",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        229
+        238
       ]
-    ]
+    ],
+    "translation": ""
   },
   "tjbyOy": {
-    "translation": "",
     "message": "Project details",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/BoardDropdown.tsx",
-        110
+        115
       ],
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
         98
       ]
-    ]
+    ],
+    "translation": ""
   },
   "eWhG0/": {
-    "translation": "",
     "message": "Remove from Portfolio",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        201
+        220
       ]
-    ]
+    ],
+    "translation": ""
   },
   "blFttG": {
-    "translation": "",
     "message": "Search projects",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        181
+        187
       ]
-    ]
+    ],
+    "translation": ""
   },
   "GH4RRY": {
-    "translation": "",
     "message": "Search projects, clients, next steps…",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        182
+        188
       ]
-    ]
+    ],
+    "translation": ""
   },
   "6oD6kQ": {
-    "translation": "",
     "message": "Shown on the Portfolio page",
     "placeholders": {},
     "comments": [],
@@ -14503,62 +14518,62 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         103
       ]
-    ]
+    ],
+    "translation": ""
   },
   "1DSSKf": {
-    "translation": "",
     "message": "Shown to client",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        154
+        164
       ],
       [
         "src/views/portfolio/index.tsx",
-        231
+        246
       ]
-    ]
+    ],
+    "translation": ""
   },
   "lo0WWp": {
-    "translation": "",
     "message": "Shown to clients",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        167
+        172
       ]
-    ]
+    ],
+    "translation": ""
   },
   "5UOxSd": {
-    "translation": "",
     "message": "Turn on \"Shown to client\" to add",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/board/components/ProjectDetailsForm.tsx",
-        173
+        187
       ]
-    ]
+    ],
+    "translation": ""
   },
   "T0T+qy": {
-    "translation": "",
     "message": "Unable to load the portfolio. Check your connection and workspace access.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        212
+        218
       ]
-    ]
+    ],
+    "translation": ""
   },
   "1V2+xR": {
-    "translation": "",
     "message": "Unable to save project details",
     "placeholders": {},
     "comments": [],
@@ -14567,10 +14582,10 @@
         "src/views/board/components/ProjectDetailsForm.tsx",
         65
       ]
-    ]
+    ],
+    "translation": ""
   },
   "4Y9aig": {
-    "translation": "",
     "message": "Updated {0}",
     "placeholders": {
       "0": [
@@ -14581,19 +14596,48 @@
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        117
+        116
       ]
-    ]
+    ],
+    "translation": ""
   },
   "l75CjT": {
-    "translation": "",
     "message": "Yes",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/portfolio/index.tsx",
-        85
+        84
+      ]
+    ],
+    "translation": ""
+  },
+  "XMFcuV": {
+    "translation": "",
+    "message": "Shown",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        194
+      ],
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        195
+      ]
+    ]
+  },
+  "IQ4Gm+": {
+    "translation": "",
+    "message": "Unable to load project details. Close and try again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/board/components/ProjectDetailsForm.tsx",
+        118
       ]
     ]
   }
