@@ -194,7 +194,7 @@ describe("portfolio", () => {
       });
     }));
 
-  it("reports last-list progress for every live board, with or without project details", async () =>
+  it("reports last-list progress for boards without a selected repository", async () =>
     fixture(async (tx, seed) => {
       const sync = await addBoard(tx, seed, { name: "GitHub: acme/app" });
       await addList(tx, sync.id, 0, 2); // Open
@@ -210,8 +210,18 @@ describe("portfolio", () => {
       expect(progress).toHaveLength(2);
       expect(progress).toEqual(
         expect.arrayContaining([
-          { boardPublicId: sync.publicId, totalCards: 6, doneCards: 3 },
-          { boardPublicId: empty.publicId, totalCards: 0, doneCards: 0 },
+          {
+            boardPublicId: sync.publicId,
+            repository: null,
+            total: 6,
+            done: 3,
+          },
+          {
+            boardPublicId: empty.publicId,
+            repository: null,
+            total: 0,
+            done: 0,
+          },
         ]),
       );
       await expect(
