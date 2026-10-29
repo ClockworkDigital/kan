@@ -192,15 +192,26 @@ export default function IntegrationsSettings() {
         <h2 className="mb-4 mt-8 text-[14px] font-bold text-neutral-900 dark:text-dark-1000">
           {t`GitHub`}
         </h2>
-        {githubStatus?.appConfigured && (
-          <form
-            action="/api/integrations/github/start"
-            method="post"
-            className="mb-4"
-          >
-            <Button type="submit" variant="primary">{t`Connect GitHub`}</Button>
-            <p className="mt-2 text-sm text-neutral-500">{t`Reconnect when your GitHub authorization expires.`}</p>
-          </form>
+        {githubStatus?.appConfigured &&
+          (!githubStatus.connected || githubStatus.appConnection) && (
+            <form
+              action="/api/integrations/github/start"
+              method="post"
+              className="mb-4"
+            >
+              <Button type="submit" variant="primary">
+                {githubStatus.appConnection
+                  ? t`Reconnect GitHub`
+                  : t`Connect GitHub`}
+              </Button>
+              <p className="mt-2 text-sm text-neutral-500">{t`GitHub App authorization lasts up to eight hours. Reconnect after expiry, or use a personal access token for unattended sync.`}</p>
+            </form>
+          )}
+        {githubStatus?.expired && (
+          <p
+            role="status"
+            className="mb-4 text-sm"
+          >{t`GitHub authorization expired — reconnect.`}</p>
         )}
         {githubStatus?.login && (
           <p className="mb-4 text-sm">@{githubStatus.login}</p>

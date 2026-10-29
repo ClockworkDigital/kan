@@ -74,7 +74,98 @@ it("requires normal authentication on callback", async () => {
     } as unknown as NextApiRequest,
     res as unknown as NextApiResponse,
   );
-  expect(res.status).toHaveBeenCalledWith(401);
+  expect(res.redirect).toHaveBeenCalledWith(
+    303,
+    "https://kan.example/settings/integrations?github=error",
+  );
   expect(completeGitHubOAuth).not.toHaveBeenCalled();
   expect(res.setHeader).toHaveBeenCalledWith("Cache-Control", "no-store");
+});
+
+function authenticatedContext() {
+  vi.mocked(createNextApiContext).mockResolvedValue({
+    db: {},
+    user: { id: "user-1" },
+    auth: {
+      api: {
+        getSession: () =>
+          Promise.resolve({
+            session: { id: "session-1", createdAt: "2026-01-01" },
+          }),
+      },
+    },
+  } as unknown as Awaited<ReturnType<typeof createNextApiContext>>);
+}
+it("starts authorization with a secure browser cookie and 303 redirect", async () => {
+  authenticatedContext();
+  const res = response();
+  await handler(
+    {
+      method: "POST",
+      query: { action: "start" },
+      headers: { origin: "https://kan.example" },
+      cookies: {},
+    } as unknown as NextApiRequest,
+    res as unknown as NextApiResponse,
+  );
+  expect(beginGitHubOAuth).toHaveBeenCalledWith(
+    {},
+    "user-1",
+    expect.any(String),
+  );
+  expect(res.setHeader).toHaveBeenCalledWith(
+    "Set-Cookie",
+    expect.stringMatching(
+      /^__Host-kan-github-oauth=[^;]+; Path=\/; HttpOnly; SameSite=Lax; Max-Age=600; Secure$/,
+    ),
+  );
+  expect(res.redirect).toHaveBeenCalledWith(
+    303,
+    "https://github.com/login/oauth/authorize",
+  );
+});
+it("rejects a callback missing its binding cookie before exchanging the code", async () => {
+  authenticatedContext();
+  const res = response();
+  await handler(
+    {
+      method: "GET",
+      query: { action: "callback", state: "state", code: "code" },
+      headers: {},
+      cookies: {},
+    } as unknown as NextApiRequest,
+    res as unknown as NextApiResponse,
+  );
+  expect(completeGitHubOAuth).not.toHaveBeenCalled();
+  expect(res.redirect).toHaveBeenCalledWith(
+    303,
+    "/settings/integrations?github=error",
+  );
+});
+it("passes a denied callback through state consumption without exchanging a code", async () => {
+  authenticatedContext();
+  vi.mocked(completeGitHubOAuth).mockRejectedValueOnce(
+    new Error("Authorization denied"),
+  );
+  const res = response();
+  await handler(
+    {
+      method: "GET",
+      query: { action: "callback", state: "state", error: "access_denied" },
+      headers: {},
+      cookies: { "__Host-kan-github-oauth": "binding" },
+    } as unknown as NextApiRequest,
+    res as unknown as NextApiResponse,
+  );
+  expect(completeGitHubOAuth).toHaveBeenCalledWith(
+    {},
+    "user-1",
+    expect.any(String),
+    "state",
+    undefined,
+  );
+  expect(res.redirect).toHaveBeenCalledWith(
+    303,
+    "/settings/integrations?github=error",
+  );
 });

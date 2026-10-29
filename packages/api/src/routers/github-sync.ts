@@ -76,7 +76,9 @@ async function githubRequest(
     try {
       const repos = await githubAppRepositories(token);
       return repos.slice((input.page - 1) * 100, input.page * 100);
-    } catch {
+    } catch (error) {
+      if (error instanceof TRPCError && error.code === "PRECONDITION_FAILED")
+        throw error;
       throw new TRPCError({
         code: "BAD_GATEWAY",
         message:

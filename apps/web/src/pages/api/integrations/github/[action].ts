@@ -34,7 +34,14 @@ export default async function handler(
       return res.status(403).end();
     const ctx = await createNextApiContext(req);
     const session = await ctx.auth.api.getSession();
-    if (!ctx.user || !session) return res.status(401).end();
+    if (!ctx.user || !session) {
+      if (callback)
+        return res.redirect(
+          303,
+          `${origin}/settings/integrations?github=error`,
+        );
+      return res.status(401).end();
+    }
     const cookieName = origin.startsWith("https:")
       ? "__Host-kan-github-oauth"
       : "kan-github-oauth";

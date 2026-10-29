@@ -48,3 +48,28 @@ it("fails closed on inaccessible installation", async () => {
   );
   await expect(githubAppRepositories("viewer-token")).rejects.toThrow();
 });
+
+it("returns an empty list for an installation with no accessible repositories", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({
+          installations: [{ id: 1, account: { login: "ClockworkDigital" } }],
+        }),
+      )
+      .mockResolvedValueOnce(Response.json({ repositories: [] })),
+  );
+  expect(await githubAppRepositories("viewer-token")).toEqual([]);
+});
+it("asks for reconnection when authorization has been revoked", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn().mockResolvedValue(new Response(null, { status: 401 })),
+  );
+  await expect(githubAppRepositories("revoked")).rejects.toMatchObject({
+    code: "PRECONDITION_FAILED",
+    message: "Reconnect GitHub in Kan settings.",
+  });
+});

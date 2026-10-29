@@ -3259,11 +3259,11 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        201
+        205
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        238
+        249
       ]
     ],
     "translation": "Подключить GitHub"
@@ -3275,7 +3275,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        217
+        228
       ]
     ],
     "translation": ""
@@ -4333,7 +4333,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        249
+        260
       ]
     ],
     "translation": "Отключить GitHub"
@@ -6081,6 +6081,30 @@
     ],
     "translation": "GitHub"
   },
+  "yYjUnF": {
+    "message": "GitHub App authorization lasts up to eight hours. Reconnect after expiry, or use a personal access token for unattended sync.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        207
+      ]
+    ],
+    "translation": "Авторизация GitHub App действует до восьми часов. После истечения срока подключитесь снова или используйте персональный токен доступа для фоновой синхронизации."
+  },
+  "vWv9cE": {
+    "message": "GitHub authorization expired — reconnect.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        214
+      ]
+    ],
+    "translation": "Авторизация GitHub истекла — подключитесь снова."
+  },
   "ZT3ogS": {
     "message": "GitHub authorization failed or expired. Try connecting again from this account.",
     "placeholders": {},
@@ -6088,7 +6112,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        212
+        223
       ]
     ],
     "translation": "Авторизация GitHub не удалась или истекла. Попробуйте подключиться снова из этой учётной записи."
@@ -9869,17 +9893,30 @@
     ],
     "translation": "Быстрая победа"
   },
+  "tbcNRv": {
+    "message": "Reconnect GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        204
+      ]
+    ],
+    "translation": "Подключить GitHub снова"
+  },
   "0tk280": {
+    "translation": "Подключитесь заново, когда срок авторизации GitHub истечёт.",
     "message": "Reconnect when your GitHub authorization expires.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        202
+        192
       ]
     ],
-    "translation": "Подключитесь заново, когда срок авторизации GitHub истечёт."
+    "obsolete": true
   },
   "6EWT6T": {
     "message": "Recruitment",
@@ -14703,7 +14740,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        246
+        257
       ]
     ],
     "translation": "Ваш аккаунт GitHub подключён."

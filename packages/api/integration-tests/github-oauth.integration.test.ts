@@ -11,7 +11,8 @@ import {
 
 import * as repo from "@kan/db/repository/integration.repo";
 
-import { decryptToken } from "../src/utils/encryption";
+import { integrationRouter } from "../src/routers/integration";
+import { decryptToken, encryptToken } from "../src/utils/encryption";
 import {
   beginGitHubOAuth,
   completeGitHubOAuth,
@@ -169,13 +170,64 @@ describe("GitHub account authorization", () => {
       ).toBe(action === "replace" ? "pat" : undefined);
     },
   );
-  it("rejects exchange errors and non-expiring tokens", async () => {
-    fetchMock
-      .mockReset()
-      .mockResolvedValue(Response.json({ error: "access_denied" }));
+  it.each([
+    { error: "access_denied" },
+    { access_token: "ghu_test", token_type: "bearer" },
+  ])("rejects exchange errors and non-expiring tokens: %j", async (payload) => {
+    fetchMock.mockReset().mockResolvedValue(Response.json(payload));
     await expect(
       completeGitHubOAuth(db, userId, "session-and-browser", state, "code"),
     ).rejects.toThrow();
     expect(await repo.getProviderForUser(db, userId, "github")).toBeUndefined();
+  });
+  it("distinguishes absent, PAT, active App and expired App connections without making expired tokens usable", async () => {
+    const caller = integrationRouter.createCaller({
+      db,
+      user: { id: userId },
+      headers: new Headers(),
+    } as never);
+    expect(await caller.getGitHubStatus()).toMatchObject({
+      connected: false,
+      expired: false,
+      appConnection: false,
+      login: null,
+    });
+    await repo.createOrUpdateProvider(db, {
+      userId,
+      provider: "github",
+      accessToken: encryptToken("pat"),
+      expiresAt: new Date(Date.now() + 60000),
+    });
+    expect(await caller.getGitHubStatus()).toMatchObject({
+      connected: true,
+      expired: false,
+      appConnection: false,
+      login: null,
+    });
+    for (const expired of [false, true]) {
+      await repo.createOrUpdateProvider(db, {
+        userId,
+        provider: "github",
+        accessToken: encryptToken("app"),
+        refreshToken: encryptToken(
+          JSON.stringify({ id: 123, login: "octocat" }),
+        ),
+        expiresAt: new Date(Date.now() + (expired ? -60000 : 60000)),
+      });
+      expect(await caller.getGitHubStatus()).toMatchObject({
+        connected: !expired,
+        expired,
+        appConnection: true,
+        login: "octocat",
+      });
+    }
+    expect(await repo.getProviderForUser(db, userId, "github")).toBeUndefined();
+    await caller.disconnectGitHub();
+    expect(await caller.getGitHubStatus()).toMatchObject({
+      connected: false,
+      expired: false,
+      appConnection: false,
+      login: null,
+    });
   });
 });

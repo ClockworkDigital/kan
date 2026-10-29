@@ -5,6 +5,8 @@ GitHub Apps. Choose **Only on this account** for a private organization app.
 A public app is needed only if other accounts must install it. Set the homepage
 to the canonical Kan HTTPS origin and the user authorization callback to exactly
 `https://<kan-host>/api/integrations/github/callback`. Keep token expiration on.
+Leave **Request user authorization (OAuth) during installation** unchecked;
+users must start authorization from Kan so that the callback has bound state.
 Disable webhooks if unused. No private key, installation token or alternate login
 provider is needed. Install into ClockworkDigital and choose only intended repos.
 

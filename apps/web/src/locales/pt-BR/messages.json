@@ -3259,11 +3259,11 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        201
+        205
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        238
+        249
       ]
     ],
     "translation": "Conectar GitHub"
@@ -3275,7 +3275,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        217
+        228
       ]
     ],
     "translation": ""
@@ -4333,7 +4333,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        249
+        260
       ]
     ],
     "translation": "Desconectar GitHub"
@@ -6081,6 +6081,30 @@
     ],
     "translation": "GitHub"
   },
+  "yYjUnF": {
+    "message": "GitHub App authorization lasts up to eight hours. Reconnect after expiry, or use a personal access token for unattended sync.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        207
+      ]
+    ],
+    "translation": "A autorização do GitHub App dura até oito horas. Reconecte após expirar ou use um token de acesso pessoal para sincronização sem supervisão."
+  },
+  "vWv9cE": {
+    "message": "GitHub authorization expired — reconnect.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        214
+      ]
+    ],
+    "translation": "A autorização do GitHub expirou — reconecte."
+  },
   "ZT3ogS": {
     "message": "GitHub authorization failed or expired. Try connecting again from this account.",
     "placeholders": {},
@@ -6088,7 +6112,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        212
+        223
       ]
     ],
     "translation": "A autorização do GitHub falhou ou expirou. Tente conectar novamente a partir desta conta."
@@ -9869,17 +9893,30 @@
     ],
     "translation": "Vitória rápida"
   },
+  "tbcNRv": {
+    "message": "Reconnect GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        204
+      ]
+    ],
+    "translation": "Reconectar GitHub"
+  },
   "0tk280": {
+    "translation": "Conecte novamente quando sua autorização do GitHub expirar.",
     "message": "Reconnect when your GitHub authorization expires.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        202
+        192
       ]
     ],
-    "translation": "Conecte novamente quando sua autorização do GitHub expirar."
+    "obsolete": true
   },
   "6EWT6T": {
     "message": "Recruitment",
@@ -14703,7 +14740,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        246
+        257
       ]
     ],
     "translation": "Sua conta do GitHub está conectada."

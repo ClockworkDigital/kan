@@ -3246,11 +3246,11 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        201
+        205
       ],
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        238
+        249
       ]
     ],
     "translation": "Forbind GitHub"
@@ -3262,7 +3262,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        217
+        228
       ]
     ],
     "translation": ""
@@ -4307,7 +4307,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        249
+        260
       ]
     ],
     "translation": "Afbryd GitHub"
@@ -6029,6 +6029,30 @@
     ],
     "translation": "GitHub"
   },
+  "yYjUnF": {
+    "message": "GitHub App authorization lasts up to eight hours. Reconnect after expiry, or use a personal access token for unattended sync.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        207
+      ]
+    ],
+    "translation": "GitHub App-godkendelse gælder i op til otte timer. Opret forbindelse igen efter udløb, eller brug et personligt adgangstoken til synkronisering uden opsyn."
+  },
+  "vWv9cE": {
+    "message": "GitHub authorization expired — reconnect.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        214
+      ]
+    ],
+    "translation": "GitHub-godkendelse udløbet — opret forbindelse igen."
+  },
   "ZT3ogS": {
     "message": "GitHub authorization failed or expired. Try connecting again from this account.",
     "placeholders": {},
@@ -6036,7 +6060,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        212
+        223
       ]
     ],
     "translation": "GitHub-godkendelsen mislykkedes eller er udløbet. Prøv at oprette forbindelse igen fra denne konto."
@@ -9791,17 +9815,30 @@
     ],
     "translation": "Hurtig gevinst"
   },
+  "tbcNRv": {
+    "message": "Reconnect GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/settings/IntegrationsSettings.tsx",
+        204
+      ]
+    ],
+    "translation": "Opret forbindelse til GitHub igen"
+  },
   "0tk280": {
+    "translation": "Opret forbindelse igen, når din GitHub-godkendelse udløber.",
     "message": "Reconnect when your GitHub authorization expires.",
     "placeholders": {},
     "comments": [],
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        202
+        192
       ]
     ],
-    "translation": "Opret forbindelse igen, når din GitHub-godkendelse udløber."
+    "obsolete": true
   },
   "6EWT6T": {
     "message": "Recruitment",
@@ -14556,7 +14593,7 @@
     "origin": [
       [
         "src/views/settings/IntegrationsSettings.tsx",
-        246
+        257
       ]
     ],
     "translation": "Din GitHub-konto er forbundet."
