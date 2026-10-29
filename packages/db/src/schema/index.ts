@@ -17,3 +17,4 @@ export * from "./notifications";
 export * from "./webhooks";
 export * from "./github-sync";
 export * from "./factory";
+export * from "./portfolio";

@@ -75,6 +75,7 @@ import { MoveBoardForm } from "./components/MoveBoardForm";
 import { NewCardForm } from "./components/NewCardForm";
 import { NewListForm } from "./components/NewListForm";
 import { NewTemplateForm } from "./components/NewTemplateForm";
+import { ProjectDetailsForm } from "./components/ProjectDetailsForm";
 import { UpdateBoardSlugForm } from "./components/UpdateBoardSlugForm";
 import ViewToggle from "./components/ViewToggle";
 import VisibilityButton from "./components/VisibilityButton";
@@ -794,6 +795,16 @@ export default function BoardPage({ isTemplate }: { isTemplate?: boolean }) {
             workspaceSlug={workspace.slug ?? ""}
             boardSlug={boardData?.slug ?? ""}
             queryParams={queryParams}
+          />
+        </Modal>
+
+        <Modal
+          modalSize="sm"
+          isVisible={isOpen && modalContentType === "PROJECT_DETAILS"}
+        >
+          <ProjectDetailsForm
+            boardPublicId={boardId ?? ""}
+            boardName={boardData?.name}
           />
         </Modal>
 

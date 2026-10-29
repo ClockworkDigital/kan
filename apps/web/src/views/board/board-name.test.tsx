@@ -186,6 +186,9 @@ vi.mock("./components/NewListForm", () => ({ NewListForm: () => null }));
 vi.mock("./components/NewTemplateForm", () => ({
   NewTemplateForm: () => null,
 }));
+vi.mock("./components/ProjectDetailsForm", () => ({
+  ProjectDetailsForm: () => null,
+}));
 vi.mock("./components/UpdateBoardSlugForm", () => ({
   UpdateBoardSlugForm: () => null,
 }));

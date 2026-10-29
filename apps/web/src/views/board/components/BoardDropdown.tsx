@@ -5,6 +5,7 @@ import {
   HiEllipsisHorizontal,
   HiLink,
   HiOutlineDocumentDuplicate,
+  HiOutlinePresentationChartBar,
   HiOutlineStar,
   HiOutlineTrash,
   HiStar,
@@ -38,6 +39,11 @@ export default function BoardDropdown({
   const { canEditBoard, canDeleteBoard, canCreateBoard, canArchiveBoard } =
     usePermissions();
   const utils = api.useUtils();
+  // The server applies the creator rule, which workspace permissions alone miss.
+  const project = api.portfolio.byBoardId.useQuery(
+    { boardPublicId },
+    { enabled: !isTemplate && boardPublicId.length === 12 },
+  );
 
   const updateBoard = api.board.update.useMutation({
     onSuccess: (_data, variables) => {
@@ -99,6 +105,17 @@ export default function BoardDropdown({
             action: () => openModal("CREATE_TEMPLATE"),
             icon: (
               <HiOutlineDocumentDuplicate className="h-[16px] w-[16px] text-dark-900" />
+            ),
+          },
+        ]
+      : []),
+    ...(!isTemplate && project.data?.canEdit
+      ? [
+          {
+            label: t`Project details`,
+            action: () => openModal("PROJECT_DETAILS"),
+            icon: (
+              <HiOutlinePresentationChartBar className="h-[16px] w-[16px] text-dark-900" />
             ),
           },
         ]
