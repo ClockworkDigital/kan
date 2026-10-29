@@ -55,6 +55,10 @@
     "./utils/paidWorkspaceCache": {
       "types": "./src/utils/paidWorkspaceCache.ts",
       "default": "./src/utils/paidWorkspaceCache.ts"
+    },
+    "./utils/github-oauth": {
+      "types": "./src/utils/github-oauth.ts",
+      "default": "./src/utils/github-oauth.ts"
     }
   },
   "license": "GPL-3.0",

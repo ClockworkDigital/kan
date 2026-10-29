@@ -244,3 +244,5 @@ API itself cannot be forced to reject incomplete issues by these templates.
 No repositories are classified automatically.
 Existing PRs may need a description edit or another eligible PR event after policy
 installation to produce the newly required check. No existing PR is auto-approved.
+
+GitHub App connections are also supported; see [setup and expiry](../github-oauth.md). They require explicit reconnect on expiry; the worker never refreshes credentials.

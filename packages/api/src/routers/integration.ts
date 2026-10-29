@@ -5,7 +5,8 @@ import { z } from "zod";
 import * as integrationsRepo from "@kan/db/repository/integration.repo";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { encryptToken } from "../utils/encryption";
+import { decryptToken, encryptToken } from "../utils/encryption";
+import { githubOAuthConfigured } from "../utils/github-oauth";
 
 export const urls = {
   trello: process.env.TRELLO_API_URL ?? "https://api.trello.com/1",
@@ -47,16 +48,43 @@ export const integrationRouter = createTRPCRouter({
     }),
 
   getGitHubStatus: protectedProcedure
-    .output(z.object({ connected: z.boolean() }))
+    .output(
+      z.object({
+        connected: z.boolean(),
+        appConfigured: z.boolean(),
+        appConnection: z.boolean(),
+        expired: z.boolean(),
+        login: z.string().nullable(),
+      }),
+    )
     .query(async ({ ctx }) => {
       const user = ctx.user;
 
-      const connected = await integrationsRepo.isProviderAvailableForUser(
+      const integration = await integrationsRepo.getGitHubConnectionMetadata(
         ctx.db,
         user.id,
-        "github",
       );
-      return { connected };
+      const connected =
+        !!integration && integration.expiresAt.getTime() >= Date.now();
+      const appConnection = !!integration?.refreshToken;
+      const expired = appConnection && !connected;
+      let login: string | null = null;
+      if (integration?.refreshToken) {
+        try {
+          login = z
+            .object({ login: z.string() })
+            .parse(JSON.parse(decryptToken(integration.refreshToken))).login;
+        } catch {
+          /* Legacy providers have no GitHub identity. */
+        }
+      }
+      return {
+        connected,
+        appConfigured: githubOAuthConfigured(),
+        appConnection,
+        expired,
+        login,
+      };
     }),
 
   providers: protectedProcedure

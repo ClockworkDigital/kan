@@ -111,3 +111,5 @@ coordinated exporter, failure cleanup, refused restores, a restore into a new
 project, row/grant comparison, and gateway, emergency-block and native
 permission checks. It uses the sibling Formwork checkout (or `FORMWORK_ROOT`)
 and `KAN_TEST_IMAGE`, and removes every container, network and volume it creates.
+
+For browser account connection, see [GitHub App setup](github-oauth.md). PAT fallback remains available.

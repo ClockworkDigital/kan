@@ -8786,5 +8786,33 @@
     "placeholders": {},
     "comments": [],
     "origin": [["src/views/portfolio/index.tsx", 261]]
+  },
+  "yYjUnF": {
+    "translation": "",
+    "message": "GitHub App authorization lasts up to eight hours. Reconnect after expiry, or use a personal access token for unattended sync.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 207]]
+  },
+  "vWv9cE": {
+    "translation": "",
+    "message": "GitHub authorization expired — reconnect.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 214]]
+  },
+  "ZT3ogS": {
+    "translation": "",
+    "message": "GitHub authorization failed or expired. Try connecting again from this account.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 223]]
+  },
+  "tbcNRv": {
+    "translation": "",
+    "message": "Reconnect GitHub",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/settings/IntegrationsSettings.tsx", 204]]
   }
 }

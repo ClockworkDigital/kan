@@ -9,6 +9,7 @@ import { issueForms, productionFields } from "@kan/shared";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { decryptToken } from "../utils/encryption";
+import { githubAppRepositories } from "../utils/github-app-repositories";
 import { installRepositoryPolicy } from "../utils/github-policy";
 import { assertPermission } from "../utils/permissions";
 
@@ -67,6 +68,23 @@ async function githubRequest(
       code: "PRECONDITION_FAILED",
       message: "Reconnect GitHub in Kan settings.",
     });
+  }
+  if (
+    integration.refreshToken &&
+    input.path === "orgs/ClockworkDigital/repos?per_page=100"
+  ) {
+    try {
+      const repos = await githubAppRepositories(token);
+      return repos.slice((input.page - 1) * 100, input.page * 100);
+    } catch (error) {
+      if (error instanceof TRPCError && error.code === "PRECONDITION_FAILED")
+        throw error;
+      throw new TRPCError({
+        code: "BAD_GATEWAY",
+        message:
+          "GitHub repository discovery failed. Check installation access or reconnect.",
+      });
+    }
   }
   const url = new URL(input.path, "https://api.github.com/");
   if (url.search) url.searchParams.set("page", String(input.page));
