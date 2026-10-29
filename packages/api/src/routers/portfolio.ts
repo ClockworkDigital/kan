@@ -8,7 +8,11 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { boards, projectStatuses } from "@kan/db/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { assertCanEdit, assertPermission } from "../utils/permissions";
+import {
+  assertCanEdit,
+  assertPermission,
+  hasPermission,
+} from "../utils/permissions";
 
 const boardInput = z.object({ boardPublicId: z.string().length(12) });
 const fields = z.object({
@@ -51,6 +55,12 @@ async function assertCanEditProject(
   return board.id;
 }
 
+// Mirrors assertCanEdit for callers already known to be active members.
+async function editCheck(db: dbClient, userId: string, workspaceId: number) {
+  const canEditAll = await hasPermission(db, userId, workspaceId, "board:edit");
+  return (createdBy: string | null) => canEditAll || createdBy === userId;
+}
+
 export const portfolioRouter = createTRPCRouter({
   list: protectedProcedure
     .input(z.object({ workspacePublicId: z.string().length(12) }))
@@ -62,7 +72,15 @@ export const portfolioRouter = createTRPCRouter({
       if (!workspace || workspace.deletedAt)
         throw new TRPCError({ code: "NOT_FOUND" });
       await assertPermission(ctx.db, ctx.user.id, workspace.id, "board:view");
-      return portfolioRepo.listByWorkspaceId(ctx.db, workspace.id);
+      const canEdit = await editCheck(ctx.db, ctx.user.id, workspace.id);
+      const projects = await portfolioRepo.listByWorkspaceId(
+        ctx.db,
+        workspace.id,
+      );
+      return projects.map(({ createdBy, ...project }) => ({
+        ...project,
+        canEdit: canEdit(createdBy),
+      }));
     }),
   byBoardId: protectedProcedure
     .input(boardInput)
@@ -74,8 +92,12 @@ export const portfolioRouter = createTRPCRouter({
         board.workspaceId,
         "board:view",
       );
+      const canEdit = await editCheck(ctx.db, ctx.user.id, board.workspaceId);
       const project = await portfolioRepo.getByBoardId(ctx.db, board.id);
-      return project && fields.parse(project);
+      return {
+        project: project && fields.parse(project),
+        canEdit: canEdit(board.createdBy),
+      };
     }),
   update: protectedProcedure
     .input(boardInput.merge(fields))

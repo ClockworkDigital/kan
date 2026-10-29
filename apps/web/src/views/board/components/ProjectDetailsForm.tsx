@@ -51,7 +51,7 @@ export function ProjectDetailsForm({
   );
   // Saved values seed the form until the first edit; refetches never overwrite a draft.
   const [draft, setDraft] = useState<Fields | null>(null);
-  const fields = draft ?? saved.data ?? empty;
+  const fields = draft ?? saved.data?.project ?? empty;
   const set = (patch: Partial<Fields>) => setDraft({ ...fields, ...patch });
 
   const onSettled = async () => {
@@ -113,95 +113,103 @@ export function ProjectDetailsForm({
           </button>
         </div>
 
-        <fieldset>
-          <legend className={label}>{t`Status`}</legend>
-          <div className="flex gap-2">
-            {(Object.keys(labels) as Status[]).map((status) => (
-              <button
-                key={status}
-                type="button"
-                aria-pressed={fields.status === status}
-                onClick={() => set({ status })}
-                className={twMerge(
-                  "flex h-8 flex-1 items-center justify-center gap-2 rounded-md text-xs text-light-900 ring-1 ring-inset ring-light-600 dark:text-dark-900 dark:ring-dark-700",
-                  fields.status === status &&
-                    "bg-light-200 font-semibold text-light-1000 ring-light-900 dark:bg-dark-300 dark:text-dark-1000 dark:ring-dark-800",
-                )}
-              >
-                <span
-                  aria-hidden="true"
-                  className="h-1.5 w-1.5 rounded-full"
-                  style={{ backgroundColor: projectStatusColours[status] }}
-                />
-                {labels[status]}
-              </button>
-            ))}
+        {saved.isError && (
+          <p role="alert" className="text-xs text-red-500">
+            {t`Unable to load project details. Close and try again.`}
+          </p>
+        )}
+        {/* Editing before the saved values load would overwrite them on save. */}
+        <fieldset disabled={!saved.isSuccess} className="space-y-4">
+          <fieldset>
+            <legend className={label}>{t`Status`}</legend>
+            <div className="flex gap-2">
+              {(Object.keys(labels) as Status[]).map((status) => (
+                <button
+                  key={status}
+                  type="button"
+                  aria-pressed={fields.status === status}
+                  onClick={() => set({ status })}
+                  className={twMerge(
+                    "flex h-8 flex-1 items-center justify-center gap-2 rounded-md text-xs text-light-900 ring-1 ring-inset ring-light-600 dark:text-dark-900 dark:ring-dark-700",
+                    fields.status === status &&
+                      "bg-light-200 font-semibold text-light-1000 ring-light-900 dark:bg-dark-300 dark:text-dark-1000 dark:ring-dark-800",
+                  )}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: projectStatusColours[status] }}
+                  />
+                  {labels[status]}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <div>
+            <label
+              htmlFor="project-details"
+              className={label}
+            >{t`Details`}</label>
+            <Input
+              id="project-details"
+              maxLength={600}
+              value={fields.details}
+              onChange={(e) => set({ details: e.target.value })}
+            />
+          </div>
+
+          <div className="flex gap-6">
+            <Toggle
+              label={t`Shown to client`}
+              labelPosition="after"
+              isChecked={fields.shownToClient}
+              onChange={() => set({ shownToClient: !fields.shownToClient })}
+            />
+            <Toggle
+              label={t`Internal project`}
+              labelPosition="after"
+              isChecked={fields.internal}
+              onChange={() => set({ internal: !fields.internal })}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="project-clients"
+              className={label}
+            >{t`Client name(s)`}</label>
+            <Input
+              id="project-clients"
+              maxLength={2000}
+              disabled={clientsDisabled}
+              placeholder={
+                clientsDisabled ? t`Turn on "Shown to client" to add` : ""
+              }
+              value={fields.clients}
+              onChange={(e) => set({ clients: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="project-next-steps"
+              className={label}
+            >{t`Next steps`}</label>
+            <textarea
+              id="project-next-steps"
+              rows={3}
+              maxLength={2000}
+              className={textArea}
+              value={fields.nextSteps}
+              onChange={(e) => set({ nextSteps: e.target.value })}
+            />
           </div>
         </fieldset>
-
-        <div>
-          <label
-            htmlFor="project-details"
-            className={label}
-          >{t`Details`}</label>
-          <Input
-            id="project-details"
-            maxLength={600}
-            value={fields.details}
-            onChange={(e) => set({ details: e.target.value })}
-          />
-        </div>
-
-        <div className="flex gap-6">
-          <Toggle
-            label={t`Shown to client`}
-            labelPosition="after"
-            isChecked={fields.shownToClient}
-            onChange={() => set({ shownToClient: !fields.shownToClient })}
-          />
-          <Toggle
-            label={t`Internal project`}
-            labelPosition="after"
-            isChecked={fields.internal}
-            onChange={() => set({ internal: !fields.internal })}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="project-clients"
-            className={label}
-          >{t`Client name(s)`}</label>
-          <Input
-            id="project-clients"
-            maxLength={2000}
-            disabled={clientsDisabled}
-            placeholder={
-              clientsDisabled ? t`Turn on "Shown to client" to add` : ""
-            }
-            value={fields.clients}
-            onChange={(e) => set({ clients: e.target.value })}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="project-next-steps"
-            className={label}
-          >{t`Next steps`}</label>
-          <textarea
-            id="project-next-steps"
-            rows={3}
-            maxLength={2000}
-            className={textArea}
-            value={fields.nextSteps}
-            onChange={(e) => set({ nextSteps: e.target.value })}
-          />
-        </div>
       </div>
       <div className="mt-6 flex items-center justify-between gap-2 border-t border-light-600 px-5 pb-5 pt-5 dark:border-dark-600">
         <div>
-          {saved.data && (
+          {saved.data?.project && (
             <Button
               type="button"
               variant="ghost"
@@ -216,9 +224,9 @@ export function ProjectDetailsForm({
         <Button
           type="submit"
           isLoading={update.isPending}
-          disabled={saved.isPending || update.isPending || remove.isPending}
+          disabled={!saved.isSuccess || update.isPending || remove.isPending}
         >
-          {saved.data ? t`Save` : t`Add to Portfolio`}
+          {saved.data?.project ? t`Save` : t`Add to Portfolio`}
         </Button>
       </div>
     </form>

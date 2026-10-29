@@ -10,7 +10,6 @@ import Avatar from "~/components/Avatar";
 import Badge from "~/components/Badge";
 import Modal from "~/components/modal";
 import { PageHead } from "~/components/PageHead";
-import { usePermissions } from "~/hooks/usePermissions";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
@@ -33,10 +32,10 @@ const dot = (colour: string) => (
 
 function ProjectRow({
   project,
-  canEdit,
+  showActions,
 }: {
   project: Project;
-  canEdit: boolean;
+  showActions: boolean;
 }) {
   const { i18n } = useLingui();
   const { openModal } = useModal();
@@ -117,18 +116,24 @@ function ProjectRow({
           {t`Updated ${i18n.date(project.updatedAt, { dateStyle: "medium" })}`}
         </p>
       </td>
-      {canEdit && (
+      {showActions && (
         <td className="py-3 pr-2">
-          <button
-            type="button"
-            aria-label={t`Edit project details for ${project.name}`}
-            onClick={() =>
-              openModal("PROJECT_DETAILS", project.boardPublicId, project.name)
-            }
-            className="relative z-10 rounded p-1 hover:bg-light-200 dark:hover:bg-dark-200"
-          >
-            <HiEllipsisHorizontal className="h-5 w-5 text-dark-900" />
-          </button>
+          {project.canEdit && (
+            <button
+              type="button"
+              aria-label={t`Edit project details for ${project.name}`}
+              onClick={() =>
+                openModal(
+                  "PROJECT_DETAILS",
+                  project.boardPublicId,
+                  project.name,
+                )
+              }
+              className="relative z-10 rounded p-1 hover:bg-light-200 dark:hover:bg-dark-200"
+            >
+              <HiEllipsisHorizontal className="h-5 w-5 text-dark-900" />
+            </button>
+          )}
         </td>
       )}
     </tr>
@@ -136,7 +141,6 @@ function ProjectRow({
 }
 
 function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
-  const { canEditBoard } = usePermissions();
   const { isOpen, modalContentType, entityId, entityLabel } = useModal();
   const [tab, setTab] = useState<Tab>("all");
   const [query, setQuery] = useState("");
@@ -159,6 +163,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
           .includes(needle)),
   );
   const statusLabels = projectStatusLabels();
+  const anyEditable = all.some((p) => p.canEdit);
   const tabs: [Tab, string][] = [
     ["all", t`All`],
     ["not_yet", statusLabels.not_yet],
@@ -244,7 +249,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
                   className={twMerge(head, "w-[12%]")}
                 >{t`Cards done`}</th>
                 <th scope="col" className={head}>{t`Next steps`}</th>
-                {canEditBoard && (
+                {anyEditable && (
                   <th scope="col" className="w-10">
                     <span className="sr-only">{t`Actions`}</span>
                   </th>
@@ -256,7 +261,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
                 <ProjectRow
                   key={project.boardPublicId}
                   project={project}
-                  canEdit={canEditBoard}
+                  showActions={anyEditable}
                 />
               ))}
             </tbody>

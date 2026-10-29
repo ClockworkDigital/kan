@@ -157,8 +157,10 @@ describe("portfolio", () => {
         totalCards: 9,
         doneCards: 4,
         updatedByName: "Test User",
+        canEdit: true,
       });
       expect(listed[0]).not.toHaveProperty("boardId");
+      expect(listed[0]).not.toHaveProperty("createdBy");
 
       await api.update({
         boardPublicId: board.publicId,
@@ -167,15 +169,17 @@ describe("portfolio", () => {
         nextSteps: "  Hand over  ",
       });
       expect(await api.byBoardId({ boardPublicId: board.publicId })).toEqual({
-        ...project,
-        status: "done",
-        nextSteps: "Hand over",
+        project: { ...project, status: "done", nextSteps: "Hand over" },
+        canEdit: true,
       });
       await api.remove({ boardPublicId: board.publicId });
       expect(
         await api.list({ workspacePublicId: seed.workspace.publicId }),
       ).toEqual([]);
-      expect(await api.byBoardId({ boardPublicId: board.publicId })).toBeNull();
+      expect(await api.byBoardId({ boardPublicId: board.publicId })).toEqual({
+        project: null,
+        canEdit: true,
+      });
     }));
 
   it("lets guests read, and only board editors or the board's creator write", async () =>
@@ -203,10 +207,11 @@ describe("portfolio", () => {
       });
 
       const guest = caller(tx, await addUser(tx, seed, "guest"));
-      expect(await guest.list(ws)).toHaveLength(1);
-      expect(await guest.byBoardId({ boardPublicId: board.publicId })).toEqual(
+      expect(await guest.list(ws)).toMatchObject([{ canEdit: false }]);
+      expect(await guest.byBoardId({ boardPublicId: board.publicId })).toEqual({
         project,
-      );
+        canEdit: false,
+      });
       await expect(guest.update(write)).rejects.toMatchObject({
         code: "FORBIDDEN",
       });
@@ -222,6 +227,15 @@ describe("portfolio", () => {
       });
       const own = await addBoard(tx, seed, { createdBy: memberUser.id });
       await member.update({ ...write, boardPublicId: own.publicId });
+      // The UI's edit controls follow the same rule as the server.
+      expect(
+        (await member.list(ws)).map((p) => [p.boardPublicId, p.canEdit]),
+      ).toEqual(
+        expect.arrayContaining([
+          [board.publicId, false],
+          [own.publicId, true],
+        ]),
+      );
       await tx
         .update(workspaceMembers)
         .set({ status: "removed" })

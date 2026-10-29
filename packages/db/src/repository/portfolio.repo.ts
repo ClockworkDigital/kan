@@ -17,6 +17,7 @@ export async function listByWorkspaceId(db: dbClient, workspaceId: number) {
       boardPublicId: boards.publicId,
       name: boards.name,
       isArchived: boards.isArchived,
+      createdBy: boards.createdBy,
       status: boardProjects.status,
       details: boardProjects.details,
       clients: boardProjects.clients,
