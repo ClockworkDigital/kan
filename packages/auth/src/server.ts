@@ -9,4 +9,6 @@ export {
   initFormworkSyncAuth,
   readFormworkSyncGrant,
   formworkSyncGrant,
+  formworkFactoryGrant,
+  readFormworkFactoryGrant,
 } from "./formwork-sync";
