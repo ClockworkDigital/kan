@@ -1,7 +1,7 @@
 import { and, desc, eq, isNull, lt, or, sql } from "drizzle-orm";
 
 import type { dbClient } from "@kan/db/client";
-import { factoryJobs } from "@kan/db/schema";
+import { boards, cards, factoryJobs, lists } from "@kan/db/schema";
 import { generateUID } from "@kan/shared";
 
 const summaryColumns = {
@@ -87,4 +87,46 @@ export async function get(db: dbClient, workspaceId: number, publicId: string) {
       ),
     );
   return job;
+}
+
+export async function cardIssueContext(db: dbClient, publicId: string) {
+  const [card] = await db
+    .select({
+      description: cards.description,
+      workspaceId: boards.workspaceId,
+    })
+    .from(cards)
+    .innerJoin(lists, eq(cards.listId, lists.id))
+    .innerJoin(boards, eq(lists.boardId, boards.id))
+    .where(
+      and(
+        eq(cards.publicId, publicId),
+        isNull(cards.deletedAt),
+        isNull(lists.deletedAt),
+        isNull(boards.deletedAt),
+      ),
+    );
+  return card;
+}
+
+export async function byIssue(
+  db: dbClient,
+  workspaceId: number,
+  repository: string,
+  issueNumber: number,
+) {
+  const [job] = await db
+    .select(summaryColumns)
+    .from(factoryJobs)
+    .where(
+      and(
+        eq(factoryJobs.workspaceId, workspaceId),
+        sql`lower(${factoryJobs.repository}) = ${repository.toLowerCase()}`,
+        sql`${factoryJobs.snapshot}->>'issueNumber' = ${String(issueNumber)}`,
+        isNull(factoryJobs.deletedAt),
+      ),
+    )
+    .orderBy(desc(factoryJobs.id))
+    .limit(1);
+  return job ?? null;
 }

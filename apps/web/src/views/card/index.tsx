@@ -10,6 +10,7 @@ import { authClient } from "@kan/auth/client";
 
 import Avatar from "~/components/Avatar";
 import Editor from "~/components/Editor";
+import { CardFactoryBadge } from "~/components/FactoryStageBadge";
 import FeedbackModal from "~/components/FeedbackModal";
 import { LabelForm } from "~/components/LabelForm";
 import LabelIcon from "~/components/LabelIcon";
@@ -121,6 +122,7 @@ export function CardRightPanel({ isTemplate }: { isTemplate?: boolean }) {
 
   return (
     <div className="h-full w-[360px] border-l-[1px] border-light-300 bg-light-50 p-8 text-light-900 dark:border-dark-300 dark:bg-dark-50 dark:text-dark-900">
+      {cardId && <CardFactoryBadge cardPublicId={cardId} />}
       <div className="mb-4 flex w-full flex-row pt-[18px]">
         <p className="my-2 mb-2 w-[100px] text-sm font-medium">{t`List`}</p>
         <ListSelector
