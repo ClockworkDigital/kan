@@ -15239,5 +15239,29 @@
         143
       ]
     ]
+  },
+  "jQRNbi": {
+    "translation": "Medtag lukkede sager",
+    "message": "Include closed issues",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        236
+      ]
+    ]
+  },
+  "0Qbn5Z": {
+    "translation": "Ingen fabriksjob at vise.",
+    "message": "No factory jobs to show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        244
+      ]
+    ]
   }
 }

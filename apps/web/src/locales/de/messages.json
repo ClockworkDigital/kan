@@ -9261,5 +9261,29 @@
         143
       ]
     ]
+  },
+  "jQRNbi": {
+    "translation": "Geschlossene Issues einbeziehen",
+    "message": "Include closed issues",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        236
+      ]
+    ]
+  },
+  "0Qbn5Z": {
+    "translation": "Keine Factory-Aufträge vorhanden.",
+    "message": "No factory jobs to show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        244
+      ]
+    ]
   }
 }

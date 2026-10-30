@@ -9261,5 +9261,29 @@
         143
       ]
     ]
+  },
+  "jQRNbi": {
+    "translation": "Includi le segnalazioni chiuse",
+    "message": "Include closed issues",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        236
+      ]
+    ]
+  },
+  "0Qbn5Z": {
+    "translation": "Nessun processo della fabbrica da mostrare.",
+    "message": "No factory jobs to show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        244
+      ]
+    ]
   }
 }

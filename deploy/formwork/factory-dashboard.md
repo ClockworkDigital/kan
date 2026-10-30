@@ -12,6 +12,11 @@ read. Open artifacts refresh when their job revision changes; failed loads retry
 after a successful list refresh. Twenty jobs are shown per page, newest report first. Reports can move jobs
 between pages while the factory is running.
 
+The default view excludes reports whose linked GitHub card has been moved to the
+sync-managed **Closed** list. **Include closed issues** shows those reports again;
+artifacts and run history are never deleted. Closing or reopening an issue takes
+effect after the normal GitHub sync. Jobs without a linked card remain visible.
+
 Cards the GitHub sync linked to an issue (its stored repository and issue
 number, not the description link) also show a stage badge in
 their detail view. The badge polls every five seconds while the card is open and
@@ -151,7 +156,9 @@ the label to Kan.
 Sending an already labelled issue makes no further write. No factory run is
 started directly and no credential is renewed.
 
-The scheduled runner checks the authorized queue every minute. With `run --publish`,
+The scheduled [dispatcher](factory-dispatch/README.md) checks every repository
+enabled for GitHub sync each minute. Configured repositories run independently;
+missing checkout or factory setup is reported in its protected status file. With `run --publish`,
 it monitors PR checks and review feedback after publication, then leaves the PR
 open for a human to merge. It requires a clean, passing remote base before intake;
 a failing baseline must be repaired and merged before a new queued job can run.

@@ -9261,5 +9261,29 @@
         143
       ]
     ]
+  },
+  "jQRNbi": {
+    "translation": "Включить закрытые задачи",
+    "message": "Include closed issues",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        236
+      ]
+    ]
+  },
+  "0Qbn5Z": {
+    "translation": "Нет заданий фабрики для отображения.",
+    "message": "No factory jobs to show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        244
+      ]
+    ]
   }
 }

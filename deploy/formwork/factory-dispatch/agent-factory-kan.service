@@ -1,0 +1,7 @@
+[Unit]
+Description=Dispatch the factory queues enabled in Kan GitHub sync
+
+[Service]
+Type=oneshot
+Environment="PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin:/snap/bin"
+ExecStart=/usr/bin/python3 %h/clockwork/Kan/deploy/formwork/factory-dispatch/dispatch.py

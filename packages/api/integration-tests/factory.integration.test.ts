@@ -497,3 +497,76 @@ describe("card factory issue lookup", () => {
       await expect(api.byIssue({ cardPublicId })).rejects.toThrow();
     }));
 });
+
+describe("closed factory issue history", () => {
+  it("filters closed linked issues before pagination, keeps history and restores reopened issues", async () =>
+    fixture(async (tx, { user, workspace }) => {
+      const api = caller(tx, user);
+      const [board] = await tx
+        .insert(boards)
+        .values({
+          publicId: "closedboard1",
+          name: "GitHub: ClockworkDigital/kan",
+          slug: "closed-factory",
+          workspaceId: workspace.id,
+        })
+        .returning();
+      assert(board);
+      const [closed] = await tx
+        .insert(lists)
+        .values({
+          publicId: "closedlist01",
+          name: "Closed",
+          index: 0,
+          boardId: board.id,
+        })
+        .returning();
+      assert(closed);
+      await tx.insert(cards).values({
+        publicId: "closedcard01",
+        title: "Closed issue",
+        index: 0,
+        listId: closed.id,
+        githubRepository: "clockworkdigital/kan",
+        githubIssueNumber: 1,
+      });
+      const archived = await api.publish(report);
+      for (let index = 0; index < 21; index++) {
+        await api.publish({
+          ...report,
+          runKey: `open-${index}`,
+          snapshot: { ...snapshot, issueNumber: index + 2 },
+        });
+      }
+      // Put the closed issue first to prove filtering happens before LIMIT/OFFSET.
+      await tx
+        .update(factoryJobs)
+        .set({ updatedAt: new Date("2099-01-01") })
+        .where(eq(factoryJobs.publicId, archived.publicId));
+      const input = { workspacePublicId: report.workspacePublicId };
+      const active = await api.list(input);
+      expect(active.jobs).toHaveLength(20);
+      expect(active.hasMore).toBe(true);
+      expect(
+        active.jobs.some((job) => job.publicId === archived.publicId),
+      ).toBe(false);
+      expect((await api.list({ ...input, page: 1 })).jobs).toHaveLength(1);
+      expect(
+        (await api.list({ ...input, includeClosed: true })).jobs[0]?.publicId,
+      ).toBe(archived.publicId);
+      expect(
+        (await api.byId({ ...input, jobPublicId: archived.publicId }))
+          .artifacts,
+      ).toEqual(report.artifacts);
+      await tx
+        .update(lists)
+        .set({ name: "Open" })
+        .where(eq(lists.id, closed.id));
+      expect((await api.list(input)).jobs[0]?.publicId).toBe(archived.publicId);
+      await tx
+        .update(lists)
+        .set({ name: "Closed", deletedAt: new Date() })
+        .where(eq(lists.id, closed.id));
+      expect((await api.list(input)).jobs[0]?.publicId).toBe(archived.publicId);
+    }));
+});

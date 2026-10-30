@@ -9261,5 +9261,29 @@
         143
       ]
     ]
+  },
+  "jQRNbi": {
+    "translation": "Inclure les tickets fermés",
+    "message": "Include closed issues",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        236
+      ]
+    ]
+  },
+  "0Qbn5Z": {
+    "translation": "Aucune tâche de fabrique à afficher.",
+    "message": "No factory jobs to show.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        244
+      ]
+    ]
   }
 }
