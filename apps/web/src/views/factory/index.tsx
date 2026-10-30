@@ -8,6 +8,7 @@ import { FactoryStageBadge } from "~/components/FactoryStageBadge";
 import { PageHead } from "~/components/PageHead";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
+import GitHubDetails from "./github-details";
 
 type Job = RouterOutputs["factory"]["list"]["jobs"][number];
 
@@ -22,6 +23,7 @@ function JobCard({
 }) {
   const { i18n } = useLingui();
   const [inspecting, setInspecting] = useState(false);
+  const [githubOpen, setGithubOpen] = useState(false);
   const { snapshot } = job;
   const results = {
     pending: t`Pending`,
@@ -111,6 +113,18 @@ function JobCard({
           ))}
         </div>
       ))}
+      <details
+        className="mt-4"
+        onToggle={(event) => setGithubOpen(event.currentTarget.open)}
+      >
+        <summary className="cursor-pointer font-medium">{t`Issue, pull request and actions`}</summary>
+        {githubOpen && (
+          <GitHubDetails
+            workspacePublicId={workspacePublicId}
+            jobPublicId={job.publicId}
+          />
+        )}
+      </details>
       <details
         className="mt-4"
         onToggle={(event) => setInspecting(event.currentTarget.open)}

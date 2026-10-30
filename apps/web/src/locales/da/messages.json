@@ -14963,5 +14963,281 @@
         20
       ]
     ]
+  },
+  "360ujh": {
+    "translation": "",
+    "message": "Additional information for the agent",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        84
+      ]
+    ]
+  },
+  "uhCez7": {
+    "translation": "",
+    "message": "Changed files",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        131
+      ]
+    ]
+  },
+  "EfxM6i": {
+    "translation": "",
+    "message": "Confirm merge",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        174
+      ]
+    ]
+  },
+  "Ce7Nye": {
+    "translation": "",
+    "message": "GitHub details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        39
+      ]
+    ]
+  },
+  "+uCE8q": {
+    "translation": "",
+    "message": "GitHub did not provide a text diff for this file.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        139
+      ]
+    ]
+  },
+  "9W1o8f": {
+    "translation": "",
+    "message": "Head commit",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        113
+      ]
+    ]
+  },
+  "rhcYts": {
+    "translation": "",
+    "message": "Issue discussion",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        60
+      ]
+    ]
+  },
+  "r1A6El": {
+    "translation": "",
+    "message": "Issue, pull request and actions",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        120
+      ]
+    ]
+  },
+  "nIrwMF": {
+    "translation": "",
+    "message": "Merge commit",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        158
+      ]
+    ]
+  },
+  "JZ3ocY": {
+    "translation": "",
+    "message": "Merge is unavailable until GitHub reports an open, non-draft PR with a clean merge status. Refresh after checks and reviews finish.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        190
+      ]
+    ]
+  },
+  "wfzH3h": {
+    "translation": "",
+    "message": "Merge method",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        147
+      ]
+    ]
+  },
+  "5x+gK7": {
+    "translation": "",
+    "message": "Merge pull request",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        185
+      ]
+    ]
+  },
+  "n9L4nI": {
+    "translation": "",
+    "message": "Merge this reviewed commit into the target branch?",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        164
+      ]
+    ]
+  },
+  "dBQc5K": {
+    "translation": "",
+    "message": "Merged",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        110
+      ]
+    ]
+  },
+  "/aept4": {
+    "translation": "",
+    "message": "Post reply",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        98
+      ]
+    ]
+  },
+  "xNcveF": {
+    "translation": "",
+    "message": "Posts to the GitHub issue as you. The runner must be restarted with this feedback; posting does not restart it automatically.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        94
+      ]
+    ]
+  },
+  "8VYxgU": {
+    "translation": "",
+    "message": "Pull request merged.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        196
+      ]
+    ]
+  },
+  "kO+pZW": {
+    "translation": "",
+    "message": "Rebase",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        159
+      ]
+    ]
+  },
+  "nmj5o2": {
+    "translation": "",
+    "message": "Refresh GitHub details",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        47
+      ]
+    ]
+  },
+  "Sh4DVr": {
+    "translation": "",
+    "message": "Reply posted to GitHub.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        100
+      ]
+    ]
+  },
+  "qx49l7": {
+    "translation": "",
+    "message": "Squash",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        157
+      ]
+    ]
+  },
+  "B4UaLv": {
+    "translation": "",
+    "message": "Target branch",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        116
+      ]
+    ]
+  },
+  "5PMlQv": {
+    "translation": "",
+    "message": "Up to 100 comments, reviews and files are shown. GitHub may truncate diffs; use the PR link for the complete changes and checks.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        143
+      ]
+    ]
   }
 }
