@@ -26,32 +26,30 @@ export async function factoryIssue(
   const path = `repos/${repository}/issues/${card.githubIssueNumber}`;
   const token = await githubInstallationToken();
   const request = async (
-    suffix = "",
+    requestPath = path,
     method = "GET",
     body?: string,
-  ): Promise<unknown> => {
-    const response = await fetch(
-      `https://api.github.com/${suffix === "/label-exists" ? `repos/${repository}/labels/factory` : path + suffix}`,
-      {
-        method,
-        body,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/vnd.github+json",
-          "Content-Type": "application/json",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-        redirect: "error",
-        signal: AbortSignal.timeout(20000),
+    allowedStatus?: number,
+  ) => {
+    const response = await fetch(`https://api.github.com/${requestPath}`, {
+      method,
+      body,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "X-GitHub-Api-Version": "2022-11-28",
       },
-    );
-    if (!response.ok)
+      redirect: "error",
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!response.ok && response.status !== allowedStatus)
       throw new TRPCError({
         code: "BAD_GATEWAY",
         message:
           "Unable to access the GitHub issue. Check the App's repository access and Issues permission.",
       });
-    return response.json();
+    return response;
   };
   const issue = z
     .object({
@@ -59,16 +57,43 @@ export async function factoryIssue(
       pull_request: z.unknown().optional(),
       labels: z.array(z.object({ name: z.string() })),
     })
-    .parse(await request());
+    .parse(await (await request()).json());
   if (issue.pull_request || issue.state !== "open")
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "Only open GitHub issues can be sent to the factory.",
     });
   return async () => {
-    if (!issue.labels.some((label) => label.name === "factory")) {
-      await request("/label-exists");
-      await request("/labels", "POST", JSON.stringify({ labels: ["factory"] }));
+    if (!issue.labels.some((label) => label.name.toLowerCase() === "factory")) {
+      const labelPath = `repos/${repository}/labels/factory`;
+      const label = await request(labelPath, "GET", undefined, 404);
+      if (label.status === 404) {
+        const created = await request(
+          `repos/${repository}/labels`,
+          "POST",
+          JSON.stringify({
+            name: "factory",
+            color: "5319E7",
+            description: "In the factory queue or being worked on",
+          }),
+          422,
+        );
+        // Another send may have created the label concurrently.
+        if (created.status === 422) await request(labelPath);
+      }
+      const applied = await request(
+        `${path}/labels`,
+        "POST",
+        JSON.stringify({ labels: ["factory"] }),
+      );
+      const labels = z
+        .array(z.object({ name: z.string() }))
+        .parse(await applied.json());
+      if (!labels.some((label) => label.name.toLowerCase() === "factory"))
+        throw new TRPCError({
+          code: "BAD_GATEWAY",
+          message: "GitHub did not add the factory label. Please try again.",
+        });
     }
   };
 }
