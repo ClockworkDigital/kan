@@ -83,6 +83,7 @@ export const portfolioRouter = createTRPCRouter({
           lastActivityAt: z.date().nullable(),
           description: z.string().nullable(),
           pushedAt: z.date().nullable(),
+          canEdit: z.boolean(),
         }),
       ),
     )
@@ -94,6 +95,7 @@ export const portfolioRouter = createTRPCRouter({
       if (!workspace || workspace.deletedAt)
         throw new TRPCError({ code: "NOT_FOUND" });
       await assertPermission(ctx.db, ctx.user.id, workspace.id, "board:view");
+      const canEdit = await editCheck(ctx.db, ctx.user.id, workspace.id);
       const boards = await portfolioRepo.listBoardsForProgress(
         ctx.db,
         workspace.id,
@@ -106,11 +108,12 @@ export const portfolioRouter = createTRPCRouter({
             { description: string | null; pushedAt: Date | null }
           >(),
       );
-      return boards.map(({ name, ...board }) => {
+      return boards.map(({ name, createdBy, ...board }) => {
         const repo = /^GitHub: (\S+\/\S+)$/.exec(name)?.[1];
         const info = repo ? repositories.get(repo.toLowerCase()) : undefined;
         return {
           ...board,
+          canEdit: canEdit(createdBy),
           description: info?.description ?? null,
           pushedAt: info?.pushedAt ?? null,
         };

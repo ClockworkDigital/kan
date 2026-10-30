@@ -205,6 +205,7 @@ describe("portfolio", () => {
             lastActivityAt: expect.any(Date) as Date,
             description: null,
             pushedAt: null,
+            canEdit: false,
           },
           {
             boardPublicId: empty.publicId,
@@ -213,12 +214,60 @@ describe("portfolio", () => {
             lastActivityAt: null,
             description: null,
             pushedAt: null,
+            canEdit: false,
           },
         ]),
       );
       await expect(
         caller(tx, await addUser(tx, seed)).progress(input),
       ).rejects.toThrow();
+    }));
+
+  it("reports edit access before details exist, including creator access and removed membership", async () =>
+    fixture(async (tx, seed) => {
+      const member = await addUser(tx, seed, "member");
+      const own = await addBoard(tx, seed, { createdBy: member.id });
+      const other = await addBoard(tx, seed);
+      const input = { workspacePublicId: seed.workspace.publicId };
+      const api = caller(tx, member);
+      expect(await api.list(input)).toEqual([]);
+      const progress = await api.progress(input);
+      expect(progress).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            boardPublicId: own.publicId,
+            canEdit: true,
+          }),
+          expect.objectContaining({
+            boardPublicId: other.publicId,
+            canEdit: false,
+          }),
+        ]),
+      );
+      for (const board of progress) {
+        expect(board).not.toHaveProperty("createdBy");
+        expect(board).not.toHaveProperty("id");
+      }
+      expect(
+        (await caller(tx, seed.user).progress(input)).every((b) => b.canEdit),
+      ).toBe(true);
+      await api.update({ boardPublicId: own.publicId, ...project });
+      await api.remove({ boardPublicId: own.publicId });
+      expect(await api.progress(input)).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            boardPublicId: own.publicId,
+            canEdit: true,
+          }),
+        ]),
+      );
+      await tx
+        .update(workspaceMembers)
+        .set({ status: "removed" })
+        .where(eq(workspaceMembers.userId, member.id));
+      await expect(api.progress(input)).rejects.toMatchObject({
+        code: "FORBIDDEN",
+      });
     }));
 
   it("lets guests read, and only board editors or the board's creator write", async () =>

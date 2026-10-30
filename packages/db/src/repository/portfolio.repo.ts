@@ -85,6 +85,7 @@ export async function listBoardsForProgress(db: dbClient, workspaceId: number) {
     .select({
       boardPublicId: boards.publicId,
       name: boards.name,
+      createdBy: boards.createdBy,
       ...cardCounts,
       lastActivityAt:
         sql<Date | null>`(SELECT max(coalesce(c."updatedAt", c."createdAt")) ${liveCards})`.mapWith(

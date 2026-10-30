@@ -465,7 +465,7 @@ export function BoardsList({
                     </div>
                   </div>
                 </Link>
-                {!isTemplate && project?.canEdit && (
+                {!isTemplate && (project?.canEdit ?? counts?.canEdit) && (
                   <button
                     type="button"
                     aria-label={t`Project details`}
