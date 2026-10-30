@@ -8849,5 +8849,33 @@
     "placeholders": {},
     "comments": [],
     "origin": [["src/views/boards/components/BoardsList.tsx", 242]]
+  },
+  "ovBPCi": {
+    "translation": "",
+    "message": "Default",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 190]]
+  },
+  "0MODat": {
+    "translation": "",
+    "message": "No boards match these filters",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 283]]
+  },
+  "CCTop/": {
+    "translation": "",
+    "message": "Recent",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 191]]
+  },
+  "f6Hub0": {
+    "translation": "",
+    "message": "Sort",
+    "placeholders": {},
+    "comments": [],
+    "origin": [["src/views/boards/components/BoardsList.tsx", 232]]
   }
 }
