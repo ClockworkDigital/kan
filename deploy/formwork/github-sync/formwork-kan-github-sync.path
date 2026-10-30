@@ -1,0 +1,7 @@
+[Unit]
+Description=Wake Kan sync after authenticated GitHub deliveries
+[Path]
+PathExists=%h/.local/share/formwork/kan-github-sync/webhook.pending
+Unit=formwork-kan-github-sync.service
+[Install]
+WantedBy=default.target

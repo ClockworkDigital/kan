@@ -1,0 +1,14 @@
+# Import inside Kan's host-specific route, before its authenticated catch-all.
+# Mount the receiver's runtime directory at /run/kan-github-webhook (read-only).
+@kan_github_webhook path /hooks/github/issues
+handle @kan_github_webhook {
+	request_body {
+		max_size 1048576
+	}
+	reverse_proxy unix//run/kan-github-webhook/http.sock {
+		header_up -Authorization
+		header_up -Cookie
+		header_up -X-Formwork-*
+		header_up -X-Auth-Request-*
+	}
+}

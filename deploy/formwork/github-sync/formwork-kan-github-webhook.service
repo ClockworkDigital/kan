@@ -1,0 +1,17 @@
+[Unit]
+Description=Authenticated GitHub webhook wakeups for Kan sync
+[Service]
+Type=simple
+WorkingDirectory=%h/clockwork/Kan
+ExecStart=/usr/bin/python3 %h/clockwork/Kan/deploy/formwork/github-sync/webhook.py
+RuntimeDirectory=formwork-kan-github-webhook
+RuntimeDirectoryMode=0700
+# Keep Caddy's directory bind mount valid across receiver restarts.
+RuntimeDirectoryPreserve=yes
+UMask=0077
+NoNewPrivileges=yes
+RestrictAddressFamilies=AF_UNIX
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=default.target
