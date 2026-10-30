@@ -159,6 +159,7 @@ function Portfolio({ workspacePublicId }: { workspacePublicId: string }) {
     ["all", t`All`],
     ["not_yet", statusLabels.not_yet],
     ["busy", statusLabels.busy],
+    ["beta_testing", statusLabels.beta_testing],
     ["done", statusLabels.done],
     ["shown", t`Shown to clients`],
   ];

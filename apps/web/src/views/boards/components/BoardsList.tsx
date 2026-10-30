@@ -212,6 +212,11 @@ export function BoardsList({
       projectStatusColours.not_yet,
     ),
     tagItem("status:busy", statusLabels.busy, projectStatusColours.busy),
+    tagItem(
+      "status:beta_testing",
+      statusLabels.beta_testing,
+      projectStatusColours.beta_testing,
+    ),
     tagItem("status:done", statusLabels.done, projectStatusColours.done),
     tagItem("status:unset", t`Status not set`),
     tagItem("type:internal", t`Internal`, "#0d9488"),
