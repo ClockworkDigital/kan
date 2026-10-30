@@ -141,3 +141,29 @@ The existing `factory` label must exist; Kan does not create it.
 A success toast confirms queueing; the normal GitHub sync brings the label to Kan.
 Sending an already labelled issue makes no further write. No factory run is
 started directly and no credential is renewed.
+
+## Inspect and act without leaving Factory
+
+Expand **Issue, pull request and actions** on a job to fetch its issue body and
+comments, PR description, reviews, inline review comments with file/line references,
+and changed-file patches. Connect GitHub in Kan
+settings first. These reads and writes use the current viewer's unexpired GitHub
+credential, never the installation's broader identity. Workspace membership and
+view permission are required; replies and merges additionally require
+`workspace:manage`. Factory publishing credentials cannot use these actions.
+
+**Post reply** adds information to the linked GitHub issue as the current user.
+It does not restart a stopped runner: its operator still needs to pass that
+feedback to the runner's explicit rework flow. If no intake artifact or question
+was published, Kan cannot recover the runner's private local state.
+
+**Merge pull request** offers squash, merge commit or rebase and an inline
+confirmation. The server rereads the PR and requires an open, non-draft, clean,
+mergeable PR with the same head SHA the user reviewed. GitHub enforces the user's
+permissions and branch requirements; Kan requests no bypass or auto-merge.
+Refresh GitHub details after changes; runner snapshots update independently.
+
+The panel shows at most 100 issue comments, reviews and changed files. Patches
+may be absent or truncated by GitHub. The existing external links remain available
+for complete discussions, checks and large diffs. All remote text is displayed as
+plain text, never interpreted as HTML. No schema or deployment change is required.
