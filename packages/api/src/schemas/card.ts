@@ -50,6 +50,8 @@ export const cardDetailSchema = z.object({
   index: z.number(),
   dueDate: z.date().nullable(),
   createdBy: z.string().nullable(),
+  githubRepository: z.string().nullable(),
+  githubIssueNumber: z.number().nullable(),
   labels: z.array(labelSchema),
   attachments: z.array(
     z.object({

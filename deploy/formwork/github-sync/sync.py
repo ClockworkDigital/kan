@@ -113,7 +113,7 @@ def main():
         assert 'Open' in lists and 'Closed' in lists
         cards=[c for l in board['lists'] for c in l['cards']]
         for issue in issues:
-            iid=str(issue['id']);url=issue['html_url']
+            iid=str(issue['id']);url=issue['html_url'];link={'githubRepository':name.lower(),'githubIssueNumber':issue['number']}
             if 'pull_request' in issue or not url.startswith('https://github.com/ClockworkDigital/'):continue
             marker=f'<p><a href="{url}">GitHub issue #{issue["number"]}</a></p><hr>'
             # Keep Markdown source in a code block so edits round-trip without lossy HTML conversion.
@@ -137,13 +137,17 @@ def main():
                 desired_labels=issue_label_ids(issue,active_labels)
                 old=state['issues'].get(iid)
                 if not old:
-                    matches=[c for c in cards if url in (c['description'] or '')];assert len(matches)<=1
+                    matches=[c for c in cards if (c.get('githubRepository'),c.get('githubIssueNumber'))==tuple(link.values())];assert len(matches)<=1
                     if len(render(g['body']))>10000:raise RuntimeError('Description exceeds Kan limit')
-                    card=matches[0] if matches else kan('/cards',{'title':g['title'],'description':render(g['body']),'listPublicId':lists['Closed' if g['state']=='closed' else 'Open'],'labelPublicIds':sorted(desired_labels),'memberPublicIds':[],'position':'end'})
+                    card=matches[0] if matches else kan('/cards',{'title':g['title'],'description':render(g['body']),'listPublicId':lists['Closed' if g['state']=='closed' else 'Open'],'labelPublicIds':sorted(desired_labels),'memberPublicIds':[],'position':'end',**link})
                     old={'id':iid,'repoId':rid,'number':issue['number'],'card':card['publicId'],'base':g}
                     state['issues'][iid]=old;save();report['created']+=not bool(matches)
                 card=kan('/cards/'+old['card'])
                 assert card['list']['board']['publicId']==board['publicId']
+                # The card's issue link is identity for factory actions: attach it once, never overwrite it.
+                current={key:card.get(key) for key in link}
+                if current=={key:None for key in link}:kan('/cards/'+old['card'],link)
+                elif current!=link:raise RuntimeError('Card is linked to another issue')
                 k=fields(card)
                 outbound,inbound,conflicts=reconcile(old['base'],g,k)
                 if conflicts:report['conflicts'].append({'issue':url,'fields':conflicts})

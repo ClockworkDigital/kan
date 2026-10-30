@@ -1,7 +1,8 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   bigint,
   bigserial,
+  check,
   index,
   integer,
   pgEnum,
@@ -80,9 +81,21 @@ export const cards = pgTable(
       () => imports.id,
     ),
     dueDate: timestamp("dueDate"),
+    // Set only by the GitHub issue sync; lowercase "owner/repo".
+    githubRepository: varchar("githubRepository", { length: 200 }),
+    githubIssueNumber: integer("githubIssueNumber"),
   },
   (table) => [
     index("card_list_number_idx").on(table.listId, table.cardNumber),
+    index("card_github_issue_idx")
+      .on(table.githubRepository, table.githubIssueNumber)
+      .where(
+        sql`${table.deletedAt} IS NULL AND ${table.githubRepository} IS NOT NULL`,
+      ),
+    check(
+      "card_github_issue_check",
+      sql`(${table.githubRepository} IS NULL AND ${table.githubIssueNumber} IS NULL) OR (${table.githubRepository} = lower(${table.githubRepository}) AND ${table.githubIssueNumber} > 0)`,
+    ),
   ],
 ).enableRLS();
 

@@ -88,6 +88,23 @@ describe("background sync scope", () => {
   ])("denies %s", async (path) => {
     await expect(check(path)).rejects.toMatchObject({ code: "FORBIDDEN" });
   });
+  it("allows issue links only to the board's own repository", async () => {
+    const link = {
+      githubRepository: "clockworkdigital/test",
+      githubIssueNumber: 1,
+    };
+    await check("card.update", { cardPublicId: "card12345678", ...link });
+    await check("card.create", { listPublicId: "list12345678", ...link });
+    for (const path of ["card.update", "card.create"])
+      await expect(
+        check(path, {
+          cardPublicId: "card12345678",
+          listPublicId: "list12345678",
+          ...link,
+          githubRepository: "clockworkdigital/other",
+        }),
+      ).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
   it("denies other workspaces, repositories and mutation fields", async () => {
     await expect(
       check("board.all", { workspacePublicId: "another12345" }),

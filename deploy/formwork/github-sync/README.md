@@ -23,8 +23,12 @@ names unchanged, because the delegation uses those names to restrict access.
 Only the connecting account can manage this workspace's sync settings.
 
 Stable GitHub issue IDs map to Kan public IDs in the protected state file under
-`~/.local/share/formwork/kan-github-sync/`. The source link recovers card creation
-if a run stops before the mapping is saved. A process lock prevents overlapping
+`~/.local/share/formwork/kan-github-sync/`. The worker also stores the repository
+and issue number on each card (`githubRepository`, `githubIssueNumber`); only
+this delegation may set them, and factory actions use them instead of the
+description link. Mapped cards without them get them on the next run; a card
+linked to a different issue is reported and skipped. The stored link recovers
+card creation if a run stops before the mapping is saved. A process lock prevents overlapping
 runs. Each field has a saved baseline: conflicting edits stay on both services
 and appear in `status.json`. Resolve a conflict by making that field agree on
 both sides. Back up state.json with Kan's database; never delete it to reset sync.

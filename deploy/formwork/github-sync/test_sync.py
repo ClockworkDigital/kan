@@ -65,7 +65,7 @@ class WorkerTests(unittest.TestCase):
     card['labels']=[label for label in card['labels'] if label['publicId']!=identity] if present else card['labels']+[kan_labels[identity].copy()]
     result={'newLabel':not present};label_writes.append('toggle')
    elif path=='/cards':
-    cards['card00000001']={'publicId':'card00000001','title':body['title'],'description':body['description'],'labels':[kan_labels[identity].copy() for identity in body['labelPublicIds']],'list':{'publicId':body['listPublicId'],'board':{'publicId':board['publicId']}}};result=cards['card00000001'];writes.append('create')
+    cards['card00000001']={'publicId':'card00000001','title':body['title'],'description':body['description'],'githubRepository':body['githubRepository'],'githubIssueNumber':body['githubIssueNumber'],'labels':[kan_labels[identity].copy() for identity in body['labelPublicIds']],'list':{'publicId':body['listPublicId'],'board':{'publicId':board['publicId']}}};result=cards['card00000001'];writes.append('create')
    else:
     result=cards['card00000001']
     if body:
@@ -82,6 +82,14 @@ class WorkerTests(unittest.TestCase):
     enabled=False;sync.main();self.assertEqual(writes,['create'])
     enabled=True;selected.clear();sync.main();self.assertEqual(writes,['create'])
     selected.append('ClockworkDigital/test')
+    # Cards from before the issue link column get it attached once from state; a different link is never overwritten.
+    cards['card00000001'].update(githubRepository=None,githubIssueNumber=None)
+    sync.main();sync.main();self.assertEqual(writes,['create','kan'])
+    self.assertEqual((cards['card00000001']['githubRepository'],cards['card00000001']['githubIssueNumber']),('clockworkdigital/test',1))
+    cards['card00000001']['githubIssueNumber']=2;issue['title']='Not synced'
+    with self.assertRaises(SystemExit):sync.main()
+    self.assertEqual(cards['card00000001']['title'],'Original');self.assertEqual(writes,['create','kan'])
+    cards['card00000001']['githubIssueNumber']=1;writes.remove('kan')
     issue['title']='GitHub edit';sync.main();self.assertEqual(cards['card00000001']['title'],'GitHub edit')
     cards['card00000001']['title']='Kan edit';sync.main();self.assertEqual(issue['title'],'Kan edit')
     cards['card00000001']['list']['publicId']='closed000001';sync.main();self.assertEqual(issue['state'],'open');self.assertEqual(cards['card00000001']['list']['publicId'],'open00000001')

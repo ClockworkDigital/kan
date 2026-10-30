@@ -125,6 +125,7 @@ export async function assertSyncScope(
   )
     return deny();
   let boardId: number | undefined;
+  let boardName: string | undefined;
   if (path !== "card.create") {
     const id = z.string().parse(input.cardPublicId);
     const card = await db.query.cards.findFirst({
@@ -139,12 +140,20 @@ export async function assertSyncScope(
     )
       return deny();
     boardId = card.list.board.id;
+    boardName = card.list.board.name;
   }
   if (
     path === "card.update" &&
     Object.keys(input).some(
       (key) =>
-        !["cardPublicId", "title", "description", "listPublicId"].includes(key),
+        ![
+          "cardPublicId",
+          "title",
+          "description",
+          "listPublicId",
+          "githubRepository",
+          "githubIssueNumber",
+        ].includes(key),
     )
   )
     return deny();
@@ -162,7 +171,14 @@ export async function assertSyncScope(
     )
       return deny();
     boardId = list.board.id;
+    boardName = list.board.name;
   }
+  if (
+    input.githubRepository !== undefined &&
+    `github: ${z.string().parse(input.githubRepository)}` !==
+      boardName?.toLowerCase()
+  )
+    return deny();
   if (path === "card.create" || path === "card.addOrRemoveLabel") {
     const ids =
       path === "card.create"
@@ -181,4 +197,20 @@ export async function assertSyncScope(
     )
       return deny();
   }
+}
+
+// Card issue links are identity for factory actions; only the verified sync may write them.
+export function assertSyncIssueLink(
+  headers: Headers,
+  input: { githubRepository?: string },
+) {
+  const scope = headers.get("x-formwork-sync-workspace");
+  if (
+    input.githubRepository !== undefined &&
+    (scope === null || scope.startsWith("factory:"))
+  )
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Only the GitHub issue sync may link cards to issues.",
+    });
 }

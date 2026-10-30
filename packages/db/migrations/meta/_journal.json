@@ -281,6 +281,13 @@
       "when": 1793281208245,
       "tag": "20261029134008_AddBoardProjects",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1793363559858,
+      "tag": "20261030123239_AddCardGithubIssue",
+      "breakpoints": true
     }
   ]
 }

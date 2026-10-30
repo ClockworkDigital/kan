@@ -12,17 +12,18 @@ export function isFactorySender(email: string) {
   );
 }
 
-export async function factoryIssue(description: string | null) {
-  const match =
-    /^<p><a href="https:\/\/github\.com\/(ClockworkDigital\/[A-Za-z0-9_.-]+)\/issues\/([1-9][0-9]*)">GitHub issue #\d+<\/a><\/p><hr\s*\/?>/.exec(
-      description ?? "",
-    );
-  if (!match)
+export async function factoryIssue(
+  card:
+    | { githubRepository: string | null; githubIssueNumber: number | null }
+    | undefined,
+) {
+  const repository = card?.githubRepository;
+  if (!repository?.startsWith("clockworkdigital/") || !card?.githubIssueNumber)
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "This card is not linked to a GitHub issue.",
     });
-  const path = `repos/${match[1]}/issues/${match[2]}`;
+  const path = `repos/${repository}/issues/${card.githubIssueNumber}`;
   const token = await githubInstallationToken();
   const request = async (
     suffix = "",
@@ -30,7 +31,7 @@ export async function factoryIssue(description: string | null) {
     body?: string,
   ): Promise<unknown> => {
     const response = await fetch(
-      `https://api.github.com/${suffix === "/label-exists" ? `repos/${match[1]}/labels/factory` : path + suffix}`,
+      `https://api.github.com/${suffix === "/label-exists" ? `repos/${repository}/labels/factory` : path + suffix}`,
       {
         method,
         body,

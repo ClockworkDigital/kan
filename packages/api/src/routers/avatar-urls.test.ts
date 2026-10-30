@@ -6,7 +6,6 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { generateAvatarUrl } from "@kan/shared/utils";
 
 import { assertPermission } from "../utils/permissions";
-
 import { cardRouter } from "./card";
 import { workspaceRouter } from "./workspace";
 
@@ -167,6 +166,8 @@ describe("avatar URL resolution in routers", () => {
       title: "Card",
       description: null,
       cardNumber: 1,
+      githubRepository: null,
+      githubIssueNumber: null,
       index: 1,
       dueDate: null,
       createdBy: "user-1",
