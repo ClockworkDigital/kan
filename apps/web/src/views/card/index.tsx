@@ -327,7 +327,7 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
       />
       <div className="flex h-full flex-1 flex-col overflow-hidden">
         {/* Full-width top strip with board link and dropdown */}
-        <div className="flex w-full items-center justify-between border-b-[1px] border-light-300 bg-light-50 px-8 py-2 dark:border-dark-300 dark:bg-dark-50">
+        <div className="flex w-full shrink-0 items-center justify-between gap-2 border-b-[1px] border-light-300 bg-light-50 px-8 py-2 dark:border-dark-300 dark:bg-dark-50">
           {!card && isLoading && (
             <div className="flex space-x-2">
               <div className="h-[1.5rem] w-[150px] animate-pulse rounded-[5px] bg-light-300 dark:bg-dark-300" />
@@ -335,16 +335,16 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
           )}
           {card && (
             <>
-              <div className="flex items-center gap-1">
+              <div className="flex min-w-0 items-center gap-1 overflow-hidden">
                 <Link
-                  className="whitespace-nowrapleading-[1.5rem] text-sm font-bold text-light-900 dark:text-dark-950"
+                  className="min-w-0 truncate text-sm font-bold leading-[1.5rem] text-light-900 dark:text-dark-950"
                   href={`${isTemplate ? "/templates" : "/boards"}`}
                 >
                   {workspace.name}
                 </Link>
-                <IoChevronForwardSharp className="h-[10px] w-[10px] text-light-900 dark:text-dark-900" />
+                <IoChevronForwardSharp className="h-[10px] w-[10px] shrink-0 text-light-900 dark:text-dark-900" />
                 <Link
-                  className="whitespace-nowrap text-sm font-bold leading-[1.5rem] text-light-900 dark:text-dark-950"
+                  className="min-w-0 truncate text-sm font-bold leading-[1.5rem] text-light-900 dark:text-dark-950"
                   href={boardReturnUrl}
                 >
                   {board?.name}
@@ -352,14 +352,14 @@ export default function CardPage({ isTemplate }: { isTemplate?: boolean }) {
                 {card.cardNumber != null &&
                   card.list.board.workspace.cardPrefix && (
                     <>
-                      <IoChevronForwardSharp className="h-[10px] w-[10px] text-light-900 dark:text-dark-900" />
-                      <span className="whitespace-nowrap text-sm font-bold leading-[1.5rem] text-light-700 dark:text-dark-800">
+                      <IoChevronForwardSharp className="h-[10px] w-[10px] shrink-0 text-light-900 dark:text-dark-900" />
+                      <span className="shrink-0 whitespace-nowrap text-sm font-bold leading-[1.5rem] text-light-700 dark:text-dark-800">
                         {card.list.board.workspace.cardPrefix}-{card.cardNumber}
                       </span>
                     </>
                   )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-2">
                 <Dropdown
                   cardPublicId={cardId}
                   isTemplate={isTemplate}
