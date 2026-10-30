@@ -63,7 +63,27 @@ export async function publish(
 
 export const list = (db: dbClient, workspaceId: number, page: number) =>
   db
-    .select(summaryColumns)
+    .select({
+      ...summaryColumns,
+      // Board of the card the GitHub sync linked to this job's issue (see byIssue's marker).
+      boardPublicId: sql<string | null>`(${db
+        .select({ publicId: boards.publicId })
+        .from(cards)
+        .innerJoin(lists, eq(lists.id, cards.listId))
+        .innerJoin(boards, eq(boards.id, lists.boardId))
+        .where(
+          and(
+            eq(boards.workspaceId, factoryJobs.workspaceId),
+            eq(boards.type, "regular"),
+            isNull(cards.deletedAt),
+            isNull(lists.deletedAt),
+            isNull(boards.deletedAt),
+            sql`starts_with(lower(${cards.description}), lower('<p><a href="https://github.com/' || ${factoryJobs.repository} || '/issues/' || (${factoryJobs.snapshot}->>'issueNumber') || '">'))`,
+          ),
+        )
+        .orderBy(desc(cards.id))
+        .limit(1)})`,
+    })
     .from(factoryJobs)
     .where(
       and(

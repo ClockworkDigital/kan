@@ -468,6 +468,17 @@ describe("card factory issue lookup", () => {
         snapshot: { stage: "failed" },
       });
       expect(newest.publicId).not.toBe(old.publicId);
+      const { jobs } = await api.list({
+        workspacePublicId: report.workspacePublicId,
+      });
+      const boardByRun = Object.fromEntries(
+        jobs.map((job) => [job.runKey, job.boardPublicId]),
+      );
+      expect(boardByRun).toMatchObject({
+        "new-run": "factoryboard",
+        "other-repo": null,
+        "other-issue": null,
+      });
       await tx
         .update(boards)
         .set({ workspaceId: other.id })

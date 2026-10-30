@@ -2,11 +2,11 @@ import Link from "next/link";
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import {
   HiMiniXMark,
   HiOutlineArrowsUpDown,
+  HiOutlinePencilSquare,
   HiOutlineRectangleStack,
   HiOutlineStar,
   HiStar,
@@ -18,9 +18,11 @@ import Avatar from "~/components/Avatar";
 import Badge from "~/components/Badge";
 import Button from "~/components/Button";
 import CheckboxDropdown from "~/components/CheckboxDropdown";
+import Modal from "~/components/modal";
 import PatternedBackground from "~/components/PatternedBackground";
 import { ProjectProgress } from "~/components/ProjectProgress";
 import { Tooltip } from "~/components/Tooltip";
+import { useBoardListPreferences } from "~/hooks/use-board-list-preferences";
 import { usePermissions } from "~/hooks/usePermissions";
 import { useModal } from "~/providers/modal";
 import { useWorkspace } from "~/providers/workspace";
@@ -28,6 +30,7 @@ import { api } from "~/utils/api";
 import { arrangeBoardTiles } from "~/utils/board-tiles";
 import { parseGithubBoardName } from "~/utils/github-board-name";
 import {
+  ProjectDetailsForm,
   projectStatusColours,
   projectStatusLabels,
 } from "~/views/board/components/ProjectDetailsForm";
@@ -52,10 +55,11 @@ export function BoardsList({
 }) {
   const { workspace } = useWorkspace();
   const { i18n } = useLingui();
-  const { openModal } = useModal();
+  const { openModal, isOpen, modalContentType, entityId, entityLabel } =
+    useModal();
   const { canCreateBoard } = usePermissions();
-  const [sort, setSort] = useState<BoardSort>("default");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const { sort, setSort, selectedTags, setSelectedTags } =
+    useBoardListPreferences(workspace.publicId);
 
   const utils = api.useUtils();
   const updateBoard = api.board.update.useMutation({
@@ -184,7 +188,11 @@ export function BoardsList({
       ],
     };
   });
-  const shown = arrangeBoardTiles(tiles, sort, selectedTags);
+  const shown = arrangeBoardTiles(
+    tiles,
+    isTemplate ? "default" : sort,
+    isTemplate ? [] : selectedTags,
+  );
 
   const sortLabels: Record<BoardSort, string> = {
     default: t`Default`,
@@ -214,6 +222,16 @@ export function BoardsList({
 
   return (
     <div className="flex w-full flex-col gap-4">
+      <Modal
+        modalSize="sm"
+        isVisible={isOpen && modalContentType === "PROJECT_DETAILS"}
+      >
+        <ProjectDetailsForm
+          key={entityId}
+          boardPublicId={entityId}
+          boardName={entityLabel}
+        />
+      </Modal>
       {!isTemplate && (
         <div className="relative z-20 flex gap-2">
           <div>
@@ -302,6 +320,7 @@ export function BoardsList({
             return (
               <motion.div
                 key={board.publicId}
+                className="group relative"
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -418,7 +437,7 @@ export function BoardsList({
                               }
                             </p>
                           </div>
-                          <div className="mt-auto flex min-w-0 items-center gap-3 text-xs text-light-900 dark:text-dark-900">
+                          <div className="mt-auto flex min-w-0 items-center gap-3 pr-8 text-xs text-light-900 dark:text-dark-900">
                             <ProjectProgress
                               github={!!github}
                               done={counts?.doneCards ?? 0}
@@ -446,6 +465,22 @@ export function BoardsList({
                     </div>
                   </div>
                 </Link>
+                {!isTemplate && project?.canEdit && (
+                  <button
+                    type="button"
+                    aria-label={t`Project details`}
+                    title={t`Project details`}
+                    onClick={() =>
+                      openModal("PROJECT_DETAILS", board.publicId, board.name)
+                    }
+                    className="pointer-events-none absolute bottom-3 right-3 z-10 rounded p-1 text-light-900 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 hover:bg-light-300 focus-visible:pointer-events-auto focus-visible:opacity-100 dark:text-dark-900 dark:hover:bg-dark-200"
+                  >
+                    <HiOutlinePencilSquare
+                      aria-hidden="true"
+                      className="h-5 w-5"
+                    />
+                  </button>
+                )}
               </motion.div>
             );
           },
