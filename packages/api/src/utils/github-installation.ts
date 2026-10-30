@@ -54,3 +54,40 @@ export async function githubInstallationToken() {
   cached = { token, expiresAt: Date.parse(expires_at) };
   return token;
 }
+
+let descriptions: { at: number; byRepo: Map<string, string> } | undefined;
+
+// Repository descriptions for board tiles, keyed by lower-case full name. Cached for ten minutes.
+export async function githubRepositoryDescriptions() {
+  if (!githubInstallationConfigured()) return new Map<string, string>();
+  if (descriptions && Date.now() - descriptions.at < 10 * 60_000)
+    return descriptions.byRepo;
+  const token = await githubInstallationToken();
+  const byRepo = new Map<string, string>();
+  for (let page = 1; page <= 10; page++) {
+    const response = await fetch(
+      `https://api.github.com/orgs/ClockworkDigital/repos?per_page=100&page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+        redirect: "error",
+        signal: AbortSignal.timeout(20000),
+      },
+    );
+    if (!response.ok) throw new Error(`GitHub HTTP ${response.status}`);
+    const repos = z
+      .array(
+        z.object({ full_name: z.string(), description: z.string().nullable() }),
+      )
+      .parse(await response.json());
+    for (const repo of repos)
+      if (repo.description?.trim())
+        byRepo.set(repo.full_name.toLowerCase(), repo.description.trim());
+    if (repos.length < 100) break;
+  }
+  descriptions = { at: Date.now(), byRepo };
+  return byRepo;
+}

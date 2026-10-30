@@ -198,8 +198,20 @@ describe("portfolio", () => {
       expect(progress).toHaveLength(2);
       expect(progress).toEqual(
         expect.arrayContaining([
-          { boardPublicId: sync.publicId, totalCards: 6, doneCards: 3 },
-          { boardPublicId: empty.publicId, totalCards: 0, doneCards: 0 },
+          {
+            boardPublicId: sync.publicId,
+            totalCards: 6,
+            doneCards: 3,
+            lastActivityAt: expect.any(Date) as Date,
+            description: null,
+          },
+          {
+            boardPublicId: empty.publicId,
+            totalCards: 0,
+            doneCards: 0,
+            lastActivityAt: null,
+            description: null,
+          },
         ]),
       );
       await expect(

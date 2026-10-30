@@ -9,7 +9,8 @@ export function ProjectProgress({
   total: number;
   github?: boolean;
 }) {
-  const percent = total ? Math.round((done / total) * 100) : 0;
+  if (!total) return <span className="text-xs">{t`No cards yet`}</span>;
+  const percent = Math.round((done / total) * 100);
   const label = github ? t`GitHub issues closed` : t`Cards done`;
   return (
     <span
