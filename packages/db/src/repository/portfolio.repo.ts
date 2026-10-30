@@ -82,7 +82,15 @@ export async function remove(db: dbClient, boardId: number) {
 
 export async function listBoardsForProgress(db: dbClient, workspaceId: number) {
   return db
-    .select({ boardPublicId: boards.publicId, ...cardCounts })
+    .select({
+      boardPublicId: boards.publicId,
+      name: boards.name,
+      ...cardCounts,
+      lastActivityAt:
+        sql<Date | null>`(SELECT max(coalesce(c."updatedAt", c."createdAt")) ${liveCards})`.mapWith(
+          (value: string | Date | null) => (value ? new Date(value) : null),
+        ),
+    })
     .from(boards)
     .where(
       and(

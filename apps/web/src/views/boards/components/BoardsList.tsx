@@ -25,6 +25,8 @@ import {
   projectStatusLabels,
 } from "~/views/board/components/ProjectDetailsForm";
 
+const placeholder = "text-light-800 dark:text-dark-700";
+
 const dot = (colour: string) => (
   <span
     aria-hidden="true"
@@ -139,6 +141,13 @@ export function BoardsList({
         const counts = progress.data?.find(
           (item) => item.boardPublicId === board.publicId,
         );
+        // Project fields default to "", so an empty one falls back to GitHub's description.
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        const description = project?.details || counts?.description;
+        // The newer of the project details edit and the latest card change.
+        const lastActivity = [project?.updatedAt, counts?.lastActivityAt]
+          .filter((date): date is Date => !!date)
+          .sort((a, b) => b.getTime() - a.getTime())[0];
 
         return (
           <motion.div
@@ -194,21 +203,31 @@ export function BoardsList({
                   className={`absolute right-3 top-4 z-10 h-4 w-4 ${github ? "text-neutral-900 dark:text-white" : "text-neutral-400 dark:text-neutral-500"}`}
                 />
                 <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
-                  {project && (
+                  {!isTemplate && (
                     <div className="flex flex-wrap gap-1.5 pr-14">
-                      <Badge
-                        value={statusLabels[project.status]}
-                        iconLeft={dot(projectStatusColours[project.status])}
-                      />
-                      <Badge
-                        value={project.internal ? t`Internal` : t`Client`}
-                        iconLeft={dot(project.internal ? "#0d9488" : "#ea580c")}
-                      />
-                      {project.shownToClient && (
-                        <span className="mt-1 inline-flex items-center rounded-full bg-indigo-600/15 px-2 py-1 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600 dark:text-indigo-300">
-                          {project.clients
-                            ? `${t`Shown`} · ${project.clients}`
-                            : t`Shown`}
+                      {project ? (
+                        <>
+                          <Badge
+                            value={statusLabels[project.status]}
+                            iconLeft={dot(projectStatusColours[project.status])}
+                          />
+                          <Badge
+                            value={project.internal ? t`Internal` : t`Client`}
+                            iconLeft={dot(
+                              project.internal ? "#0d9488" : "#ea580c",
+                            )}
+                          />
+                          {project.shownToClient && (
+                            <span className="mt-1 inline-flex items-center rounded-full bg-indigo-600/15 px-2 py-1 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600 dark:text-indigo-300">
+                              {project.clients
+                                ? `${t`Shown`} · ${project.clients}`
+                                : t`Shown`}
+                            </span>
+                          )}
+                        </>
+                      ) : (
+                        <span className="mt-1 inline-flex items-center rounded-full border border-dashed border-light-500 px-2 py-1 text-[10px] font-medium text-light-900 dark:border-dark-500 dark:text-dark-800">
+                          {t`Status not set`}
                         </span>
                       )}
                     </div>
@@ -216,46 +235,50 @@ export function BoardsList({
                   <h2 className="break-words pr-14 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
                     {github?.repo ?? board.name}
                   </h2>
-                  {project?.details && (
-                    <p className="line-clamp-2 text-left text-xs text-light-900 dark:text-dark-900">
-                      {project.details}
-                    </p>
-                  )}
-                  {project?.nextSteps && (
-                    <div className="border-t border-light-300 pt-2 text-left text-xs dark:border-dark-300">
-                      <p className="text-[10px] uppercase tracking-wide text-light-900 dark:text-dark-800">
-                        {t`Next steps`}
+                  {!isTemplate && (
+                    <>
+                      <p
+                        className={`line-clamp-2 text-left text-xs ${description ? "text-light-900 dark:text-dark-900" : placeholder}`}
+                      >
+                        {description ?? t`No description`}
                       </p>
-                      <p className="whitespace-pre-line break-words text-light-1000 dark:text-dark-950">
-                        {project.nextSteps}
-                      </p>
-                    </div>
-                  )}
-                  {(project ?? github) && (
-                    <div className="mt-auto flex min-w-0 items-center gap-3 text-xs text-light-900 dark:text-dark-900">
-                      <ProjectProgress
-                        github={!!github}
-                        done={counts?.doneCards ?? 0}
-                        total={counts?.totalCards ?? 0}
-                      />
-                      {project && (
-                        <>
+                      <div className="border-t border-light-300 pt-2 text-left text-xs dark:border-dark-300">
+                        <p className="text-[10px] uppercase tracking-wide text-light-900 dark:text-dark-800">
+                          {t`Next steps`}
+                        </p>
+                        <p
+                          className={`whitespace-pre-line break-words ${project?.nextSteps ? "text-light-1000 dark:text-dark-950" : placeholder}`}
+                        >
+                          {
+                            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                            project?.nextSteps || t`Not set`
+                          }
+                        </p>
+                      </div>
+                      <div className="mt-auto flex min-w-0 items-center gap-3 text-xs text-light-900 dark:text-dark-900">
+                        <ProjectProgress
+                          github={!!github}
+                          done={counts?.doneCards ?? 0}
+                          total={counts?.totalCards ?? 0}
+                        />
+                        {lastActivity && (
                           <span className="flex items-center gap-1.5 whitespace-nowrap">
-                            {project.updatedByName && (
-                              <Avatar
-                                size="xs"
-                                name={project.updatedByName}
-                                email=""
-                              />
-                            )}
-                            {i18n.date(project.updatedAt, {
+                            {project?.updatedByName &&
+                              lastActivity === project.updatedAt && (
+                                <Avatar
+                                  size="xs"
+                                  name={project.updatedByName}
+                                  email=""
+                                />
+                              )}
+                            {i18n.date(lastActivity, {
                               day: "numeric",
                               month: "short",
                             })}
                           </span>
-                        </>
-                      )}
-                    </div>
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

@@ -14927,5 +14927,53 @@
         204
       ]
     ]
+  },
+  "YxR4sM": {
+    "translation": "No cards yet",
+    "message": "No cards yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/ProjectProgress.tsx",
+        12
+      ]
+    ]
+  },
+  "flmDTf": {
+    "translation": "No description",
+    "message": "No description",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        241
+      ]
+    ]
+  },
+  "MTqQMG": {
+    "translation": "Not set",
+    "message": "Not set",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        250
+      ]
+    ]
+  },
+  "tol//w": {
+    "translation": "Status not set",
+    "message": "Status not set",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        228
+      ]
+    ]
   }
 }

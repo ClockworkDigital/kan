@@ -70,3 +70,52 @@ it("fails when GitHub refuses the app", async () => {
   const { githubInstallationToken } = await import("./github-installation");
   await expect(githubInstallationToken()).rejects.toThrow("HTTP 401");
 });
+
+it("reads repository descriptions as the app and caches them", async () => {
+  vi.stubEnv("GITHUB_APP_CLIENT_ID", "Iv-test");
+  vi.stubEnv(
+    "GITHUB_APP_PRIVATE_KEY",
+    Buffer.from(privateKey.export({ type: "pkcs8", format: "pem" })).toString(
+      "base64",
+    ),
+  );
+  const expires = new Date(Date.now() + 3600_000).toISOString();
+  const fetch = vi
+    .fn()
+    .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ id: 7 }) })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ token: "inst", expires_at: expires }),
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve([
+          { full_name: "ClockworkDigital/Kan", description: " Boards " },
+          { full_name: "ClockworkDigital/empty", description: null },
+        ]),
+    });
+  vi.stubGlobal("fetch", fetch);
+  const { githubRepositoryDescriptions } = await import(
+    "./github-installation"
+  );
+
+  const descriptions = await githubRepositoryDescriptions();
+  expect([...descriptions]).toEqual([["clockworkdigital/kan", "Boards"]]);
+  expect(await githubRepositoryDescriptions()).toBe(descriptions);
+  expect(fetch).toHaveBeenCalledTimes(3);
+  expect(
+    new Headers(
+      (fetch.mock.calls[2]?.[1] as RequestInit | undefined)?.headers,
+    ).get("Authorization"),
+  ).toBe("Bearer inst");
+});
+
+it("returns no descriptions when the app is not configured", async () => {
+  vi.stubGlobal("fetch", vi.fn());
+  const { githubRepositoryDescriptions } = await import(
+    "./github-installation"
+  );
+  expect((await githubRepositoryDescriptions()).size).toBe(0);
+  expect(fetch).not.toHaveBeenCalled();
+});

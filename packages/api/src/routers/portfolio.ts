@@ -8,6 +8,7 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { boards, projectStatuses } from "@kan/db/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { githubRepositoryDescriptions } from "../utils/github-installation";
 import {
   assertCanEdit,
   assertPermission,
@@ -79,6 +80,8 @@ export const portfolioRouter = createTRPCRouter({
           boardPublicId: z.string(),
           totalCards: z.number(),
           doneCards: z.number(),
+          lastActivityAt: z.date().nullable(),
+          description: z.string().nullable(),
         }),
       ),
     )
@@ -90,7 +93,23 @@ export const portfolioRouter = createTRPCRouter({
       if (!workspace || workspace.deletedAt)
         throw new TRPCError({ code: "NOT_FOUND" });
       await assertPermission(ctx.db, ctx.user.id, workspace.id, "board:view");
-      return portfolioRepo.listBoardsForProgress(ctx.db, workspace.id);
+      const boards = await portfolioRepo.listBoardsForProgress(
+        ctx.db,
+        workspace.id,
+      );
+      // Tiles still render without descriptions if GitHub is unreachable.
+      const descriptions = await githubRepositoryDescriptions().catch(
+        () => new Map<string, string>(),
+      );
+      return boards.map(({ name, ...board }) => {
+        const repo = /^GitHub: (\S+\/\S+)$/.exec(name)?.[1];
+        return {
+          ...board,
+          description: repo
+            ? (descriptions.get(repo.toLowerCase()) ?? null)
+            : null,
+        };
+      });
     }),
   list: protectedProcedure
     .input(z.object({ workspacePublicId: z.string().length(12) }))
