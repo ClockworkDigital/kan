@@ -211,8 +211,9 @@ function WorkspaceFactory({
   workspacePublicId: string;
 }) {
   const [page, setPage] = useState(0);
+  const [includeClosed, setIncludeClosed] = useState(false);
   const jobs = api.factory.list.useQuery(
-    { workspacePublicId, page },
+    { workspacePublicId, page, includeClosed },
     {
       enabled: workspacePublicId.length === 12,
       refetchInterval: 5000,
@@ -223,15 +224,24 @@ function WorkspaceFactory({
   return (
     <>
       <p className="mb-6 text-sm text-light-900 dark:text-dark-900">{t`Updates automatically every five seconds.`}</p>
+      <label className="mb-4 flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={includeClosed}
+          onChange={(event) => {
+            setIncludeClosed(event.target.checked);
+            setPage(0);
+          }}
+        />
+        {t`Include closed issues`}
+      </label>
       {jobs.isPending && <p role="status">{t`Loading...`}</p>}
       {jobs.isError && (
         <p role="alert">{t`Unable to load factory jobs. Check your connection and workspace access; updates will retry automatically.`}</p>
       )}
       {jobs.isSuccess && (
         <>
-          {!jobs.data.jobs.length && (
-            <p>{t`No factory jobs yet. Publish a run to this workspace to see its progress here.`}</p>
-          )}
+          {!jobs.data.jobs.length && <p>{t`No factory jobs to show.`}</p>}
           <div className="grid gap-4 lg:grid-cols-2">
             {jobs.data.jobs.map((job) => (
               <JobCard

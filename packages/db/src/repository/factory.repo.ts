@@ -64,7 +64,7 @@ export async function publish(
 // The newest live card the GitHub sync linked to a job's issue.
 const linkedCard = (
   db: dbClient,
-  column: typeof cards.publicId | typeof boards.publicId,
+  column: typeof cards.publicId | typeof boards.publicId | typeof lists.name,
 ) =>
   sql<string | null>`(${db
     .select({ value: column })
@@ -85,7 +85,12 @@ const linkedCard = (
     .orderBy(desc(cards.id))
     .limit(1)})`;
 
-export const list = (db: dbClient, workspaceId: number, page: number) =>
+export const list = (
+  db: dbClient,
+  workspaceId: number,
+  page: number,
+  includeClosed = false,
+) =>
   db
     .select({
       ...summaryColumns,
@@ -97,6 +102,10 @@ export const list = (db: dbClient, workspaceId: number, page: number) =>
       and(
         eq(factoryJobs.workspaceId, workspaceId),
         isNull(factoryJobs.deletedAt),
+        // GitHub sync moves linked cards to Closed; retain reports for history.
+        includeClosed
+          ? undefined
+          : sql`coalesce(${linkedCard(db, lists.name)}, '') <> 'Closed'`,
       ),
     )
     .orderBy(desc(factoryJobs.updatedAt), desc(factoryJobs.publicId))

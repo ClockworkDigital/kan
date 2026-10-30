@@ -361,6 +361,7 @@ export const factoryRouter = createTRPCRouter({
     .input(
       workspaceInput.extend({
         page: z.number().int().min(0).max(100000).default(0),
+        includeClosed: z.boolean().default(false),
       }),
     )
     .output(
@@ -380,7 +381,12 @@ export const factoryRouter = createTRPCRouter({
         ctx.user.id,
         input.workspacePublicId,
       );
-      const jobs = await factoryRepo.list(ctx.db, workspaceId, input.page);
+      const jobs = await factoryRepo.list(
+        ctx.db,
+        workspaceId,
+        input.page,
+        input.includeClosed,
+      );
       return { jobs: jobs.slice(0, 20), hasMore: jobs.length > 20 };
     }),
   byId: protectedProcedure

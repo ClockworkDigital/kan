@@ -1,0 +1,10 @@
+[Unit]
+Description=Check the enabled Kan factory queues every minute
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+AccuracySec=1s
+Unit=agent-factory-kan.service
+
+[Install]
+WantedBy=timers.target
