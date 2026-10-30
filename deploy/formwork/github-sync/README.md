@@ -1,6 +1,8 @@
 # ClockworkDigital issue sync
 
-The user service `formwork-kan-github-sync` polls every five minutes. It imports
+The user service `formwork-kan-github-sync` polls every five minutes. The optional
+GitHub webhook receiver also wakes this same service after issue or label changes.
+It imports
 open repository issues into private repository boards in Tech and Innovation,
 then synchronises linked titles and descriptions both ways. Issue state flows
 only from GitHub into Kan. Closing or reopening an issue must happen in GitHub
@@ -71,6 +73,8 @@ journalctl --user -u formwork-kan-github-sync.service
 cat ~/.local/share/formwork/kan-github-sync/status.json
 # Stop synchronisation while retaining imported tasks and state:
 systemctl --user disable --now formwork-kan-github-sync.timer
+# If webhook wakeups have been installed, stop those too:
+systemctl --user disable --now formwork-kan-github-sync.path formwork-kan-github-webhook.service
 ```
 
 The service files select this host's checkout and Python. The worker requires only Python and access to Kan through Formwork. It no longer
@@ -82,6 +86,120 @@ data; these tests do not edit real GitHub issues.
 The protected `~/.config/formwork/kan/github-sync.json` selects `baseUrl`,
 `workspacePublicId`, and the expected stable `userId`. These values must match the
 selected Formwork deployment and the owner of the Kan API credential.
+
+## GitHub webhook wakeups
+
+`webhook.py` accepts signed `issues` events for opened, edited, closed, reopened,
+labeled and unlabeled issues, plus `label` created/edited/deleted events in
+ClockworkDigital. Pull requests, issue deletion, comments and other events are
+ignored. Signed pings return 204 without starting sync. Configure the GitHub App
+webhook (or an organisation/repository webhook) to send **Issues** and **Label**
+events as `application/json`; use `https://<Kan hostname>/hooks/github/issues`.
+An App needs repository Issues read permission for those subscriptions.
+
+Every delivery requires `X-Hub-Signature-256`, verified in constant time against
+HMAC-SHA256 of the raw body before parsing. Missing/invalid signatures receive
+401; malformed requests receive 400/415 and bodies above 1 MiB receive 413.
+Unsigned pings are rejected too. The listener has bounded request concurrency and
+a five-second socket timeout. It returns 202 only after saving and flushing a
+protected `webhook.pending` marker; storage failures return 503. Payloads and
+credentials are never queued or logged. GitHub's delivery history is the ingress
+diagnostic; `journalctl` and the existing protected status report cover the worker.
+
+The systemd path unit starts the existing worker, which waits two seconds to
+coalesce bursts and consumes the marker under its existing process lock, before
+reading current settings and state. A delivery during that run leaves a new
+marker; `PathExists` starts a follow-up when the service exits. Duplicate or
+out-of-order deliveries therefore request a fresh reconciliation, never replay
+payload writes. A duplicate after completion can cause another harmless scan;
+delivery IDs are not retained. Full scans retain stable-ID mappings, conflict
+baselines and label ownership. GitHub edits made by the worker can cause one
+extra scan, then settle once both sides agree.
+
+The receiver is only a wake-up signal, not an identity or permission grant. It
+does not read the owner credential, call APIs, choose repositories or write sync
+mappings. The worker still fetches enabled/selected settings and passes through
+the same owner-bound Formwork credential, current gateway policy, emergency
+blocks and native permissions on every API operation. It does not renew expired
+credentials or alter browser/MCP snapshot expiry. Unselected repositories can
+wake a scan but cannot become selected. Kan-to-GitHub edits still depend on the
+five-minute poll. Keep the timer enabled to recover rejected/oversized/missed
+deliveries, receiver outages and failed sync runs; the marker is consumed even
+when the subsequent run is denied or fails. Pause in Kan remains authoritative.
+
+### Deployment
+
+These are operator rollout steps; adding these files does not activate webhooks.
+The app image, database and existing credential do not need changing. Back up
+`state.json` and keep the current timer and credential. Adjust checkout/Python
+paths in the units if this host differs. Never publish Kan's app port.
+
+1. Generate a separate random secret into the owner-only file
+   `~/.config/formwork/kan/github-webhook-secret`, for example:
+
+   ```sh
+   install -d -m 700 ~/.config/formwork/kan
+   (umask 077; openssl rand -hex 32 > ~/.config/formwork/kan/github-webhook-secret)
+   ```
+
+   Set that same value as the webhook secret in GitHub, without the file's trailing
+   newline. Do not reuse a PAT, App private key or Formwork credential. Missing,
+   short or group/world-readable secret files prevent startup. Rotate by updating
+   both sides and restarting the receiver; polling covers the transition.
+
+2. Install the receiver service and path unit, and refresh the existing worker
+   service for its short debounce. Preserve the five-minute timer:
+
+   ```sh
+   install -d ~/.config/systemd/user
+   install -m 644 deploy/formwork/github-sync/formwork-kan-github-webhook.service \
+     deploy/formwork/github-sync/formwork-kan-github-sync.path \
+     deploy/formwork/github-sync/formwork-kan-github-sync.service ~/.config/systemd/user/
+   systemctl --user daemon-reload
+   systemctl --user enable --now formwork-kan-github-webhook.service formwork-kan-github-sync.path
+   systemctl --user status formwork-kan-github-sync.timer
+   ```
+
+3. In the separately managed Formwork Caddy deployment, mount the receiver's
+   runtime **directory** (not the socket file) read-only, for example for UID 1000:
+
+   ```yaml
+   services:
+     caddy:
+       volumes:
+         - /run/user/1000/formwork-kan-github-webhook:/run/kan-github-webhook:ro
+         - /home/trmos/clockwork/Kan/deploy/formwork/github-sync/webhook.caddy:/etc/caddy/kan-github-webhook.caddy:ro
+   ```
+
+   Start the receiver before creating the Caddy container. The directory and
+   socket are private to the service owner; the existing root Caddy container can
+   connect. If Caddy runs as another non-root UID, provision explicit socket
+   access rather than making the credential or state directories public.
+   Inside Kan's host-specific `route`, before the authenticated catch-all, add
+   `import /etc/caddy/kan-github-webhook.caddy`. Validate the complete Caddy config
+   and recreate Caddy to apply mounts. Only the exact webhook path bypasses
+   browser sign-in, and it proxies exclusively to the HMAC receiver. Keep
+   `/api/internal/*` blocked and all Kan API/browser routes under their existing
+   policy. This does not expose `/api/internal/formwork-token` or any app port.
+
+4. Enable GitHub delivery and inspect its signed ping (204). Verify an unsigned
+   POST gets 401, other paths remain protected, and a disposable issue edit gives
+   202 followed by a worker run and the expected Kan update. Re-deliver it and
+   confirm the same mapped card remains. Confirm pause and an unselected
+   repository cannot import changes, then check that the timer remains active.
+   Live edits and gateway changes are separate deployment work.
+
+To roll back ingress, disable the webhook in GitHub, remove the exact Caddy route
+and mounts, then disable the receiver and path unit. Leave the existing timer,
+state mappings and credential in place. To stop all sync, pause in Kan or stop
+both the timer and path unit; stopping the receiver alone leaves polling active.
+
+Offline verification: `python3 -m unittest discover -s deploy/formwork/github-sync`
+includes real Unix-socket HTTP requests, raw-byte signature failures, event
+filtering, marker coalescing, storage failures and expired/paused worker checks.
+GitHub's [signature guide](https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries)
+and [delivery practices](https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks)
+describe the signed request and asynchronous delivery contract.
 
 Synced repository boards use the GitHub submission form in New card. Bugs require
 summary, reproduction steps, expected result, actual result and environment.

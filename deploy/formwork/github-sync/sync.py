@@ -35,6 +35,8 @@ def main():
     os.umask(0o077)
     STATE.mkdir(parents=True, exist_ok=True, mode=0o700)
     lock = open(STATE/'lock', 'w'); fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    # Consume only after locking and before reads; later deliveries request another run.
+    (STATE/'webhook.pending').unlink(missing_ok=True)
     profile = json.loads(PROFILE.read_text())
     assert PROFILE.stat().st_mode & 0o077 == 0
     if profile.get('expiresAt'):

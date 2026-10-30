@@ -3,6 +3,8 @@ Description=ClockworkDigital GitHub issues and Kan sync
 [Service]
 Type=oneshot
 WorkingDirectory=%h/clockwork/Kan
+# Coalesce webhook bursts before reading fresh state, including paused/denied runs.
+ExecStartPre=/usr/bin/sleep 2
 ExecStart=/usr/bin/python3 %h/clockwork/Kan/deploy/formwork/github-sync/sync.py
 UMask=0077
 NoNewPrivileges=yes
