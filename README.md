@@ -184,6 +184,7 @@ pnpm dev
 | `NEXT_PUBLIC_DISABLE_EMAIL`               | To disable all email features                             | For Email                                   | `true`                                                      |
 | `NEXT_PUBLIC_BASE_URL`                    | Base URL of your installation                             | Yes                                         | `http://localhost:3000`                                     |
 | `NEXT_API_BODY_SIZE_LIMIT`                | Maximum API request body size (defaults to 1mb)           | No                                          | `50mb`                                                      |
+| `FACTORY_SENDER_EMAILS` | Comma-separated Kan account emails permitted to send to factory; empty denies everyone | Optional | |
 | `BETTER_AUTH_ALLOWED_DOMAINS`             | Comma-separated list of allowed domains for OIDC logins   | For OIDC/Social login                       | `example.com,subsidiary.com`                                |
 | `FORMWORK_TENANT_ID` | Enable verified gateway identity for one tenant. Requires isolated gateway-only networking and explicitly provisioned user UUIDs. | For Formwork | Tenant UUID |
 | `NEXT_PUBLIC_FORMWORK_URL` | HTTPS Formwork catalogue URL for navigation and sign-out | For Formwork | `https://formwork.example.com` |

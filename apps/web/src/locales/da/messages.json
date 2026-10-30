@@ -14827,5 +14827,57 @@
         242
       ]
     ]
+  },
+  "g6JoUX": {
+    "translation": "",
+    "message": "Check that the linked issue is open and you have permission.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        119
+      ]
+    ]
+  },
+  "1r1Wxh": {
+    "translation": "",
+    "message": "Queued for factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        112
+      ],
+      [
+        "src/views/card/components/Dropdown.tsx",
+        113
+      ]
+    ]
+  },
+  "Rw1F4s": {
+    "translation": "",
+    "message": "Send to factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        128
+      ]
+    ]
+  },
+  "D0ROtX": {
+    "translation": "",
+    "message": "Unable to send to factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        118
+      ]
+    ]
   }
 }
