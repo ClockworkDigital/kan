@@ -141,3 +141,8 @@ The existing `factory` label must exist; Kan does not create it.
 A success toast confirms queueing; the normal GitHub sync brings the label to Kan.
 Sending an already labelled issue makes no further write. No factory run is
 started directly and no credential is renewed.
+
+After you use **Send to factory**, the scheduled runner checks the authorized
+queue every minute. The Factory tab refreshes every five seconds while visible,
+and the card's stage badge refreshes every five seconds while the card is open.
+A successful reviewed run opens a pull request; a human decides whether to merge it.
