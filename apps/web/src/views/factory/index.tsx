@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { useEffect, useState } from "react";
@@ -50,7 +51,12 @@ function JobCard({
         {job.repository} · {job.runKey}
       </p>
       <div className="my-3 flex flex-wrap gap-4 text-sm underline">
-        {snapshot.issueNumber !== null && (
+        {snapshot.issueNumber !== null && job.boardPublicId !== null && (
+          <Link
+            href={`/boards/${job.boardPublicId}`}
+          >{t`Issue #${snapshot.issueNumber}`}</Link>
+        )}
+        {snapshot.issueNumber !== null && job.boardPublicId === null && (
           <a
             href={`${repositoryUrl}/issues/${snapshot.issueNumber}`}
             target="_blank"

@@ -370,7 +370,12 @@ export const factoryRouter = createTRPCRouter({
         page: z.number().int().min(0).max(100000).default(0),
       }),
     )
-    .output(z.object({ jobs: z.array(job), hasMore: z.boolean() }))
+    .output(
+      z.object({
+        jobs: z.array(job.extend({ boardPublicId: z.string().nullable() })),
+        hasMore: z.boolean(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
       const workspaceId = await access(
         ctx.db,
