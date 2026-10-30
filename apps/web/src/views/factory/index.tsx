@@ -4,27 +4,12 @@ import { useEffect, useState } from "react";
 
 import type { RouterOutputs } from "~/utils/api";
 import Button from "~/components/Button";
+import { FactoryStageBadge } from "~/components/FactoryStageBadge";
 import { PageHead } from "~/components/PageHead";
 import { useWorkspace } from "~/providers/workspace";
 import { api } from "~/utils/api";
 
 type Job = RouterOutputs["factory"]["list"]["jobs"][number];
-
-function stageLabels() {
-  return {
-    queued: t`Queued`,
-    intake: t`Intake`,
-    spec: t`Specification`,
-    building: t`Building`,
-    checks: t`Checks`,
-    rework: t`Rework`,
-    review: t`Review`,
-    needs_info: t`Waiting for information`,
-    needs_human: t`Waiting for human review`,
-    failed: t`Failed`,
-    completed: t`Completed`,
-  };
-}
 
 function JobCard({
   job,
@@ -50,9 +35,7 @@ function JobCard({
   return (
     <article className="min-w-0 rounded-lg border border-light-300 bg-light-50 p-5 dark:border-dark-400 dark:bg-dark-100">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <span className="rounded bg-light-200 px-2 py-1 text-sm font-medium dark:bg-dark-300">
-          {stageLabels()[snapshot.stage]}
-        </span>
+        <FactoryStageBadge stage={snapshot.stage} />
         <span className="text-xs text-light-900 dark:text-dark-900">
           {i18n.date(job.updatedAt, {
             dateStyle: "medium",

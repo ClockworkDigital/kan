@@ -12,6 +12,13 @@ read. Open artifacts refresh when their job revision changes; failed loads retry
 after a successful list refresh. Twenty jobs are shown per page, newest report first. Reports can move jobs
 between pages while the factory is running.
 
+Cards linked by the GitHub sync's leading issue link also show a stage badge in
+their detail view. The badge polls every five seconds while the card is open and
+matches repository and issue number within the card's workspace. The newest
+created run wins, even if an older run publishes again. Failed and human-review
+stages remain visible until a newer run replaces them. No matching job means no
+badge; failed reads hide the badge until polling succeeds.
+
 ## Publish from a running factory
 
 After saving progress, send a complete snapshot to Kan's existing public API:
@@ -53,6 +60,7 @@ them. GET the same collection to list jobs (`page=0`, then `page=1`, etc.); GET
 `/api/v1/workspaces/{workspacePublicId}/factory/jobs/{jobPublicId}` for artifacts.
 
 Stages: `queued`, `intake`, `spec`, `building`, `checks`, `rework`, `review`,
+`publishing`, `babysitting`, `judging`, `waiting`,
 `needs_info`, `needs_human`, `failed`, `completed`. Gate/reviewer results:
 `pending`, `pass`, `fail`, `skipped`. Use `null` for unavailable issue/PR numbers,
 risk, model, cost and elapsed time. Reports are limited to 512 KiB, 50 rounds,
