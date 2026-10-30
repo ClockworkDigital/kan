@@ -263,3 +263,4 @@ GitHub App account connection uses server-only `GITHUB_APP_CLIENT_ID` and `GITHU
 | --- | --- |
 | GITHUB_APP_CLIENT_ID | GitHub App OAuth client ID for account connection |
 | GITHUB_APP_CLIENT_SECRET | Server-only GitHub App OAuth client secret |
+| GITHUB_APP_PRIVATE_KEY | Base64-encoded app private key PEM; background sync runs as the app |

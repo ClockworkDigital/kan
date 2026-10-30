@@ -5,6 +5,7 @@ import { getProviderForUser } from "@kan/db/repository/integration.repo";
 import { getByPublicId } from "@kan/db/repository/workspace.repo";
 
 import { createTRPCRouter } from "../trpc";
+import { githubInstallationConfigured } from "../utils/github-installation";
 import { assertPermission } from "../utils/permissions";
 import { githubSyncInput, githubSyncRouter } from "./github-sync";
 
@@ -20,6 +21,10 @@ vi.mock("@kan/db/repository/workspace.repo", () => ({
   getByPublicId: vi.fn(),
 }));
 vi.mock("../utils/permissions", () => ({ assertPermission: vi.fn() }));
+vi.mock("../utils/github-installation", () => ({
+  githubInstallationConfigured: vi.fn(() => false),
+  githubInstallationToken: vi.fn(() => Promise.resolve("app-token")),
+}));
 vi.mock("../utils/encryption", () => ({
   decryptToken: vi.fn(() => "saved-user-token"),
 }));
@@ -60,6 +65,24 @@ describe("saved GitHub token for sync", () => {
       "Bearer saved-user-token",
     );
     expect(options?.redirect).toBe("error");
+  });
+  it("syncs as the GitHub App for the workspace's sync owner only", async () => {
+    vi.mocked(githubInstallationConfigured).mockReturnValue(true);
+    vi.mocked(settings.get).mockResolvedValue({ userId: "owner" } as never);
+    vi.mocked(getProviderForUser).mockResolvedValue(undefined);
+    expect(await caller.request(input)).toEqual({ id: 1 });
+    const auth = (call: number) =>
+      new Headers(vi.mocked(fetch).mock.calls[call]?.[1]?.headers).get(
+        "Authorization",
+      );
+    expect(auth(0)).toBe("Bearer app-token");
+    vi.mocked(settings.get).mockResolvedValue({ userId: "other" } as never);
+    vi.mocked(getProviderForUser).mockResolvedValue({
+      accessToken: "encrypted",
+    } as never);
+    await caller.request(input);
+    expect(auth(1)).toBe("Bearer saved-user-token");
+    vi.mocked(githubInstallationConfigured).mockReturnValue(false);
   });
   it("fails closed when disconnected", async () => {
     vi.mocked(getProviderForUser).mockResolvedValue(undefined);

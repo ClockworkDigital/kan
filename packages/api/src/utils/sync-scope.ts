@@ -6,6 +6,7 @@ import * as settingsRepo from "@kan/db/repository/github-sync.repo";
 import { getProviderForUser } from "@kan/db/repository/integration.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 
+import { githubInstallationConfigured } from "./github-installation";
 import { assertPermission } from "./permissions";
 
 export async function assertSyncScope(
@@ -37,7 +38,13 @@ export async function assertSyncScope(
     if (input.workspacePublicId !== workspacePublicId) return deny();
     return;
   }
-  if (!settings.enabled || !(await getProviderForUser(db, userId, "github")))
+  if (
+    !settings.enabled ||
+    !(
+      githubInstallationConfigured() ||
+      (await getProviderForUser(db, userId, "github"))
+    )
+  )
     return deny();
   if (path === "user.getUser") return;
   if (["board.all", "permission.getMyPermissions"].includes(path)) {
