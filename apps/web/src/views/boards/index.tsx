@@ -200,12 +200,10 @@ export default function BoardsPage({ isTemplate }: { isTemplate?: boolean }) {
               </div>
             </div>
             <div className="flex h-full flex-row focus:outline-none">
-              {activeTab === "boards" && (
-                <BoardsList isTemplate={false} archived={false} />
-              )}
-              {activeTab === "archived" && (
-                <BoardsList isTemplate={false} archived={true} />
-              )}
+              <BoardsList
+                isTemplate={false}
+                archived={activeTab === "archived"}
+              />
             </div>
           </div>
         ) : (

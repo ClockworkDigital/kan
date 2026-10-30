@@ -15039,5 +15039,89 @@
         118
       ]
     ]
+  },
+  "ovBPCi": {
+    "translation": "Default",
+    "message": "Default",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        190
+      ]
+    ]
+  },
+  "0MODat": {
+    "translation": "No boards match these filters",
+    "message": "No boards match these filters",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        283
+      ]
+    ]
+  },
+  "CCTop/": {
+    "translation": "Recent",
+    "message": "Recent",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        191
+      ]
+    ]
+  },
+  "f6Hub0": {
+    "translation": "Sort",
+    "message": "Sort",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        232
+      ]
+    ]
+  },
+  "mOXBaT": {
+    "translation": "Babysitting",
+    "message": "Babysitting",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        18
+      ]
+    ]
+  },
+  "LJX7nD": {
+    "translation": "Judging",
+    "message": "Judging",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        19
+      ]
+    ]
+  },
+  "uUehLT": {
+    "translation": "Waiting",
+    "message": "Waiting",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        20
+      ]
+    ]
   }
 }
