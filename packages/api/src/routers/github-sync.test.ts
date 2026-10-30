@@ -233,8 +233,10 @@ describe("repository selection", () => {
       ).toEqual([
         { name: "ClockworkDigital/test", writable: issuesWrite, topics: [] },
       ]);
-      expect(String(vi.mocked(fetch).mock.calls[0]?.[0])).toBe(
-        "https://api.github.com/installation/repositories?per_page=100&page=1",
+      expect(vi.mocked(fetch).mock.calls[0]?.[0]).toEqual(
+        new URL(
+          "https://api.github.com/installation/repositories?per_page=100&page=1",
+        ),
       );
       expect(vi.mocked(fetch).mock.calls[0]?.[1]?.method).toBe("GET");
       expect(getProviderForUser).not.toHaveBeenCalled();

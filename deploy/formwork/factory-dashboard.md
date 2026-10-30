@@ -147,6 +147,13 @@ the label to Kan.
 Sending an already labelled issue makes no further write. No factory run is
 started directly and no credential is renewed.
 
+The scheduled runner checks the authorized queue every minute. With `run --publish`,
+it monitors PR checks and review feedback after publication, then leaves the PR
+open for a human to merge. It requires a clean, passing remote base before intake;
+a failing baseline must be repaired and merged before a new queued job can run.
+When intake needs clarification, open the `intake.txt` artifact in Factory to read
+the question. A GitHub reply still needs the operator's explicit rework flow.
+
 ## Inspect and act without leaving Factory
 
 Expand **Issue, pull request and actions** on a job to fetch its issue body and
