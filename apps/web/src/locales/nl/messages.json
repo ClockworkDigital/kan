@@ -8850,33 +8850,105 @@
     "comments": [],
     "origin": [["src/views/boards/components/BoardsList.tsx", 242]]
   },
+  "g6JoUX": {
+    "translation": "",
+    "message": "Check that the linked issue is open and you have permission.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        119
+      ]
+    ]
+  },
+  "1r1Wxh": {
+    "translation": "",
+    "message": "Queued for factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        112
+      ],
+      [
+        "src/views/card/components/Dropdown.tsx",
+        113
+      ]
+    ]
+  },
+  "Rw1F4s": {
+    "translation": "",
+    "message": "Send to factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        128
+      ]
+    ]
+  },
+  "D0ROtX": {
+    "translation": "",
+    "message": "Unable to send to factory",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/Dropdown.tsx",
+        118
+      ]
+    ]
+  },
   "ovBPCi": {
     "translation": "",
     "message": "Default",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 190]]
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        190
+      ]
+    ]
   },
   "0MODat": {
     "translation": "",
     "message": "No boards match these filters",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 283]]
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        283
+      ]
+    ]
   },
   "CCTop/": {
     "translation": "",
     "message": "Recent",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 191]]
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        191
+      ]
+    ]
   },
   "f6Hub0": {
     "translation": "",
     "message": "Sort",
     "placeholders": {},
     "comments": [],
-    "origin": [["src/views/boards/components/BoardsList.tsx", 232]]
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        232
+      ]
+    ]
   },
   "mOXBaT": {
     "translation": "",

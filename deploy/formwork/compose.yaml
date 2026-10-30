@@ -9,6 +9,7 @@ services:
     image: ${KAN_IMAGE:?Set the checked Kan image}
     restart: unless-stopped
     environment:
+      FACTORY_SENDER_EMAILS: ${FACTORY_SENDER_EMAILS:-}
       GITHUB_APP_CLIENT_ID: ${GITHUB_APP_CLIENT_ID:-}
       GITHUB_APP_CLIENT_SECRET: ${GITHUB_APP_CLIENT_SECRET:-}
       GITHUB_APP_PRIVATE_KEY: ${GITHUB_APP_PRIVATE_KEY:-}

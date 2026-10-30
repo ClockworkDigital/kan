@@ -102,7 +102,38 @@ export default function CardDropdown({
     }
   };
 
+  const eligibility = api.card.canSendToFactory.useQuery(
+    { cardPublicId },
+    { enabled: !isTemplate, retry: false },
+  );
+  const sendToFactory = api.card.sendToFactory.useMutation({
+    onSuccess: () =>
+      showPopup({
+        header: t`Queued for factory`,
+        message: t`Queued for factory`,
+        icon: "success",
+      }),
+    onError: () =>
+      showPopup({
+        header: t`Unable to send to factory`,
+        message: t`Check that the linked issue is open and you have permission.`,
+        icon: "error",
+      }),
+  });
+
   const items = [
+    ...(eligibility.data
+      ? [
+          {
+            label: t`Send to factory`,
+            action: () => sendToFactory.mutate({ cardPublicId }),
+            disabled: sendToFactory.isPending,
+            icon: (
+              <HiOutlineCheckCircle className="h-[16px] w-[16px] text-dark-900" />
+            ),
+          },
+        ]
+      : []),
     {
       label: t`Copy card link`,
       action: handleCopyCardLink,

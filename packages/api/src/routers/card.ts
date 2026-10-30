@@ -21,6 +21,7 @@ import {
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { mergeActivities } from "../utils/activities";
 import { createAvatarUrlResolver } from "../utils/avatarUrls";
+import { factoryIssue, isFactorySender } from "../utils/factory-send";
 import { sendMentionEmails } from "../utils/notifications";
 import {
   assertCanDelete,
@@ -33,6 +34,77 @@ import {
 } from "../utils/webhook";
 
 export const cardRouter = createTRPCRouter({
+  canSendToFactory: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/cards/{cardPublicId}/factory-eligibility",
+        tags: ["Cards"],
+        protect: true,
+        summary: "Factory eligibility",
+      },
+    })
+    .input(z.object({ cardPublicId: z.string().length(12) }))
+    .output(z.boolean())
+    .query(async ({ ctx, input }) => {
+      if (!isFactorySender(ctx.user.email)) return false;
+      const card = await cardRepo.getWorkspaceAndCardIdByCardPublicId(
+        ctx.db,
+        input.cardPublicId,
+      );
+      if (!card)
+        throw new TRPCError({ code: "NOT_FOUND", message: "Card not found." });
+      await assertPermission(
+        ctx.db,
+        ctx.user.id,
+        card.workspaceId,
+        "card:edit",
+      );
+      const detail = await cardRepo.getByPublicId(ctx.db, input.cardPublicId);
+      try {
+        await factoryIssue(detail?.description ?? null);
+        return true;
+      } catch {
+        return false;
+      }
+    }),
+  sendToFactory: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/cards/{cardPublicId}/factory",
+        tags: ["Cards"],
+        protect: true,
+        summary: "Factory send",
+      },
+    })
+    .input(z.object({ cardPublicId: z.string().length(12) }))
+    .output(z.boolean())
+    .mutation(async ({ ctx, input }) => {
+      if (!isFactorySender(ctx.user.email))
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Only configured factory owners may send issues.",
+        });
+      const card = await cardRepo.getWorkspaceAndCardIdByCardPublicId(
+        ctx.db,
+        input.cardPublicId,
+      );
+      if (!card)
+        throw new TRPCError({ code: "NOT_FOUND", message: "Card not found." });
+      await assertPermission(
+        ctx.db,
+        ctx.user.id,
+        card.workspaceId,
+        "card:edit",
+      );
+      const detail = await cardRepo.getByPublicId(ctx.db, input.cardPublicId);
+
+      const send = await factoryIssue(detail?.description ?? null);
+      await send();
+      return true;
+    }),
+
   create: protectedProcedure
     .meta({
       openapi: {

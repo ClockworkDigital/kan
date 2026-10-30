@@ -46,6 +46,7 @@
     }
   },
   "globalEnv": [
+    "FACTORY_SENDER_EMAILS",
     "GITHUB_APP_CLIENT_ID",
     "GITHUB_APP_CLIENT_SECRET",
     "GITHUB_APP_PRIVATE_KEY",

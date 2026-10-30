@@ -127,3 +127,17 @@ pnpm --filter @kan/api exec vitest run integration-tests/factory.integration.tes
 pnpm --filter @kan/auth test
 pnpm --filter @kan/e2e exec playwright test tests/self-hosted/factory-dashboard.spec.ts
 ```
+
+## Send an issue to the factory
+
+Set `FACTORY_SENDER_EMAILS` in the private Kan environment to a comma-separated
+list of owner Kan account emails. Whitespace and case are ignored; unset or empty
+denies everyone. This grants permission to spend the owner's model tokens.
+The card menu shows **Send to factory** only for permitted accounts with card edit
+access and a linked, currently open GitHub issue. The mutation repeats these checks.
+It uses the Formwork Kan App installation token and requires **Issues: write**
+(documented in github-oauth.md; verify the installed grant before rollout).
+The existing `factory` label must exist; Kan does not create it.
+A success toast confirms queueing; the normal GitHub sync brings the label to Kan.
+Sending an already labelled issue makes no further write. No factory run is
+started directly and no credential is renewed.
