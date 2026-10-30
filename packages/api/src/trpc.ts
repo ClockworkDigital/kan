@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import { createLogger } from "@kan/logger";
 
 import type { createTRPCContext } from "./trpc-context";
+import { assertFactoryScope } from "./utils/factory-scope";
 import { assertSyncScope } from "./utils/sync-scope";
 
 const log = createLogger("api");
@@ -56,7 +57,14 @@ export const createCallerFactory = t.createCallerFactory;
 const loggingMiddleware = t.middleware(
   async ({ path, type, next, ctx, getRawInput }) => {
     const syncWorkspace = ctx.headers.get("x-formwork-sync-workspace");
-    if (syncWorkspace)
+    if (syncWorkspace?.startsWith("factory:"))
+      assertFactoryScope(
+        ctx.user?.id,
+        syncWorkspace,
+        path,
+        await getRawInput(),
+      );
+    else if (syncWorkspace !== null)
       await assertSyncScope(
         ctx.db,
         ctx.user?.id,

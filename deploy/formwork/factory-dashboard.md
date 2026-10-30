@@ -66,12 +66,35 @@ excluded from request logs.
 
 ## Formwork and rollout
 
-Use an explicitly issued, owner-bound Formwork native API credential through the
-gateway. Its existing tenant, department, block and eight-hour identity expiry
-checks still apply; Kan also checks native permissions on every operation. Stop
-publishing on 401/403 and have the operator inspect or reissue the grant. There is
-no automatic renewal. The GitHub sync delegation cannot access factory routes.
-Keep the verification callback private and do not publish the app port.
+Use a dedicated service user provisioned by stable UUID with `provision.ts`
+first (see the deployment README). It must be an active member of the selected
+workspace with `workspace:manage`; conflict recovery reads need `workspace:view`.
+Email is never an identity key.
+
+The operator approves a protected JSON grant with `purpose: "formwork-kan-factory"`,
+`tenantId`, `userId` (stable UUIDs), `groups` (approved UUID array),
+`accountType: "0"`, `targetHost` and `workspacePublicId` (12 characters).
+Using the operator database environment, run:
+
+```sh
+node node_modules/vite-node/vite-node.mjs deploy/formwork/factory-credential.ts /protected/approved-grant.json /protected/factory-token
+```
+
+The script validates tenant, host, active workspace, membership and manage
+permission, and writes only the bearer token to a new mode-0600 file. It prints
+no secret and disables the key if writing fails. Keep that file outside both
+repositories on the runner host; the existing runner reads it and sends
+`Authorization: Bearer`. No runner changes are required.
+
+This explicit persistent delegation has no expiry. Disable the API key to revoke
+it; stop publishing on 401/403 and have the operator investigate, without automatic
+renewal. Approved groups persist until revocation/reissue; current Formwork tenant,
+department, tool and emergency block checks still apply to each request.
+The private callback supplies `X-Formwork-Sync-Workspace: factory:<workspacePublicId>`.
+Only factory publish/list/byId for that workspace are permitted, in addition to
+native route permissions. GitHub sync and factory purposes are never interchangeable.
+Interactive/MCP credentials retain their eight-hour expiry. Keep the verification
+callback private and do not publish the app port.
 
 Apply the generated `AddFactoryJobs` and `AllowDeletedFactoryPublisher`
 migrations to Kan's independent database before rollout. Grant its existing runtime role SELECT, INSERT and UPDATE on

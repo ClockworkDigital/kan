@@ -41,3 +41,22 @@ export function readFormworkSyncGrant(
     throw new Error("Invalid sync delegation");
   return grant;
 }
+
+export const formworkFactoryGrant = formworkSyncGrant.extend({
+  purpose: z.literal("formwork-kan-factory"),
+});
+export function readFormworkFactoryGrant(
+  key: { userId: string; metadata: unknown; expiresAt: Date | null },
+  tenantId: string,
+  targetHost: string,
+) {
+  const grant = formworkFactoryGrant.parse(key.metadata);
+  if (
+    grant.userId !== key.userId ||
+    grant.tenantId !== tenantId ||
+    grant.targetHost !== targetHost ||
+    (key.expiresAt && key.expiresAt.getTime() <= Date.now())
+  )
+    throw new Error("Invalid factory delegation");
+  return grant;
+}

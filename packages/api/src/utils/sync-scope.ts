@@ -22,7 +22,7 @@ export async function assertSyncScope(
       message: "Outside background sync delegation.",
     });
   };
-  if (!userId) return deny();
+  if (!userId || workspacePublicId.startsWith("factory:")) return deny();
   const workspace = await workspaceRepo.getByPublicId(db, workspacePublicId);
   if (!workspace) return deny();
   for (const permission of [
