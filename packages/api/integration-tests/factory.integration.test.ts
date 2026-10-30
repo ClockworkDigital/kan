@@ -483,12 +483,12 @@ describe("card factory issue lookup", () => {
         workspacePublicId: report.workspacePublicId,
       });
       const boardByRun = Object.fromEntries(
-        jobs.map((job) => [job.runKey, job.boardPublicId]),
+        jobs.map((job) => [job.runKey, [job.boardPublicId, job.cardPublicId]]),
       );
       expect(boardByRun).toMatchObject({
-        "new-run": "factoryboard",
-        "other-repo": null,
-        "other-issue": null,
+        "new-run": ["factoryboard", "factorycard1"],
+        "other-repo": [null, null],
+        "other-issue": [null, null],
       });
       await tx
         .update(boards)
