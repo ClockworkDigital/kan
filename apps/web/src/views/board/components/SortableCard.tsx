@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { env } from "next-runtime-env";
+import { useEffect, useRef } from "react";
 
 import type { CardDragData } from "../dnd/types";
 import type { BoardCard } from "../types";
@@ -25,6 +27,13 @@ export default function SortableCard({
   onContextMenu,
 }: SortableCardProps) {
   const isPlaceholder = card.publicId.startsWith("PLACEHOLDER");
+  // Links like /boards/{id}?card={cardId} (from the factory dashboard) point at one card.
+  const highlighted = useRouter().query.card === card.publicId;
+  const cardRef = useRef<HTMLAnchorElement | null>(null);
+  useEffect(() => {
+    if (highlighted)
+      cardRef.current?.scrollIntoView({ block: "center", inline: "center" });
+  }, [highlighted]);
 
   const {
     attributes,
@@ -58,13 +67,17 @@ export default function SortableCard({
       }}
       href={cardHref}
       className={`mb-2 flex flex-col ${
-        isPlaceholder ? "pointer-events-none" : ""
-      } ${
+        highlighted ? "rounded-md ring-2 ring-light-900 dark:ring-dark-900" : ""
+      } ${isPlaceholder ? "pointer-events-none" : ""} ${
         canEditCard && !isPlaceholder && isDragging
           ? "cursor-grabbing"
           : "cursor-pointer"
       }`}
-      ref={setNodeRef}
+      ref={(node) => {
+        cardRef.current = node;
+        setNodeRef(node);
+      }}
+      aria-current={highlighted || undefined}
       style={style}
       {...attributes}
       {...listeners}

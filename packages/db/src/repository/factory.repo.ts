@@ -61,29 +61,36 @@ export async function publish(
   return job;
 }
 
+// The newest live card the GitHub sync linked to a job's issue.
+const linkedCard = (
+  db: dbClient,
+  column: typeof cards.publicId | typeof boards.publicId,
+) =>
+  sql<string | null>`(${db
+    .select({ value: column })
+    .from(cards)
+    .innerJoin(lists, eq(lists.id, cards.listId))
+    .innerJoin(boards, eq(boards.id, lists.boardId))
+    .where(
+      and(
+        eq(boards.workspaceId, factoryJobs.workspaceId),
+        eq(boards.type, "regular"),
+        isNull(cards.deletedAt),
+        isNull(lists.deletedAt),
+        isNull(boards.deletedAt),
+        sql`${cards.githubRepository} = lower(${factoryJobs.repository})`,
+        sql`${cards.githubIssueNumber} = (${factoryJobs.snapshot}->>'issueNumber')::integer`,
+      ),
+    )
+    .orderBy(desc(cards.id))
+    .limit(1)})`;
+
 export const list = (db: dbClient, workspaceId: number, page: number) =>
   db
     .select({
       ...summaryColumns,
-      // Board of the card the GitHub sync linked to this job's issue.
-      boardPublicId: sql<string | null>`(${db
-        .select({ publicId: boards.publicId })
-        .from(cards)
-        .innerJoin(lists, eq(lists.id, cards.listId))
-        .innerJoin(boards, eq(boards.id, lists.boardId))
-        .where(
-          and(
-            eq(boards.workspaceId, factoryJobs.workspaceId),
-            eq(boards.type, "regular"),
-            isNull(cards.deletedAt),
-            isNull(lists.deletedAt),
-            isNull(boards.deletedAt),
-            sql`${cards.githubRepository} = lower(${factoryJobs.repository})`,
-            sql`${cards.githubIssueNumber} = (${factoryJobs.snapshot}->>'issueNumber')::integer`,
-          ),
-        )
-        .orderBy(desc(cards.id))
-        .limit(1)})`,
+      boardPublicId: linkedCard(db, boards.publicId),
+      cardPublicId: linkedCard(db, cards.publicId),
     })
     .from(factoryJobs)
     .where(

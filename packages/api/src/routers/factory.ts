@@ -365,7 +365,12 @@ export const factoryRouter = createTRPCRouter({
     )
     .output(
       z.object({
-        jobs: z.array(job.extend({ boardPublicId: z.string().nullable() })),
+        jobs: z.array(
+          job.extend({
+            boardPublicId: z.string().nullable(),
+            cardPublicId: z.string().nullable(),
+          }),
+        ),
         hasMore: z.boolean(),
       }),
     )
