@@ -14827,5 +14827,41 @@
         242
       ]
     ]
+  },
+  "mOXBaT": {
+    "translation": "",
+    "message": "Babysitting",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        18
+      ]
+    ]
+  },
+  "LJX7nD": {
+    "translation": "",
+    "message": "Judging",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        19
+      ]
+    ]
+  },
+  "uUehLT": {
+    "translation": "",
+    "message": "Waiting",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        20
+      ]
+    ]
   }
 }
