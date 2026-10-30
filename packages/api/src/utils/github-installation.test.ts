@@ -129,3 +129,43 @@ it("returns no repositories when the app is not configured", async () => {
   expect((await githubRepositories()).size).toBe(0);
   expect(fetch).not.toHaveBeenCalled();
 });
+
+it.each(["write", "read", undefined])(
+  "retains the minted token's Issues permission (%s)",
+  async (issues) => {
+    vi.stubEnv("GITHUB_APP_CLIENT_ID", "Iv-test");
+    vi.stubEnv(
+      "GITHUB_APP_PRIVATE_KEY",
+      Buffer.from(privateKey.export({ type: "pkcs8", format: "pem" })).toString(
+        "base64",
+      ),
+    );
+    const expires = new Date(Date.now() + 3600_000).toISOString();
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve({ id: 7 }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              token: "inst",
+              expires_at: expires,
+              permissions: issues ? { issues } : undefined,
+            }),
+        }),
+    );
+    const { githubInstallationAccess, githubInstallationToken } = await import(
+      "./github-installation"
+    );
+    const access = await githubInstallationAccess();
+    expect(access.issuesWrite).toBe(issues === "write");
+    expect(await githubInstallationAccess()).toBe(access);
+    expect(await githubInstallationToken()).toBe("inst");
+    expect(fetch).toHaveBeenCalledTimes(2);
+  },
+);

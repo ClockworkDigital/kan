@@ -11,6 +11,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { decryptToken } from "../utils/encryption";
 import { githubAppRepositories } from "../utils/github-app-repositories";
 import {
+  githubInstallationAccess,
   githubInstallationConfigured,
   githubInstallationToken,
 } from "../utils/github-installation";
@@ -177,6 +178,24 @@ async function repositories(
   userId: string,
   workspacePublicId: string,
 ) {
+  const workspace = await workspaces.getByPublicId(db, workspacePublicId);
+  const useInstallation =
+    githubInstallationConfigured() &&
+    workspace &&
+    (await syncSettings.get(db, workspace.id))?.userId === userId;
+  let installation:
+    | Awaited<ReturnType<typeof githubInstallationAccess>>
+    | undefined;
+  if (useInstallation) {
+    try {
+      installation = await githubInstallationAccess();
+    } catch {
+      throw new TRPCError({
+        code: "BAD_GATEWAY",
+        message: "GitHub App installation token unavailable.",
+      });
+    }
+  }
   const result: { name: string; writable: boolean; topics: string[] }[] = [];
   const schema = z.array(
     z.object({
@@ -189,11 +208,19 @@ async function repositories(
   );
   for (let page = 1; page <= 1000; page++) {
     const batch = schema.parse(
-      await githubRequest(db, userId, {
-        workspacePublicId,
-        path: "orgs/ClockworkDigital/repos?per_page=100",
-        page,
-      }),
+      installation
+        ? z.object({ repositories: z.array(z.unknown()) }).parse(
+            await fetchGitHub(installation.token, {
+              workspacePublicId,
+              path: "installation/repositories?per_page=100",
+              page,
+            }),
+          ).repositories
+        : await githubRequest(db, userId, {
+            workspacePublicId,
+            path: "orgs/ClockworkDigital/repos?per_page=100",
+            page,
+          }),
     );
     result.push(
       ...batch
@@ -201,7 +228,10 @@ async function repositories(
         .map((repo) => ({
           name: repo.full_name,
           topics: repo.topics,
-          writable: repo.permissions?.push === true,
+          // Installation tokens report Issues permission on the token, not repository push access.
+          writable: installation
+            ? installation.issuesWrite
+            : repo.permissions?.push === true,
         })),
     );
     if (batch.length < 100) return result;
