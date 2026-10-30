@@ -13,7 +13,7 @@ after a successful list refresh. Twenty jobs are shown per page, newest report f
 between pages while the factory is running.
 
 Cards linked by the GitHub sync's leading issue link also show a stage badge in
-their detail view and board preview. The badge polls every five seconds and
+their detail view. The badge polls every five seconds while the card is open and
 matches repository and issue number within the card's workspace. The newest
 created run wins, even if an older run publishes again. Failed and human-review
 stages remain visible until a newer run replaces them. No matching job means no
