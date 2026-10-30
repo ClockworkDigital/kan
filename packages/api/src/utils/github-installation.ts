@@ -55,15 +55,21 @@ export async function githubInstallationToken() {
   return token;
 }
 
-let descriptions: { at: number; byRepo: Map<string, string> } | undefined;
+interface RepositoryInfo {
+  description: string | null;
+  pushedAt: Date | null;
+}
+let repositories:
+  | { at: number; byRepo: Map<string, RepositoryInfo> }
+  | undefined;
 
-// Repository descriptions for board tiles, keyed by lower-case full name. Cached for ten minutes.
-export async function githubRepositoryDescriptions() {
-  if (!githubInstallationConfigured()) return new Map<string, string>();
-  if (descriptions && Date.now() - descriptions.at < 10 * 60_000)
-    return descriptions.byRepo;
+// Repository description and last push for board tiles, keyed by lower-case full name. Cached for ten minutes.
+export async function githubRepositories() {
+  if (!githubInstallationConfigured()) return new Map<string, RepositoryInfo>();
+  if (repositories && Date.now() - repositories.at < 10 * 60_000)
+    return repositories.byRepo;
   const token = await githubInstallationToken();
-  const byRepo = new Map<string, string>();
+  const byRepo = new Map<string, RepositoryInfo>();
   for (let page = 1; page <= 10; page++) {
     const response = await fetch(
       `https://api.github.com/orgs/ClockworkDigital/repos?per_page=100&page=${page}`,
@@ -80,14 +86,20 @@ export async function githubRepositoryDescriptions() {
     if (!response.ok) throw new Error(`GitHub HTTP ${response.status}`);
     const repos = z
       .array(
-        z.object({ full_name: z.string(), description: z.string().nullable() }),
+        z.object({
+          full_name: z.string(),
+          description: z.string().nullable(),
+          pushed_at: z.string().datetime().nullable(),
+        }),
       )
       .parse(await response.json());
     for (const repo of repos)
-      if (repo.description?.trim())
-        byRepo.set(repo.full_name.toLowerCase(), repo.description.trim());
+      byRepo.set(repo.full_name.toLowerCase(), {
+        description: repo.description?.trim() ? repo.description.trim() : null,
+        pushedAt: repo.pushed_at ? new Date(repo.pushed_at) : null,
+      });
     if (repos.length < 100) break;
   }
-  descriptions = { at: Date.now(), byRepo };
+  repositories = { at: Date.now(), byRepo };
   return byRepo;
 }

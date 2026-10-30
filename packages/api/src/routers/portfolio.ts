@@ -8,7 +8,7 @@ import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { boards, projectStatuses } from "@kan/db/schema";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { githubRepositoryDescriptions } from "../utils/github-installation";
+import { githubRepositories } from "../utils/github-installation";
 import {
   assertCanEdit,
   assertPermission,
@@ -82,6 +82,7 @@ export const portfolioRouter = createTRPCRouter({
           doneCards: z.number(),
           lastActivityAt: z.date().nullable(),
           description: z.string().nullable(),
+          pushedAt: z.date().nullable(),
         }),
       ),
     )
@@ -97,17 +98,21 @@ export const portfolioRouter = createTRPCRouter({
         ctx.db,
         workspace.id,
       );
-      // Tiles still render without descriptions if GitHub is unreachable.
-      const descriptions = await githubRepositoryDescriptions().catch(
-        () => new Map<string, string>(),
+      // Tiles still render without GitHub details if GitHub is unreachable.
+      const repositories = await githubRepositories().catch(
+        () =>
+          new Map<
+            string,
+            { description: string | null; pushedAt: Date | null }
+          >(),
       );
       return boards.map(({ name, ...board }) => {
         const repo = /^GitHub: (\S+\/\S+)$/.exec(name)?.[1];
+        const info = repo ? repositories.get(repo.toLowerCase()) : undefined;
         return {
           ...board,
-          description: repo
-            ? (descriptions.get(repo.toLowerCase()) ?? null)
-            : null,
+          description: info?.description ?? null,
+          pushedAt: info?.pushedAt ?? null,
         };
       });
     }),

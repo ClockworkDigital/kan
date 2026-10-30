@@ -71,7 +71,7 @@ it("fails when GitHub refuses the app", async () => {
   await expect(githubInstallationToken()).rejects.toThrow("HTTP 401");
 });
 
-it("reads repository descriptions as the app and caches them", async () => {
+it("reads repository descriptions and last pushes as the app and caches them", async () => {
   vi.stubEnv("GITHUB_APP_CLIENT_ID", "Iv-test");
   vi.stubEnv(
     "GITHUB_APP_PRIVATE_KEY",
@@ -91,18 +91,30 @@ it("reads repository descriptions as the app and caches them", async () => {
       ok: true,
       json: () =>
         Promise.resolve([
-          { full_name: "ClockworkDigital/Kan", description: " Boards " },
-          { full_name: "ClockworkDigital/empty", description: null },
+          {
+            full_name: "ClockworkDigital/Kan",
+            description: " Boards ",
+            pushed_at: "2026-10-30T06:00:00Z",
+          },
+          {
+            full_name: "ClockworkDigital/empty",
+            description: null,
+            pushed_at: null,
+          },
         ]),
     });
   vi.stubGlobal("fetch", fetch);
-  const { githubRepositoryDescriptions } = await import(
-    "./github-installation"
-  );
+  const { githubRepositories } = await import("./github-installation");
 
-  const descriptions = await githubRepositoryDescriptions();
-  expect([...descriptions]).toEqual([["clockworkdigital/kan", "Boards"]]);
-  expect(await githubRepositoryDescriptions()).toBe(descriptions);
+  const repositories = await githubRepositories();
+  expect([...repositories]).toEqual([
+    [
+      "clockworkdigital/kan",
+      { description: "Boards", pushedAt: new Date("2026-10-30T06:00:00Z") },
+    ],
+    ["clockworkdigital/empty", { description: null, pushedAt: null }],
+  ]);
+  expect(await githubRepositories()).toBe(repositories);
   expect(fetch).toHaveBeenCalledTimes(3);
   expect(
     new Headers(
@@ -111,11 +123,9 @@ it("reads repository descriptions as the app and caches them", async () => {
   ).toBe("Bearer inst");
 });
 
-it("returns no descriptions when the app is not configured", async () => {
+it("returns no repositories when the app is not configured", async () => {
   vi.stubGlobal("fetch", vi.fn());
-  const { githubRepositoryDescriptions } = await import(
-    "./github-installation"
-  );
-  expect((await githubRepositoryDescriptions()).size).toBe(0);
+  const { githubRepositories } = await import("./github-installation");
+  expect((await githubRepositories()).size).toBe(0);
   expect(fetch).not.toHaveBeenCalled();
 });

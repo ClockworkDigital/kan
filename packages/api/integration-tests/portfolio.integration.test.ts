@@ -204,6 +204,7 @@ describe("portfolio", () => {
             doneCards: 3,
             lastActivityAt: expect.any(Date) as Date,
             description: null,
+            pushedAt: null,
           },
           {
             boardPublicId: empty.publicId,
@@ -211,6 +212,7 @@ describe("portfolio", () => {
             doneCards: 0,
             lastActivityAt: null,
             description: null,
+            pushedAt: null,
           },
         ]),
       );
