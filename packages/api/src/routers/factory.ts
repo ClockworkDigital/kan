@@ -288,19 +288,12 @@ export const factoryRouter = createTRPCRouter({
           and(eq(table.id, card.workspaceId), isNull(table.deletedAt)),
       });
       if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
-      const match =
-        /^<p><a href="https:\/\/github\.com\/([A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9][A-Za-z0-9_.-]*)\/issues\/([1-9][0-9]*)">GitHub issue #\d+<\/a><\/p><hr\s*\/?>/.exec(
-          card.description ?? "",
-        );
-      if (!match?.[1] || !match[2]) return null;
-      const issueNumber = Number(match[2]);
-      if (!Number.isSafeInteger(issueNumber) || issueNumber > 2147483647)
-        return null;
+      if (!card.githubRepository || !card.githubIssueNumber) return null;
       return factoryRepo.byIssue(
         ctx.db,
         card.workspaceId,
-        match[1],
-        issueNumber,
+        card.githubRepository,
+        card.githubIssueNumber,
       );
     }),
   publish: protectedProcedure

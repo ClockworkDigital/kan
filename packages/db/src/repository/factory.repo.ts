@@ -65,7 +65,7 @@ export const list = (db: dbClient, workspaceId: number, page: number) =>
   db
     .select({
       ...summaryColumns,
-      // Board of the card the GitHub sync linked to this job's issue (see byIssue's marker).
+      // Board of the card the GitHub sync linked to this job's issue.
       boardPublicId: sql<string | null>`(${db
         .select({ publicId: boards.publicId })
         .from(cards)
@@ -78,7 +78,8 @@ export const list = (db: dbClient, workspaceId: number, page: number) =>
             isNull(cards.deletedAt),
             isNull(lists.deletedAt),
             isNull(boards.deletedAt),
-            sql`starts_with(lower(${cards.description}), lower('<p><a href="https://github.com/' || ${factoryJobs.repository} || '/issues/' || (${factoryJobs.snapshot}->>'issueNumber') || '">'))`,
+            sql`${cards.githubRepository} = lower(${factoryJobs.repository})`,
+            sql`${cards.githubIssueNumber} = (${factoryJobs.snapshot}->>'issueNumber')::integer`,
           ),
         )
         .orderBy(desc(cards.id))
@@ -112,7 +113,8 @@ export async function get(db: dbClient, workspaceId: number, publicId: string) {
 export async function cardIssueContext(db: dbClient, publicId: string) {
   const [card] = await db
     .select({
-      description: cards.description,
+      githubRepository: cards.githubRepository,
+      githubIssueNumber: cards.githubIssueNumber,
       workspaceId: boards.workspaceId,
     })
     .from(cards)

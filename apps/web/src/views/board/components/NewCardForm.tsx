@@ -155,6 +155,8 @@ function LocalNewCardForm({
               description: "",
               dueDate: args.dueDate ?? null,
               cardNumber: null,
+              githubRepository: null,
+              githubIssueNumber: null,
               comments: [],
               checklists: [],
               attachments: [],

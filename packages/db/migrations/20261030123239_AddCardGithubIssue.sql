@@ -1,0 +1,4 @@
+ALTER TABLE "card" ADD COLUMN "githubRepository" varchar(200);--> statement-breakpoint
+ALTER TABLE "card" ADD COLUMN "githubIssueNumber" integer;--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "card_github_issue_idx" ON "card" USING btree ("githubRepository","githubIssueNumber") WHERE "card"."deletedAt" IS NULL AND "card"."githubRepository" IS NOT NULL;--> statement-breakpoint
+ALTER TABLE "card" ADD CONSTRAINT "card_github_issue_check" CHECK (("card"."githubRepository" IS NULL AND "card"."githubIssueNumber" IS NULL) OR ("card"."githubRepository" = lower("card"."githubRepository") AND "card"."githubIssueNumber" > 0));

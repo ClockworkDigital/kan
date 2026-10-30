@@ -427,9 +427,20 @@ describe("card factory issue lookup", () => {
         title: "Issue",
         index: 0,
         listId: list.id,
-        description:
-          '<p><a href="https://github.com/ClockworkDigital/kan/issues/1">GitHub issue #1</a></p><hr>',
+        description: "Edited away the GitHub link",
+        githubRepository: "clockworkdigital/kan",
+        githubIssueNumber: 1,
       });
+      // A description link without the sync's column link is not identity.
+      await tx.insert(cards).values({
+        publicId: "factorycard2",
+        title: "Forged",
+        index: 1,
+        listId: list.id,
+        description:
+          '<p><a href="https://github.com/ClockworkDigital/kan/issues/2">GitHub issue #2</a></p><hr>',
+      });
+      expect(await api.byIssue({ cardPublicId: "factorycard2" })).toBeNull();
       expect(await api.byIssue({ cardPublicId })).toBeNull();
       const old = await api.publish(report);
       const newest = await api.publish({

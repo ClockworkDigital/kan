@@ -28,10 +28,26 @@ import {
   assertCanEdit,
   assertPermission,
 } from "../utils/permissions";
+import { assertSyncIssueLink } from "../utils/sync-scope";
 import {
   createCardWebhookPayload,
   sendWebhooksForWorkspace,
 } from "../utils/webhook";
+
+const githubIssueInput = {
+  githubRepository: z
+    .string()
+    .max(200)
+    .regex(/^[a-z0-9][a-z0-9-]*\/[a-z0-9][a-z0-9_.-]*$/)
+    .optional(),
+  githubIssueNumber: z.number().int().min(1).max(2147483647).optional(),
+};
+const bothOrNeither = (input: {
+  githubRepository?: string;
+  githubIssueNumber?: number;
+}) =>
+  (input.githubRepository === undefined) ===
+  (input.githubIssueNumber === undefined);
 
 export const cardRouter = createTRPCRouter({
   canSendToFactory: protectedProcedure
@@ -62,7 +78,7 @@ export const cardRouter = createTRPCRouter({
       );
       const detail = await cardRepo.getByPublicId(ctx.db, input.cardPublicId);
       try {
-        await factoryIssue(detail?.description ?? null);
+        await factoryIssue(detail);
         return true;
       } catch {
         return false;
@@ -100,7 +116,7 @@ export const cardRouter = createTRPCRouter({
       );
       const detail = await cardRepo.getByPublicId(ctx.db, input.cardPublicId);
 
-      const send = await factoryIssue(detail?.description ?? null);
+      const send = await factoryIssue(detail);
       await send();
       return true;
     }),
@@ -117,19 +133,26 @@ export const cardRouter = createTRPCRouter({
       },
     })
     .input(
-      z.object({
-        title: z.string().min(1).max(2000),
-        description: z.string().max(10000),
-        listPublicId: z.string().min(12),
-        labelPublicIds: z.array(z.string().min(12)),
-        memberPublicIds: z.array(z.string().min(12)),
-        position: z.enum(["start", "end"]),
-        dueDate: z.date().nullable().optional(),
-      }),
+      z
+        .object({
+          title: z.string().min(1).max(2000),
+          description: z.string().max(10000),
+          listPublicId: z.string().min(12),
+          labelPublicIds: z.array(z.string().min(12)),
+          memberPublicIds: z.array(z.string().min(12)),
+          position: z.enum(["start", "end"]),
+          dueDate: z.date().nullable().optional(),
+          ...githubIssueInput,
+        })
+        .refine(
+          bothOrNeither,
+          "Set githubRepository and githubIssueNumber together.",
+        ),
     )
     .output(cardCreateResponseSchema)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.user.id;
+      assertSyncIssueLink(ctx.headers, input);
 
       if (!userId)
         throw new TRPCError({
@@ -184,6 +207,8 @@ export const cardRouter = createTRPCRouter({
         workspaceId: list.workspaceId,
         position: input.position,
         dueDate: input.dueDate ?? null,
+        githubRepository: input.githubRepository,
+        githubIssueNumber: input.githubIssueNumber,
       });
 
       const newCardId = newCard.id;
@@ -928,18 +953,25 @@ export const cardRouter = createTRPCRouter({
       },
     })
     .input(
-      z.object({
-        cardPublicId: z.string().min(12),
-        title: z.string().min(1).max(2000).optional(),
-        description: z.string().optional(),
-        index: z.number().optional(),
-        listPublicId: z.string().min(12).optional(),
-        dueDate: z.date().nullable().optional(),
-      }),
+      z
+        .object({
+          cardPublicId: z.string().min(12),
+          title: z.string().min(1).max(2000).optional(),
+          description: z.string().optional(),
+          index: z.number().optional(),
+          listPublicId: z.string().min(12).optional(),
+          dueDate: z.date().nullable().optional(),
+          ...githubIssueInput,
+        })
+        .refine(
+          bothOrNeither,
+          "Set githubRepository and githubIssueNumber together.",
+        ),
     )
     .output(cardUpdateResponseSchema)
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.user.id;
+      assertSyncIssueLink(ctx.headers, input);
 
       if (!userId)
         throw new TRPCError({
@@ -1023,7 +1055,8 @@ export const cardRouter = createTRPCRouter({
       if (
         input.title ||
         normalizedDescription !== undefined ||
-        input.dueDate !== undefined
+        input.dueDate !== undefined ||
+        input.githubRepository !== undefined
       ) {
         result = await cardRepo.update(
           ctx.db,
@@ -1033,6 +1066,8 @@ export const cardRouter = createTRPCRouter({
               description: normalizedDescription,
             }),
             ...(input.dueDate !== undefined && { dueDate: input.dueDate }),
+            githubRepository: input.githubRepository,
+            githubIssueNumber: input.githubIssueNumber,
           },
           { cardPublicId: input.cardPublicId },
         );

@@ -10,8 +10,8 @@ vi.mock("@kan/db/repository/card.repo", () => ({
   ),
   getByPublicId: vi.fn(() =>
     Promise.resolve({
-      description:
-        '<p><a href="https://github.com/ClockworkDigital/kan/issues/49">GitHub issue #49</a></p><hr><pre><code>Body</code></pre>',
+      githubRepository: "clockworkdigital/kan",
+      githubIssueNumber: 49,
     }),
   ),
 }));
@@ -47,7 +47,7 @@ afterEach(() => {
 it("allows the owner and posts the existing label with the App token", async () => {
   expect(await caller().sendToFactory(input)).toBe(true);
   expect(fetch).toHaveBeenCalledWith(
-    "https://api.github.com/repos/ClockworkDigital/kan/issues/49/labels",
+    "https://api.github.com/repos/clockworkdigital/kan/issues/49/labels",
     expect.objectContaining({
       method: "POST",
       body: '{"labels":["factory"]}',
@@ -74,11 +74,18 @@ it.each([undefined, ""])("denies when allowlist is %s", async (value) => {
     code: "FORBIDDEN",
   });
 });
-it("rejects unlinked cards", async () => {
+it.each([
+  { githubRepository: null, githubIssueNumber: null },
+  { githubRepository: "other/kan", githubIssueNumber: 49 },
+])("rejects unlinked or non-Clockwork cards", async (link) => {
   vi.mocked(getByPublicId).mockResolvedValueOnce({
-    description: "No issue",
+    // A description link alone is not identity.
+    description:
+      '<p><a href="https://github.com/ClockworkDigital/kan/issues/49">GitHub issue #49</a></p><hr>',
+    ...link,
   } as never);
   await expect(caller().sendToFactory(input)).rejects.toThrow("not linked");
+  expect(fetch).not.toHaveBeenCalled();
 });
 it("rejects closed issues", async () => {
   vi.mocked(fetch).mockResolvedValueOnce({

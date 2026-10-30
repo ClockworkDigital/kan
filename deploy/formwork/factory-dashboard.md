@@ -12,7 +12,8 @@ read. Open artifacts refresh when their job revision changes; failed loads retry
 after a successful list refresh. Twenty jobs are shown per page, newest report first. Reports can move jobs
 between pages while the factory is running.
 
-Cards linked by the GitHub sync's leading issue link also show a stage badge in
+Cards the GitHub sync linked to an issue (its stored repository and issue
+number, not the description link) also show a stage badge in
 their detail view. The badge polls every five seconds while the card is open and
 matches repository and issue number within the card's workspace. The newest
 created run wins, even if an older run publishes again. Failed and human-review
