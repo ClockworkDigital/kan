@@ -17,12 +17,14 @@ type Status = Fields["status"];
 export const projectStatusColours: Record<Status, string> = {
   not_yet: "#dc2626",
   busy: "#ca8a04",
+  beta_testing: "#7c3aed",
   done: "#65a30d",
 };
 
 export const projectStatusLabels = (): Record<Status, string> => ({
   not_yet: t`Not yet`,
   busy: t`Busy`,
+  beta_testing: t`Beta Testing`,
   done: t`Done`,
 });
 

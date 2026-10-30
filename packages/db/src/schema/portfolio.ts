@@ -11,7 +11,7 @@ import {
 import { boards } from "./boards";
 import { users } from "./users";
 
-export const projectStatuses = ["not_yet", "busy", "done"] as const;
+export const projectStatuses = ["not_yet", "busy", "beta_testing", "done"] as const;
 export type ProjectStatus = (typeof projectStatuses)[number];
 export const projectStatusEnum = pgEnum("project_status", projectStatuses);
 
