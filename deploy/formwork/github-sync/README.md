@@ -249,3 +249,8 @@ Existing PRs may need a description edit or another eligible PR event after poli
 installation to produce the newly required check. No existing PR is auto-approved.
 
 GitHub App connections are also supported; see [setup and expiry](../github-oauth.md). They require explicit reconnect on expiry; the worker never refreshes credentials.
+
+The separate persistent `formwork-kan-factory` purpose is documented in
+[Factory dashboard](../factory-dashboard.md). Its `factory:` scope cannot access
+sync operations; sync credentials cannot access factory routes. Never interchange
+these purposes or reuse either for interactive/MCP access.
