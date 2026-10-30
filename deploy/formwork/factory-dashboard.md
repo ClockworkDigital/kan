@@ -123,6 +123,10 @@ temporary native API key to publish building → failed checks → rework → re
 interrupts polling and verifies recovery. Existing Formwork authentication tests
 cover tenant and identity snapshot rejection separately.
 
+- Confirm the Factory job links to the intended repository and issue.
+- Open the spec, build notes and check/review artifacts; confirm the latest round passed.
+- Confirm the linked PR has the expected reviewed head and green checks, remains open and unmerged, and is left for a human to merge.
+
 ```sh
 pnpm --filter @kan/api exec vitest run integration-tests/factory.integration.test.ts src/utils/sync-scope.test.ts
 pnpm --filter @kan/auth test
