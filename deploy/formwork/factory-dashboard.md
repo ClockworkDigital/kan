@@ -138,8 +138,12 @@ The card menu shows **Send to factory** only for permitted accounts with card ed
 access and a linked, currently open GitHub issue. The mutation repeats these checks.
 It uses the Formwork Kan App installation token and requires **Issues: write**
 (documented in github-oauth.md; verify the installed grant before rollout).
-The existing `factory` label must exist; Kan does not create it.
-A success toast confirms queueing; the normal GitHub sync brings the label to Kan.
+**Send to factory** is the owner's enqueue action. The `factory` issue label
+records that the issue is in the factory queue or being worked on; the existence
+of a repository label does not grant permission. Kan creates the repository label
+if missing, then adds it to the issue without replacing other labels. It confirms
+queueing only after GitHub returns the applied label. The normal GitHub sync brings
+the label to Kan.
 Sending an already labelled issue makes no further write. No factory run is
 started directly and no credential is renewed.
 
