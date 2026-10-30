@@ -26,6 +26,7 @@ import {
 } from "~/views/board/components/ProjectDetailsForm";
 
 const placeholder = "text-light-800 dark:text-dark-700";
+const BUSY_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
 
 const dot = (colour: string) => (
   <span
@@ -144,10 +145,21 @@ export function BoardsList({
         // Project fields default to "", so an empty one falls back to GitHub's description.
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const description = project?.details || counts?.description;
-        // The newer of the project details edit and the latest card change.
-        const lastActivity = [project?.updatedAt, counts?.lastActivityAt]
+        // Newest of the project details edit, the latest card change and the last push.
+        const lastActivity = [
+          project?.updatedAt,
+          counts?.lastActivityAt,
+          counts?.pushedAt,
+        ]
           .filter((date): date is Date => !!date)
           .sort((a, b) => b.getTime() - a.getTime())[0];
+        // A manual status always wins; otherwise recent commits or issue changes read as Busy.
+        const activeOnGitHub =
+          !project &&
+          !!github &&
+          [counts?.lastActivityAt, counts?.pushedAt].some(
+            (date) => date && Date.now() - date.getTime() < BUSY_WINDOW_MS,
+          );
 
         return (
           <motion.div
@@ -225,6 +237,15 @@ export function BoardsList({
                             </span>
                           )}
                         </>
+                      ) : activeOnGitHub ? (
+                        <span
+                          title={t`Commits or issue changes in the last 14 days`}
+                        >
+                          <Badge
+                            value={statusLabels.busy}
+                            iconLeft={dot(projectStatusColours.busy)}
+                          />
+                        </span>
                       ) : (
                         <span className="mt-1 inline-flex items-center rounded-full border border-dashed border-light-500 px-2 py-1 text-[10px] font-medium text-light-900 dark:border-dark-500 dark:text-dark-800">
                           {t`Status not set`}

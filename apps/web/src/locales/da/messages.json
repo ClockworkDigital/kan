@@ -14815,5 +14815,17 @@
         228
       ]
     ]
+  },
+  "f6AqIg": {
+    "translation": "",
+    "message": "Commits or issue changes in the last 14 days",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        242
+      ]
+    ]
   }
 }
