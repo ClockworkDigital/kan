@@ -1,7 +1,9 @@
 import { createSign } from "node:crypto";
 import { z } from "zod";
 
-let cached: { token: string; expiresAt: number } | undefined;
+let cached:
+  | { token: string; expiresAt: number; issuesWrite: boolean }
+  | undefined;
 
 export const githubInstallationConfigured = () =>
   Boolean(
@@ -43,16 +45,28 @@ async function asApp(path: string, method: "GET" | "POST" = "GET") {
 }
 
 // Installation tokens last an hour; reuse one until five minutes before expiry.
-export async function githubInstallationToken() {
-  if (cached && cached.expiresAt - Date.now() > 5 * 60_000) return cached.token;
+export async function githubInstallationAccess() {
+  if (cached && cached.expiresAt - Date.now() > 5 * 60_000) return cached;
   const { id } = z
     .object({ id: z.number().int() })
     .parse(await asApp("orgs/ClockworkDigital/installation"));
-  const { token, expires_at } = z
-    .object({ token: z.string().min(1), expires_at: z.string().datetime() })
+  const { token, expires_at, permissions } = z
+    .object({
+      token: z.string().min(1),
+      expires_at: z.string().datetime(),
+      permissions: z.object({ issues: z.string().optional() }).optional(),
+    })
     .parse(await asApp(`app/installations/${id}/access_tokens`, "POST"));
-  cached = { token, expiresAt: Date.parse(expires_at) };
-  return token;
+  cached = {
+    token,
+    expiresAt: Date.parse(expires_at),
+    issuesWrite: permissions?.issues === "write",
+  };
+  return cached;
+}
+
+export async function githubInstallationToken() {
+  return (await githubInstallationAccess()).token;
 }
 
 interface RepositoryInfo {

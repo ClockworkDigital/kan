@@ -1,11 +1,14 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as settings from "@kan/db/repository/github-sync.repo";
 import { getProviderForUser } from "@kan/db/repository/integration.repo";
 import { getByPublicId } from "@kan/db/repository/workspace.repo";
 
 import { createTRPCRouter } from "../trpc";
-import { githubInstallationConfigured } from "../utils/github-installation";
+import {
+  githubInstallationAccess,
+  githubInstallationConfigured,
+} from "../utils/github-installation";
 import { assertPermission } from "../utils/permissions";
 import { githubSyncInput, githubSyncRouter } from "./github-sync";
 
@@ -23,6 +26,7 @@ vi.mock("@kan/db/repository/workspace.repo", () => ({
 vi.mock("../utils/permissions", () => ({ assertPermission: vi.fn() }));
 vi.mock("../utils/github-installation", () => ({
   githubInstallationConfigured: vi.fn(() => false),
+  githubInstallationAccess: vi.fn(),
   githubInstallationToken: vi.fn(() => Promise.resolve("app-token")),
 }));
 vi.mock("../utils/encryption", () => ({
@@ -190,6 +194,77 @@ describe("saved GitHub token for sync", () => {
 });
 
 describe("repository selection", () => {
+  afterEach(() => {
+    vi.mocked(githubInstallationConfigured).mockReturnValue(false);
+    vi.mocked(settings.get).mockResolvedValue(undefined);
+  });
+
+  it.each([true, false])(
+    "uses installation Issues write permission (%s) without a push flag",
+    async (issuesWrite) => {
+      vi.clearAllMocks();
+      vi.mocked(githubInstallationConfigured).mockReturnValue(true);
+      vi.mocked(settings.get).mockResolvedValue({ userId: "owner" } as never);
+      vi.mocked(githubInstallationAccess).mockResolvedValue({
+        token: "app-token",
+        expiresAt: Date.now() + 3600_000,
+        issuesWrite,
+      });
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              repositories: [
+                {
+                  full_name: "ClockworkDigital/test",
+                  archived: false,
+                  has_issues: true,
+                },
+              ],
+            }),
+        }),
+      );
+      expect(
+        await caller.repositories({
+          workspacePublicId: input.workspacePublicId,
+        }),
+      ).toEqual([
+        { name: "ClockworkDigital/test", writable: issuesWrite, topics: [] },
+      ]);
+      expect(String(vi.mocked(fetch).mock.calls[0]?.[0])).toBe(
+        "https://api.github.com/installation/repositories?per_page=100&page=1",
+      );
+      expect(vi.mocked(fetch).mock.calls[0]?.[1]?.method).toBe("GET");
+      expect(getProviderForUser).not.toHaveBeenCalled();
+      const saving = caller.save({
+        workspacePublicId: input.workspacePublicId,
+        repositories: ["ClockworkDigital/test"],
+        enabled: true,
+      });
+      if (issuesWrite) {
+        await expect(saving).resolves.toEqual({ success: true });
+      } else {
+        await expect(saving).rejects.toMatchObject({ code: "BAD_REQUEST" });
+      }
+    },
+  );
+
+  it("does not fall back to user permissions when installation lookup fails", async () => {
+    vi.clearAllMocks();
+    vi.mocked(githubInstallationConfigured).mockReturnValue(true);
+    vi.mocked(settings.get).mockResolvedValue({ userId: "owner" } as never);
+    vi.mocked(githubInstallationAccess).mockRejectedValue(
+      new Error("Unavailable"),
+    );
+    await expect(
+      caller.repositories({ workspacePublicId: input.workspacePublicId }),
+    ).rejects.toMatchObject({ code: "BAD_GATEWAY" });
+    expect(fetch).not.toHaveBeenCalled();
+    expect(getProviderForUser).not.toHaveBeenCalled();
+  });
+
   it("rejects managing another owner's sync", async () => {
     vi.mocked(settings.get).mockResolvedValue({ userId: "other" } as never);
     await expect(
