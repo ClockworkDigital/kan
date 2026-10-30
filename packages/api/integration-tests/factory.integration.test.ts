@@ -5,7 +5,10 @@ import { beforeAll, describe, expect, it } from "vitest";
 
 import type { FactorySnapshot } from "@kan/db/schema";
 import {
+  boards,
+  cards,
   factoryJobs,
+  lists,
   users,
   workspaceMembers,
   workspaces,
@@ -78,6 +81,10 @@ describe("factory job publication", () => {
         "checks",
         "rework",
         "review",
+        "publishing",
+        "babysitting",
+        "judging",
+        "waiting",
         "completed",
       ] as const;
       for (const [index, stage] of stages.entries()) {
@@ -366,6 +373,15 @@ describe("factory job publication", () => {
         await expect(
           api.publish({ ...report, ...invalid }),
         ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+      await expect(
+        api.publish({
+          ...report,
+          snapshot: {
+            ...snapshot,
+            stage: "unknown" as FactorySnapshot["stage"],
+          },
+        }),
+      ).rejects.toMatchObject({ code: "BAD_REQUEST" });
       const document = generateOpenApiDocument(
         createTRPCRouter({ factory: factoryRouter }),
         {
@@ -378,5 +394,84 @@ describe("factory job publication", () => {
         document.paths?.["/workspaces/{workspacePublicId}/factory/jobs"]?.put
           ?.security,
       ).toBeDefined();
+    }));
+});
+
+describe("card factory issue lookup", () => {
+  it("matches repository and issue within the card workspace and keeps the newest run", async () =>
+    fixture(async (tx, { user, workspace }) => {
+      const api = caller(tx, user);
+      const [board] = await tx
+        .insert(boards)
+        .values({
+          publicId: "factoryboard",
+          name: "Board",
+          slug: "factory",
+          workspaceId: workspace.id,
+        })
+        .returning();
+      assert(board);
+      const [list] = await tx
+        .insert(lists)
+        .values({
+          publicId: "factorylist1",
+          name: "List",
+          index: 0,
+          boardId: board.id,
+        })
+        .returning();
+      assert(list);
+      const cardPublicId = "factorycard1";
+      await tx.insert(cards).values({
+        publicId: cardPublicId,
+        title: "Issue",
+        index: 0,
+        listId: list.id,
+        description:
+          '<p><a href="https://github.com/ClockworkDigital/kan/issues/1">GitHub issue #1</a></p><hr>',
+      });
+      expect(await api.byIssue({ cardPublicId })).toBeNull();
+      const old = await api.publish(report);
+      const newest = await api.publish({
+        ...report,
+        runKey: "new-run",
+        snapshot: { ...snapshot, stage: "failed" },
+      });
+      await api.publish({ ...report, revision: 2 });
+      await api.publish({
+        ...report,
+        runKey: "other-repo",
+        repository: "ClockworkDigital/other",
+      });
+      await api.publish({
+        ...report,
+        runKey: "other-issue",
+        snapshot: { ...snapshot, issueNumber: 2 },
+      });
+      const [other] = await tx
+        .insert(workspaces)
+        .values({
+          publicId: "otherfactws1",
+          name: "Other",
+          slug: "other-factory",
+        })
+        .returning();
+      assert(other);
+      await tx.insert(factoryJobs).values({
+        ...report,
+        publicId: "otherfactjob",
+        workspaceId: other.id,
+        createdBy: user.id,
+      });
+      expect(await api.byIssue({ cardPublicId })).toMatchObject({
+        publicId: newest.publicId,
+        snapshot: { stage: "failed" },
+      });
+      expect(newest.publicId).not.toBe(old.publicId);
+      await tx
+        .update(boards)
+        .set({ workspaceId: other.id })
+        .where(eq(boards.id, board.id));
+      await expect(api.byIssue({ cardPublicId })).rejects.toThrow();
     }));
 });

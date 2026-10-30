@@ -91,6 +91,50 @@ async function access(
 }
 
 export const factoryRouter = createTRPCRouter({
+  byIssue: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/cards/{cardPublicId}/factory",
+        protect: true,
+        tags: ["Factory"],
+      },
+    })
+    .input(z.object({ cardPublicId: z.string().length(12) }))
+    .output(job.nullable())
+    .query(async ({ ctx, input }) => {
+      const card = await factoryRepo.cardIssueContext(
+        ctx.db,
+        input.cardPublicId,
+      );
+      if (!card) throw new TRPCError({ code: "NOT_FOUND" });
+      await assertUserInWorkspace(ctx.db, ctx.user.id, card.workspaceId);
+      await assertPermission(
+        ctx.db,
+        ctx.user.id,
+        card.workspaceId,
+        "workspace:view",
+      );
+      const workspace = await ctx.db.query.workspaces.findFirst({
+        where: (table, { eq, isNull, and }) =>
+          and(eq(table.id, card.workspaceId), isNull(table.deletedAt)),
+      });
+      if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
+      const match =
+        /^<p><a href="https:\/\/github\.com\/([A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9][A-Za-z0-9_.-]*)\/issues\/([1-9][0-9]*)">GitHub issue #\d+<\/a><\/p><hr\s*\/?>/.exec(
+          card.description ?? "",
+        );
+      if (!match?.[1] || !match[2]) return null;
+      const issueNumber = Number(match[2]);
+      if (!Number.isSafeInteger(issueNumber) || issueNumber > 2147483647)
+        return null;
+      return factoryRepo.byIssue(
+        ctx.db,
+        card.workspaceId,
+        match[1],
+        issueNumber,
+      );
+    }),
   publish: protectedProcedure
     .meta({
       openapi: {
