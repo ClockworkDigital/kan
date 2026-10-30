@@ -32,9 +32,12 @@ limitation of polling.
 
 The worker calls Kan through Formwork using its own protected profile at
 `~/.config/formwork/kan/github-sync-credential.json`. It does not use or renew the
-Codex MCP credential. Kan decrypts the owner's current saved GitHub PAT for each
-GitHub request; the PAT never leaves Kan. Disconnecting GitHub denies subsequent
-background data operations, and replacing the PAT applies to the next request.
+Codex MCP credential. When `GITHUB_APP_PRIVATE_KEY` is set, Kan makes the sync
+owner's GitHub requests with an hourly ClockworkDigital installation token for the
+Formwork Kan app, so sync no longer depends on anyone's GitHub connection and
+GitHub shows its edits as the app. Without the key, Kan decrypts the owner's
+saved GitHub token for each request; disconnecting GitHub then denies subsequent
+background data operations. Credentials never leave Kan.
 
 The operator issues an explicit persistent `formwork-kan-github-sync` delegation
 with `issue-sync.ts`, using an approved tenant, stable user UUID, delegated groups,

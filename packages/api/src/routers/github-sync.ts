@@ -10,6 +10,10 @@ import { issueForms, productionFields } from "@kan/shared";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { decryptToken } from "../utils/encryption";
 import { githubAppRepositories } from "../utils/github-app-repositories";
+import {
+  githubInstallationConfigured,
+  githubInstallationToken,
+} from "../utils/github-installation";
 import { installRepositoryPolicy } from "../utils/github-policy";
 import { assertPermission } from "../utils/permissions";
 
@@ -50,6 +54,22 @@ async function githubRequest(
     (!/\/issues\/[1-9][0-9]*$/.test(input.path) || input.page !== 1)
   )
     throw new TRPCError({ code: "BAD_REQUEST" });
+  // The workspace's sync owner syncs as the app, so sync never depends on a person's token.
+  if (
+    githubInstallationConfigured() &&
+    (await syncSettings.get(db, workspace.id))?.userId === userId
+  ) {
+    let appToken: string;
+    try {
+      appToken = await githubInstallationToken();
+    } catch {
+      throw new TRPCError({
+        code: "BAD_GATEWAY",
+        message: "GitHub App installation token unavailable.",
+      });
+    }
+    return fetchGitHub(appToken, input);
+  }
   const integration = await integrations.getProviderForUser(
     db,
     userId,
@@ -86,6 +106,13 @@ async function githubRequest(
       });
     }
   }
+  return fetchGitHub(token, input);
+}
+
+async function fetchGitHub(
+  token: string,
+  input: z.infer<typeof githubSyncInput>,
+): Promise<unknown> {
   const url = new URL(input.path, "https://api.github.com/");
   if (url.search) url.searchParams.set("page", String(input.page));
   let response: Response;

@@ -35,8 +35,10 @@ PAT replacement clears it. Email is never used to link accounts.
 
 This first version requires explicit reconnect after GitHub's returned expiry
 (normally eight hours). Refresh tokens are discarded, not persisted or used.
-Background sync stops when the GitHub token expires; use the PAT fallback if
-unattended operation is required. Disconnect removes local credentials and
+Background sync is unaffected when the app private key is configured: set
+`GITHUB_APP_PRIVATE_KEY` to the base64 of a PEM from the app's Credentials → Key
+pairs page, and Kan syncs with installation tokens instead of a person's
+connection. Without it, sync stops when the owner's authorization expires. Disconnect removes local credentials and
 invalidates pending callbacks; revoke the app authorization in GitHub as well
 to revoke GitHub-side grants. No Formwork credential is renewed, and no mappings,
 conflict baselines or selected repository settings are removed.

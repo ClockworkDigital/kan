@@ -265,6 +265,24 @@ describe("background sync scope", () => {
     },
   );
 
+  it("lets the app installation stand in for the owner's GitHub connection", async () => {
+    const request = {
+      workspacePublicId: "workspace123",
+      path: "repos/ClockworkDigital/test/issues/1",
+    };
+    vi.mocked(getProviderForUser).mockResolvedValue(undefined);
+    await expect(check("githubSync.request", request)).rejects.toThrow();
+    vi.stubEnv("GITHUB_APP_CLIENT_ID", "Iv-test");
+    vi.stubEnv("GITHUB_APP_PRIVATE_KEY", "a2V5");
+    await expect(check("githubSync.request", request)).resolves.toBeUndefined();
+    vi.mocked(get).mockResolvedValueOnce({
+      userId: "other",
+      enabled: true,
+    } as never);
+    await expect(check("githubSync.request", request)).rejects.toThrow();
+    vi.unstubAllEnvs();
+  });
+
   it.each(Object.entries(labelInputs))(
     "retains owner, pause, provider and permission checks for %s",
     async (path, input) => {
