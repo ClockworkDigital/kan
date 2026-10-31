@@ -152,6 +152,25 @@ describe("saved GitHub token for sync", () => {
       githubSyncInput.safeParse({ ...labels, changes: { labels: [] } }).success,
     ).toBe(false);
   });
+  it("reads issue events for the factory label-actor check but never patches them", async () => {
+    const events = {
+      ...input,
+      path: "repos/ClockworkDigital/formwork/issues/7/events?per_page=100",
+      page: 2,
+    };
+    expect(githubSyncInput.safeParse(events).success).toBe(true);
+    await expect(
+      caller.request({ ...events, page: 1, changes: { title: "write" } }),
+    ).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    for (const path of [
+      "repos/ClockworkDigital/formwork/issues/7/events",
+      "repos/ClockworkDigital/formwork/issues/7/events?per_page=100&extra=1",
+      "repos/ClockworkDigital/formwork/issues/7/timeline?per_page=100",
+    ])
+      expect(githubSyncInput.safeParse({ ...events, path }).success).toBe(
+        false,
+      );
+  });
   it("enforces label scope through the delegated request middleware", async () => {
     vi.mocked(settings.get).mockResolvedValue({
       userId: "owner",

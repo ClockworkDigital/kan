@@ -48,6 +48,7 @@ export const factoryJobs = pgTable(
 
 export const factoryStages = [
   "queued",
+  "configuring",
   "intake",
   "spec",
   "building",

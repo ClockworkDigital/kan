@@ -56,20 +56,38 @@ class Kan:
             raise ValueError('Invalid selected repositories')
         return sorted(set(repos), key=str.lower)
 
-    def queued(self, repository):
+    def pages(self, path, stop=lambda found: False):
         # This request rechecks enabled selection, native permissions and current gateway policy.
+        found = []
         for page in range(1, 1001):
-            issues = self.request('/integrations/github/sync', {
-                'workspacePublicId': self.config['workspacePublicId'],
-                'path': f'repos/{repository}/issues?state=open&per_page=100', 'page': page})
-            if not isinstance(issues, list):
-                raise ValueError('Invalid issue response')
-            if any('pull_request' not in issue and issue.get('state') == 'open'
-                   and any(label.get('name') == 'factory' for label in issue.get('labels', [])) for issue in issues):
-                return True
-            if len(issues) < 100:
-                return False
-        raise ValueError('Issue pagination limit exceeded')
+            items = self.request('/integrations/github/sync', {
+                'workspacePublicId': self.config['workspacePublicId'], 'path': path, 'page': page})
+            if not isinstance(items, list):
+                raise ValueError('Invalid GitHub response')
+            found += items
+            if stop(found) or len(items) < 100:
+                return found
+        raise ValueError('GitHub pagination limit exceeded')
+
+    def issues(self, repository, first=False):
+        """Open factory-labelled issues (not pull requests); with first, stop at the first page that has one."""
+        matching = lambda items: [i for i in items if 'pull_request' not in i and i.get('state') == 'open'
+                                  and any(label.get('name') == 'factory' for label in i.get('labels', []))]
+        return matching(self.pages(f'repos/{repository}/issues?state=open&per_page=100',
+                                   lambda items: first and bool(matching(items))))
+
+    def queued(self, repository):
+        return bool(self.issues(repository, first=True))
+
+    def sent(self, repository, actors):
+        """Oldest open factory issue whose latest factory label came from an allowed actor, as the runner picks."""
+        for issue in sorted(self.issues(repository), key=lambda i: i.get('created_at', '')):
+            events = [e for e in self.pages(f'repos/{repository}/issues/{issue["number"]}/events?per_page=100')
+                      if e.get('event') == 'labeled' and (e.get('label') or {}).get('name') == 'factory']
+            latest = max(events, key=lambda e: (e.get('created_at', ''), e.get('id', 0))) if events else {}
+            if (latest.get('actor') or {}).get('login', '').lower() in actors:
+                return issue['number']
+        return None
 
 
 def command(args):
@@ -123,8 +141,53 @@ def existing_clone(args, repository):
     return next((path for path in [*map(Path, registered), *folders] if origin(path) == repository.lower()), None)
 
 
-def set_up(args, repository):
-    """Reuse or clone and register a selected repository; return a failure reason, or None once registered."""
+def actors(args):
+    """The runner's factory_label_actors allowlist; missing or invalid means nobody, so nothing starts."""
+    path = args.registry.parent / 'providers.json'
+    allowed = json.loads(path.read_text()).get('factory_label_actors', []) if path.is_file() else []
+    return {a.lower() for a in allowed if isinstance(a, str)} if isinstance(allowed, list) else set()
+
+
+def git(root, *arguments, timeout=30):
+    return subprocess.run(['git', '-C', str(root), *arguments], check=True, capture_output=True, text=True,
+                          stdin=subprocess.DEVNULL, env={**os.environ, 'GIT_TERMINAL_PROMPT': '0'},
+                          timeout=timeout).stdout.strip()
+
+
+def fast_forward(root):
+    """Update a clean clone on its default branch to origin's; return a failure reason, or None."""
+    try:
+        git(root, 'fetch', '--quiet', 'origin', timeout=600)
+        try:
+            base = git(root, 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD')
+        except subprocess.CalledProcessError:
+            git(root, 'remote', 'set-head', 'origin', '--auto', timeout=120)
+            base = git(root, 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD')
+        branch = base.split('/', 1)[1]
+    except (OSError, subprocess.SubprocessError, IndexError):
+        return 'cannot fetch the default branch from origin'
+    try:
+        current = git(root, 'symbolic-ref', '--quiet', '--short', 'HEAD')
+    except (OSError, subprocess.SubprocessError):
+        current = None
+    if current != branch:
+        return 'checkout ' + str(root) + ' is not on ' + branch + '; not updated'
+    try:
+        if git(root, 'status', '--porcelain'):
+            return 'checkout ' + str(root) + ' has local changes; not updated'
+        git(root, 'merge', '--ff-only', '--quiet', base)
+    except (OSError, subprocess.SubprocessError):
+        return 'checkout ' + str(root) + ' cannot fast-forward to ' + base
+    return None
+
+
+def failure_record(args, repository):
+    return args.status.with_name(unit(repository).replace('.service', '.configure.json'))
+
+
+def set_up(args, repository, issue):
+    """Reuse or clone, update and register a selected repository, or start configuring it for the sent issue.
+    Return a failure reason, 'configuring' once a configure unit started, or None once registered."""
     root = existing_clone(args, repository) or args.checkouts / repository.split('/')[1]
     if root.exists() and (not root.is_dir() or any(root.iterdir())):
         if origin(root) != repository.lower():
@@ -136,9 +199,14 @@ def set_up(args, repository):
                            env={**os.environ, 'GIT_TERMINAL_PROMPT': '0'}, timeout=600)
         except (OSError, subprocess.SubprocessError):
             return 'clone failed'
-    # The launcher only registers installed checkouts, and the runner needs reviewed checks committed to the base.
+    # configure and the runner both start from the current remote base.
+    failure = fast_forward(root)
+    if failure:
+        return failure
     if not (root / 'factory/config.json').is_file():
-        return 'no committed factory/config.json; merge reviewed factory setup into the repository'
+        failure_record(args, repository).unlink(missing_ok=True)
+        launch(args, repository, ['--configure', repository, '--issue', str(issue)])
+        return 'configuring'
     try:
         subprocess.run([sys.executable, str(args.launcher), '--repo', str(root), 'register'], check=True,
                        stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
@@ -170,20 +238,46 @@ def arguments():
     parser.add_argument('--status', type=Path, default=home / '.local/share/formwork/kan-factory-dispatch/status.json')
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--launch', metavar='REPOSITORY', help=argparse.SUPPRESS)
+    parser.add_argument('--configure', metavar='REPOSITORY', help=argparse.SUPPRESS)
+    parser.add_argument('--issue', type=int, help=argparse.SUPPRESS)
     return parser.parse_args()
 
 
-def launch(args, repository):
+def launch(args, repository, child=None):
     forwarded = [item for key in ('config', 'profile', 'registry', 'launcher', 'checkouts', 'status')
                  for item in ('--' + key, str(getattr(args, key)))]
+    forwarded += child or ['--launch', repository]
     subprocess.run(['systemd-run', '--user', '--quiet', '--collect', '--unit=' + unit(repository),
                     '--property=Type=exec', '--property=SuccessExitStatus=75',
                     '--setenv=PATH=' + os.environ.get('PATH', '/usr/local/bin:/usr/bin:/bin'),
-                    sys.executable, str(Path(__file__).resolve()), *forwarded, '--launch', repository],
+                    sys.executable, str(Path(__file__).resolve()), *forwarded],
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
 
 
+def configure(args, client):
+    """Configure-unit child: recheck the sent issue, configure, then continue as the runner child in this unit."""
+    repository = args.configure
+    if repository not in client.selected() or client.sent(repository, actors(args)) != args.issue:
+        raise ValueError('Repository no longer selected or issue no longer sent')
+    root = existing_clone(args, repository)
+    if root is None:
+        raise ValueError('Checkout not found')
+    # configure takes many minutes (agent work and CI); only its last stderr line is kept, never logged.
+    result = subprocess.run([sys.executable, str(args.launcher), '--repo', str(root), 'configure', '--issue', str(args.issue)],
+                            cwd=root, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    if result.returncode:
+        last = (result.stderr.strip().splitlines() or [''])[-1]
+        reason = last[len('configure failed: '):][:300] if last.startswith('configure failed: ') else 'configure failed'
+        args.status.parent.mkdir(parents=True, exist_ok=True)
+        failure_record(args, repository).write_text(json.dumps({'issue': args.issue, 'reason': reason}) + '\n')
+        return 1
+    args.launch = repository
+    return dispatch(args, client)
+
+
 def dispatch(args, client):
+    if args.configure and not args.launch:
+        return configure(args, client)
     selected, installed = client.selected(), projects(args.registry)
     if args.launch:
         if args.launch not in selected:
@@ -198,10 +292,26 @@ def dispatch(args, client):
         root, ready = installed.get(repository.lower(), (None, False))
         row = {'repository': repository}
         try:
-            if root is None and not args.dry_run and client.queued(repository):
-                failure = set_up(args, repository)
-                if failure:
+            if root is None and not args.dry_run:
+                # One unit per repository: configuring, then running the sent issue, never starts twice.
+                if active(repository):
+                    row['status'] = 'configuring'
+                    results.append(row)
+                    continue
+                issue = client.sent(repository, actors(args))
+                record = failure_record(args, repository)
+                failed = json.loads(record.read_text()) if issue and record.is_file() else {}
+                if issue and failed.get('issue') == issue:
+                    # Like processed runner jobs, a failed issue is not retried automatically.
+                    row.update(status='setup failed', reason=failed.get('reason', 'configure failed'))
+                    results.append(row)
+                    continue
+                failure = set_up(args, repository, issue) if issue else None
+                if failure == 'configuring':
+                    row['status'] = 'configuring'
+                elif failure:
                     row.update(status='setup failed', reason=failure)
+                if failure:
                     results.append(row)
                     continue
                 root, ready = projects(args.registry).get(repository.lower(), (None, False))
@@ -235,7 +345,7 @@ def main():
     os.umask(0o077)
     args = arguments()
     client = Kan(args.config, args.profile)
-    if args.launch or args.dry_run:
+    if args.launch or args.configure or args.dry_run:
         return dispatch(args, client)
     args.status.parent.mkdir(parents=True, exist_ok=True)
     with args.status.with_suffix('.lock').open('a') as lock:

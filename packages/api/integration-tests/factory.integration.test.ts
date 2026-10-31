@@ -77,6 +77,7 @@ describe("factory job publication", () => {
       const api = caller(tx, user);
       const created = await api.publish(report);
       const stages = [
+        "configuring",
         "building",
         "checks",
         "rework",
