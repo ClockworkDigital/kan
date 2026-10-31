@@ -76,6 +76,11 @@ def command(args):
     return subprocess.check_output(args, text=True, stderr=subprocess.DEVNULL, timeout=30).strip()
 
 
+def remote_repository(url):
+    match = re.fullmatch(r'(?:https://github\.com/|git@github\.com:|ssh://git@github\.com/)([^/]+/[^/]+?)(?:\.git)?', url)
+    return match[1].lower() if match and REPOSITORY.fullmatch(match[1]) else None
+
+
 def projects(registry):
     """First registered primary checkout wins; extra lanes must not duplicate a queue."""
     result = {}
@@ -91,15 +96,55 @@ def projects(registry):
             remote = config.get('remote', 'origin')
             if not isinstance(remote, str) or remote.startswith('-'):
                 continue
-            url = command(['git', '-C', str(root), 'remote', 'get-url', '--push', remote])
-            match = re.fullmatch(r'(?:https://github\.com/|git@github\.com:|ssh://git@github\.com/)([^/]+/[^/]+?)(?:\.git)?', url)
-            if match and REPOSITORY.fullmatch(match[1]):
+            name = remote_repository(command(['git', '-C', str(root), 'remote', 'get-url', '--push', remote]))
+            if name:
                 ready = (config.get('queue_label') == 'factory' and isinstance(config.get('checks'), list)
                          and bool(config['checks']))
-                result.setdefault(match[1].lower(), (root, ready))
+                result.setdefault(name, (root, ready))
         except (OSError, ValueError, StopIteration, subprocess.SubprocessError):
             continue
     return result
+
+
+def origin(path):
+    # Require the path's own .git so a parent repository's remote never counts as a match.
+    if not (path / '.git').exists():
+        return None
+    try:
+        return remote_repository(command(['git', '-C', str(path), 'remote', 'get-url', '--push', 'origin']))
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def existing_clone(args, repository):
+    """First registered path or ~/clockwork subfolder whose origin is this repository, whatever its folder name."""
+    registered = json.loads(args.registry.read_text())
+    folders = sorted(p for p in args.checkouts.iterdir() if p.is_dir()) if args.checkouts.is_dir() else []
+    return next((path for path in [*map(Path, registered), *folders] if origin(path) == repository.lower()), None)
+
+
+def set_up(args, repository):
+    """Reuse or clone and register a selected repository; return a failure reason, or None once registered."""
+    root = existing_clone(args, repository) or args.checkouts / repository.split('/')[1]
+    if root.exists() and (not root.is_dir() or any(root.iterdir())):
+        if origin(root) != repository.lower():
+            return 'checkout path ' + str(root) + ' exists and is not a clone of this repository'
+    else:
+        try:
+            subprocess.run(['git', 'clone', '--quiet', '--', 'https://github.com/' + repository + '.git', str(root)],
+                           check=True, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                           env={**os.environ, 'GIT_TERMINAL_PROMPT': '0'}, timeout=600)
+        except (OSError, subprocess.SubprocessError):
+            return 'clone failed'
+    # The launcher only registers installed checkouts, and the runner needs reviewed checks committed to the base.
+    if not (root / 'factory/config.json').is_file():
+        return 'no committed factory/config.json; merge reviewed factory setup into the repository'
+    try:
+        subprocess.run([sys.executable, str(args.launcher), '--repo', str(root), 'register'], check=True,
+                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return 'factory register failed'
+    return None
 
 
 def unit(repository):
@@ -121,6 +166,7 @@ def arguments():
     parser.add_argument('--profile', type=Path, default=home / '.config/formwork/kan/github-sync-credential.json')
     parser.add_argument('--registry', type=Path, default=home / '.agent-factory/projects.json')
     parser.add_argument('--launcher', type=Path, default=home / 'src/agent-factory/scripts/factory.py')
+    parser.add_argument('--checkouts', type=Path, default=home / 'clockwork')
     parser.add_argument('--status', type=Path, default=home / '.local/share/formwork/kan-factory-dispatch/status.json')
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--launch', metavar='REPOSITORY', help=argparse.SUPPRESS)
@@ -128,7 +174,7 @@ def arguments():
 
 
 def launch(args, repository):
-    forwarded = [item for key in ('config', 'profile', 'registry', 'launcher', 'status')
+    forwarded = [item for key in ('config', 'profile', 'registry', 'launcher', 'checkouts', 'status')
                  for item in ('--' + key, str(getattr(args, key)))]
     subprocess.run(['systemd-run', '--user', '--quiet', '--collect', '--unit=' + unit(repository),
                     '--property=Type=exec', '--property=SuccessExitStatus=75',
@@ -152,6 +198,13 @@ def dispatch(args, client):
         root, ready = installed.get(repository.lower(), (None, False))
         row = {'repository': repository}
         try:
+            if root is None and not args.dry_run and client.queued(repository):
+                failure = set_up(args, repository)
+                if failure:
+                    row.update(status='setup failed', reason=failure)
+                    results.append(row)
+                    continue
+                root, ready = projects(args.registry).get(repository.lower(), (None, False))
             if root is None:
                 row['status'] = 'missing registered checkout'
             elif not ready:
