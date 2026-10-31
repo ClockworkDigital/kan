@@ -14,9 +14,12 @@ primary checkout wins; put the intended main checkout before extra lanes. The
 configured push remote must match the selected GitHub repository.
 
 When a selected repository has an open `factory` issue but no registered checkout,
-the dispatcher sets it up: it clones `https://github.com/<owner>/<repo>.git` into
-`~/clockwork/<repo>` (`--checkouts`), or reuses that path if it is already a clone
-of the same repository, then registers it with `factory.py --repo <path> register`
+the dispatcher sets it up. It first reuses an existing clone whose `origin` is the
+same GitHub repository (owner/name compared case-insensitively; https, ssh and
+`.git` forms match), checking registry paths and then each folder directly under
+`~/clockwork` (`--checkouts`) whatever its name, e.g. `~/clockwork/pulse check`.
+Only when none matches does it clone `https://github.com/<owner>/<repo>.git` into
+`~/clockwork/<repo>`. It then registers the checkout with `factory.py --repo <path> register`
 and dispatches it in the same run. Idle repositories and dry runs are never cloned.
 An existing path that is not a matching clone is never modified. Checks are never
 guessed: the repository must already contain reviewed, committed

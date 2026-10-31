@@ -76,6 +76,41 @@ class DispatchTests(unittest.TestCase):
         run.assert_not_called(); launch.assert_not_called()
         self.assertEqual([p.name for p in conflict.iterdir()], ['keep']); self.assertEqual((conflict/'keep').read_text(), 'mine')
 
+    def clone_at(self, name, url):
+        path = self.args.checkouts/name; (path/'.git').mkdir(parents=True)
+        (path/'factory').mkdir(); (path/'factory/config.json').write_text('{}')
+        return path, url
+
+    def test_existing_clone_under_another_folder_name_is_reused(self):
+        clones = dict([self.clone_at('pulse check', 'git@github.com:clockworkdigital/A'),
+                       self.clone_at('unrelated', 'https://github.com/ClockworkDigital/a-other.git')])
+        with patch.object(dispatch, 'command', side_effect=lambda c: clones[Path(c[2])]):
+            row, launch, run = self.auto_setup(lambda *_, **__: None, ({}, {'clockworkdigital/a':(self.args.checkouts/'pulse check',True)}))
+        self.assertEqual(row['status'], 'dispatched')
+        [register] = [c.args[0] for c in run.call_args_list]  # no git clone
+        self.assertEqual(register[-3:], ['--repo', str(self.args.checkouts/'pulse check'), 'register'])
+
+    def test_registered_path_is_reused_and_remote_forms_match(self):
+        path, url = self.clone_at('Build Tracker', 'ssh://git@github.com/ClockworkDigital/Build-Tracker.git')
+        self.args.registry.write_text(json.dumps([str(path)]))
+        with patch.object(dispatch, 'command', return_value=url):
+            self.assertEqual(dispatch.existing_clone(self.args, 'ClockworkDigital/build-tracker'), path)
+        forms = ['https://github.com/ClockworkDigital/Build-Tracker', 'https://github.com/clockworkdigital/build-tracker.git',
+                 'git@github.com:ClockworkDigital/Build-Tracker.git', url]
+        self.assertEqual({dispatch.remote_repository(f) for f in forms}, {'clockworkdigital/build-tracker'})
+
+    def test_folder_with_another_repository_remote_is_ignored(self):
+        clones = dict([self.clone_at('a-ish', 'https://github.com/ClockworkDigital/other.git')])
+        checkout = self.args.checkouts/'a'
+        def run(command, **_):
+            if command[:2] == ['git', 'clone']:
+                (checkout/'factory').mkdir(parents=True); (checkout/'factory/config.json').write_text('{}')
+        with patch.object(dispatch, 'command', side_effect=lambda c: clones[Path(c[2])]):
+            row, _, run_mock = self.auto_setup(run, ({}, {'clockworkdigital/a':(checkout,True)}))
+        self.assertEqual(row['status'], 'dispatched')
+        self.assertEqual(run_mock.call_args_list[0].args[0][-1], str(checkout))
+        self.assertEqual(sorted(p.name for p in (self.args.checkouts/'a-ish').iterdir()), ['.git', 'factory'])
+
     def test_pausing_sync_dispatches_nothing(self):
         client = Mock(); client.selected.return_value = []
         _, launch, _ = self.run_dispatch(client, {'clockworkdigital/a':(self.root,True)})

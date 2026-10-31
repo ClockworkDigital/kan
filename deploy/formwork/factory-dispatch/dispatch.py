@@ -106,15 +106,28 @@ def projects(registry):
     return result
 
 
+def origin(path):
+    # Require the path's own .git so a parent repository's remote never counts as a match.
+    if not (path / '.git').exists():
+        return None
+    try:
+        return remote_repository(command(['git', '-C', str(path), 'remote', 'get-url', '--push', 'origin']))
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def existing_clone(args, repository):
+    """First registered path or ~/clockwork subfolder whose origin is this repository, whatever its folder name."""
+    registered = json.loads(args.registry.read_text())
+    folders = sorted(p for p in args.checkouts.iterdir() if p.is_dir()) if args.checkouts.is_dir() else []
+    return next((path for path in [*map(Path, registered), *folders] if origin(path) == repository.lower()), None)
+
+
 def set_up(args, repository):
-    """Clone and register a selected repository; return a failure reason, or None once registered."""
-    root = args.checkouts / repository.split('/')[1]
+    """Reuse or clone and register a selected repository; return a failure reason, or None once registered."""
+    root = existing_clone(args, repository) or args.checkouts / repository.split('/')[1]
     if root.exists() and (not root.is_dir() or any(root.iterdir())):
-        try:
-            url = command(['git', '-C', str(root), 'remote', 'get-url', '--push', 'origin'])
-        except (OSError, subprocess.SubprocessError):
-            url = ''
-        if remote_repository(url) != repository.lower():
+        if origin(root) != repository.lower():
             return 'checkout path ' + str(root) + ' exists and is not a clone of this repository'
     else:
         try:
