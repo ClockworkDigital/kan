@@ -11,8 +11,17 @@ Each selected repository needs an operator-registered checkout in
 project checks and `queue_label: "factory"`. Git worktrees resolve to their primary
 checkout. When separate registered clones share a remote, the first registered
 primary checkout wins; put the intended main checkout before extra lanes. The
-configured push remote must match the selected GitHub repository. Missing setup
-is reported explicitly, without cloning repositories or guessing checks.
+configured push remote must match the selected GitHub repository.
+
+When a selected repository has an open `factory` issue but no registered checkout,
+the dispatcher sets it up: it clones `https://github.com/<owner>/<repo>.git` into
+`~/clockwork/<repo>` (`--checkouts`), or reuses that path if it is already a clone
+of the same repository, then registers it with `factory.py --repo <path> register`
+and dispatches it in the same run. Idle repositories and dry runs are never cloned.
+An existing path that is not a matching clone is never modified. Checks are never
+guessed: the repository must already contain reviewed, committed
+`factory/config.json` (the runner also requires it on the remote base branch).
+Otherwise the row reports `setup failed` with a `reason`.
 
 Repositories run independently in stable `agent-factory-sync-<hash>.service` user
 units. An active unit cannot be started twice. Immediately before running, the
@@ -37,7 +46,8 @@ python3 -m unittest discover -s deploy/formwork/factory-dispatch -p 'test_*.py'
 ```
 
 The JSON report lists every selected repository as ready, running, queue empty,
-missing registered checkout, missing factory setup, or error. Ordinary timer runs
+missing registered checkout, missing factory setup, setup failed (with a
+reason), or error. Ordinary timer runs
 save it privately to `~/.local/share/formwork/kan-factory-dispatch/status.json`.
 If settings or owner authorization cannot be read, the dispatcher exits without
 launching anything. Check its journal as well as the status timestamp: a failed

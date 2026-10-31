@@ -17,7 +17,7 @@ class DispatchTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         self.args = SimpleNamespace(config=self.root/'config', profile=self.root/'profile',
-            registry=self.root/'projects.json', launcher=self.root/'factory.py',
+            registry=self.root/'projects.json', launcher=self.root/'factory.py', checkouts=self.root/'clockwork',
             status=self.root/'status.json', dry_run=False, launch=None)
         self.args.config.write_text(json.dumps({'baseUrl':'https://kan.example', 'userId':'owner', 'workspacePublicId':'workspace123'}))
         self.args.profile.write_text(json.dumps({'baseUrl':'https://kan.example', 'apiToken':'do-not-log-secret', 'expiresAt':None}))
@@ -32,12 +32,49 @@ class DispatchTests(unittest.TestCase):
     def test_selection_is_the_allowlist_and_every_missing_repo_is_reported(self):
         client = Mock()
         client.selected.return_value = ['ClockworkDigital/a', 'ClockworkDigital/b', 'ClockworkDigital/c']
-        client.queued.return_value = True
-        code, launch, _ = self.run_dispatch(client, {'clockworkdigital/a':(self.root,True), 'clockworkdigital/c':(self.root,False), 'clockworkdigital/unselected':(self.root,True)})
+        client.queued.side_effect = lambda repository: repository != 'ClockworkDigital/b'
+        with patch.object(dispatch, 'set_up') as set_up:
+            code, launch, _ = self.run_dispatch(client, {'clockworkdigital/a':(self.root,True), 'clockworkdigital/c':(self.root,False), 'clockworkdigital/unselected':(self.root,True)})
         self.assertEqual(code, 0)
         launch.assert_called_once_with(self.args, 'ClockworkDigital/a')
         self.assertEqual([r['status'] for r in json.loads(self.args.status.read_text())['repositories']], ['dispatched','missing registered checkout','missing factory setup'])
-        client.queued.assert_called_once_with('ClockworkDigital/a')
+        self.assertEqual([c.args[0] for c in client.queued.call_args_list], ['ClockworkDigital/a','ClockworkDigital/b'])
+        set_up.assert_not_called()  # idle repositories are never cloned
+
+    def auto_setup(self, run, installed=({},)):
+        client = Mock(); client.selected.return_value = ['ClockworkDigital/a']; client.queued.return_value = True
+        with patch.object(dispatch, 'projects', side_effect=list(installed)), patch.object(dispatch, 'active', return_value=False), \
+                patch.object(dispatch, 'launch') as launch, patch.object(dispatch.subprocess, 'run', side_effect=run) as subprocess_run, \
+                contextlib.redirect_stdout(io.StringIO()) as output:
+            dispatch.dispatch(self.args, client)
+        return json.loads(output.getvalue())['repositories'][0], launch, subprocess_run
+
+    def test_queued_repository_is_cloned_registered_and_dispatched(self):
+        checkout = self.args.checkouts/'a'
+        def run(command, **_):
+            if command[:2] == ['git', 'clone']:
+                (checkout/'factory').mkdir(parents=True); (checkout/'factory/config.json').write_text('{}')
+        row, launch, run_mock = self.auto_setup(run, ({}, {'clockworkdigital/a':(checkout,True)}))
+        self.assertEqual(row['status'], 'dispatched')
+        launch.assert_called_once_with(self.args, 'ClockworkDigital/a')
+        clone, register = [c.args[0] for c in run_mock.call_args_list]
+        self.assertEqual(clone[-2:], ['https://github.com/ClockworkDigital/a.git', str(checkout)])
+        self.assertEqual(register[-3:], ['--repo', str(checkout), 'register'])
+
+    def test_setup_failure_reports_reason_and_launches_nothing(self):
+        row, launch, _ = self.auto_setup(dispatch.subprocess.CalledProcessError(128, 'git'))
+        self.assertEqual((row['status'], row['reason']), ('setup failed', 'clone failed'))
+        row, launch, _ = self.auto_setup(lambda command, **_: (self.args.checkouts/'a').mkdir(parents=True))
+        self.assertIn('no committed factory/config.json', row['reason'])
+        launch.assert_not_called()
+
+    def test_conflicting_checkout_path_is_left_untouched(self):
+        conflict = self.args.checkouts/'a'; conflict.mkdir(parents=True); (conflict/'keep').write_text('mine')
+        with patch.object(dispatch, 'command', return_value='https://github.com/ClockworkDigital/other.git'):
+            row, launch, run = self.auto_setup(None)
+        self.assertEqual(row['status'], 'setup failed'); self.assertIn('is not a clone', row['reason'])
+        run.assert_not_called(); launch.assert_not_called()
+        self.assertEqual([p.name for p in conflict.iterdir()], ['keep']); self.assertEqual((conflict/'keep').read_text(), 'mine')
 
     def test_pausing_sync_dispatches_nothing(self):
         client = Mock(); client.selected.return_value = []
