@@ -9285,5 +9285,17 @@
         244
       ]
     ]
+  },
+  "HO0OA0": {
+    "translation": "Configurando",
+    "message": "Configuring",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/components/FactoryStageBadge.tsx",
+        11
+      ]
+    ]
   }
 }

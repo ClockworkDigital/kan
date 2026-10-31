@@ -18,13 +18,13 @@ import {
 import { installRepositoryPolicy } from "../utils/github-policy";
 import { assertPermission } from "../utils/permissions";
 
-// Restrict requests to repository discovery, issues and read-only label lists.
+// Restrict requests to repository discovery, issues and read-only label and issue event lists.
 export const githubSyncInput = z.object({
   workspacePublicId: z.string().min(12),
   path: z
     .string()
     .regex(
-      /^(?:orgs\/ClockworkDigital\/repos\?per_page=100|repos\/ClockworkDigital\/(?!\.{1,2}\/)[A-Za-z0-9_.-]+\/(?:issues(?:\?state=open&per_page=100|\/[1-9][0-9]*)|labels\?per_page=100))$/,
+      /^(?:orgs\/ClockworkDigital\/repos\?per_page=100|repos\/ClockworkDigital\/(?!\.{1,2}\/)[A-Za-z0-9_.-]+\/(?:issues(?:\?state=open&per_page=100|\/[1-9][0-9]*(?:\/events\?per_page=100)?)|labels\?per_page=100))$/,
     ),
   page: z.number().int().min(1).max(1000).default(1),
   changes: z

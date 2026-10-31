@@ -65,7 +65,7 @@ overwrite it. Include previous rounds and artifacts in each snapshot to retain
 them. GET the same collection to list jobs (`page=0`, then `page=1`, etc.); GET
 `/api/v1/workspaces/{workspacePublicId}/factory/jobs/{jobPublicId}` for artifacts.
 
-Stages: `queued`, `intake`, `spec`, `building`, `checks`, `rework`, `review`,
+Stages: `queued`, `configuring`, `intake`, `spec`, `building`, `checks`, `rework`, `review`,
 `publishing`, `babysitting`, `judging`, `waiting`,
 `needs_info`, `needs_human`, `failed`, `completed`. Gate/reviewer results:
 `pending`, `pass`, `fail`, `skipped`. Use `null` for unavailable issue/PR numbers,

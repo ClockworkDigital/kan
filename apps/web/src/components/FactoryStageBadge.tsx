@@ -8,6 +8,7 @@ import Badge from "./Badge";
 function stageLabels() {
   return {
     queued: t`Queued`,
+    configuring: t`Configuring`,
     intake: t`Intake`,
     spec: t`Specification`,
     building: t`Building`,
@@ -37,7 +38,9 @@ export function FactoryStageBadge({ stage }: { stage: Stage }) {
         ? "bg-green-500"
         : stage === "waiting" || stage === "needs_info"
           ? "bg-amber-500"
-          : "bg-blue-500";
+          : stage === "configuring"
+            ? "bg-purple-500"
+            : "bg-blue-500";
   return (
     <Badge
       value={stageLabels()[stage]}
