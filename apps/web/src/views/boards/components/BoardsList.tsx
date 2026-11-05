@@ -1,4 +1,22 @@
+import type { DragEndEvent } from "@dnd-kit/core";
 import Link from "next/link";
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { motion } from "framer-motion";
@@ -46,6 +64,44 @@ const dot = (colour: string) => (
   />
 );
 
+type Activator = React.HTMLAttributes<HTMLElement> & {
+  ref: (node: HTMLElement | null) => void;
+};
+
+function SortableTile({
+  id,
+  disabled,
+  children,
+}: {
+  id: string;
+  disabled: boolean;
+  children: (activator: Activator) => React.ReactNode;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id, disabled });
+  return (
+    <div
+      ref={setNodeRef}
+      style={{ transform: CSS.Translate.toString(transform), transition }}
+      // No pointer events while dragging, so releasing over the tile doesn't click its link.
+      className={`relative h-full ${isDragging ? "pointer-events-none z-30 opacity-80" : ""}`}
+    >
+      {children(
+        disabled
+          ? { ref: setActivatorNodeRef }
+          : { ref: setActivatorNodeRef, ...attributes, ...listeners },
+      )}
+    </div>
+  );
+}
+
 export function BoardsList({
   isTemplate,
   archived = false,
@@ -57,7 +113,7 @@ export function BoardsList({
   const { i18n } = useLingui();
   const { openModal, isOpen, modalContentType, entityId, entityLabel } =
     useModal();
-  const { canCreateBoard } = usePermissions();
+  const { canCreateBoard, canEditBoard } = usePermissions();
   const { sort, setSort, selectedTags, setSelectedTags } =
     useBoardListPreferences(workspace.publicId);
 
@@ -68,14 +124,51 @@ export function BoardsList({
     },
   });
 
-  const { data, isLoading } = api.board.all.useQuery(
-    {
-      workspacePublicId: workspace.publicId,
-      type: isTemplate ? "template" : "regular",
-      archived: archived,
-    },
-    { enabled: workspace.publicId ? true : false },
+  const boardsQuery = {
+    workspacePublicId: workspace.publicId,
+    type: isTemplate ? ("template" as const) : ("regular" as const),
+    archived: archived,
+  };
+  const { data, isLoading } = api.board.all.useQuery(boardsQuery, {
+    enabled: workspace.publicId ? true : false,
+  });
+
+  const reorderBoards = api.board.reorder.useMutation({
+    onSettled: () => utils.board.all.invalidate(),
+  });
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 4 } }),
+    // Long-press on touch so swiping still scrolls the page.
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
+    // Space picks a tile up; Enter still opens the board.
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+      keyboardCodes: {
+        start: ["Space"],
+        cancel: ["Escape"],
+        end: ["Space", "Enter"],
+      },
+    }),
   );
+  // The default sort is the workspace priority order, so dragging only makes sense there.
+  const canReorder = !isTemplate && sort === "default" && canEditBoard;
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!data || !over || active.id === over.id) return;
+    const ids = data.map((board) => board.publicId);
+    // Moving within the full list keeps hidden (filtered-out) boards in place.
+    const ordered = arrayMove(
+      data,
+      ids.indexOf(String(active.id)),
+      ids.indexOf(String(over.id)),
+    ).map((board, index) => ({ ...board, index }));
+    utils.board.all.setData(boardsQuery, ordered);
+    reorderBoards.mutate({
+      workspacePublicId: workspace.publicId,
+      boardPublicIds: ordered.map((board) => board.publicId),
+    });
+  };
 
   // Portfolio details, when a board has them, show on its tile.
   const portfolio = api.portfolio.list.useQuery(
@@ -195,7 +288,7 @@ export function BoardsList({
   );
 
   const sortLabels: Record<BoardSort, string> = {
-    default: t`Default`,
+    default: t`Priority`,
     recent: t`Recent`,
     progress: t`Progress`,
   };
@@ -308,189 +401,226 @@ export function BoardsList({
           {t`No boards match these filters`}
         </p>
       )}
-      <motion.div
-        className="3xl:grid-cols-4 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3"
-        layout
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
       >
-        {shown.map(
-          ({
-            board,
-            github,
-            project,
-            counts,
-            description,
-            lastActivity,
-            activeOnGitHub,
-          }) => {
-            return (
-              <motion.div
-                key={board.publicId}
-                className="group relative"
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  layout: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 30,
-                    mass: 1,
-                  },
-                  opacity: { duration: 0.2 },
-                  scale: { duration: 0.2 },
-                }}
-              >
-                <Link
-                  href={`${isTemplate ? "templates" : "boards"}/${board.publicId}`}
-                  aria-label={board.name}
-                  className="block h-full"
-                >
-                  <div className="group relative mr-5 flex h-full min-h-[150px] w-full items-stretch rounded-md border border-dashed border-light-400 bg-light-50 shadow-sm hover:bg-light-200 dark:border-dark-600 dark:bg-dark-50 dark:hover:bg-dark-100">
-                    <PatternedBackground />
-                    <button
-                      onClick={(e) =>
-                        handleToggleFavorite(e, board.publicId, board.favorite)
-                      }
-                      className={`absolute right-10 top-3 z-10 rounded p-1 transition-all hover:bg-light-300 dark:hover:bg-dark-200 ${
-                        board.favorite
-                          ? ""
-                          : "md:opacity-0 md:group-hover:opacity-100"
-                      }`}
-                      aria-label={
-                        board.favorite
-                          ? "Remove from favorites"
-                          : "Add to favorites"
-                      }
-                    >
-                      {board.favorite ? (
-                        <HiStar className="h-5 w-5 text-neutral-700 dark:text-dark-1000" />
-                      ) : (
-                        <HiOutlineStar className="h-5 w-5 text-neutral-700 dark:text-dark-800" />
-                      )}
-                    </button>
-                    <FaGithub
-                      aria-label={
-                        github
-                          ? t`GitHub repository linked`
-                          : t`No GitHub repository linked`
-                      }
-                      className={`absolute right-3 top-4 z-10 h-4 w-4 ${github ? "text-neutral-900 dark:text-white" : "text-neutral-400 dark:text-neutral-500"}`}
-                    />
-                    <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
-                      {!isTemplate && (
-                        <div className="flex flex-wrap gap-1.5 pr-14">
-                          {project ? (
-                            <>
-                              <Badge
-                                value={statusLabels[project.status]}
-                                iconLeft={dot(
-                                  projectStatusColours[project.status],
-                                )}
-                              />
-                              <Badge
-                                value={
-                                  project.internal ? t`Internal` : t`Client`
-                                }
-                                iconLeft={dot(
-                                  project.internal ? "#0d9488" : "#ea580c",
-                                )}
-                              />
-                              {project.shownToClient && (
-                                <span className="mt-1 inline-flex items-center rounded-full bg-indigo-600/15 px-2 py-1 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600 dark:text-indigo-300">
-                                  {project.clients
-                                    ? `${t`Shown`} · ${project.clients}`
-                                    : t`Shown`}
-                                </span>
-                              )}
-                            </>
-                          ) : activeOnGitHub ? (
-                            <span
-                              title={t`Commits or issue changes in the last 14 days`}
-                            >
-                              <Badge
-                                value={statusLabels.busy}
-                                iconLeft={dot(projectStatusColours.busy)}
-                              />
-                            </span>
-                          ) : (
-                            <span className="mt-1 inline-flex items-center rounded-full border border-dashed border-light-500 px-2 py-1 text-[10px] font-medium text-light-900 dark:border-dark-500 dark:text-dark-800">
-                              {t`Status not set`}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      <h2 className="break-words pr-14 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
-                        {github?.repo ?? board.name}
-                      </h2>
-                      {!isTemplate && (
+        <SortableContext
+          items={shown.map(({ board }) => board.publicId)}
+          strategy={rectSortingStrategy}
+        >
+          <motion.div
+            className="3xl:grid-cols-4 grid h-fit w-full grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3"
+            layout
+          >
+            {shown.map(
+              ({
+                board,
+                github,
+                project,
+                counts,
+                description,
+                lastActivity,
+                activeOnGitHub,
+              }) => {
+                return (
+                  <motion.div
+                    key={board.publicId}
+                    className="group relative"
+                    // Framer's layout animation fights dnd-kit's drop animation.
+                    layout={!canReorder}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      layout: {
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                        mass: 1,
+                      },
+                      opacity: { duration: 0.2 },
+                      scale: { duration: 0.2 },
+                    }}
+                  >
+                    <SortableTile id={board.publicId} disabled={!canReorder}>
+                      {(activator) => (
                         <>
-                          <p
-                            className={`line-clamp-2 text-left text-xs ${description ? "text-light-900 dark:text-dark-900" : placeholder}`}
+                          <Link
+                            href={`${isTemplate ? "templates" : "boards"}/${board.publicId}`}
+                            aria-label={board.name}
+                            className={`block h-full ${canReorder ? "[-webkit-touch-callout:none]" : ""}`}
+                            {...activator}
                           >
-                            {description ?? t`No description`}
-                          </p>
-                          <div className="border-t border-light-300 pt-2 text-left text-xs dark:border-dark-300">
-                            <p className="text-[10px] uppercase tracking-wide text-light-900 dark:text-dark-800">
-                              {t`Next steps`}
-                            </p>
-                            <p
-                              className={`whitespace-pre-line break-words ${project?.nextSteps ? "text-light-1000 dark:text-dark-950" : placeholder}`}
-                            >
-                              {
-                                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                                project?.nextSteps || t`Not set`
-                              }
-                            </p>
-                          </div>
-                          <div className="mt-auto flex min-w-0 items-center gap-3 pr-8 text-xs text-light-900 dark:text-dark-900">
-                            <ProjectProgress
-                              github={!!github}
-                              done={counts?.doneCards ?? 0}
-                              total={counts?.totalCards ?? 0}
-                            />
-                            {lastActivity && (
-                              <span className="flex items-center gap-1.5 whitespace-nowrap">
-                                {project?.updatedByName &&
-                                  lastActivity === project.updatedAt && (
-                                    <Avatar
-                                      size="xs"
-                                      name={project.updatedByName}
-                                      email=""
-                                    />
-                                  )}
-                                {i18n.date(lastActivity, {
-                                  day: "numeric",
-                                  month: "short",
-                                })}
-                              </span>
+                            <div className="group relative mr-5 flex h-full min-h-[150px] w-full items-stretch rounded-md border border-dashed border-light-400 bg-light-50 shadow-sm hover:bg-light-200 dark:border-dark-600 dark:bg-dark-50 dark:hover:bg-dark-100">
+                              <PatternedBackground />
+                              <button
+                                onClick={(e) =>
+                                  handleToggleFavorite(
+                                    e,
+                                    board.publicId,
+                                    board.favorite,
+                                  )
+                                }
+                                className={`absolute right-10 top-3 z-10 rounded p-1 transition-all hover:bg-light-300 dark:hover:bg-dark-200 ${
+                                  board.favorite
+                                    ? ""
+                                    : "md:opacity-0 md:group-hover:opacity-100"
+                                }`}
+                                aria-label={
+                                  board.favorite
+                                    ? "Remove from favorites"
+                                    : "Add to favorites"
+                                }
+                              >
+                                {board.favorite ? (
+                                  <HiStar className="h-5 w-5 text-neutral-700 dark:text-dark-1000" />
+                                ) : (
+                                  <HiOutlineStar className="h-5 w-5 text-neutral-700 dark:text-dark-800" />
+                                )}
+                              </button>
+                              <FaGithub
+                                aria-label={
+                                  github
+                                    ? t`GitHub repository linked`
+                                    : t`No GitHub repository linked`
+                                }
+                                className={`absolute right-3 top-4 z-10 h-4 w-4 ${github ? "text-neutral-900 dark:text-white" : "text-neutral-400 dark:text-neutral-500"}`}
+                              />
+                              <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
+                                {!isTemplate && (
+                                  <div className="flex flex-wrap gap-1.5 pr-14">
+                                    {project ? (
+                                      <>
+                                        <Badge
+                                          value={statusLabels[project.status]}
+                                          iconLeft={dot(
+                                            projectStatusColours[
+                                              project.status
+                                            ],
+                                          )}
+                                        />
+                                        <Badge
+                                          value={
+                                            project.internal
+                                              ? t`Internal`
+                                              : t`Client`
+                                          }
+                                          iconLeft={dot(
+                                            project.internal
+                                              ? "#0d9488"
+                                              : "#ea580c",
+                                          )}
+                                        />
+                                        {project.shownToClient && (
+                                          <span className="mt-1 inline-flex items-center rounded-full bg-indigo-600/15 px-2 py-1 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600 dark:text-indigo-300">
+                                            {project.clients
+                                              ? `${t`Shown`} · ${project.clients}`
+                                              : t`Shown`}
+                                          </span>
+                                        )}
+                                      </>
+                                    ) : activeOnGitHub ? (
+                                      <span
+                                        title={t`Commits or issue changes in the last 14 days`}
+                                      >
+                                        <Badge
+                                          value={statusLabels.busy}
+                                          iconLeft={dot(
+                                            projectStatusColours.busy,
+                                          )}
+                                        />
+                                      </span>
+                                    ) : (
+                                      <span className="mt-1 inline-flex items-center rounded-full border border-dashed border-light-500 px-2 py-1 text-[10px] font-medium text-light-900 dark:border-dark-500 dark:text-dark-800">
+                                        {t`Status not set`}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                                <h2 className="break-words pr-14 text-left text-2xl font-bold leading-tight text-neutral-700 dark:text-dark-1000">
+                                  {github?.repo ?? board.name}
+                                </h2>
+                                {!isTemplate && (
+                                  <>
+                                    <p
+                                      className={`line-clamp-2 text-left text-xs ${description ? "text-light-900 dark:text-dark-900" : placeholder}`}
+                                    >
+                                      {description ?? t`No description`}
+                                    </p>
+                                    <div className="border-t border-light-300 pt-2 text-left text-xs dark:border-dark-300">
+                                      <p className="text-[10px] uppercase tracking-wide text-light-900 dark:text-dark-800">
+                                        {t`Next steps`}
+                                      </p>
+                                      <p
+                                        className={`whitespace-pre-line break-words ${project?.nextSteps ? "text-light-1000 dark:text-dark-950" : placeholder}`}
+                                      >
+                                        {
+                                          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                                          project?.nextSteps || t`Not set`
+                                        }
+                                      </p>
+                                    </div>
+                                    <div className="mt-auto flex min-w-0 items-center gap-3 pr-8 text-xs text-light-900 dark:text-dark-900">
+                                      <ProjectProgress
+                                        github={!!github}
+                                        done={counts?.doneCards ?? 0}
+                                        total={counts?.totalCards ?? 0}
+                                      />
+                                      {lastActivity && (
+                                        <span className="flex items-center gap-1.5 whitespace-nowrap">
+                                          {project?.updatedByName &&
+                                            lastActivity ===
+                                              project.updatedAt && (
+                                              <Avatar
+                                                size="xs"
+                                                name={project.updatedByName}
+                                                email=""
+                                              />
+                                            )}
+                                          {i18n.date(lastActivity, {
+                                            day: "numeric",
+                                            month: "short",
+                                          })}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </Link>
+                          {!isTemplate &&
+                            (project?.canEdit ?? counts?.canEdit) && (
+                              <button
+                                type="button"
+                                aria-label={t`Project details`}
+                                title={t`Project details`}
+                                onClick={() =>
+                                  openModal(
+                                    "PROJECT_DETAILS",
+                                    board.publicId,
+                                    board.name,
+                                  )
+                                }
+                                className="pointer-events-none absolute bottom-3 right-3 z-10 rounded p-1 text-light-900 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 hover:bg-light-300 focus-visible:pointer-events-auto focus-visible:opacity-100 dark:text-dark-900 dark:hover:bg-dark-200"
+                              >
+                                <HiOutlinePencilSquare
+                                  aria-hidden="true"
+                                  className="h-5 w-5"
+                                />
+                              </button>
                             )}
-                          </div>
                         </>
                       )}
-                    </div>
-                  </div>
-                </Link>
-                {!isTemplate && (project?.canEdit ?? counts?.canEdit) && (
-                  <button
-                    type="button"
-                    aria-label={t`Project details`}
-                    title={t`Project details`}
-                    onClick={() =>
-                      openModal("PROJECT_DETAILS", board.publicId, board.name)
-                    }
-                    className="pointer-events-none absolute bottom-3 right-3 z-10 rounded p-1 text-light-900 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 hover:bg-light-300 focus-visible:pointer-events-auto focus-visible:opacity-100 dark:text-dark-900 dark:hover:bg-dark-200"
-                  >
-                    <HiOutlinePencilSquare
-                      aria-hidden="true"
-                      className="h-5 w-5"
-                    />
-                  </button>
-                )}
-              </motion.div>
-            );
-          },
-        )}
-      </motion.div>
+                    </SortableTile>
+                  </motion.div>
+                );
+              },
+            )}
+          </motion.div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }

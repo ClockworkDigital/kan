@@ -2,7 +2,9 @@ import { relations, sql } from "drizzle-orm";
 import {
   bigint,
   bigserial,
+  boolean,
   index,
+  integer,
   pgEnum,
   pgTable,
   primaryKey,
@@ -11,8 +13,8 @@ import {
   uniqueIndex,
   uuid,
   varchar,
-  boolean,
 } from "drizzle-orm/pg-core";
+
 import { imports } from "./imports";
 import { labels } from "./labels";
 import { lists } from "./lists";
@@ -57,6 +59,8 @@ export const boards = pgTable(
     type: boardTypeEnum("type").notNull().default("regular"),
     isArchived: boolean("isArchived").notNull().default(false),
     sourceBoardId: bigint("sourceBoardId", { mode: "number" }),
+    // Workspace priority on the boards page; null sorts after ranked boards.
+    index: integer("index"),
   },
   (table) => [
     index("board_is_archived_idx").on(table.isArchived),
