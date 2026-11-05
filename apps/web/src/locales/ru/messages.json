@@ -9405,5 +9405,65 @@
         285
       ]
     ]
+  },
+  "0caMy7": {
+    "translation": "История",
+    "message": "History",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        1
+      ]
+    ]
+  },
+  "6V8hCN": {
+    "translation": "История приоритетов",
+    "message": "Priority history",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
+  },
+  "m9HJ50": {
+    "translation": "Изменений приоритета пока нет",
+    "message": "No priority changes yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
+  },
+  "XHIN+G": {
+    "translation": "Без ранга",
+    "message": "Unranked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
+  },
+  "63niL6": {
+    "translation": "Неизвестный пользователь",
+    "message": "Unknown user",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
   }
 }

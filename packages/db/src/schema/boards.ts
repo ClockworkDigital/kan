@@ -100,6 +100,32 @@ export const boardsRelations = relations(boards, ({ one, many }) => ({
   }),
 }));
 
+// One row per board moved in the workspace priority order. Ranks are 1-based; null fromRank means it was unranked.
+export const boardPriorityChanges = pgTable(
+  "board_priority_change",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    workspaceId: bigint("workspaceId", { mode: "number" })
+      .notNull()
+      .references(() => workspaces.id, { onDelete: "cascade" }),
+    boardId: bigint("boardId", { mode: "number" })
+      .notNull()
+      .references(() => boards.id, { onDelete: "cascade" }),
+    fromRank: integer("fromRank"),
+    toRank: integer("toRank").notNull(),
+    changedBy: uuid("changedBy").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (table) => [
+    index("board_priority_change_workspace_idx").on(
+      table.workspaceId,
+      table.createdAt,
+    ),
+  ],
+).enableRLS();
+
 export const userBoardFavorites = pgTable(
   "user_board_favorites",
   {
