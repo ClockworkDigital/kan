@@ -55,6 +55,12 @@ describe("background sync scope", () => {
       { publicId: "label1234567", boardId: board.id, deletedAt: null },
     ]);
   });
+  it("permits restart polling and acknowledgements only in the delegated workspace", async () => {
+    for (const path of ["factory.restartQueue", "factory.restartStatus"]) {
+      await check(path, { workspacePublicId: "workspace123" });
+      await expect(check(path, { workspacePublicId: "another00001" })).rejects.toThrow();
+    }
+  });
   it("allows selected issue requests and card updates", async () => {
     await check("githubSync.request", {
       workspacePublicId: "workspace123",
@@ -68,6 +74,7 @@ describe("background sync scope", () => {
     });
   });
   it.each([
+    "factory.restart",
     "githubSync.save",
     "githubSync.setTopics",
     "integration.providers",

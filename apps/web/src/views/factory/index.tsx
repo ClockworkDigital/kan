@@ -108,6 +108,17 @@ function JobCard({
           </div>
         )}
       </dl>
+      {job.restart && (
+        <p role="status" className="my-3 text-sm">
+          {job.restart.status === "queued"
+            ? t`Restart queued`
+            : job.restart.status === "running"
+              ? t`Restart running`
+              : job.restart.status === "finished"
+                ? t`Restart finished`
+                : t`Restart failed. Inspect the runner before trying again.`}
+        </p>
+      )}
       {snapshot.rounds.map((round) => (
         <div
           key={round.round}
@@ -134,6 +145,12 @@ function JobCard({
           <GitHubDetails
             workspacePublicId={workspacePublicId}
             jobPublicId={job.publicId}
+            revision={job.revision}
+            stage={snapshot.stage}
+            restartPending={
+              job.restart?.status === "queued" ||
+              job.restart?.status === "running"
+            }
           />
         )}
       </details>

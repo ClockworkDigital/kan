@@ -29,6 +29,12 @@ export const factoryJobs = pgTable(
     runKey: varchar("runKey", { length: 128 }).notNull(),
     revision: integer("revision").notNull(),
     snapshot: jsonb("snapshot").$type<FactorySnapshot>().notNull(),
+    restart: jsonb("restart").$type<{
+      requestId: string;
+      body: string;
+      requestedBy: string;
+      status: "queued" | "running" | "finished" | "failed";
+    }>(),
     artifacts: jsonb("artifacts").$type<FactoryArtifact[]>().notNull(),
     updatedAt: timestamp("updatedAt").notNull().defaultNow(),
     deletedAt: timestamp("deletedAt"),

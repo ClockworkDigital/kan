@@ -1,0 +1,1 @@
+ALTER TABLE "factory_jobs" ADD COLUMN "restart" jsonb;

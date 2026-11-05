@@ -10,6 +10,8 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -239,6 +241,7 @@ def arguments():
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--launch', metavar='REPOSITORY', help=argparse.SUPPRESS)
     parser.add_argument('--configure', metavar='REPOSITORY', help=argparse.SUPPRESS)
+    parser.add_argument('--restart', metavar='JOB_PUBLIC_ID', help=argparse.SUPPRESS)
     parser.add_argument('--issue', type=int, help=argparse.SUPPRESS)
     return parser.parse_args()
 
@@ -275,10 +278,49 @@ def configure(args, client):
     return dispatch(args, client)
 
 
+def restarts(client):
+    try:
+        return client.request('/workspaces/' + client.config['workspacePublicId'] + '/factory/restarts')
+    except urllib.error.HTTPError as error:
+        # Older deployments and owners without restart permission still dispatch normal queues.
+        if error.code in (403, 404):
+            return []
+        raise
+
+
+def restart_job(args, client, installed):
+    job = next((j for j in restarts(client) if j['publicId'] == args.restart), None)
+    if not job:
+        return 0
+    root, ready = installed.get(job['repository'].lower(), (None, False))
+    if not ready or not re.fullmatch(r'[0-9]{8}-[0-9]{6}-[0-9a-f]{8}', job['runKey']):
+        raise ValueError('Invalid restart target')
+    request = job['restart']
+    path = '/workspaces/' + client.config['workspacePublicId'] + '/factory/jobs/' + job['publicId'] + '/restart-status'
+    def status(value):
+        return client.request(path, {'requestId': request['requestId'], 'status': value})
+    # Claim once before launching. An interrupted claim is never automatically retried.
+    if not status('running'):
+        return 0
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.md') as feedback:
+            feedback.write(request['body'])
+            feedback.flush()
+            result = subprocess.call([sys.executable, str(args.launcher), '--repo', str(root),
+                'rework', job['runKey'], '--feedback-file', feedback.name], cwd=root)
+        status('finished' if result == 0 else 'failed')
+        return result
+    except Exception:
+        status('failed')
+        raise
+
+
 def dispatch(args, client):
     if args.configure and not args.launch:
         return configure(args, client)
     selected, installed = client.selected(), projects(args.registry)
+    if getattr(args, "restart", None):
+        return restart_job(args, client, installed)
     if args.launch:
         if args.launch not in selected:
             raise ValueError('Repository no longer selected')
@@ -287,6 +329,7 @@ def dispatch(args, client):
             raise ValueError('Repository not ready or queue empty')
         # The runner repeats label/actor checks, holds its own lock and enforces the remote baseline.
         return subprocess.call([sys.executable, str(args.launcher), '--repo', str(root), 'run', '--publish'], cwd=root)
+    pending = [] if args.dry_run else restarts(client)
     results = []
     for repository in selected:
         root, ready = installed.get(repository.lower(), (None, False))
@@ -321,6 +364,10 @@ def dispatch(args, client):
                 row['status'] = 'missing factory setup'
             elif active(repository):
                 row['status'] = 'running'
+            elif any(j['repository'].lower() == repository.lower() for j in pending):
+                job = next(j for j in pending if j['repository'].lower() == repository.lower())
+                launch(args, repository, ['--restart', job['publicId']])
+                row['status'] = 'restart dispatched'
             elif not client.queued(repository):
                 row['status'] = 'queue empty'
             elif args.dry_run:
@@ -345,7 +392,7 @@ def main():
     os.umask(0o077)
     args = arguments()
     client = Kan(args.config, args.profile)
-    if args.launch or args.configure or args.dry_run:
+    if args.launch or args.configure or args.restart or args.dry_run:
         return dispatch(args, client)
     args.status.parent.mkdir(parents=True, exist_ok=True)
     with args.status.with_suffix('.lock').open('a') as lock:
