@@ -15,6 +15,9 @@ import dispatch
 
 class DispatchTests(unittest.TestCase):
     def setUp(self):
+        restarts = patch.object(dispatch, 'restarts', return_value=[])
+        self.restarts = restarts.start()
+        self.addCleanup(restarts.stop)
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
@@ -25,6 +28,27 @@ class DispatchTests(unittest.TestCase):
         self.args.profile.write_text(json.dumps({'baseUrl':'https://kan.example', 'apiToken':'do-not-log-secret', 'expiresAt':None}))
         self.args.profile.chmod(0o600)
         self.args.registry.write_text('[]')
+
+    def test_restart_claim_runs_once_and_passes_feedback(self):
+        job = {'publicId': 'job000000001', 'repository': 'ClockworkDigital/a',
+               'runKey': '20261030-214850-613ab86c',
+               'restart': {'requestId': 'request', 'body': 'Use email alerts'}}
+        self.restarts.return_value = [job]
+        self.args.restart = job['publicId']
+        client = Mock(); client.config = {'workspacePublicId': 'workspace123'}
+        client.request.side_effect = [True, True]
+        def run(command, **kwargs):
+            self.assertEqual(command[-4:-1], ['rework', job['runKey'], '--feedback-file'])
+            self.assertEqual(Path(command[-1]).read_text(), 'Use email alerts')
+            return 0
+        with patch.object(dispatch.subprocess, 'call', side_effect=run) as launch:
+            self.assertEqual(dispatch.restart_job(self.args, client, {'clockworkdigital/a': (self.root, True)}), 0)
+            launch.assert_called_once()
+        self.assertEqual([c.args[1]['status'] for c in client.request.call_args_list], ['running', 'finished'])
+        client.request.side_effect = [False]
+        with patch.object(dispatch.subprocess, 'call') as launch:
+            dispatch.restart_job(self.args, client, {'clockworkdigital/a': (self.root, True)})
+            launch.assert_not_called()
 
     def run_dispatch(self, client, installed):
         with patch.object(dispatch, 'projects', return_value=installed), patch.object(dispatch, 'active', return_value=False), patch.object(dispatch, 'launch') as launch, contextlib.redirect_stdout(io.StringIO()) as output:

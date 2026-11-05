@@ -46,6 +46,10 @@ export async function assertSyncScope(
     )
   )
     return deny();
+  if (["factory.restartQueue", "factory.restartStatus"].includes(path)) {
+    if (input.workspacePublicId !== workspacePublicId) return deny();
+    return;
+  }
   if (path === "user.getUser") return;
   if (["board.all", "permission.getMyPermissions"].includes(path)) {
     if (input.workspacePublicId !== workspacePublicId) return deny();

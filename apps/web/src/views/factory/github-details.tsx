@@ -7,15 +7,33 @@ import { api } from "~/utils/api";
 export default function GitHubDetails({
   workspacePublicId,
   jobPublicId,
+  revision,
+  stage,
+  restartPending,
 }: {
   workspacePublicId: string;
   jobPublicId: string;
+  revision: number;
+  stage: string;
+  restartPending: boolean;
 }) {
   const input = { workspacePublicId, jobPublicId };
   const details = api.factory.github.useQuery(input, { retry: false });
   const [body, setBody] = useState("");
   const [method, setMethod] = useState<"merge" | "squash" | "rebase">("squash");
   const [confirmSha, setConfirmSha] = useState<string>();
+  const utils = api.useUtils();
+  const restart = api.factory.restart.useMutation({
+    onSuccess: () => {
+      void utils.factory.list.invalidate();
+    },
+  });
+  const canRestart = [
+    "needs_info",
+    "needs_human",
+    "failed",
+    "waiting",
+  ].includes(stage);
   const reply = api.factory.reply.useMutation({
     onSuccess: () => {
       setBody("");
@@ -85,18 +103,40 @@ export default function GitHubDetails({
                 <textarea
                   id={`reply-${jobPublicId}`}
                   value={body}
-                  disabled={reply.isPending}
+                  disabled={reply.isPending || restart.isPending}
                   maxLength={60000}
                   required
                   rows={5}
                   onChange={(event) => setBody(event.target.value)}
                   className="w-full rounded border border-light-300 bg-light-50 p-2 dark:border-dark-400 dark:bg-dark-200"
                 />
-                <p>{t`Posts to the GitHub issue as you. The runner must be restarted with this feedback; posting does not restart it automatically.`}</p>
+                <p>{t`Posts to the GitHub issue as you. Posting does not restart the runner. Use Restart job to send feedback directly to the runner.`}</p>
                 <Button
                   disabled={reply.isPending || !body.trim()}
                   type="submit"
                 >{t`Post reply`}</Button>
+                {canRestart && (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={
+                      reply.isPending ||
+                      restart.isPending ||
+                      restart.isSuccess ||
+                      restartPending ||
+                      !body.trim() ||
+                      body.trim().length > 2000
+                    }
+                    onClick={() => restart.mutate({ ...input, revision, body })}
+                  >{t`Restart job`}</Button>
+                )}
+                {canRestart && (
+                  <p>{t`Restart uses the text above (up to 2,000 characters) and the usual models. It may spend model tokens. It does not post a GitHub comment.`}</p>
+                )}
+                {restart.isSuccess && (
+                  <p role="status">{t`Restart queued. The worker will pick it up when available.`}</p>
+                )}
+                {restart.isError && <p role="alert">{restart.error.message}</p>}
                 {reply.isSuccess && (
                   <p role="status">{t`Reply posted to GitHub.`}</p>
                 )}

@@ -15275,5 +15275,102 @@
         11
       ]
     ]
+  },
+  "DlNWKj": {
+    "translation": "",
+    "message": "Posts to the GitHub issue as you. Posting does not restart the runner. Use Restart job to send feedback directly to the runner.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        111
+      ]
+    ]
+  },
+  "kWDLuA": {
+    "translation": "",
+    "message": "Restart failed. Inspect the runner before trying again.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        119
+      ]
+    ]
+  },
+  "xzwgw7": {
+    "translation": "",
+    "message": "Restart finished",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        118
+      ]
+    ]
+  },
+  "D2fzW+": {
+    "translation": "",
+    "message": "Restart job",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        128
+      ]
+    ]
+  },
+  "mi3G8b": {
+    "translation": "",
+    "message": "Restart queued",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        114
+      ]
+    ]
+  },
+  "BW2CAh": {
+    "translation": "",
+    "message": "Restart queued. The worker will pick it up when available.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        134
+      ]
+    ]
+  },
+  "qkRVjh": {
+    "translation": "",
+    "message": "Restart running",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/index.tsx",
+        116
+      ]
+    ]
+  },
+  "Zq5jrF": {
+    "translation": "",
+    "message": "Restart uses the text above (up to 2,000 characters) and the usual models. It may spend model tokens. It does not post a GitHub comment.",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/factory/github-details.tsx",
+        131
+      ]
+    ]
   }
+
 }

@@ -163,7 +163,7 @@ it monitors PR checks and review feedback after publication, then leaves the PR
 open for a human to merge. It requires a clean, passing remote base before intake;
 a failing baseline must be repaired and merged before a new queued job can run.
 When intake needs clarification, open the `intake.txt` artifact in Factory to read
-the question. A GitHub reply still needs the operator's explicit rework flow.
+the question. Use **Restart job** in the actions panel to queue the answers for the runner.
 
 ## Inspect and act without leaving Factory
 
@@ -176,8 +176,8 @@ view permission are required; replies and merges additionally require
 `workspace:manage`. Factory publishing credentials cannot use these actions.
 
 **Post reply** adds information to the linked GitHub issue as the current user.
-It does not restart a stopped runner: its operator still needs to pass that
-feedback to the runner's explicit rework flow. If no intake artifact or question
+It does not restart a stopped runner. **Restart job** separately queues the text
+(up to 2,000 characters) for the existing host dispatcher and rework command. If no intake artifact or question
 was published, Kan cannot recover the runner's private local state.
 
 **Merge pull request** offers squash, merge commit or rebase and an inline
@@ -190,3 +190,20 @@ The panel shows at most 100 issue comments, reviews and changed files. Patches
 may be absent or truncated by GitHub. The existing external links remain available
 for complete discussions, checks and large diffs. All remote text is displayed as
 plain text, never interpreted as HTML. No schema or deployment change is required.
+
+Restart requires workspace management permission, the existing factory sender
+allowlist, and ownership of enabled GitHub sync with the repository selected.
+Only stopped snapshots offer the action; a revision check rejects stale clicks.
+The worker atomically claims each request and uses the registered checkout and
+usual model routing. It does not post a GitHub comment or grant extra rounds.
+Runner locks, round limits and PR checks remain in force. Queue/running/finished/
+failed status is shown on the card. Finished means the rework command returned
+success, not that the issue was completed or merged.
+
+Apply the AddFactoryRestart migration before deploying Kan, then deploy the
+updated dispatcher. Its existing sync delegation can read and acknowledge
+owner-created restart requests, but cannot create them. No credentials are
+renewed. A worker crash after claiming intentionally leaves the request running:
+inspect the host process and job before an operator reconciles that request;
+never blindly replay it. The older Kan deployment remains supported for normal
+queue dispatch (restart endpoint 404 disables restart polling).

@@ -11,6 +11,7 @@ const summaryColumns = {
   revision: factoryJobs.revision,
   snapshot: factoryJobs.snapshot,
   updatedAt: factoryJobs.updatedAt,
+  restart: factoryJobs.restart,
 };
 
 export async function publish(
@@ -167,4 +168,63 @@ export async function byIssue(
     .orderBy(desc(factoryJobs.id))
     .limit(1);
   return job ?? null;
+}
+
+export async function queueRestart(
+  db: dbClient,
+  workspaceId: number,
+  publicId: string,
+  revision: number,
+  restart: NonNullable<typeof factoryJobs.$inferInsert.restart>,
+) {
+  const rows = await db
+    .update(factoryJobs)
+    .set({ restart })
+    .where(
+      and(
+        eq(factoryJobs.workspaceId, workspaceId),
+        eq(factoryJobs.publicId, publicId),
+        eq(factoryJobs.revision, revision),
+        isNull(factoryJobs.deletedAt),
+        sql`(${factoryJobs.restart} IS NULL OR ${factoryJobs.restart}->>'status' IN ('finished', 'failed'))`,
+        sql`${factoryJobs.snapshot}->>'stage' IN ('needs_info', 'needs_human', 'failed', 'waiting')`,
+      ),
+    )
+    .returning({ publicId: factoryJobs.publicId });
+  return rows.length === 1;
+}
+export const restartQueue = (db: dbClient, workspaceId: number) =>
+  db
+    .select(summaryColumns)
+    .from(factoryJobs)
+    .where(
+      and(
+        eq(factoryJobs.workspaceId, workspaceId),
+        isNull(factoryJobs.deletedAt),
+        sql`${factoryJobs.restart}->>'status' = 'queued'`,
+      ),
+    );
+export async function updateRestart(
+  db: dbClient,
+  workspaceId: number,
+  publicId: string,
+  requestId: string,
+  status: "running" | "finished" | "failed",
+) {
+  const rows = await db
+    .update(factoryJobs)
+    .set({
+      restart: sql`jsonb_set(${factoryJobs.restart}, '{status}', to_jsonb(${status}::text))`,
+    })
+    .where(
+      and(
+        eq(factoryJobs.workspaceId, workspaceId),
+        eq(factoryJobs.publicId, publicId),
+        isNull(factoryJobs.deletedAt),
+        sql`${factoryJobs.restart}->>'requestId' = ${requestId}`,
+        sql`${factoryJobs.restart}->>'status' = ${status === "running" ? "queued" : "running"}`,
+      ),
+    )
+    .returning({ publicId: factoryJobs.publicId });
+  return rows.length === 1;
 }

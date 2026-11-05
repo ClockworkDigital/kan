@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { eq } from "drizzle-orm";
 import { generateOpenApiDocument } from "trpc-to-openapi";
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import type { FactorySnapshot } from "@kan/db/schema";
+import * as syncRepo from "@kan/db/repository/github-sync.repo";
 import {
   boards,
   cards,
@@ -570,4 +571,66 @@ describe("closed factory issue history", () => {
         .where(eq(lists.id, closed.id));
       expect((await api.list(input)).jobs[0]?.publicId).toBe(archived.publicId);
     }));
+});
+
+it("queues authorized restarts, rejects duplicates and claims once", async () => {
+  vi.stubEnv("FACTORY_SENDER_EMAILS", "test@example.com");
+  try {
+    await fixture(async (tx, { user, workspace }) => {
+      const api = caller(tx, user);
+      await syncRepo.save(
+        tx,
+        workspace.id,
+        user.id,
+        ["ClockworkDigital/kan"],
+        true,
+      );
+      const created = await api.publish({
+        ...report,
+        runKey: "20261030-214850-613ab86c",
+        snapshot: { ...snapshot, stage: "needs_info" },
+      });
+      const input = {
+        workspacePublicId: report.workspacePublicId,
+        jobPublicId: created.publicId,
+        revision: 1,
+        body: "Use email alerts",
+      };
+      vi.stubEnv("FACTORY_SENDER_EMAILS", "");
+      await expect(api.restart(input)).rejects.toMatchObject({
+        code: "FORBIDDEN",
+      });
+      vi.stubEnv("FACTORY_SENDER_EMAILS", "test@example.com");
+      await expect(
+        api.restart({ ...input, revision: 2 }),
+      ).rejects.toMatchObject({ code: "CONFLICT" });
+      expect(await api.restart(input)).toBe(true);
+      await expect(api.restart(input)).rejects.toMatchObject({
+        code: "CONFLICT",
+      });
+      const queue = await api.restartQueue({
+        workspacePublicId: input.workspacePublicId,
+      });
+      expect(queue).toHaveLength(1);
+      const restart = queue[0]?.restart;
+      assert(restart);
+      const requestId = restart.requestId;
+      const claim = {
+        workspacePublicId: input.workspacePublicId,
+        jobPublicId: input.jobPublicId,
+        requestId,
+        status: "running" as const,
+      };
+      expect(await api.restartStatus(claim)).toBe(true);
+      expect(await api.restartStatus(claim)).toBe(false);
+      expect(await api.restartStatus({ ...claim, status: "finished" })).toBe(
+        true,
+      );
+      expect(
+        await api.restartQueue({ workspacePublicId: input.workspacePublicId }),
+      ).toEqual([]);
+    });
+  } finally {
+    vi.unstubAllEnvs();
+  }
 });

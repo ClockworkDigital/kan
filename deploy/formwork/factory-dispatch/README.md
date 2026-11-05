@@ -96,3 +96,15 @@ systemctl --user list-units 'agent-factory-sync-*'
 Rollback stops the dispatcher timer and restores the retained service/timer files,
 then reloads systemd and enables the old timer. It need not terminate existing
 per-repository runs, delete jobs, or change the database.
+
+## Restarts requested in Kan
+
+The dispatcher also polls owner-authorized restart requests. Each uses the same
+per-repository systemd unit, resolving the registered checkout again in the child.
+The child claims the request once through Kan before invoking `rework` with a
+private temporary feedback file. It reports finished or failed without forwarding
+runner output to Kan. A lost acknowledgement or interrupted child is not retried
+automatically. Inspect the service and job before reconciling a running request.
+Pausing sync or removing the repository prevents subsequent claims. This does
+not kill already running work or renew credentials. Deploy the Kan migration and
+API before enabling this path; older endpoints are treated as no restart queue.

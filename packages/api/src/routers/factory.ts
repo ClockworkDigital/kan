@@ -1,8 +1,10 @@
+import { randomUUID } from "node:crypto";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { dbClient } from "@kan/db/client";
 import * as factoryRepo from "@kan/db/repository/factory.repo";
+import * as syncRepo from "@kan/db/repository/github-sync.repo";
 import * as workspaceRepo from "@kan/db/repository/workspace.repo";
 import { factoryResults, factoryStages } from "@kan/db/schema";
 
@@ -13,6 +15,7 @@ import {
   factoryGitHub,
   pullSchema,
 } from "../utils/factory-github";
+import { isFactorySender } from "../utils/factory-send";
 import { assertPermission } from "../utils/permissions";
 
 const workspaceInput = z.object({ workspacePublicId: z.string().length(12) });
@@ -74,6 +77,13 @@ const job = z.object({
   revision: number,
   snapshot,
   updatedAt: z.date(),
+  restart: z
+    .object({
+      requestId: z.string().uuid(),
+      body: z.string(),
+      status: z.enum(["queued", "running", "finished", "failed"]),
+    })
+    .nullable(),
 });
 
 const githubDetailsSchema = z.object({
@@ -129,6 +139,152 @@ async function access(
 }
 
 export const factoryRouter = createTRPCRouter({
+  restart: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/workspaces/{workspacePublicId}/factory/jobs/{jobPublicId}/restart",
+        protect: true,
+        tags: ["Factory"],
+      },
+    })
+    .input(
+      workspaceInput.extend({
+        jobPublicId: z.string().length(12),
+        revision: number,
+        body: z.string().trim().min(1).max(2000),
+      }),
+    )
+    .output(z.boolean())
+    .mutation(async ({ ctx, input }) => {
+      const workspaceId = await access(
+        ctx.db,
+        ctx.user.id,
+        input.workspacePublicId,
+        true,
+      );
+      if (!isFactorySender(ctx.user.email))
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not permitted to restart factory jobs.",
+        });
+      const job = await factoryRepo.get(ctx.db, workspaceId, input.jobPublicId);
+      const settings = await syncRepo.get(ctx.db, workspaceId);
+      if (
+        !job ||
+        !settings?.enabled ||
+        settings.userId !== ctx.user.id ||
+        !settings.repositories.some(
+          (repo) => repo.toLowerCase() === job.repository.toLowerCase(),
+        )
+      )
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Enable this repository in your GitHub sync settings first.",
+        });
+      if (!/^[0-9]{8}-[0-9]{6}-[0-9a-f]{8}$/.test(job.runKey))
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This job cannot be restarted.",
+        });
+      if (
+        !(await factoryRepo.queueRestart(
+          ctx.db,
+          workspaceId,
+          input.jobPublicId,
+          input.revision,
+          {
+            requestId: randomUUID(),
+            body: input.body,
+            requestedBy: ctx.user.id,
+            status: "queued",
+          },
+        ))
+      )
+        throw new TRPCError({
+          code: "CONFLICT",
+          message:
+            "Job changed or already has a restart request. Refresh and try again.",
+        });
+      return true;
+    }),
+  restartQueue: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/workspaces/{workspacePublicId}/factory/restarts",
+        protect: true,
+        tags: ["Factory"],
+      },
+    })
+    .input(workspaceInput)
+    .output(z.array(job))
+    .query(async ({ ctx, input }) => {
+      const workspaceId = await access(
+        ctx.db,
+        ctx.user.id,
+        input.workspacePublicId,
+        true,
+      );
+      const settings = await syncRepo.get(ctx.db, workspaceId);
+      if (
+        !settings?.enabled ||
+        settings.userId !== ctx.user.id ||
+        !isFactorySender(ctx.user.email)
+      )
+        throw new TRPCError({ code: "FORBIDDEN" });
+      return (await factoryRepo.restartQueue(ctx.db, workspaceId)).filter(
+        (job) =>
+          job.restart?.requestedBy === ctx.user.id &&
+          settings.repositories.some(
+            (repo) => repo.toLowerCase() === job.repository.toLowerCase(),
+          ),
+      );
+    }),
+  restartStatus: protectedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: "/workspaces/{workspacePublicId}/factory/jobs/{jobPublicId}/restart-status",
+        protect: true,
+        tags: ["Factory"],
+      },
+    })
+    .input(
+      workspaceInput.extend({
+        jobPublicId: z.string().length(12),
+        requestId: z.string().uuid(),
+        status: z.enum(["running", "finished", "failed"]),
+      }),
+    )
+    .output(z.boolean())
+    .mutation(async ({ ctx, input }) => {
+      const workspaceId = await access(
+        ctx.db,
+        ctx.user.id,
+        input.workspacePublicId,
+        true,
+      );
+      const settings = await syncRepo.get(ctx.db, workspaceId);
+      const job = await factoryRepo.get(ctx.db, workspaceId, input.jobPublicId);
+      if (
+        !settings?.enabled ||
+        settings.userId !== ctx.user.id ||
+        !isFactorySender(ctx.user.email) ||
+        job?.restart?.requestedBy !== ctx.user.id ||
+        !settings.repositories.some(
+          (repo) => repo.toLowerCase() === job.repository.toLowerCase(),
+        )
+      )
+        throw new TRPCError({ code: "FORBIDDEN" });
+      return factoryRepo.updateRestart(
+        ctx.db,
+        workspaceId,
+        input.jobPublicId,
+        input.requestId,
+        input.status,
+      );
+    }),
   github: protectedProcedure
     .meta({
       openapi: {
