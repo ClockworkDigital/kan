@@ -9405,5 +9405,65 @@
         285
       ]
     ]
+  },
+  "0caMy7": {
+    "translation": "Historique",
+    "message": "History",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        1
+      ]
+    ]
+  },
+  "6V8hCN": {
+    "translation": "Historique des priorités",
+    "message": "Priority history",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
+  },
+  "m9HJ50": {
+    "translation": "Aucun changement de priorité pour l'instant",
+    "message": "No priority changes yet",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
+  },
+  "XHIN+G": {
+    "translation": "Non classé",
+    "message": "Unranked",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
+  },
+  "63niL6": {
+    "translation": "Utilisateur inconnu",
+    "message": "Unknown user",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/PriorityHistory.tsx",
+        1
+      ]
+    ]
   }
 }

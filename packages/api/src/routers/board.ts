@@ -467,6 +467,8 @@ export const boardRouter = createTRPCRouter({
       z.object({
         workspacePublicId: z.string().min(12),
         boardPublicIds: z.array(z.string().min(12)).max(1000),
+        // The board the user dragged; logged in the priority history.
+        movedBoardPublicId: z.string().min(12),
       }),
     )
     .output(z.object({ success: z.boolean() }))
@@ -491,9 +493,59 @@ export const boardRouter = createTRPCRouter({
         });
 
       await assertPermission(ctx.db, userId, workspace.id, "board:edit");
-      await boardRepo.reorder(ctx.db, workspace.id, input.boardPublicIds);
+      await boardRepo.reorder(ctx.db, workspace.id, input.boardPublicIds, {
+        publicId: input.movedBoardPublicId,
+        userId,
+      });
 
       return { success: true };
+    }),
+  priorityHistory: protectedProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/workspaces/{workspacePublicId}/boards/priority-history",
+        summary: "Board priority history",
+        description: "Lists the latest 100 board priority changes",
+        tags: ["Boards"],
+        protect: true,
+      },
+    })
+    .input(z.object({ workspacePublicId: z.string().min(12) }))
+    .output(
+      z.array(
+        z.object({
+          boardPublicId: z.string(),
+          boardName: z.string(),
+          fromRank: z.number().nullable(),
+          toRank: z.number(),
+          changedByName: z.string().nullable(),
+          createdAt: z.date(),
+        }),
+      ),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      if (!userId)
+        throw new TRPCError({
+          message: `User not authenticated`,
+          code: "UNAUTHORIZED",
+        });
+
+      const workspace = await workspaceRepo.getByPublicId(
+        ctx.db,
+        input.workspacePublicId,
+      );
+
+      if (!workspace)
+        throw new TRPCError({
+          message: `Workspace with public ID ${input.workspacePublicId} not found`,
+          code: "NOT_FOUND",
+        });
+
+      await assertPermission(ctx.db, userId, workspace.id, "board:view");
+      return boardRepo.getPriorityChanges(ctx.db, workspace.id);
     }),
   update: protectedProcedure
     .meta({

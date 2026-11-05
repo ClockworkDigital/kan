@@ -42,6 +42,57 @@ async function addBoard(tx: TestDbClient, workspaceId: number, name: string) {
 }
 
 describe("board priority order", () => {
+  it("logs who moved which board, from and to which rank", async () =>
+    fixture(async (tx, seed) => {
+      const api = caller(tx, seed.user);
+      const workspacePublicId = seed.workspace.publicId;
+      const a = await addBoard(tx, seed.workspace.id, "Alpha");
+      const b = await addBoard(tx, seed.workspace.id, "Bravo");
+      const c = await addBoard(tx, seed.workspace.id, "Charlie");
+      const order = (...boards: { publicId: string }[]) =>
+        boards.map((board) => board.publicId);
+
+      await api.reorder({
+        workspacePublicId,
+        boardPublicIds: order(c, a, b),
+        movedBoardPublicId: c.publicId,
+      });
+      await api.reorder({
+        workspacePublicId,
+        boardPublicIds: order(a, c, b),
+        movedBoardPublicId: a.publicId,
+      });
+      // Dropping a board where it already was logs nothing.
+      await api.reorder({
+        workspacePublicId,
+        boardPublicIds: order(a, c, b),
+        movedBoardPublicId: b.publicId,
+      });
+
+      const history = await api.priorityHistory({ workspacePublicId });
+      expect(
+        history.map(({ boardName, fromRank, toRank, changedByName }) => ({
+          boardName,
+          fromRank,
+          toRank,
+          changedByName,
+        })),
+      ).toEqual([
+        {
+          boardName: "Alpha",
+          fromRank: 2,
+          toRank: 1,
+          changedByName: seed.user.name,
+        },
+        {
+          boardName: "Charlie",
+          fromRank: null,
+          toRank: 1,
+          changedByName: seed.user.name,
+        },
+      ]);
+    }));
+
   it("lists ranked boards first, in the saved order", async () =>
     fixture(async (tx, seed) => {
       const api = caller(tx, seed.user);
@@ -69,6 +120,7 @@ describe("board priority order", () => {
       await api.reorder({
         workspacePublicId,
         boardPublicIds: [c.publicId, foreign.publicId, a.publicId],
+        movedBoardPublicId: c.publicId,
       });
       expect(await names()).toEqual(["Charlie", "Alpha", "Bravo"]);
       expect(
@@ -104,6 +156,7 @@ describe("board priority order", () => {
         caller(tx, guest).reorder({
           workspacePublicId: seed.workspace.publicId,
           boardPublicIds: [],
+          movedBoardPublicId: "bo0000000000",
         }),
       ).rejects.toMatchObject({ code: "FORBIDDEN" });
     }));

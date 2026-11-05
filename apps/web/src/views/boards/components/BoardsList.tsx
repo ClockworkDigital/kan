@@ -24,6 +24,7 @@ import { FaGithub } from "react-icons/fa";
 import {
   HiMiniXMark,
   HiOutlineArrowsUpDown,
+  HiOutlineClock,
   HiOutlinePencilSquare,
   HiOutlineRectangleStack,
   HiOutlineStar,
@@ -52,6 +53,7 @@ import {
   projectStatusColours,
   projectStatusLabels,
 } from "~/views/board/components/ProjectDetailsForm";
+import { PriorityHistory } from "./PriorityHistory";
 
 const placeholder = "text-light-800 dark:text-dark-700";
 const BUSY_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
@@ -134,7 +136,11 @@ export function BoardsList({
   });
 
   const reorderBoards = api.board.reorder.useMutation({
-    onSettled: () => utils.board.all.invalidate(),
+    onSettled: () =>
+      Promise.all([
+        utils.board.all.invalidate(),
+        utils.board.priorityHistory.invalidate(),
+      ]),
   });
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 4 } }),
@@ -167,6 +173,7 @@ export function BoardsList({
     reorderBoards.mutate({
       workspacePublicId: workspace.publicId,
       boardPublicIds: ordered.map((board) => board.publicId),
+      movedBoardPublicId: String(active.id),
     });
   };
 
@@ -332,6 +339,12 @@ export function BoardsList({
           boardName={entityLabel}
         />
       </Modal>
+      <Modal
+        modalSize="sm"
+        isVisible={isOpen && modalContentType === "PRIORITY_HISTORY"}
+      >
+        <PriorityHistory workspacePublicId={workspace.publicId} />
+      </Modal>
       {!isTemplate && (
         <div className="relative z-20 flex gap-2">
           <div>
@@ -396,6 +409,15 @@ export function BoardsList({
               </span>
             )}
           </div>
+          <Button
+            variant="secondary"
+            onClick={() => openModal("PRIORITY_HISTORY")}
+          >
+            <span className="flex items-center gap-2">
+              <HiOutlineClock aria-hidden="true" />
+              {t`History`}
+            </span>
+          </Button>
         </div>
       )}
       {shown.length === 0 && (

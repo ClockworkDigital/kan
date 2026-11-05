@@ -15,6 +15,7 @@ import {
 import type { dbClient } from "@kan/db/client";
 import type { BoardVisibilityStatus } from "@kan/db/schema";
 import {
+  boardPriorityChanges,
   boards,
   cardActivities,
   cardAttachments,
@@ -27,6 +28,7 @@ import {
   labels,
   lists,
   userBoardFavorites,
+  users,
   workspaceMembers,
 } from "@kan/db/schema";
 import { generateUID, normalizeDescription } from "@kan/shared/utils";
@@ -102,13 +104,24 @@ export const getAllByWorkspaceId = async (
     });
 };
 
-// Ranks boards in the given order; ids outside the workspace are ignored.
+// Ranks boards in the given order and logs the moved board; ids outside the workspace are ignored.
 export const reorder = (
   db: dbClient,
   workspaceId: number,
   boardPublicIds: string[],
+  moved: { publicId: string; userId: string },
 ) =>
   db.transaction(async (tx) => {
+    if (!boardPublicIds.length) return;
+    const before = await tx
+      .select({ id: boards.id, publicId: boards.publicId, index: boards.index })
+      .from(boards)
+      .where(
+        and(
+          eq(boards.workspaceId, workspaceId),
+          inArray(boards.publicId, boardPublicIds),
+        ),
+      );
     for (const [index, publicId] of boardPublicIds.entries())
       await tx
         .update(boards)
@@ -119,7 +132,50 @@ export const reorder = (
             eq(boards.workspaceId, workspaceId),
           ),
         );
+
+    const board = before.find((b) => b.publicId === moved.publicId);
+    if (!board) return;
+    const rank = (b: { index: number | null }) => b.index ?? Infinity;
+    // Old rank among the same list, so gaps left by deleted or archived boards don't skew it.
+    const fromRank =
+      board.index === null
+        ? null
+        : 1 + before.filter((b) => rank(b) < rank(board)).length;
+    const toRank = boardPublicIds.indexOf(moved.publicId) + 1;
+    if (fromRank !== toRank)
+      await tx.insert(boardPriorityChanges).values({
+        workspaceId,
+        boardId: board.id,
+        fromRank,
+        toRank,
+        changedBy: moved.userId,
+      });
   });
+
+export const getPriorityChanges = (db: dbClient, workspaceId: number) =>
+  db
+    .select({
+      boardPublicId: boards.publicId,
+      boardName: boards.name,
+      fromRank: boardPriorityChanges.fromRank,
+      toRank: boardPriorityChanges.toRank,
+      changedByName: users.name,
+      createdAt: boardPriorityChanges.createdAt,
+    })
+    .from(boardPriorityChanges)
+    .innerJoin(boards, eq(boards.id, boardPriorityChanges.boardId))
+    .leftJoin(users, eq(users.id, boardPriorityChanges.changedBy))
+    .where(
+      and(
+        eq(boardPriorityChanges.workspaceId, workspaceId),
+        isNull(boards.deletedAt),
+      ),
+    )
+    .orderBy(
+      desc(boardPriorityChanges.createdAt),
+      desc(boardPriorityChanges.id),
+    )
+    .limit(100);
 
 export const getIdByPublicId = async (db: dbClient, boardPublicId: string) => {
   const board = await db.query.boards.findFirst({

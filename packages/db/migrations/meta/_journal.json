@@ -309,6 +309,13 @@
       "when": 1793876774539,
       "tag": "20261105110614_AddBoardIndex",
       "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1793878947095,
+      "tag": "20261105114227_AddBoardPriorityChange",
+      "breakpoints": true
     }
   ]
 }
