@@ -96,6 +96,7 @@ vi.mock("~/components/Toggle", () => ({ default: () => null }));
 const customTemplate: RouterOutputs["board"]["all"][number] = {
   publicId: "template0001",
   name: "Custom workflow",
+  index: null,
   favorite: false,
   lists: [
     { publicId: "list00000001", name: "Ready", index: 0 },

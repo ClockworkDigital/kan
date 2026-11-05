@@ -50,6 +50,7 @@ export const getAllByWorkspaceId = async (
     columns: {
       publicId: true,
       name: true,
+      index: true,
     },
     with: {
       userFavorites: {
@@ -84,7 +85,7 @@ export const getAllByWorkspaceId = async (
     ),
   });
 
-  // Transform and sort: favorites first, then alphabetically
+  // Priority order first (unranked boards last), then favorites, then alphabetically
   return boardsData
     .map((board) => ({
       ...board,
@@ -92,13 +93,33 @@ export const getAllByWorkspaceId = async (
       userFavorites: undefined,
     }))
     .sort((a, b) => {
-      // Sort favorites first
+      const rank = (a.index ?? Infinity) - (b.index ?? Infinity);
+      if (rank) return rank;
       if (a.favorite && !b.favorite) return -1;
       if (!a.favorite && b.favorite) return 1;
       // Then alphabetically by name
       return a.name.localeCompare(b.name);
     });
 };
+
+// Ranks boards in the given order; ids outside the workspace are ignored.
+export const reorder = (
+  db: dbClient,
+  workspaceId: number,
+  boardPublicIds: string[],
+) =>
+  db.transaction(async (tx) => {
+    for (const [index, publicId] of boardPublicIds.entries())
+      await tx
+        .update(boards)
+        .set({ index })
+        .where(
+          and(
+            eq(boards.publicId, publicId),
+            eq(boards.workspaceId, workspaceId),
+          ),
+        );
+  });
 
 export const getIdByPublicId = async (db: dbClient, boardPublicId: string) => {
   const board = await db.query.boards.findFirst({

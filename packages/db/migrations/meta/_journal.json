@@ -302,6 +302,13 @@
       "when": 1793433651503,
       "tag": "20261031080051_AddFactoryRestart",
       "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1793876774539,
+      "tag": "20261105110614_AddBoardIndex",
+      "breakpoints": true
     }
   ]
 }

@@ -14,16 +14,20 @@ import {
   generateUID,
 } from "@kan/shared/utils";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import {
-  boardListItemSchema,
-  boardDetailSchema,
   boardBySlugSchema,
   boardCreateResponseSchema,
+  boardDetailSchema,
+  boardListItemSchema,
   boardUpdateResponseSchema,
 } from "../schemas";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { createAvatarUrlResolver } from "../utils/avatarUrls";
-import { assertCanDelete, assertCanEdit, assertPermission } from "../utils/permissions";
+import {
+  assertCanDelete,
+  assertCanEdit,
+  assertPermission,
+} from "../utils/permissions";
 
 export const boardRouter = createTRPCRouter({
   all: protectedProcedure
@@ -74,7 +78,7 @@ export const boardRouter = createTRPCRouter({
         {
           type: input.type,
           archived: input.archived ?? false,
-        }
+        },
       );
 
       return result;
@@ -448,6 +452,49 @@ export const boardRouter = createTRPCRouter({
 
       return result;
     }),
+  reorder: protectedProcedure
+    .meta({
+      openapi: {
+        method: "PUT",
+        path: "/workspaces/{workspacePublicId}/boards/order",
+        summary: "Reorder boards",
+        description: "Sets the workspace's board priority order",
+        tags: ["Boards"],
+        protect: true,
+      },
+    })
+    .input(
+      z.object({
+        workspacePublicId: z.string().min(12),
+        boardPublicIds: z.array(z.string().min(12)).max(1000),
+      }),
+    )
+    .output(z.object({ success: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      if (!userId)
+        throw new TRPCError({
+          message: `User not authenticated`,
+          code: "UNAUTHORIZED",
+        });
+
+      const workspace = await workspaceRepo.getByPublicId(
+        ctx.db,
+        input.workspacePublicId,
+      );
+
+      if (!workspace)
+        throw new TRPCError({
+          message: `Workspace with public ID ${input.workspacePublicId} not found`,
+          code: "NOT_FOUND",
+        });
+
+      await assertPermission(ctx.db, userId, workspace.id, "board:edit");
+      await boardRepo.reorder(ctx.db, workspace.id, input.boardPublicIds);
+
+      return { success: true };
+    }),
   update: protectedProcedure
     .meta({
       openapi: {
@@ -513,7 +560,11 @@ export const boardRouter = createTRPCRouter({
       }
 
       // Handle other updates (name, slug, visibility)
-      const hasOtherUpdates = !!input.name || !!input.slug || input.visibility !== undefined || input.isArchived !== undefined;
+      const hasOtherUpdates =
+        !!input.name ||
+        !!input.slug ||
+        input.visibility !== undefined ||
+        input.isArchived !== undefined;
 
       if (!hasOtherUpdates) {
         // Only favorite was updated, return success

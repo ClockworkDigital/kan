@@ -9393,6 +9393,17 @@
         131
       ]
     ]
+  },
+  "1hKEom": {
+    "translation": "Priorité",
+    "message": "Priority",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        285
+      ]
+    ]
   }
-
 }

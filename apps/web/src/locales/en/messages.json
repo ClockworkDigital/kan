@@ -15531,6 +15531,17 @@
         131
       ]
     ]
+  },
+  "1hKEom": {
+    "translation": "Priority",
+    "message": "Priority",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/boards/components/BoardsList.tsx",
+        285
+      ]
+    ]
   }
-
 }

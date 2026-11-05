@@ -12,6 +12,7 @@ import {
 export const boardListItemSchema = z.object({
   publicId: z.string(),
   name: z.string(),
+  index: z.number().nullable(),
   favorite: z.boolean(),
   lists: z.array(
     z.object({
