@@ -237,7 +237,8 @@ export function BoardsList({
       </div>
     );
 
-  const tiles = (data ?? []).map((board) => {
+  // The server returns boards in priority order, so position is the rank.
+  const tiles = (data ?? []).map((board, position) => {
     const github = parseGithubBoardName(board.name);
     const project = projects.get(board.publicId);
     const counts = progress.data?.find(
@@ -264,6 +265,7 @@ export function BoardsList({
     const status = project?.status ?? (activeOnGitHub ? "busy" : "unset");
     return {
       board,
+      rank: position + 1,
       github,
       project,
       counts,
@@ -417,6 +419,7 @@ export function BoardsList({
             {shown.map(
               ({
                 board,
+                rank,
                 github,
                 project,
                 counts,
@@ -490,6 +493,15 @@ export function BoardsList({
                               <div className="relative flex h-full min-w-0 flex-1 flex-col gap-2 p-5">
                                 {!isTemplate && (
                                   <div className="flex flex-wrap gap-1.5 pr-14">
+                                    <span
+                                      title={t`Priority`}
+                                      className="mt-1 inline-flex min-w-[24px] items-center justify-center rounded-full bg-light-1000 px-2 py-1 text-[10px] font-bold text-light-50 dark:bg-dark-1000 dark:text-dark-50"
+                                    >
+                                      <span className="sr-only">
+                                        {t`Priority`}{" "}
+                                      </span>
+                                      {rank}
+                                    </span>
                                     {project ? (
                                       <>
                                         <Badge
