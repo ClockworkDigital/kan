@@ -14,7 +14,8 @@ from http.server import BaseHTTPRequestHandler
 
 STATE = pathlib.Path.home() / '.local/share/formwork/kan-github-sync'
 SECRET = pathlib.Path.home() / '.config/formwork/kan/github-webhook-secret'
-SOCKET = pathlib.Path('/run/user') / str(os.getuid()) / 'formwork-kan-github-webhook/http.sock'
+# systemd sets RUNTIME_DIRECTORY for user and system units alike.
+SOCKET = pathlib.Path(os.environ.get('RUNTIME_DIRECTORY') or f'/run/user/{os.getuid()}/formwork-kan-github-webhook') / 'http.sock'
 PATH = '/hooks/github/issues'
 MAX_BODY = 1024 * 1024
 ISSUE_ACTIONS = {'opened', 'edited', 'closed', 'reopened', 'labeled', 'unlabeled'}

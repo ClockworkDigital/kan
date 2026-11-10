@@ -1,0 +1,17 @@
+[Unit]
+Description=Kan production tool
+Requires=docker.service
+# The platform project owns the private gateway network Kan joins.
+After=docker.service formwork.service network-online.target
+Wants=formwork.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/srv/kan/deploy/formwork
+ExecStart=/usr/bin/docker compose --env-file /etc/kan/deployment.env up -d --no-build --wait postgres web
+ExecStop=/usr/bin/docker compose --env-file /etc/kan/deployment.env stop web postgres
+TimeoutStartSec=300
+
+[Install]
+WantedBy=multi-user.target
