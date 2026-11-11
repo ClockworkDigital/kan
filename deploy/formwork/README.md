@@ -113,3 +113,31 @@ permission checks. It uses the sibling Formwork checkout (or `FORMWORK_ROOT`)
 and `KAN_TEST_IMAGE`, and removes every container, network and volume it creates.
 
 For browser account connection, see [GitHub App setup](github-oauth.md). PAT fallback remains available.
+
+## Production host
+
+`production/` holds the system units and environment example for a dedicated
+host, where Kan runs beside the Formwork certificate gateway instead of from a
+personal checkout. Install the release to `/srv/kan` with `git archive`, copy
+`deployment.env.example` to `/etc/kan/deployment.env` (root, mode 0600) and keep
+the four secret files in root-owned mode-0700 `/etc/kan/secrets`: mode 0400,
+owned by UID 1000 for the app's three and UID 999 for `database-admin`.
+`KAN_GATEWAY_NETWORK` names the private network the platform's Kan overlay
+creates, so start the gateway first; `kan.service` orders itself after
+`formwork.service`.
+
+Sync runs as the unprivileged system user `kan-sync` (home `/var/lib/kan-sync`),
+which owns the credential, webhook secret and state under the same relative
+paths as the user-service layout above. `kan-github-webhook.service` serves
+`/run/kan-github-webhook/http.sock`; mount that directory read-only into Caddy
+at `/run/kan-github-webhook`. Enable `kan-github-sync.timer`,
+`kan-github-sync.path` and the receiver; the worker service itself is static.
+
+Moving an existing installation: restore its export into the new, empty
+database after creating `kan_app` with `BYPASSRLS`, and carry `auth-secret`
+over unchanged or saved GitHub tokens cannot be decrypted. A different identity
+provider issues different tenant and user UUIDs: remap `user.id` and every
+referencing column in one transaction, disable the old machine credentials
+(they bind the previous tenant and hostname and fail closed anyway), and issue
+a new sync delegation with `issue-sync.ts`. Copy `state.json` with the
+database; never run two workers against the same repositories.

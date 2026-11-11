@@ -1,0 +1,22 @@
+[Unit]
+Description=Authenticated GitHub webhook wakeups for Kan sync
+# Caddy bind-mounts the runtime directory, so create it before the gateway starts.
+Before=formwork.service
+
+[Service]
+Type=simple
+User=kan-sync
+WorkingDirectory=/srv/kan
+ExecStart=/usr/bin/python3 /srv/kan/deploy/formwork/github-sync/webhook.py
+RuntimeDirectory=kan-github-webhook
+RuntimeDirectoryMode=0700
+# Keep Caddy's directory bind mount valid across receiver restarts.
+RuntimeDirectoryPreserve=yes
+UMask=0077
+NoNewPrivileges=yes
+RestrictAddressFamilies=AF_UNIX
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
