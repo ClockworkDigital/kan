@@ -1,4 +1,6 @@
-import unittest
+import json, unittest
+from contextlib import contextmanager
+import sync
 from sync import reconcile
 class SyncTests(unittest.TestCase):
  def test_directions_and_conflict(self):
@@ -11,14 +13,100 @@ class SyncTests(unittest.TestCase):
   self.assertEqual(reconcile(base,base,base),({},{},[]))
   self.assertEqual(reconcile(base,base,{**base,'state':'closed'}),({},{'state':'open'},[]))
   self.assertEqual(reconcile(base,{**base,'state':'closed'},base),({},{'state':'closed'},[]))
+ def test_rich_body_preserves_numbers_in_prose(self):
+  base={'title':'t','body':'Finished in\n2026. Done.','state':'open'}
+  self.assertEqual(reconcile(base,base,{**base,'body':'Finished in Done.'},False),({},{},['body']))
 if __name__=='__main__':unittest.main()
 
 class WorkerTests(unittest.TestCase):
- def test_initial_label_import(self):
-  self.test_import_repeat_both_directions_and_conflict(initial_labels=True)
+ markdown='Use `POST /api` with **no** limit.\n- Keep foo_bar.\n## Fix\n1. Rate-limit per IP.'
+ rich='<p>Use <code>POST /api</code> with <strong>no</strong> limit.</p><ul><li>Keep foo_bar.</li></ul><h2>Fix</h2><ol><li>Rate-limit per IP.</li></ol>'
 
- def test_import_repeat_both_directions_and_conflict(self,initial_labels=False):
-  import sync, tempfile, pathlib, json, io, copy
+ @contextmanager
+ def body_edit(self):
+  with self.worker() as api:
+   api.issue['body']=self.markdown
+   sync.main()
+   api.card=api.cards['card00000001']
+   api.original=api.card['description']
+   api.marker=api.original.split('<pre>',1)[0].replace('<a href','<a target="_blank" href').replace('">GitHub','" rel="noopener" class="link">GitHub')
+   api.writes.clear()
+   yield api
+
+ def test_reformatted_body(self):
+  with self.body_edit() as api:
+   api.card['description']=api.marker+self.rich
+   sync.main()
+   report=json.loads((sync.STATE/'status.json').read_text())
+   self.assertEqual((report['updatedKan'],report['errors'],report['conflicts']),(1,[],[]))
+   self.assertEqual(api.card['description'],api.original)
+   sync.main()
+   self.assertEqual(api.writes,['kan'])
+   self.assertEqual(api.issue['body'],self.markdown)
+
+ def test_rich_wording_conflict(self):
+  with self.body_edit() as api:
+   for description in (api.marker+self.rich.replace('per IP','per user'),
+                       api.marker+self.rich.replace('foo_bar','foobar'),
+                       api.marker+self.rich.replace('per IP','perIP'),
+                       api.marker+'<pre><code>Changed</code></pre><p>More</p>',
+                       api.marker+'<pre><code><b>Changed</b></code></pre>',
+                       api.marker.replace(' href=', ' href="/elsewhere" data-source=')+'<pre><code>Changed</code></pre>',
+                       '<pre><code>Changed</code></pre>'):
+    with self.subTest(description=description):
+     api.card['description']=description
+     with self.assertRaises(SystemExit):sync.main()
+     report=json.loads((sync.STATE/'status.json').read_text())
+     self.assertEqual(report['errors'],[])
+     conflict,=report['conflicts']
+     self.assertEqual((conflict['issue'],conflict['fields']),(api.issue['html_url'],['body']))
+     self.assertTrue(conflict['reason'])
+     self.assertEqual(api.card['description'],description)
+     self.assertEqual(api.writes,[])
+     self.assertEqual(api.issue['body'],self.markdown)
+
+ def test_code_block_edit(self):
+  with self.body_edit() as api:
+   api.card['description']=api.marker+'<pre><code>Use **this** &amp; &lt;that&gt;.</code></pre>'
+   sync.main()
+   self.assertEqual(api.issue['body'],'Use **this** & <that>.')
+   self.assertEqual(api.writes,['github'])
+
+ def test_body_conflict_preserves_baseline_and_syncs_other_fields(self):
+  with self.body_edit() as api:
+   api.issue.update(body='New GitHub wording',state='closed')
+   api.card.update(description=api.marker+self.rich,title='New Kan title')
+   with self.assertRaises(SystemExit):sync.main()
+   self.assertEqual((api.issue['title'],api.card['list']['publicId']),('New Kan title','closed000001'))
+   self.assertEqual(api.card['description'],api.marker+self.rich)
+   self.assertEqual(api.issue['body'],'New GitHub wording')
+   self.assertEqual(json.loads((sync.STATE/'state.json').read_text())['issues']['1']['base']['body'],self.markdown)
+
+ def test_resave_between_reads(self):
+  from unittest.mock import patch
+  with self.body_edit() as api:
+   api.card['description']=api.marker+'<pre><code>Edited</code></pre>'
+   def resave(*args):
+    api.card['description']=api.marker+'<p>Edited</p>'
+    return reconcile(*args)
+   with patch.object(sync,'reconcile',side_effect=resave):sync.main()
+   self.assertEqual(api.writes,[])
+   self.assertEqual(api.issue['body'],self.markdown)
+
+ def test_push_denied(self):
+  with self.body_edit() as api:
+   api.card['description']=api.marker+'<pre><code>Edited</code></pre>'
+   api.repo['permissions']['push']=False
+   with self.assertRaises(SystemExit):sync.main()
+   error,=json.loads((sync.STATE/'status.json').read_text())['errors']
+   self.assertEqual(error,{'issue':api.issue['html_url'],'error':'RuntimeError',
+                           'detail':"The sync's GitHub credential cannot push to ClockworkDigital/test"})
+   self.assertEqual(api.writes,[])
+   self.assertEqual(api.issue['body'],self.markdown)
+
+ @contextmanager
+ def worker(self,initial_labels=False):
+  import tempfile, pathlib, io
   from unittest.mock import patch
   from types import SimpleNamespace
   issue={'id':1,'number':1,'title':'Original','body':'Body\n\n- Item','state':'open','updated_at':'one','html_url':'https://github.com/ClockworkDigital/test/issues/1','labels':[]}
@@ -27,7 +115,7 @@ class WorkerTests(unittest.TestCase):
   if initial_labels:
    repo_labels.extend({'id':100+i,'name':f'label-{i}','color':'abcdef'} for i in range(100))
   issue['labels']=repo_labels[:1]
-  cards={};writes=[];selected=['ClockworkDigital/test'];enabled=True
+  cards={};writes=[];settings={'enabled':True,'repositories':['ClockworkDigital/test']}
   def github(args,**kw):
    path=args[2]
    if path.startswith('orgs/'):result=[[repo]]
@@ -41,7 +129,7 @@ class WorkerTests(unittest.TestCase):
   def api(req,**kw):
    path=req.full_url.split('/api/v1')[1];body=json.loads(req.data) if req.data else None
    if path.startswith('/integrations/github/sync/settings'):
-    return io.BytesIO(json.dumps({'enabled':enabled,'repositories':selected}).encode())
+    return io.BytesIO(json.dumps(settings).encode())
    if path=='/integrations/github/sync/status':return io.BytesIO(b'{"success":true}')
    if path=='/integrations/github/sync':
     response=json.loads(github(['gh','api',body['path']],input=json.dumps(body['changes']) if 'changes' in body else None).stdout)
@@ -78,9 +166,21 @@ class WorkerTests(unittest.TestCase):
    profile=pathlib.Path(folder)/'profile';profile.write_text(json.dumps({'apiToken':'test','baseUrl':'https://formwork-poc.tail7c6e1a.ts.net:14443','expiresAt':'2099-01-01T00:00:00Z'}));profile.chmod(0o600)
    config=pathlib.Path(folder)/'config';config.write_text(json.dumps({'workspacePublicId':'workspace123','userId':'056107f2-7c89-4cba-9146-fc2d8a15f79d','baseUrl':'https://formwork-poc.tail7c6e1a.ts.net:14443'}))
    with patch.object(sync,'CONFIG',config),patch.object(sync,'STATE',pathlib.Path(folder)/'state'),patch.object(sync,'PROFILE',profile),patch.object(sync.subprocess,'run',side_effect=github),patch.object(sync.urllib.request,'build_opener',return_value=SimpleNamespace(open=api)),patch('sys.stdout',new=io.StringIO()):
+    yield SimpleNamespace(issue=issue,repo=repo,cards=cards,writes=writes,settings=settings,
+                          kan_labels=kan_labels,repo_labels=repo_labels,label_writes=label_writes)
+
+ def test_initial_label_import(self):
+  self.test_import_repeat_both_directions_and_conflict(initial_labels=True)
+
+ def test_import_repeat_both_directions_and_conflict(self,initial_labels=False):
+  import copy
+  with self.worker(initial_labels) as api:
+    cards,writes,issue=api.cards,api.writes,api.issue
+    kan_labels,repo_labels,label_writes=api.kan_labels,api.repo_labels,api.label_writes
+    selected=api.settings['repositories']
     sync.main();sync.main();self.assertEqual(writes,['create'])
-    enabled=False;sync.main();self.assertEqual(writes,['create'])
-    enabled=True;selected.clear();sync.main();self.assertEqual(writes,['create'])
+    api.settings['enabled']=False;sync.main();self.assertEqual(writes,['create'])
+    api.settings['enabled']=True;selected.clear();sync.main();self.assertEqual(writes,['create'])
     selected.append('ClockworkDigital/test')
     # Cards from before the issue link column get it attached once from state; a different link is never overwritten.
     cards['card00000001'].update(githubRepository=None,githubIssueNumber=None)
@@ -111,12 +211,12 @@ class WorkerTests(unittest.TestCase):
     repo_labels.append({'id':10,'name':'bug','color':'FF0000'})
     issue['labels']=[repo_labels[0].copy()]
     sync.main();sync.main()
-    mapped=json.loads((pathlib.Path(folder)/'state/state.json').read_text())['labels']['2']['labels']['10']['publicId']
+    mapped=json.loads((sync.STATE/'state.json').read_text())['labels']['2']['labels']['10']['publicId']
     self.assertNotEqual(mapped,local['publicId'])
     self.assertEqual(len(kan_labels),2)
     self.assertEqual({x['publicId'] for x in cards['card00000001']['labels']},{mapped,local['publicId']})
     self.assertEqual(label_writes,['create','toggle'])
-    baseline=copy.deepcopy(json.loads((pathlib.Path(folder)/'state/state.json').read_text())['issues'])
+    baseline=copy.deepcopy(json.loads((sync.STATE/'state.json').read_text())['issues'])
     standalone={'publicId':'standalone01','title':'Kan only','description':'Manual card', 'labels':[kan_labels[mapped].copy()], 'list':{'publicId':'open00000001','board':{'publicId':'board0000001'}}}
     cards['standalone01']=copy.deepcopy(standalone)
     # Rename and recolour by GitHub ID, retaining the Kan identity.
@@ -143,7 +243,7 @@ class WorkerTests(unittest.TestCase):
     sync.main();sync.main()
     self.assertEqual(len(kan_labels),3)
     self.assertEqual(len(cards['card00000001']['labels']),2)
-    self.assertEqual(json.loads((pathlib.Path(folder)/'state/state.json').read_text())['issues'],baseline)
+    self.assertEqual(json.loads((sync.STATE/'state.json').read_text())['issues'],baseline)
     # Closed issues leave the open listing but remain tracked for label changes.
     issue.update(state='closed',updated_at='closed',labels=[])
     sync.main();sync.main()

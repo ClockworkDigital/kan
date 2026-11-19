@@ -9,8 +9,13 @@ only from GitHub into Kan. Closing or reopening an issue must happen in GitHub
 after its required checks. A contradictory Kan state is corrected on the next
 sync. In progress remains an open GitHub issue.
 
-Descriptions contain the source link and an editable Markdown code block. Keep
-the issue description in that block to preserve its Markdown during round trips.
+Descriptions contain the source link and an editable Markdown code block. Edit
+inside that block to send body changes to GitHub. If the rich-text editor
+reformats the description, the worker compares its wording with the current
+GitHub body, allowing for common Markdown formatting and whitespace. A match
+restores the Markdown block from GitHub and counts as a Kan update. A mismatch
+leaves both bodies intact and records a body conflict with the issue URL and
+reason in `status.json`. Title and issue-state sync continue independently.
 Label names, colours and issue assignments flow only from GitHub into Kan.
 Assignees, comments, attachments, pull requests and GitHub Projects are not
 synchronised. New standalone Kan cards do not create GitHub issues. Deleted
@@ -296,6 +301,8 @@ through the existing delegation, then verify one import and an unchanged repeat
 poll before resuming regular polling. Confirm unselected reads and label writes
 remain denied. Do not reset mappings or conflict baselines during rollout.
 
+If an outbound edit requires push access that the sync's GitHub credential
+lacks, the protected report names the repository in the issue error's `detail`.
 The protected report includes numeric `httpStatus` for HTTP failures, alongside
 the repository and operation. It never includes HTTP error URLs, headers, reasons
 or response bodies. HTTP 403 during `labels` means the request was rejected;
