@@ -11,9 +11,10 @@ sync. In progress remains an open GitHub issue.
 
 Descriptions contain the source link and an editable Markdown code block. Edit
 inside that block to send body changes to GitHub. If the rich-text editor
-reformats the description, the worker compares its wording with the current
-GitHub body, allowing for common Markdown formatting and whitespace. A match
-restores the Markdown block from GitHub and counts as a Kan update. A mismatch
+reformats the description, the worker compares its wording with the last
+synced body and the current GitHub body, allowing for common Markdown
+formatting and whitespace. A match with either restores the Markdown block from
+GitHub and counts as a Kan update; a reformat never sends a body to GitHub. A mismatch
 leaves both bodies intact and records a body conflict with the issue URL and
 reason in `status.json`. Title and issue-state sync continue independently.
 Label names, colours and issue assignments flow only from GitHub into Kan.

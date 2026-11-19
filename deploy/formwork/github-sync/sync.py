@@ -19,24 +19,26 @@ def same_wording(markdown, text):
     if markdown.split()==text.split():return True
     # Leave ambiguous code blocks for manual resolution. Preserve word boundaries and literal punctuation.
     if re.search(r'(?m)^(?: {4}|\t| {0,3}(?:```|~~~))',markdown):return False
-    lines=[]
-    in_list=False
-    for line in markdown.splitlines():
-        item=re.match(r'^ {0,3}([0-9]{1,9})[.)][ \t]+',line)
-        # Only a list starting at one can interrupt a paragraph; other numbers can be prose.
-        in_list=bool(item and (in_list or item[1]=='1'))
-        lines.append(line[item.end():] if in_list else re.sub(r'^ {0,3}(?:#{1,6}|[-+*])[ \t]+','',line))
-    plain='\n'.join(lines)
-    plain=re.sub(r'`([^`\n]+)`|(?<!\w)(\*\*|__|\*|_)(?=\S)([^\n]+?)(?<=\S)\2(?!\w)',
-                 lambda m:m[1] if m[1] is not None else m[3],plain)
-    return plain.split()==text.split()
+    def plain(source):
+        lines=[]
+        in_list=False
+        for line in source.splitlines():
+            item=re.match(r'^ {0,3}([0-9]{1,9})[.)][ \t]+',line)
+            # Only a list starting at one can interrupt a paragraph; other numbers can be prose.
+            in_list=bool(item and (in_list or item[1]=='1'))
+            lines.append(line[item.end():] if in_list else re.sub(r'^ {0,3}(?:#{1,6}|[-+*])[ \t]+','',line))
+        return re.sub(r'`([^`\n]+)`|(?<!\w)(\*\*|__|\*|_)(?=\S)([^\n]+?)(?<=\S)\2(?!\w)',
+                      lambda m:m[1] if m[1] is not None else m[3],'\n'.join(lines)).split()
+    # The rich editor can leave fragments as literal Markdown, so normalise both sides.
+    return plain(markdown)==plain(text)
 
 def reconcile(base, github, kan, code_block=True):
     outbound, inbound, conflicts = {}, {}, []
     for field in ('title', 'body', 'state'):
         g, k, b = github[field], kan[field], base[field]
         if field=='body' and not code_block:
-            if same_wording(g,k):inbound[field]=g
+            # Kan only reformatted the last synced body, or already matches GitHub: GitHub wins.
+            if same_wording(b,k) or same_wording(g,k):inbound[field]=g
             else:conflicts.append(field)
             continue
         if g == k: continue

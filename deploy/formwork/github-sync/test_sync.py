@@ -44,6 +44,16 @@ class WorkerTests(unittest.TestCase):
    self.assertEqual(api.writes,['kan'])
    self.assertEqual(api.issue['body'],self.markdown)
 
+ def test_reformatted_body_with_literal_markdown_fragment(self):
+  # Seen in production: the editor left the first line as a literal Markdown code block.
+  with self.body_edit() as api:
+   api.card['description']=api.marker+'<pre><code>Use `POST /api` with **no** limit.\n</code></pre>'+self.rich.split('</p>',1)[1]
+   sync.main()
+   report=json.loads((sync.STATE/'status.json').read_text())
+   self.assertEqual((report['updatedKan'],report['errors'],report['conflicts']),(1,[],[]))
+   self.assertEqual(api.card['description'],api.original)
+   self.assertEqual(api.issue['body'],self.markdown)
+
  def test_rich_wording_conflict(self):
   with self.body_edit() as api:
    for description in (api.marker+self.rich.replace('per IP','per user'),
@@ -72,13 +82,23 @@ class WorkerTests(unittest.TestCase):
    self.assertEqual(api.issue['body'],'Use **this** & <that>.')
    self.assertEqual(api.writes,['github'])
 
- def test_body_conflict_preserves_baseline_and_syncs_other_fields(self):
+ def test_github_edit_wins_over_kan_reformat_and_syncs_other_fields(self):
   with self.body_edit() as api:
    api.issue.update(body='New GitHub wording',state='closed')
    api.card.update(description=api.marker+self.rich,title='New Kan title')
+   sync.main()
+   self.assertEqual((api.issue['title'],api.card['list']['publicId']),('New Kan title','closed000001'))
+   self.assertEqual(api.card['description'],api.original.split('<pre>',1)[0]+'<pre><code>New GitHub wording</code></pre>')
+   self.assertEqual(api.issue['body'],'New GitHub wording')
+   self.assertEqual(json.loads((sync.STATE/'state.json').read_text())['issues']['1']['base']['body'],'New GitHub wording')
+
+ def test_body_conflict_preserves_baseline_and_syncs_other_fields(self):
+  with self.body_edit() as api:
+   api.issue.update(body='New GitHub wording',state='closed')
+   api.card.update(description=api.marker+self.rich.replace('per IP','per user'),title='New Kan title')
    with self.assertRaises(SystemExit):sync.main()
    self.assertEqual((api.issue['title'],api.card['list']['publicId']),('New Kan title','closed000001'))
-   self.assertEqual(api.card['description'],api.marker+self.rich)
+   self.assertEqual(api.card['description'],api.marker+self.rich.replace('per IP','per user'))
    self.assertEqual(api.issue['body'],'New GitHub wording')
    self.assertEqual(json.loads((sync.STATE/'state.json').read_text())['issues']['1']['base']['body'],self.markdown)
 
