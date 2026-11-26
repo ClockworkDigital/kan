@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, os, subprocess, urllib.request, datetime, pathlib, fcntl, html
+import json, os, subprocess, urllib.request, datetime, pathlib, fcntl, html, re
 from urllib.error import HTTPError
 from labels import github_labels, sync_labels, issue_label_ids, sync_card_labels, validate_label_ownership
 
@@ -15,10 +15,32 @@ def error_fields(error):
     if isinstance(error, HTTPError):result['httpStatus'] = error.code
     return result
 
-def reconcile(base, github, kan):
+def same_wording(markdown, text):
+    if markdown.split()==text.split():return True
+    # Leave ambiguous code blocks for manual resolution. Preserve word boundaries and literal punctuation.
+    if re.search(r'(?m)^(?: {4}|\t| {0,3}(?:```|~~~))',markdown):return False
+    def plain(source):
+        lines=[]
+        in_list=False
+        for line in source.splitlines():
+            item=re.match(r'^ {0,3}([0-9]{1,9})[.)][ \t]+',line)
+            # Only a list starting at one can interrupt a paragraph; other numbers can be prose.
+            in_list=bool(item and (in_list or item[1]=='1'))
+            lines.append(line[item.end():] if in_list else re.sub(r'^ {0,3}(?:#{1,6}|[-+*])[ \t]+','',line))
+        return re.sub(r'`([^`\n]+)`|(?<!\w)(\*\*|__|\*|_)(?=\S)([^\n]+?)(?<=\S)\2(?!\w)',
+                      lambda m:m[1] if m[1] is not None else m[3],'\n'.join(lines)).split()
+    # The rich editor can leave fragments as literal Markdown, so normalise both sides.
+    return plain(markdown)==plain(text)
+
+def reconcile(base, github, kan, code_block=True):
     outbound, inbound, conflicts = {}, {}, []
     for field in ('title', 'body', 'state'):
         g, k, b = github[field], kan[field], base[field]
+        if field=='body' and not code_block:
+            # Kan only reformatted the last synced body, or already matches GitHub: GitHub wins.
+            if same_wording(b,k) or same_wording(g,k):inbound[field]=g
+            else:conflicts.append(field)
+            continue
         if g == k: continue
         if field == 'state':
             inbound[field] = g
@@ -121,17 +143,27 @@ def main():
             def fields(card):
                 from html.parser import HTMLParser
                 class Text(HTMLParser):
-                    def __init__(self):super().__init__();self.parts=[]
+                    blocks=('p','div','li','blockquote','pre','h1','h2','h3','h4','h5','h6')
+                    def __init__(self):super().__init__();self.parts=[];self.issue_link=None
                     def handle_data(self,data):self.parts.append(data)
                     def handle_starttag(self,tag,attrs):
-                        if tag=='br':self.parts.append('\n')
+                        if tag=='br' or tag in self.blocks:self.parts.append('\n')
+                        if tag=='a' and [v for k,v in attrs if k=='href']==[url]:self.issue_link=self.get_starttag_text()
                     def handle_endtag(self,tag):
-                        if tag in ['p','div','li']:self.parts.append('\n')
+                        if tag in self.blocks:self.parts.append('\n')
                 description=card['description'] or ''
-                import re
-                description=re.sub(r'^<p\b[^>]*>.*?</p>\s*<hr\b[^>]*>', '',description,count=1,flags=re.S) if url in description.split('</p>',1)[0] else description
-                parser=Text();parser.feed(description)
-                return {'title':card['title'],'body':''.join(parser.parts).rstrip('\n'),'state':'closed' if card['list']['publicId']==lists['Closed'] else 'open'}
+                paragraph,_,rest=description.partition('</p>')
+                header=Text();header.feed(paragraph)
+                rule=re.match(r'\s*<hr\s*/?>',rest)
+                code_block=None
+                if rule and header.issue_link and paragraph==f'<p>{header.issue_link}GitHub issue #{issue["number"]}</a>':
+                    description=rest[rule.end():]
+                    code_block=re.fullmatch(r'<pre><code>([^<]*)</code></pre>',description)
+                if code_block:body=html.unescape(code_block[1])
+                else:
+                    parser=Text();parser.feed(description);parser.close()
+                    body=''.join(parser.parts)
+                return {'title':card['title'],'body':body.rstrip('\n'),'state':'closed' if card['list']['publicId']==lists['Closed'] else 'open'},bool(code_block)
             g={'title':issue['title'],'body':(issue['body'] or '').rstrip('\n'),'state':issue['state']}
             try:
                 desired_labels=issue_label_ids(issue,active_labels)
@@ -148,18 +180,22 @@ def main():
                 current={key:card.get(key) for key in link}
                 if current=={key:None for key in link}:kan('/cards/'+old['card'],link)
                 elif current!=link:raise RuntimeError('Card is linked to another issue')
-                k=fields(card)
-                outbound,inbound,conflicts=reconcile(old['base'],g,k)
-                if conflicts:report['conflicts'].append({'issue':url,'fields':conflicts})
+                k,code_block=fields(card)
+                outbound,inbound,conflicts=reconcile(old['base'],g,k,code_block)
+                if conflicts:
+                    conflict={'issue':url,'fields':conflicts}
+                    if not code_block and 'body' in conflicts:conflict['reason']='Card wording differs outside the Markdown code block'
+                    report['conflicts'].append(conflict)
                 current_labels={label['publicId'] for label in card['labels']}
                 labels_changed=bool((desired_labels-current_labels) | ((current_labels & managed_labels)-desired_labels))
                 if outbound or inbound or labels_changed:
                     fresh=gh(f'repos/{name}/issues/{issue["number"]}')
                     freshcard=kan('/cards/'+old['card'])
-                    if fresh['updated_at']!=issue['updated_at'] or fields(freshcard)!=k:continue
+                    if fresh['updated_at']!=issue['updated_at'] or freshcard['description']!=card['description'] or fields(freshcard)[0]!=k:continue
                     if issue_label_ids(fresh,active_labels)!=desired_labels:continue
                 if outbound:
-                    assert repo['permissions']['push'];authorize()
+                    if not repo.get('permissions',{}).get('push'):raise RuntimeError(f"The sync's GitHub credential cannot push to {name}")
+                    authorize()
                     gh(f'repos/{name}/issues/{issue["number"]}',outbound);g.update(outbound);report['updatedGitHub']+=1
                 if inbound:
                     patch={}
@@ -173,7 +209,9 @@ def main():
                     if g[field]==k[field]:old['base'][field]=g[field]
                 save()
             except Exception as e:
-                report['errors'].append({'issue':url,**error_fields(e)})
+                error={'issue':url,**error_fields(e)}
+                if isinstance(e,(RuntimeError,ValueError)):error['detail']=str(e)
+                report['errors'].append(error)
     report['checkedAt']=datetime.datetime.now(datetime.timezone.utc).isoformat()
     (STATE/'status.json').write_text(json.dumps(report,indent=2))
     kan('/integrations/github/sync/status',{'workspacePublicId':WORKSPACE,'status':{**{key:report[key] for key in ['checkedAt','created','updatedGitHub','updatedKan']},'conflicts':len(report['conflicts']),'errors':len(report['errors'])}})
